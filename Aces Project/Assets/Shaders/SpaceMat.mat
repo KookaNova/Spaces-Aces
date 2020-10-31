@@ -121,7 +121,7 @@ Material:
     - CloudDensity: 0
     - CloudEdge: 0.85
     - CloudHeight: 0.4
-    - StarDensity: 62.12
+    - StarDensity: 23
     - SunSize: 0.44
     - Vector1_15EDA21E: 1
     - Vector1_2AF6B730: 0

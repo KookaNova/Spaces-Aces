@@ -8,6 +8,19 @@
       <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
+        <e p="Samples" t="Include">
+          <e p="Input System" t="Include">
+            <e p="1.0.0" t="Include">
+              <e p="Visualizers" t="Include">
+                <e p="InputActionVisualizer.cs" t="Include" />
+                <e p="InputControlVisualizer.cs" t="Include" />
+                <e p="InputVisualizer.cs" t="Include" />
+                <e p="Unity.InputSystem.Visualizers.asmdef" t="Include" />
+                <e p="VisualizationHelpers.cs" t="Include" />
+              </e>
+            </e>
+          </e>
+        </e>
         <e p="Scripts" t="Include">
           <e p="ShipMovement.cs" t="Include" />
           <e p="SimpleCameraController.cs" t="Include" />
@@ -21,6 +34,7 @@
           </e>
         </e>
       </e>
+      <e p="InputSystem.Samples.Visualizers.csproj" t="IncludeRecursive" />
       <e p="Library" t="ExcludeRecursive" />
       <e p="obj" t="ExcludeRecursive" />
       <e p="packages" t="ExcludeRecursive" />
