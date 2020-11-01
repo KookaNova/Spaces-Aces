@@ -13,25 +13,79 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Assets/Scripts/ShipMovement.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="474">
-              <caret line="61" column="61" selection-start-line="61" selection-start-column="61" selection-end-line="61" selection-end-column="61" />
+            <state relative-caret-position="75">
+              <caret line="61" column="52" selection-start-line="61" selection-start-column="52" selection-end-line="61" selection-end-column="52" />
               <folding>
-                <marker date="1604126065746" expanded="true" signature="6:86" ph="..." />
-                <marker date="1604126065746" expanded="true" signature="167:2957" ph="{...}" />
-                <marker date="1604126065746" expanded="true" signature="557:680" ph="{...}" />
-                <marker date="1604126065746" expanded="true" signature="713:918" ph="{...}" />
-                <marker date="1604126065746" expanded="true" signature="756:839" ph="{...}" />
-                <marker date="1604126065746" expanded="true" signature="852:912" ph="{...}" />
-                <marker date="1604126065746" expanded="true" signature="989:2955" ph="{...}" />
-                <marker date="1604126065746" expanded="true" signature="1138:1483" ph="{...}" />
-                <marker date="1604126065746" expanded="true" signature="1512:1640" ph="{...}" />
-                <marker date="1604126065746" expanded="true" signature="1720:1916" ph="{...}" />
-                <marker date="1604126065746" expanded="true" signature="1980:2101" ph="{...}" />
-                <marker date="1604126065746" expanded="true" signature="2149:2274" ph="{...}" />
-                <marker date="1604126065746" expanded="true" signature="2335:2482" ph="{...}" />
-                <marker date="1604126065746" expanded="true" signature="2529:2679" ph="{...}" />
-                <marker date="1604126065746" expanded="true" signature="2738:2820" ph="{...}" />
-                <marker date="1604126065746" expanded="true" signature="2866:2947" ph="{...}" />
+                <marker date="1604189326978" expanded="false" signature="6:86" ph="..." />
+                <marker date="1604189326978" expanded="true" signature="167:3010" ph="{...}" />
+                <marker date="1604189326978" expanded="true" signature="557:680" ph="{...}" />
+                <marker date="1604189326978" expanded="true" signature="713:918" ph="{...}" />
+                <marker date="1604189326978" expanded="true" signature="756:839" ph="{...}" />
+                <marker date="1604189326978" expanded="true" signature="852:912" ph="{...}" />
+                <marker date="1604189326978" expanded="true" signature="989:3008" ph="{...}" />
+                <marker date="1604189326978" expanded="true" signature="1146:1491" ph="{...}" />
+                <marker date="1604189326978" expanded="true" signature="1520:1659" ph="{...}" />
+                <marker date="1604189326978" expanded="true" signature="1739:1937" ph="{...}" />
+                <marker date="1604189326978" expanded="true" signature="2009:2138" ph="{...}" />
+                <marker date="1604189326978" expanded="true" signature="2194:2327" ph="{...}" />
+                <marker date="1604189326978" expanded="true" signature="2388:2535" ph="{...}" />
+                <marker date="1604189326978" expanded="true" signature="2582:2732" ph="{...}" />
+                <marker date="1604189326978" expanded="true" signature="2791:2873" ph="{...}" />
+                <marker date="1604189326978" expanded="true" signature="2919:3000" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Assets/Shaders/NewSky.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="276">
+              <caret line="35" selection-start-line="35" selection-end-line="35" />
+              <folding>
+                <marker date="1604181363667" expanded="true" signature="6:105" ph="..." />
+                <marker date="1604181363667" expanded="true" signature="144:316" ph="/* SkyUniqueID does not need to be part of built-in HDRP SkyType enumeration. ... */" />
+                <marker date="1604181363667" expanded="true" signature="383:896" ph="{...}" />
+                <marker date="1604181363667" expanded="true" signature="609:660" ph="{...}" />
+                <marker date="1604181363667" expanded="true" signature="699:894" ph="{...}" />
+                <marker date="1604181363667" expanded="true" signature="762:867" ph="{...}" />
+                <marker date="1604181363667" expanded="true" signature="931:2471" ph="{...}" />
+                <marker date="1604181363667" expanded="true" signature="971:1095" ph="/// Called on startup. Create resources used by the renderer (shaders, materials, etc). ... " />
+                <marker date="1604181363667" expanded="true" signature="1135:1234" ph="/// Called on cleanup. Release resources used by the renderer. ... " />
+                <marker date="1604181363667" expanded="true" signature="1276:1607" ph="/// HDRP calls this function once every frame. Implement it if your SkyRenderer needs to iterate independently of ... " />
+                <marker date="1604181363667" expanded="true" signature="1677:1711" ph="{...}" />
+                <marker date="1604181363667" expanded="true" signature="1717:2354" ph="/// Implements actual rendering of the sky. HDRP calls this when rendering the sky into a cubemap (for lighting)  ... " />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Assets/Shaders/NewSkyRenderer.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="531">
+              <caret line="50" column="103" lean-forward="true" selection-start-line="50" selection-start-column="103" selection-end-line="50" selection-end-column="103" />
+              <folding>
+                <marker date="1604183928841" expanded="true" signature="6:91" ph="..." />
+                <marker date="1604183928841" expanded="true" signature="127:2099" ph="{...}" />
+                <marker date="1604183928841" expanded="true" signature="713:803" ph="{...}" />
+                <marker date="1604183928841" expanded="true" signature="884:941" ph="{...}" />
+                <marker date="1604183928841" expanded="true" signature="977:1034" ph="{...}" />
+                <marker date="1604183928841" expanded="true" signature="1106:1140" ph="{...}" />
+                <marker date="1604183928841" expanded="true" signature="1255:2097" ph="{...}" />
+                <marker date="1604183928841" expanded="true" signature="1338:2091" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.high-definition@8.2.0/Runtime/Sky/SkyManager.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="261">
+              <caret line="544" column="32" lean-forward="true" selection-start-line="544" selection-start-column="32" selection-end-line="544" selection-end-column="32" />
+              <folding>
+                <element signature="e#0#108#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -43,18 +97,28 @@
     <findStrings>
       <find>float</find>
       <find>input</find>
+      <find>inten</find>
+      <find>intensity</find>
     </findStrings>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@1.0.0/InputSystem/Devices/Joystick.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Shaders/SkyBase.shader" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Samples/Input System/1.0.0/Visualizers/InputControlVisualizer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.high-definition@8.2.0/Runtime/Sky/SkyManager.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Shaders/NewSky.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Samples/Input System/1.0.0/Visualizers/InputVisualizer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/ShipMovement.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Samples/Input System/1.0.0/Visualizers/VisualizationHelpers.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.cinemachine@2.6.3/Runtime/Core/AxisState.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Shaders/NewSkyRenderer.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+        <option value="$PROJECT_DIR$/Assets/Shaders/NewSky.cs" />
+        <option value="$PROJECT_DIR$/Assets/Shaders/SkyBase.shader" />
+        <option value="$PROJECT_DIR$/Assets/Shaders/NewSkyRenderer.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/ShipMovement.cs" />
       </list>
     </option>
@@ -69,15 +133,15 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AssemblyExplorer" />
       <pane id="SolutionExplorer">
         <option name="show-all-files" value="false" />
       </pane>
+      <pane id="FileSystemExplorer" />
+      <pane id="AssemblyExplorer" />
       <pane id="UnityExplorer">
         <option name="show-hidden-items" value="false" />
         <option name="show-project-names" value="true" />
       </pane>
-      <pane id="FileSystemExplorer" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -125,11 +189,12 @@
       <updated>1604010201892</updated>
       <workItem from="1604010216573" duration="588000" />
       <workItem from="1604046719867" duration="35949000" />
+      <workItem from="1604180765994" duration="6669000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="36537000" />
+    <option name="totallyTimeSpent" value="43206000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -142,13 +207,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25302014" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25637585" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Capture Tool" order="3" />
       <window_info id="Favorites" order="4" side_tool="true" />
-      <window_info anchor="bottom" id="Unity" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" />
@@ -164,6 +229,7 @@
       <window_info anchor="bottom" id="Unit Tests" order="12" />
       <window_info anchor="bottom" id="Terminal" order="13" />
       <window_info anchor="bottom" id="Event Log" order="14" side_tool="true" />
+      <window_info anchor="bottom" id="Unity" order="15" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -189,9 +255,7 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Temp/Compiled-Shader Graphs-Sky.shader">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Temp/Compiled-Shader Graphs-Sky.shader" />
     <entry file="file://$PROJECT_DIR$/Assets/Samples/Input System/1.0.0/Visualizers/VisualizationHelpers.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1005">
@@ -432,27 +496,99 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.high-definition@8.2.0/Runtime/Sky/SkyManager.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="261">
+          <caret line="544" column="32" lean-forward="true" selection-start-line="544" selection-start-column="32" selection-end-line="544" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#108#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Shaders/NewSky.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="35" selection-start-line="35" selection-end-line="35" />
+          <folding>
+            <marker date="1604181363667" expanded="true" signature="6:105" ph="..." />
+            <marker date="1604181363667" expanded="true" signature="144:316" ph="/* SkyUniqueID does not need to be part of built-in HDRP SkyType enumeration. ... */" />
+            <marker date="1604181363667" expanded="true" signature="383:896" ph="{...}" />
+            <marker date="1604181363667" expanded="true" signature="609:660" ph="{...}" />
+            <marker date="1604181363667" expanded="true" signature="699:894" ph="{...}" />
+            <marker date="1604181363667" expanded="true" signature="762:867" ph="{...}" />
+            <marker date="1604181363667" expanded="true" signature="931:2471" ph="{...}" />
+            <marker date="1604181363667" expanded="true" signature="971:1095" ph="/// Called on startup. Create resources used by the renderer (shaders, materials, etc). ... " />
+            <marker date="1604181363667" expanded="true" signature="1135:1234" ph="/// Called on cleanup. Release resources used by the renderer. ... " />
+            <marker date="1604181363667" expanded="true" signature="1276:1607" ph="/// HDRP calls this function once every frame. Implement it if your SkyRenderer needs to iterate independently of ... " />
+            <marker date="1604181363667" expanded="true" signature="1677:1711" ph="{...}" />
+            <marker date="1604181363667" expanded="true" signature="1717:2354" ph="/// Implements actual rendering of the sky. HDRP calls this when rendering the sky into a cubemap (for lighting)  ... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Shaders/SkyBase.shader">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1725">
+          <caret line="115" column="1" selection-start-line="115" selection-start-column="1" selection-end-line="115" selection-end-column="1" />
+          <folding>
+            <marker date="1604183540706" expanded="true" signature="32:3013" ph="{...}" />
+            <marker date="1604183540706" expanded="true" signature="49:2453" ph="{...}" />
+            <marker date="1604183540706" expanded="true" signature="2480:2994" ph="{...}" />
+            <marker date="1604183540706" expanded="true" signature="2490:2531" ph="/* Regular New Sky ... */" />
+            <marker date="1604183540706" expanded="true" signature="2553:2744" ph="{...}" />
+            <marker date="1604183540706" expanded="true" signature="2670:2727" ph="{...}" />
+            <marker date="1604183540706" expanded="true" signature="2797:2988" ph="{...}" />
+            <marker date="1604183540706" expanded="true" signature="2914:2971" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Shaders/NewSkyRenderer.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="531">
+          <caret line="50" column="103" lean-forward="true" selection-start-line="50" selection-start-column="103" selection-end-line="50" selection-end-column="103" />
+          <folding>
+            <marker date="1604183928841" expanded="true" signature="6:91" ph="..." />
+            <marker date="1604183928841" expanded="true" signature="127:2099" ph="{...}" />
+            <marker date="1604183928841" expanded="true" signature="713:803" ph="{...}" />
+            <marker date="1604183928841" expanded="true" signature="884:941" ph="{...}" />
+            <marker date="1604183928841" expanded="true" signature="977:1034" ph="{...}" />
+            <marker date="1604183928841" expanded="true" signature="1106:1140" ph="{...}" />
+            <marker date="1604183928841" expanded="true" signature="1255:2097" ph="{...}" />
+            <marker date="1604183928841" expanded="true" signature="1338:2091" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@1.0.0/InputSystem/Devices/Joystick.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="385">
+          <caret line="133" column="43" lean-forward="true" selection-start-line="133" selection-start-column="43" selection-end-line="133" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Assets/Scripts/ShipMovement.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="474">
-          <caret line="61" column="61" selection-start-line="61" selection-start-column="61" selection-end-line="61" selection-end-column="61" />
+        <state relative-caret-position="75">
+          <caret line="61" column="52" selection-start-line="61" selection-start-column="52" selection-end-line="61" selection-end-column="52" />
           <folding>
-            <marker date="1604126065746" expanded="true" signature="6:86" ph="..." />
-            <marker date="1604126065746" expanded="true" signature="167:2957" ph="{...}" />
-            <marker date="1604126065746" expanded="true" signature="557:680" ph="{...}" />
-            <marker date="1604126065746" expanded="true" signature="713:918" ph="{...}" />
-            <marker date="1604126065746" expanded="true" signature="756:839" ph="{...}" />
-            <marker date="1604126065746" expanded="true" signature="852:912" ph="{...}" />
-            <marker date="1604126065746" expanded="true" signature="989:2955" ph="{...}" />
-            <marker date="1604126065746" expanded="true" signature="1138:1483" ph="{...}" />
-            <marker date="1604126065746" expanded="true" signature="1512:1640" ph="{...}" />
-            <marker date="1604126065746" expanded="true" signature="1720:1916" ph="{...}" />
-            <marker date="1604126065746" expanded="true" signature="1980:2101" ph="{...}" />
-            <marker date="1604126065746" expanded="true" signature="2149:2274" ph="{...}" />
-            <marker date="1604126065746" expanded="true" signature="2335:2482" ph="{...}" />
-            <marker date="1604126065746" expanded="true" signature="2529:2679" ph="{...}" />
-            <marker date="1604126065746" expanded="true" signature="2738:2820" ph="{...}" />
-            <marker date="1604126065746" expanded="true" signature="2866:2947" ph="{...}" />
+            <marker date="1604189326978" expanded="false" signature="6:86" ph="..." />
+            <marker date="1604189326978" expanded="true" signature="167:3010" ph="{...}" />
+            <marker date="1604189326978" expanded="true" signature="557:680" ph="{...}" />
+            <marker date="1604189326978" expanded="true" signature="713:918" ph="{...}" />
+            <marker date="1604189326978" expanded="true" signature="756:839" ph="{...}" />
+            <marker date="1604189326978" expanded="true" signature="852:912" ph="{...}" />
+            <marker date="1604189326978" expanded="true" signature="989:3008" ph="{...}" />
+            <marker date="1604189326978" expanded="true" signature="1146:1491" ph="{...}" />
+            <marker date="1604189326978" expanded="true" signature="1520:1659" ph="{...}" />
+            <marker date="1604189326978" expanded="true" signature="1739:1937" ph="{...}" />
+            <marker date="1604189326978" expanded="true" signature="2009:2138" ph="{...}" />
+            <marker date="1604189326978" expanded="true" signature="2194:2327" ph="{...}" />
+            <marker date="1604189326978" expanded="true" signature="2388:2535" ph="{...}" />
+            <marker date="1604189326978" expanded="true" signature="2582:2732" ph="{...}" />
+            <marker date="1604189326978" expanded="true" signature="2791:2873" ph="{...}" />
+            <marker date="1604189326978" expanded="true" signature="2919:3000" ph="{...}" />
           </folding>
         </state>
       </provider>

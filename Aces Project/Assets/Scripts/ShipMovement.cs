@@ -13,7 +13,7 @@ public class ShipMovement : MonoBehaviour
         downSpeed = 3,
         breakForce = 1.1f,
         twistSpeed = 1,
-        highSpeedTurning = 4;
+        highSpeedTurning = 6;
 
     public Vector3 _bodyVelocity;
 
@@ -48,7 +48,7 @@ public class ShipMovement : MonoBehaviour
         _controllerBody.AddRelativeForce(0,0, thrust);
 
         //accelerate
-        if (_gamepad.rightTrigger.isPressed && thrust < maxSpeed)
+        if (_gamepad.rightTrigger.ReadValue() > .2f && thrust < maxSpeed)
         {
             thrust = (_gamepad.rightTrigger.ReadValue() * maxSpeed);
             _controllerBody.AddRelativeForce(0,0, thrust);
@@ -59,25 +59,25 @@ public class ShipMovement : MonoBehaviour
         }
         else if(thrust > 10)
         {
-            thrust = Mathf.Lerp(thrust, 10, (Time.deltaTime/4));
+            thrust = Mathf.Lerp(thrust, maxSpeed - 1, (Time.deltaTime/15));
             _gamepad.SetMotorSpeeds(0, 0);
         }
 
         //decelerate
         if (_gamepad.leftTrigger.isPressed && thrust > 5)
         {
-            thrust = Mathf.Lerp(thrust, 5, (Time.deltaTime));
+            thrust = Mathf.Lerp(thrust, 5, (Time.deltaTime/7));
             _controllerBody.velocity = Vector3.MoveTowards(_controllerBody.velocity, Vector3.zero, breakForce/5);
         }
 
         //twist
-        if (_gamepad.leftStick.left.isPressed)
+        if (_gamepad.leftStick.left.ReadValue() > .1f)
         {
-            _controllerBody.AddRelativeTorque(0,0,_gamepad.leftStick.left.ReadValue() + twistSpeed);
+            _controllerBody.AddRelativeTorque(0,0,(_gamepad.leftStick.left.ReadValue()*3) * (twistSpeed/2));
         }
-        if (_gamepad.leftStick.right.isPressed)
+        if (_gamepad.leftStick.right.ReadValue() > .1f)
         {
-            _controllerBody.AddRelativeTorque(0,0,-(_gamepad.leftStick.right.ReadValue() + twistSpeed));
+            _controllerBody.AddRelativeTorque(0,0,-((_gamepad.leftStick.right.ReadValue()*3) * (twistSpeed/2)));
         }
         //pitch
         if (_gamepad.leftStick.up.isPressed)
