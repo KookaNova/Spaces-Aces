@@ -25,6 +25,11 @@
           <e p="ShipMovement.cs" t="Include" />
           <e p="SimpleCameraController.cs" t="Include" />
         </e>
+        <e p="Shaders" t="Include">
+          <e p="NewSky.cs" t="Include" />
+          <e p="NewSkyRenderer.cs" t="Include" />
+          <e p="SkyBase.shader" t="Include" />
+        </e>
         <e p="TutorialInfo" t="Include">
           <e p="Scripts" t="Include">
             <e p="Editor" t="Include">
