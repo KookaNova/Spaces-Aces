@@ -22,6 +22,7 @@
           </e>
         </e>
         <e p="Scripts" t="Include">
+          <e p="projectileBehaviour.cs" t="Include" />
           <e p="ShipMovement.cs" t="Include" />
           <e p="SimpleCameraController.cs" t="Include" />
         </e>
