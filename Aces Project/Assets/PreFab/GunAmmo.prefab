@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 5810852371443256690}
   - component: {fileID: 6022758322851690597}
   - component: {fileID: 1411624376370360569}
-  - component: {fileID: 8724623802999751378}
   - component: {fileID: 5267094974768952125}
+  - component: {fileID: 8724623802999751378}
   m_Layer: 0
   m_Name: GunAmmo
   m_TagString: Untagged
@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2287132681278451313}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.04, y: 0.24415374, z: 7.496335}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -97,21 +97,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8724623802999751378
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2287132681278451313}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9f0c8364ace0b043bdf05a0da19a553, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  x: 0
-  y: 0
-  z: 150
 --- !u!54 &5267094974768952125
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -128,3 +113,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &8724623802999751378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2287132681278451313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9f0c8364ace0b043bdf05a0da19a553, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyTime: 3
+  x: 0
+  y: 0
+  z: 150
+  explosion: {fileID: 7961940835513847560, guid: c28f98208777fc44bbb3f9595b9529b6, type: 3}
