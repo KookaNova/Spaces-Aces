@@ -3,7 +3,9 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class projectileBehaviour : MonoBehaviour
 {   
+    public int destroyTime = 3;
     public float x, y, z;
+    public GameObject explosion;
 
     private void Start()
     {
@@ -13,12 +15,13 @@ public class projectileBehaviour : MonoBehaviour
     void OnCollisionEnter()
     {
         Destroy(gameObject);
+        Instantiate(explosion, transform.position, Quaternion.identity);
     }
 
     private IEnumerator TimedDestroy()
     {
 
-        yield return new WaitForSeconds(2); Destroy(gameObject);
+        yield return new WaitForSeconds(destroyTime); Destroy(gameObject);
 
     }
 }
