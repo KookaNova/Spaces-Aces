@@ -15,5 +15,9 @@ public class PlayerController : MonoBehaviour
     protected void CheckGamepad()
     {
         _g = Gamepad.current;
+        if (_g == null)
+        {
+            CheckGamepad();
+        }
     }
 }

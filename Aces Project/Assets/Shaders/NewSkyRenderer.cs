@@ -38,7 +38,7 @@ class NewSkyRenderer : SkyRenderer
 
     public override void RenderSky(BuiltinSkyParameters builtinParams, bool renderForCubemap, bool renderSunDisk)
     {
-        using (new ProfilingSample(builtinParams.commandBuffer, "Draw sky"))
+        using (new ProfilingScope(builtinParams.commandBuffer, new ProfilingSampler("New Sky")))
         {
             var newSky = builtinParams.skySettings as NewSky;
 

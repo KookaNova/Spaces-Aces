@@ -22,9 +22,12 @@
           </e>
         </e>
         <e p="Scripts" t="Include">
+          <e p="AddForce.cs" t="Include" />
           <e p="AttackControls.cs" t="Include" />
           <e p="CameraBillboard.cs" t="Include" />
           <e p="CameraController.cs" t="Include" />
+          <e p="FloatData.cs" t="Include" />
+          <e p="HealthBehaviour.cs" t="Include" />
           <e p="MissileBehaviour.cs" t="Include" />
           <e p="playerController.cs" t="Include" />
           <e p="projectileBehaviour.cs" t="Include" />

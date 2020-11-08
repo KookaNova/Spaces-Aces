@@ -6,30 +6,18 @@ public class MissileBehaviour : MonoBehaviour
     public int destroyTime = 10;
     public int missileSpeed;
     public GameObject explosion;
+
+    public Transform target = null;
     
-   
-    private Transform _target;
     private Rigidbody _rb;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         StartCoroutine(TimedDestroy());
-        
-    }
+        StartCoroutine(TargetForce());
 
-    private void FixedUpdate()
-    {
-        RaycastHit hit;
 
-        if (Physics.Raycast(gameObject.transform.position, Vector3.forward, out hit, 40, 10))
-        {
-
-            _target = hit.collider.transform;
-        }
-        if(_target != null)
-        _rb.transform.LookAt(_target);
-        _rb.GetComponent<Rigidbody>().AddRelativeForce(0, 0, 80 * missileSpeed);
     }
 
     void OnCollisionEnter()
@@ -42,6 +30,26 @@ public class MissileBehaviour : MonoBehaviour
     {
 
         yield return new WaitForSeconds(destroyTime); Destroy(gameObject);
+
+    }
+    private IEnumerator Force()
+    {
+        _rb.AddRelativeForce(0,0, 350 * missileSpeed, ForceMode.Acceleration);
+        yield return new WaitForSeconds(.1f);
+        StartCoroutine(AimedForce());
+    }
+    private IEnumerator AimedForce()
+    {
+
+        _rb.transform.LookAt(target);
+        _rb.AddRelativeForce(0,0, 350 * missileSpeed, ForceMode.Acceleration);
+        yield return new WaitForSeconds(.1f);
+        StartCoroutine(Force());
+    }
+    private IEnumerator TargetForce()
+    {
+        yield return new WaitForSeconds(.3f);
+        StartCoroutine(AimedForce());
 
     }
 }
