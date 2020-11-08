@@ -10,7 +10,7 @@ public class AttackControls : PlayerController
     public GameObject gunAmmo, missile, lockOnSprite;
     public Transform gunLocation, launcherR, launcherL;
     
-    private GameObject _queueTarget = null, _missileTarget = null;
+    private GameObject _missileTarget = null;
     private bool _canFire = true, _canLaunchR = true, _canLaunchL = true, _isLocked = false;
 
     public List<GameObject> _targetOptions;
@@ -77,13 +77,11 @@ public class AttackControls : PlayerController
 
     private void OnTriggerEnter(Collider obj)
     {
-        print("target Enter");
         _targetOptions.Add(obj.gameObject);
         StartCoroutine(LockOn());
     }
     private void OnTriggerExit(Collider obj)
     {
-        print("target lost");
         _targetOptions.Remove(obj.gameObject);
         StartCoroutine(LockOn());
     }
@@ -96,15 +94,13 @@ public class AttackControls : PlayerController
         if (_targetOptions.Count <= 0) yield break;
         _isLocked = true;
         _missileTarget = _targetOptions[0];
-        _queueTarget = null;
-        print("target ID");
 
     }
     private IEnumerator FireGun()
     {
         _canFire = false;
         var g = Instantiate(gunAmmo, gunLocation.position, launcherL.localRotation);
-        g.GetComponent<Rigidbody>().velocity = gunLocation.forward * (80 + 500);
+        g.GetComponent<Rigidbody>().velocity = gunLocation.forward * 700;
         yield return new WaitForSeconds(fireRate);
         _canFire = true;
     }
@@ -112,16 +108,12 @@ public class AttackControls : PlayerController
     private IEnumerator FireMissileR()
     {
         _canLaunchR = false;
-        var r = Instantiate(missile, launcherR.position, launcherL.localRotation);
-        if (_isLocked)
+        var r = Instantiate(missile, launcherR.position, launcherR.localRotation);
+        if (_missileTarget != null)
         {
-            r.transform.LookAt(_missileTarget.transform);
-            r.GetComponent<Rigidbody>().AddRelativeForce(0,0,80 + missileSpeed);
+            r.gameObject.GetComponent<MissileBehaviour>().target = _missileTarget.transform;
         }
-        else
-        {
-            r.GetComponent<Rigidbody>().velocity = launcherR.forward * (80 + missileSpeed);
-        }
+
         yield return new WaitForSeconds(missileReload);
         _canLaunchR = true;
     }
@@ -129,15 +121,11 @@ public class AttackControls : PlayerController
     {
         _canLaunchL = false;
         var l = Instantiate(missile, launcherL.position, launcherL.localRotation);
-        if (_isLocked)
+        if (_missileTarget != null)
         {
-            l.transform.LookAt(_missileTarget.transform);
-            l.GetComponent<Rigidbody>().AddRelativeForce(0,0, 80 + missileSpeed);
+            l.gameObject.GetComponent<MissileBehaviour>().target = _missileTarget.transform;
         }
-        else
-        {
-            l.GetComponent<Rigidbody>().velocity = launcherR.forward * (80 + missileSpeed);
-        }
+
         yield return new WaitForSeconds(missileReload);
         _canLaunchL = true;
     }
