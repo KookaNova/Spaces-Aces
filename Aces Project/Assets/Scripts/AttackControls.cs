@@ -17,10 +17,7 @@ public class AttackControls : PlayerController
 
     private void Update()
     {
-        if (Gamepad.current == null)
-        {
-            CheckGamepad();
-        }
+        if (Gamepad.current == null){StartCoroutine(CheckGamepad());}
         //gun and missiles
         if (_g.buttonSouth.isPressed && _canFire)
         {
@@ -99,7 +96,7 @@ public class AttackControls : PlayerController
     private IEnumerator FireGun()
     {
         _canFire = false;
-        var g = Instantiate(gunAmmo, gunLocation.position, launcherL.localRotation);
+        var g = Instantiate(gunAmmo, gunLocation.position, gunLocation.rotation);
         g.GetComponent<Rigidbody>().velocity = gunLocation.forward * 700;
         yield return new WaitForSeconds(fireRate);
         _canFire = true;
@@ -108,7 +105,7 @@ public class AttackControls : PlayerController
     private IEnumerator FireMissileR()
     {
         _canLaunchR = false;
-        var r = Instantiate(missile, launcherR.position, launcherR.localRotation);
+        var r = Instantiate(missile, launcherR.position, launcherR.rotation);
         if (_missileTarget != null)
         {
             r.gameObject.GetComponent<MissileBehaviour>().target = _missileTarget.transform;
@@ -120,7 +117,7 @@ public class AttackControls : PlayerController
     private IEnumerator FireMissileL()
     {
         _canLaunchL = false;
-        var l = Instantiate(missile, launcherL.position, launcherL.localRotation);
+        var l = Instantiate(missile, launcherL.position, launcherL.rotation);
         if (_missileTarget != null)
         {
             l.gameObject.GetComponent<MissileBehaviour>().target = _missileTarget.transform;

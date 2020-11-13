@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
@@ -9,15 +10,16 @@ public class PlayerController : MonoBehaviour
     protected void Start()
     {
         _controllerBody = GetComponent<Rigidbody>();
-        CheckGamepad();
+        StartCoroutine(CheckGamepad());
     }
     
-    protected void CheckGamepad()
+    protected IEnumerator CheckGamepad()
     {
-        _g = Gamepad.current;
-        if (_g == null)
+        if(Gamepad.current!=null) _g = Gamepad.current;
+        if (Gamepad.current == null)
         {
-            CheckGamepad();
+            yield return new WaitForSeconds(0.5f);
+            StartCoroutine(CheckGamepad());
         }
     }
 }
