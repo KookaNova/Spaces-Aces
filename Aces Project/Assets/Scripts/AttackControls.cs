@@ -74,6 +74,7 @@ public class AttackControls : PlayerController
 
     private void OnTriggerEnter(Collider obj)
     {
+        if (_targetOptions.Contains(obj.gameObject)) return;
         _targetOptions.Add(obj.gameObject);
         StartCoroutine(LockOn());
     }
