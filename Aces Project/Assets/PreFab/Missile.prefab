@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3192313493638138410
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9095265686123237127}
+  m_Layer: 9
+  m_Name: Missile Direction
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9095265686123237127
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3192313493638138410}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5573778602889570771}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5346955609435155166
 GameObject:
   m_ObjectHideFlags: 0
@@ -15,7 +45,7 @@ GameObject:
   - component: {fileID: -2101927652138320960}
   - component: {fileID: 2587063024356291931}
   - component: {fileID: 9138956829299310474}
-  m_Layer: 11
+  m_Layer: 9
   m_Name: Missile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29,13 +59,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5346955609435155166}
-  m_LocalRotation: {x: 0.026176924, y: 0, z: 0, w: 0.99965733}
-  m_LocalPosition: {x: -3.64, y: -0.23, z: 4.43}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 3}
-  m_Children: []
+  m_Children:
+  - {fileID: 9095265686123237127}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 3, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6531915388352572192
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -93,9 +124,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5346955609435155166}
   serializedVersion: 2
-  m_Mass: 25
+  m_Mass: 100
   m_Drag: 5
-  m_AngularDrag: 25
+  m_AngularDrag: 2
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -113,8 +144,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80381101220d6284b96fe073e219dfe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyTime: 6
-  missileSpeed: 10
+  destroyTime: 10
+  missileSpeed: 650
+  seeking: 3
+  closeSeeking: 1
   explosion: {fileID: 7961940835513847560, guid: c28f98208777fc44bbb3f9595b9529b6, type: 3}
   target: {fileID: 0}
 --- !u!65 &2587063024356291931

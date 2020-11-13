@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5612338924036102227}
   - component: {fileID: 5612338924036102226}
   - component: {fileID: 5612338924036102229}
+  - component: {fileID: 1168440924926096132}
   m_Layer: 10
   m_Name: Enemy Ship
   m_TagString: Untagged
@@ -79,6 +80,20 @@ MonoBehaviour:
   x: 0
   y: 0
   z: 100
+--- !u!136 &1168440924926096132
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5612338924036102228}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 44.58
+  m_Height: 45.8
+  m_Direction: 0
+  m_Center: {x: 0, y: 0, z: -41.21}
 --- !u!1001 &5612338924267535629
 PrefabInstance:
   m_ObjectHideFlags: 0
