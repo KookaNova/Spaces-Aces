@@ -59283,6 +59283,46 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Ship
       objectReference: {fileID: 0}
+    - target: {fileID: 1731645285215071423, guid: 99a91e2d8b2637441a5e32e82caf9edd, type: 3}
+      propertyPath: m_Radius
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 1731645285215071423, guid: 99a91e2d8b2637441a5e32e82caf9edd, type: 3}
+      propertyPath: m_Height
+      value: 800
+      objectReference: {fileID: 0}
+    - target: {fileID: 1731645285215071423, guid: 99a91e2d8b2637441a5e32e82caf9edd, type: 3}
+      propertyPath: m_Center.z
+      value: 350.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1731645285681197235, guid: 99a91e2d8b2637441a5e32e82caf9edd, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1731645285681197235, guid: 99a91e2d8b2637441a5e32e82caf9edd, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1731645285681197235, guid: 99a91e2d8b2637441a5e32e82caf9edd, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1731645285681197235, guid: 99a91e2d8b2637441a5e32e82caf9edd, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1731645285681197235, guid: 99a91e2d8b2637441a5e32e82caf9edd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1731645285681197235, guid: 99a91e2d8b2637441a5e32e82caf9edd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 1731645285681197235, guid: 99a91e2d8b2637441a5e32e82caf9edd, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -16.410004
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99a91e2d8b2637441a5e32e82caf9edd, type: 3}
 --- !u!1001 &5612338924312820950
@@ -59339,6 +59379,10 @@ PrefabInstance:
     - target: {fileID: 5612338924036102228, guid: 1d8ff476bc79c2c4393902e07d008f47, type: 3}
       propertyPath: m_Name
       value: Ship Model (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5612338924036102229, guid: 1d8ff476bc79c2c4393902e07d008f47, type: 3}
+      propertyPath: y
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 5612338925067821021, guid: 1d8ff476bc79c2c4393902e07d008f47, type: 3}
       propertyPath: currentCamera
