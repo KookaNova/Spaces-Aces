@@ -26,6 +26,7 @@
           <e p="AttackControls.cs" t="Include" />
           <e p="CameraBillboard.cs" t="Include" />
           <e p="CameraController.cs" t="Include" />
+          <e p="EnemyBehaviour.cs" t="Include" />
           <e p="FloatData.cs" t="Include" />
           <e p="HealthBehaviour.cs" t="Include" />
           <e p="MissileBehaviour.cs" t="Include" />
@@ -35,8 +36,6 @@
           <e p="SimpleCameraController.cs" t="Include" />
         </e>
         <e p="Shaders" t="Include">
-          <e p="NewSky.cs" t="Include" />
-          <e p="NewSkyRenderer.cs" t="Include" />
           <e p="SkyBase.shader" t="Include" />
         </e>
         <e p="TutorialInfo" t="Include">
