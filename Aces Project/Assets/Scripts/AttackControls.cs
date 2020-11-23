@@ -19,11 +19,11 @@ public class AttackControls : PlayerController
     {
         if (Gamepad.current == null){StartCoroutine(CheckGamepad());}
         //gun and missiles
-        if (_g.buttonSouth.isPressed && _canFire)
+        if (_g.buttonSouth.isPressed && _canFire || _m.leftButton.isPressed && _canFire )
         {
             StartCoroutine(FireGun());
         }
-        if (_g.buttonEast.wasPressedThisFrame)
+        if (_g.buttonEast.wasPressedThisFrame || _m.rightButton.wasPressedThisFrame)
         {
             if (_canLaunchR)
             {
@@ -35,7 +35,7 @@ public class AttackControls : PlayerController
             }
         }
 
-        if (_g.buttonNorth.wasPressedThisFrame && _targetOptions.Count > 1)
+        if (_g.buttonNorth.wasPressedThisFrame && _targetOptions.Count > 1 || _m.scroll.IsPressed() && _targetOptions.Count > 1)
         {
             var i = _targetOptions[0].gameObject;
             _targetOptions.Remove(_targetOptions[0]);
@@ -47,7 +47,10 @@ public class AttackControls : PlayerController
         {
             if (_missileTarget == null)
             {
-                _isLocked = true;
+                
+                lockOnSprite.gameObject.SetActive(false);
+                _isLocked = false;
+                return;
             }
             RaycastHit hit;
 
@@ -68,6 +71,11 @@ public class AttackControls : PlayerController
                 _missileTarget = null;
                 lockOnSprite.gameObject.SetActive(false);
             }
+
+            if (_targetOptions.Count == 0)
+            {
+                _missileTarget = null;
+            }
         }
         
     }
@@ -87,7 +95,7 @@ public class AttackControls : PlayerController
 
     private IEnumerator LockOn()
     {
-        
+        if (_targetOptions.Count <= 0) yield break;
         yield return new WaitForSeconds(lockOnEfficiency);
         if (_targetOptions.Count <= 0) yield break;
         _isLocked = true;

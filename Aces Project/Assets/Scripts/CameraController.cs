@@ -10,8 +10,8 @@ public class CameraController : PlayerController
 
     private void LateUpdate()
     {
-        if (_g.rightStick.y.IsPressed() || _g.rightStick.x.IsPressed())
-        {
+        if (_g.rightStick.y.ReadValue() > 0.1f || _g.rightStick.y.ReadValue() < -0.1f || _g.rightStick.x.ReadValue() > 0.1f || _g.rightStick.x.ReadValue() < -0.1f)
+                 {
             playerCamera.Follow.localRotation =
                 Quaternion.Euler(80 * _g.rightStick.y.ReadValue(), 80 * _g.rightStick.x.ReadValue(), 0);
         }
