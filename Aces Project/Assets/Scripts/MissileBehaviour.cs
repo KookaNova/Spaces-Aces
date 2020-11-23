@@ -14,15 +14,17 @@ public class MissileBehaviour : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         StartCoroutine(TimedDestroy());
-        _rb.transform.LookAt(target);
     }
 
     private void FixedUpdate()
     {
-        var toTarget = target.position - _rb.position;
-        var targetRotation = Quaternion.LookRotation(toTarget);
-        
-        _rb.rotation = Quaternion.RotateTowards(_rb.rotation, targetRotation, seeking);
+        if (target != null)
+        {
+            var toTarget = target.position - _rb.position;
+            var targetRotation = Quaternion.LookRotation(toTarget);
+            
+            _rb.rotation = Quaternion.RotateTowards(_rb.rotation, targetRotation, seeking);
+        }
         _rb.AddRelativeForce(0,0, missileSpeed, ForceMode.Acceleration);
     }
 
@@ -44,7 +46,10 @@ public class MissileBehaviour : MonoBehaviour
 
     private IEnumerator TimedDestroy()
     {
-
+        if (target != null)
+        {
+            _rb.transform.LookAt(target);
+        }
         yield return new WaitForSeconds(destroyTime); Destroy(gameObject);
 
     }
