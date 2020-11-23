@@ -18,10 +18,10 @@ Material:
     MotionVector: User
   disabledShaderPasses:
   - DistortionVectors
-  - MOTIONVECTORS
+  - TransparentBackface
   - TransparentDepthPrepass
   - TransparentDepthPostpass
-  - TransparentBackface
+  - MOTIONVECTORS
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
