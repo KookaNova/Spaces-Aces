@@ -145,9 +145,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyTime: 10
-  missileSpeed: 650
-  seeking: 3
-  closeSeeking: 1
+  missileSpeed: 1300
+  seeking: 5
+  closeSeeking: 0.7
   explosion: {fileID: 7961940835513847560, guid: c28f98208777fc44bbb3f9595b9529b6, type: 3}
   target: {fileID: 0}
 --- !u!65 &2587063024356291931
