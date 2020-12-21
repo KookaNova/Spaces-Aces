@@ -31,21 +31,21 @@ MonoBehaviour:
   m_AdvancedMode: 0
   mode:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 1
   meteringMode:
     m_OverrideState: 1
-    m_Value: 2
+    m_Value: 0
   luminanceSource:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1
   fixedExposure:
     m_OverrideState: 1
-    m_Value: 6.92
+    m_Value: 3.4
   compensation:
-    m_OverrideState: 0
-    m_Value: -0.07
+    m_OverrideState: 1
+    m_Value: -3.82
   limitMin:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: -10
   limitMax:
     m_OverrideState: 1
@@ -118,7 +118,7 @@ MonoBehaviour:
     m_Value: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 2.64
+    m_Value: 3
     min: 0
     max: 4
   directLightingStrength:

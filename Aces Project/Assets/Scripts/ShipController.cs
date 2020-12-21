@@ -59,7 +59,7 @@ public class ShipController : PlayerController
         //break
         if (_g.leftTrigger.isPressed && thrust > minSpeed || _k.leftCtrlKey.isPressed)
         {
-            thrust = Mathf.Lerp(thrust, minSpeed, (Time.deltaTime));
+            thrust = Mathf.Lerp(thrust, minSpeed, Time.deltaTime);
             _controllerBody.velocity = Vector3.MoveTowards(_controllerBody.velocity, new Vector3(0, 0, thrust),
                 Time.deltaTime * breakForce);
             _g.SetMotorSpeeds(thrust / maxSpeed * .95f, thrust / maxSpeed * .26f);
@@ -68,7 +68,7 @@ public class ShipController : PlayerController
         {
             _g.SetMotorSpeeds(0, 0);
         }
-
+        
         //twist
         if (_g.leftStick.left.ReadValue() > .1f || _k.aKey.isPressed)
         {

@@ -137,7 +137,7 @@ TrailRenderer:
     generateLightingData: 0
   m_MinVertexDistance: 0.3
   m_Autodestruct: 0
-  m_Emitting: 0
+  m_Emitting: 1
 --- !u!1 &1731645283919662360
 GameObject:
   m_ObjectHideFlags: 0
@@ -162,7 +162,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1731645283919662360}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.96, y: 4, z: 7.71}
+  m_LocalPosition: {x: 6.96, y: -0.53, z: 4.86}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1731645284298809848}
@@ -406,14 +406,14 @@ MonoBehaviour:
   ThrustTrail: []
   Contrails: []
   thrust: 10
-  minSpeed: 40
-  maxSpeed: 90
-  yawSpeed: 35
-  upSpeed: 50
-  downSpeed: 30
-  breakForce: 4
+  minSpeed: 120
+  maxSpeed: 180
+  yawSpeed: 45
+  upSpeed: 90
+  downSpeed: 60
+  breakForce: 8
   twistSpeed: 80
-  highSpeedTurning: 15
+  highSpeedTurning: 18
   accelerationRate: 5
 --- !u!114 &1731645284298809844
 MonoBehaviour:
@@ -454,7 +454,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1731645284447297502}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.94, y: 4, z: 7.71}
+  m_LocalPosition: {x: -6.94, y: -0.53000003, z: 4.859994}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1731645284298809848}
@@ -625,7 +625,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1731645285129382788}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.63, z: -16.410004}
+  m_LocalPosition: {x: 0, y: 3.6299973, z: -16.410004}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1731645285074944195}
@@ -716,10 +716,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 266.3
-  m_Height: 815.3
+  m_Radius: 300
+  m_Height: 705.74
   m_Direction: 0
-  m_Center: {x: 0, y: 0, z: 323.7}
+  m_Center: {x: 0, y: 0, z: 350.1}
 --- !u!114 &1731645285215071360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -735,7 +735,7 @@ MonoBehaviour:
   ThrustTrail: []
   Contrails: []
   missileReload: 3
-  missileSpeed: 60
+  missileSpeed: 120
   lockOnEfficiency: 1
   fireRate: 0.1
   gunAmmo: {fileID: 2287132681278451313, guid: f1e31f0b7aa34ff4b99174e395b0f87c, type: 3}
@@ -833,6 +833,7 @@ GameObject:
   - component: {fileID: 1731645285681197232}
   - component: {fileID: 1731645285681197237}
   - component: {fileID: 1731645285681197234}
+  - component: {fileID: 411068709}
   m_Layer: 9
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -847,13 +848,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1731645285681197239}
-  m_LocalRotation: {x: 0.40684363, y: 0.02785732, z: -0.27106187, w: -0.8719104}
-  m_LocalPosition: {x: -4.58552, y: 125.69101, z: 445.76636}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 3.6299973, z: -16.410004}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1731645284298809848}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 12.123, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 6.747, y: 0.866, z: -1.882}
 --- !u!20 &1731645285681197236
 Camera:
   m_ObjectHideFlags: 0
@@ -867,10 +868,10 @@ Camera:
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
-  m_FOVAxisMode: 1
+  m_FOVAxisMode: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 18
+  m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -882,7 +883,7 @@ Camera:
   field of view: 67.380135
   orthographic: 0
   orthographic size: 5
-  m_Depth: -1
+  m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -893,7 +894,7 @@ Camera:
   m_HDR: 0
   m_AllowMSAA: 0
   m_AllowDynamicResolution: 0
-  m_ForceIntoRT: 1
+  m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
@@ -1005,15 +1006,15 @@ MonoBehaviour:
       enableBigTilePrepass: 0
       isFptlEnabled: 0
   clearColorMode: 0
-  backgroundColorHDR: {r: 0.20121038, g: 0.29780963, b: 0.6792453, a: 1}
+  backgroundColorHDR: {r: 0.025, g: 0.07, b: 0.19, a: 0}
   clearDepth: 1
   volumeLayerMask:
     serializedVersion: 2
     m_Bits: 1
   volumeAnchorOverride: {fileID: 0}
-  antialiasing: 2
+  antialiasing: 3
   SMAAQuality: 2
-  dithering: 1
+  dithering: 0
   stopNaNs: 0
   taaSharpenStrength: 0.6
   physicalParameters:
@@ -1036,8 +1037,8 @@ MonoBehaviour:
   hasPersistentHistory: 0
   m_RenderingPathCustomFrameSettings:
     bitDatas:
-      data1: 68906302766941
-      data2: 4539628424389459968
+      data1: 70300024700749
+      data2: 4539628425463136256
     lodBias: 1
     lodBiasMode: 0
     lodBiasQualityLevel: 0
@@ -1048,7 +1049,7 @@ MonoBehaviour:
   renderingPathCustomFrameSettingsOverrideMask:
     mask:
       data1: 0
-      data2: 0
+      data2: 4
   defaultFrameSettings: 0
 --- !u!114 &1731645285681197234
 MonoBehaviour:
@@ -1084,6 +1085,40 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &411068709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1731645285681197239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26d6499a6bd256e47b859377446493a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isGlobal: 1
+  fadeRadius: 0
+  priority: 415
+  customPasses:
+  - id: 0
+  injectionPoint: 0
+  references:
+    version: 1
+    00000000:
+      type: {class: FullScreenCustomPass, ns: UnityEngine.Rendering.HighDefinition, asm: Unity.RenderPipelines.HighDefinition.Runtime}
+      data:
+        m_Name: Custom Pass
+        enabled: 1
+        targetColorBuffer: 0
+        targetDepthBuffer: 0
+        clearFlags: 0
+        passFoldout: 0
+        m_Version: 0
+        fullscreenPassMaterial: {fileID: 2100000, guid: cdf5c9d778664a64282530234bc0d896, type: 2}
+        materialPassIndex: 0
+        materialPassName: MotionVectors
+        fetchColorBuffer: 1
 --- !u!1 &2533476506161711932
 GameObject:
   m_ObjectHideFlags: 0
@@ -1221,7 +1256,7 @@ TrailRenderer:
     generateLightingData: 0
   m_MinVertexDistance: 0.3
   m_Autodestruct: 0
-  m_Emitting: 0
+  m_Emitting: 1
 --- !u!1 &2850187938595117379
 GameObject:
   m_ObjectHideFlags: 0
@@ -1359,7 +1394,7 @@ TrailRenderer:
     generateLightingData: 0
   m_MinVertexDistance: 0.3
   m_Autodestruct: 0
-  m_Emitting: 0
+  m_Emitting: 1
 --- !u!1001 &1731645285192190885
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1429,14 +1464,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a231bf5e8c4f63e4ba9abf378ea34fa8, type: 3}
---- !u!4 &1967455157658304398 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 235810321299141675, guid: a231bf5e8c4f63e4ba9abf378ea34fa8, type: 3}
-  m_PrefabInstance: {fileID: 1731645285192190885}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8424100482552513684 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7845377168516386609, guid: a231bf5e8c4f63e4ba9abf378ea34fa8, type: 3}
+  m_PrefabInstance: {fileID: 1731645285192190885}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1967455157658304398 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 235810321299141675, guid: a231bf5e8c4f63e4ba9abf378ea34fa8, type: 3}
   m_PrefabInstance: {fileID: 1731645285192190885}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1731645285892561512
