@@ -66,9 +66,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Refraction: 0.01
-    - Scratch_Strength: 0.085
+    - Scratch_Strength: 0.022
     - Smoothness: 0.672
-    - Transparency: 0.832
+    - Transparency: 1
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
