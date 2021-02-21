@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: e4aee48177e7ff642adff62e08b60126
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - aircraftData: {fileID: 11400000, guid: aeb313dd9e2f63741a90395a3fc3fc4a, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
