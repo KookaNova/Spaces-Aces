@@ -7,6 +7,7 @@ public class AircraftController : MonoBehaviour
 {
     [Header("Aircraft Input Data")]
     public AircraftData aircraftInputData;
+    public GameObject deathSpot;
 
     [Header("Aircraft Stats")] 
     public FloatData currentSpeed;
@@ -44,12 +45,17 @@ public class AircraftController : MonoBehaviour
             currentSpeed.value = Mathf.Lerp(currentSpeed.value, cruiseSpeed, .001f);
         }
         
-        currentSpeed.value = Mathf.Lerp(currentSpeed.value, minSpeed, aircraftInputData.brakeInput * .001f);
+        currentSpeed.value = Mathf.Lerp(currentSpeed.value, minSpeed, aircraftInputData.brakeInput * .01f);
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnCollisionEnter(Collision collision) 
     {
-        currentSpeed.value = currentSpeed.value / 4;
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Crash Hazard"))
+        {
+            print("crash");
+
+           var deathLocation = GameObject.Instantiate(deathSpot);
+        }
     }
 
     private void ThrustControl()
@@ -62,7 +68,8 @@ public class AircraftController : MonoBehaviour
     
     private void TorqueControl()
     {
-        Vector3 torque  = new Vector3(aircraftInputData.torqueInput.y * pitch, aircraftInputData.yawInput * yaw, aircraftInputData.torqueInput.x * roll);
+        var highspeedhandling = currentSpeed.value/maxSpeed + 1;
+        Vector3 torque  = new Vector3((aircraftInputData.torqueInput.y * pitch) / highspeedhandling, aircraftInputData.yawInput * yaw, (aircraftInputData.torqueInput.x * roll) / highspeedhandling);
         _rb.AddRelativeTorque(torque);
     }
 }
