@@ -54,7 +54,10 @@ public class AircraftController : MonoBehaviour
         {
             print("crash");
 
-           var deathLocation = GameObject.Instantiate(deathSpot);
+           var deathLocation = transform.position;
+           Object.Instantiate(deathSpot, deathLocation, transform.rotation);
+
+           Destroy(gameObject);
         }
     }
 
