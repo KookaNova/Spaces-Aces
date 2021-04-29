@@ -67,7 +67,7 @@ Material:
     m_Floats:
     - Refraction: 0.004
     - Scratch_Strength: 0.022
-    - Smoothness: 0.621
+    - Smoothness: 0.772
     - Transparency: 1
     - _AlphaClip: 0
     - _Blend: 0
@@ -91,8 +91,8 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Specular_Color: {r: 0.026237093, g: 0.15297818, b: 0.20754719, a: 1}
-    - Tint: {r: 0.06340333, g: 0.22959375, b: 0.24528301, a: 1}
+    - Specular_Color: {r: 0.030331066, g: 0.08800858, b: 0.11320752, a: 1}
+    - Tint: {r: 0.017248124, g: 0.11522518, b: 0.16037738, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
