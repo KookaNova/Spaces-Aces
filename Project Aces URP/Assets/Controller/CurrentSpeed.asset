@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1218debb42c0eed4ba65758107d2cc88, type: 3}
   m_Name: CurrentSpeed
   m_EditorClassIdentifier: 
-  value: 0
+  value: 56.697582

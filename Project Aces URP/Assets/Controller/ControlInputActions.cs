@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/Controller/Input Actions/ControlInputActions.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/Controller/ControlInputActions.inputactions'
 
 using System;
 using System.Collections;
@@ -56,6 +56,22 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                     ""id"": ""30f87051-4450-490b-a645-54055514bcf6"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": ""InvertVector2(invertY=false)"",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Gun Fire"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""c608c628-d07a-4850-afe5-190bd92bcf65"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": ""InvertVector2(invertY=false)"",
+                    ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""Aim Gun"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""611c7b84-62e4-4476-9d1a-85822f47935b"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": ""InvertVector2(invertX=false,invertY=false)"",
                     ""interactions"": """"
                 }
             ],
@@ -257,6 +273,50 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                     ""action"": ""Torque"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f8e2b713-84c8-408f-aa02-7d7e7053bd72"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Basic Controls"",
+                    ""action"": ""Gun Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a9dd8ff5-c3aa-4096-bec8-b9947d1d5c38"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Gun Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fe3afac4-0ebd-4f3e-bceb-0202c4962cdc"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Aim Gun"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""db551c3e-7d6d-4946-a50d-7cd523d3fcb4"",
+                    ""path"": ""<Joystick>/stick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Aim Gun"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -265,7 +325,7 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
             ""id"": ""2721e964-e3a0-4624-89a4-b3bbc6e4eb41"",
             ""actions"": [
                 {
-                    ""name"": ""New action"",
+                    ""name"": ""Escape Button"",
                     ""type"": ""Button"",
                     ""id"": ""97a723eb-ba74-4a02-bf16-88979aa79ae3"",
                     ""expectedControlType"": ""Button"",
@@ -277,11 +337,11 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""dbf9a980-ef76-48e1-b0f8-3d6a42e09c86"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""New action"",
+                    ""action"": ""Escape Button"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -319,9 +379,11 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
         m_Flight_Brake = m_Flight.FindAction("Brake", throwIfNotFound: true);
         m_Flight_Yaw = m_Flight.FindAction("Yaw", throwIfNotFound: true);
         m_Flight_Torque = m_Flight.FindAction("Torque", throwIfNotFound: true);
+        m_Flight_GunFire = m_Flight.FindAction("Gun Fire", throwIfNotFound: true);
+        m_Flight_AimGun = m_Flight.FindAction("Aim Gun", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
-        m_Menu_Newaction = m_Menu.FindAction("New action", throwIfNotFound: true);
+        m_Menu_EscapeButton = m_Menu.FindAction("Escape Button", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -376,6 +438,8 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Flight_Brake;
     private readonly InputAction m_Flight_Yaw;
     private readonly InputAction m_Flight_Torque;
+    private readonly InputAction m_Flight_GunFire;
+    private readonly InputAction m_Flight_AimGun;
     public struct FlightActions
     {
         private @ControlInputActions m_Wrapper;
@@ -385,6 +449,8 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
         public InputAction @Brake => m_Wrapper.m_Flight_Brake;
         public InputAction @Yaw => m_Wrapper.m_Flight_Yaw;
         public InputAction @Torque => m_Wrapper.m_Flight_Torque;
+        public InputAction @GunFire => m_Wrapper.m_Flight_GunFire;
+        public InputAction @AimGun => m_Wrapper.m_Flight_AimGun;
         public InputActionMap Get() { return m_Wrapper.m_Flight; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -409,6 +475,12 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 @Torque.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnTorque;
                 @Torque.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnTorque;
                 @Torque.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnTorque;
+                @GunFire.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnGunFire;
+                @GunFire.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnGunFire;
+                @GunFire.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnGunFire;
+                @AimGun.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnAimGun;
+                @AimGun.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnAimGun;
+                @AimGun.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnAimGun;
             }
             m_Wrapper.m_FlightActionsCallbackInterface = instance;
             if (instance != null)
@@ -428,6 +500,12 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 @Torque.started += instance.OnTorque;
                 @Torque.performed += instance.OnTorque;
                 @Torque.canceled += instance.OnTorque;
+                @GunFire.started += instance.OnGunFire;
+                @GunFire.performed += instance.OnGunFire;
+                @GunFire.canceled += instance.OnGunFire;
+                @AimGun.started += instance.OnAimGun;
+                @AimGun.performed += instance.OnAimGun;
+                @AimGun.canceled += instance.OnAimGun;
             }
         }
     }
@@ -436,12 +514,12 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
     // Menu
     private readonly InputActionMap m_Menu;
     private IMenuActions m_MenuActionsCallbackInterface;
-    private readonly InputAction m_Menu_Newaction;
+    private readonly InputAction m_Menu_EscapeButton;
     public struct MenuActions
     {
         private @ControlInputActions m_Wrapper;
         public MenuActions(@ControlInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Newaction => m_Wrapper.m_Menu_Newaction;
+        public InputAction @EscapeButton => m_Wrapper.m_Menu_EscapeButton;
         public InputActionMap Get() { return m_Wrapper.m_Menu; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -451,16 +529,16 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_MenuActionsCallbackInterface != null)
             {
-                @Newaction.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnNewaction;
-                @Newaction.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnNewaction;
-                @Newaction.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnNewaction;
+                @EscapeButton.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnEscapeButton;
+                @EscapeButton.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnEscapeButton;
+                @EscapeButton.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnEscapeButton;
             }
             m_Wrapper.m_MenuActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Newaction.started += instance.OnNewaction;
-                @Newaction.performed += instance.OnNewaction;
-                @Newaction.canceled += instance.OnNewaction;
+                @EscapeButton.started += instance.OnEscapeButton;
+                @EscapeButton.performed += instance.OnEscapeButton;
+                @EscapeButton.canceled += instance.OnEscapeButton;
             }
         }
     }
@@ -481,9 +559,11 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
         void OnBrake(InputAction.CallbackContext context);
         void OnYaw(InputAction.CallbackContext context);
         void OnTorque(InputAction.CallbackContext context);
+        void OnGunFire(InputAction.CallbackContext context);
+        void OnAimGun(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {
-        void OnNewaction(InputAction.CallbackContext context);
+        void OnEscapeButton(InputAction.CallbackContext context);
     }
 }
