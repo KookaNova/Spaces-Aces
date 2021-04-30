@@ -44,6 +44,22 @@
                     "expectedControlType": "Vector2",
                     "processors": "InvertVector2(invertY=false)",
                     "interactions": ""
+                },
+                {
+                    "name": "Gun Fire",
+                    "type": "PassThrough",
+                    "id": "c608c628-d07a-4850-afe5-190bd92bcf65",
+                    "expectedControlType": "Button",
+                    "processors": "InvertVector2(invertY=false)",
+                    "interactions": "Press"
+                },
+                {
+                    "name": "Aim Gun",
+                    "type": "PassThrough",
+                    "id": "611c7b84-62e4-4476-9d1a-85822f47935b",
+                    "expectedControlType": "Vector2",
+                    "processors": "InvertVector2(invertX=false,invertY=false)",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -244,6 +260,50 @@
                     "action": "Torque",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "f8e2b713-84c8-408f-aa02-7d7e7053bd72",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Basic Controls",
+                    "action": "Gun Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a9dd8ff5-c3aa-4096-bec8-b9947d1d5c38",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Gun Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fe3afac4-0ebd-4f3e-bceb-0202c4962cdc",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Aim Gun",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "db551c3e-7d6d-4946-a50d-7cd523d3fcb4",
+                    "path": "<Joystick>/stick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Aim Gun",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -252,7 +312,7 @@
             "id": "2721e964-e3a0-4624-89a4-b3bbc6e4eb41",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "Escape Button",
                     "type": "Button",
                     "id": "97a723eb-ba74-4a02-bf16-88979aa79ae3",
                     "expectedControlType": "Button",
@@ -264,11 +324,11 @@
                 {
                     "name": "",
                     "id": "dbf9a980-ef76-48e1-b0f8-3d6a42e09c86",
-                    "path": "",
+                    "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "Escape Button",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
