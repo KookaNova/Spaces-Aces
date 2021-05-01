@@ -9,13 +9,11 @@ public class SpacecraftController : MonoBehaviour, ControlInputActions.IFlightAc
 {
     [Header("Spacecraft Objects")]
     public GameObject shipObject;
-    public GameObject explosionObject;
-    public GameObject gunAmmoObject;
-    public GameObject missileObject;
+    public GameObject explosionObject, gunAmmoObject, missileObject;
     public Image gunReticle, aimRange;
     public Camera playerCamera;
     public Transform[] gunPosition, missilePosition;
-    public Transform targetObj;
+    public Transform[] targetObj;
 
     [Header("Spacecraft Stats")]
     public FloatData currentSpeed;
@@ -40,6 +38,7 @@ public class SpacecraftController : MonoBehaviour, ControlInputActions.IFlightAc
     private void Awake(){
         _rb = GetComponent<Rigidbody>();
         Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined;
     }
     private void OnEnable() {
         _controls = new ControlInputActions();
@@ -65,9 +64,7 @@ public class SpacecraftController : MonoBehaviour, ControlInputActions.IFlightAc
     public void OnBrake(InputAction.CallbackContext value){
         brakeInput = value.ReadValue<float>();
     }
-    public void OnMenuButton(InputAction.CallbackContext context){
-        print("Menu button pressed");
-    }
+    public void OnMenuButton(InputAction.CallbackContext context){}
     public void OnThrust(InputAction.CallbackContext value){
         thrustInput = value.ReadValue<float>();
     }
@@ -78,7 +75,7 @@ public class SpacecraftController : MonoBehaviour, ControlInputActions.IFlightAc
         yawInput = value.ReadValue<float>();
     }
      public void OnAimGun(InputAction.CallbackContext position){
-         mousePosition = position.ReadValue<Vector2>();
+        mousePosition = position.ReadValue<Vector2>();
     }
     public void OnGunFire(InputAction.CallbackContext pressed){
         gunIsFiring = pressed.ReadValueAsButton();
@@ -91,10 +88,13 @@ public class SpacecraftController : MonoBehaviour, ControlInputActions.IFlightAc
     {
         ThrustControl();
         TorqueControl();
-
+        
+        Ray ray = Camera.main.ScreenPointToRay(gunReticle.transform.position);
+        
         gunReticle.transform.position = mousePosition;
-
-        aimRange.transform.position = playerCamera.WorldToScreenPoint(targetObj.position);
+        for(int i = 0; i < gunPosition.Length; i++){
+            gunPosition[i].LookAt(ray.GetPoint(10000f));
+        }
 
 
         _rb.AddRelativeForce(0,0,currentSpeed.value);
@@ -128,11 +128,25 @@ public class SpacecraftController : MonoBehaviour, ControlInputActions.IFlightAc
         _rb.AddRelativeTorque(torque);
     }
 
+    private void Targeting(){
+        
+
+        int currentTarget = 0;
+        if(currentTarget > targetObj.Length){
+            currentTarget = 0;
+        }
+        aimRange.transform.position = playerCamera.WorldToScreenPoint(targetObj[currentTarget].position);
+
+        
+    }
+
     IEnumerator FireGun(){
         canFire = false;
         while(gunIsFiring){
             for(int i = 0; i < gunPosition.Length; i++){
-                var g = Instantiate(gunAmmoObject, gunPosition[i].transform);
+                var g = Instantiate(gunAmmoObject);
+                g.transform.position = gunPosition[i].position;
+                g.transform.rotation = gunPosition[i].rotation;
                 g.GetComponent<Rigidbody>().velocity = gunPosition[i].transform.forward * gunSpeed;
                 print("fire " + i);
                 yield return new WaitForSeconds(fireRate);
