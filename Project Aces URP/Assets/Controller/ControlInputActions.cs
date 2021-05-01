@@ -71,7 +71,7 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                     ""type"": ""PassThrough"",
                     ""id"": ""611c7b84-62e4-4476-9d1a-85822f47935b"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": ""InvertVector2(invertX=false,invertY=false)"",
+                    ""processors"": """",
                     ""interactions"": """"
                 }
             ],
