@@ -17,10 +17,10 @@ TagManager:
   - Player
   - Lighting
   - Crash Hazard
+  - Enemy Player
   - 
-  - 
-  - 
-  - 
+  - GunAmmo
+  - Missile
   - 
   - 
   - 

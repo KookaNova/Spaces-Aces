@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5014079385106406364}
   - component: {fileID: 5078235437019059900}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.1
+  m_Time: 0.03
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -83,19 +83,19 @@ TrailRenderer:
         time: 0
         value: 0.70000076
         inSlope: Infinity
-        outSlope: -0.7245369
+        outSlope: -1.9333512
         tangentMode: 7
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.31152984
+        outWeight: 0.20809789
       - serializedVersion: 3
         time: 1
         value: 0
-        inSlope: 0.03892904
+        inSlope: -0.08873429
         outSlope: 0
         tangentMode: 1
         weightedMode: 0
-        inWeight: 0.36696243
+        inWeight: 0.4717515
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -132,10 +132,10 @@ TrailRenderer:
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
-    textureMode: 0
+    textureMode: 1
     shadowBias: 0.5
     generateLightingData: 0
-  m_MinVertexDistance: 3
+  m_MinVertexDistance: 1
   m_Autodestruct: 0
   m_Emitting: 1
 --- !u!1 &4155647956408176716
@@ -152,7 +152,7 @@ GameObject:
   - component: {fileID: -2492462950973599758}
   - component: {fileID: 1906055925000790026}
   - component: {fileID: -7459226797910846223}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Hard Light Ammo
   m_TagString: Untagged
   m_Icon: {fileID: 0}

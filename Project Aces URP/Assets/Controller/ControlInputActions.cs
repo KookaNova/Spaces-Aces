@@ -73,6 +73,14 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""CameraChange"",
+                    ""type"": ""Value"",
+                    ""id"": ""d9730d32-a327-48b3-9fc7-316b4c39a803"",
+                    ""expectedControlType"": ""DiscreteButton"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -317,6 +325,17 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                     ""action"": ""Aim Gun"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cef75e7c-c2bb-49aa-ba1a-18eee0f2995f"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CameraChange"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -381,6 +400,7 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
         m_Flight_Torque = m_Flight.FindAction("Torque", throwIfNotFound: true);
         m_Flight_GunFire = m_Flight.FindAction("Gun Fire", throwIfNotFound: true);
         m_Flight_AimGun = m_Flight.FindAction("Aim Gun", throwIfNotFound: true);
+        m_Flight_CameraChange = m_Flight.FindAction("CameraChange", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_EscapeButton = m_Menu.FindAction("Escape Button", throwIfNotFound: true);
@@ -440,6 +460,7 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Flight_Torque;
     private readonly InputAction m_Flight_GunFire;
     private readonly InputAction m_Flight_AimGun;
+    private readonly InputAction m_Flight_CameraChange;
     public struct FlightActions
     {
         private @ControlInputActions m_Wrapper;
@@ -451,6 +472,7 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
         public InputAction @Torque => m_Wrapper.m_Flight_Torque;
         public InputAction @GunFire => m_Wrapper.m_Flight_GunFire;
         public InputAction @AimGun => m_Wrapper.m_Flight_AimGun;
+        public InputAction @CameraChange => m_Wrapper.m_Flight_CameraChange;
         public InputActionMap Get() { return m_Wrapper.m_Flight; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -481,6 +503,9 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 @AimGun.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnAimGun;
                 @AimGun.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnAimGun;
                 @AimGun.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnAimGun;
+                @CameraChange.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnCameraChange;
+                @CameraChange.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnCameraChange;
+                @CameraChange.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnCameraChange;
             }
             m_Wrapper.m_FlightActionsCallbackInterface = instance;
             if (instance != null)
@@ -506,6 +531,9 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 @AimGun.started += instance.OnAimGun;
                 @AimGun.performed += instance.OnAimGun;
                 @AimGun.canceled += instance.OnAimGun;
+                @CameraChange.started += instance.OnCameraChange;
+                @CameraChange.performed += instance.OnCameraChange;
+                @CameraChange.canceled += instance.OnCameraChange;
             }
         }
     }
@@ -561,6 +589,7 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
         void OnTorque(InputAction.CallbackContext context);
         void OnGunFire(InputAction.CallbackContext context);
         void OnAimGun(InputAction.CallbackContext context);
+        void OnCameraChange(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {
