@@ -63,9 +63,17 @@
                 },
                 {
                     "name": "CameraChange",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "d9730d32-a327-48b3-9fc7-316b4c39a803",
-                    "expectedControlType": "DiscreteButton",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "ChangeTargetMode",
+                    "type": "Button",
+                    "id": "d252cb79-d319-4f5e-9a1d-3b1ed2e5ba59",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
                 }
@@ -319,8 +327,19 @@
                     "path": "<Keyboard>/c",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Basic Controls",
                     "action": "CameraChange",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ef3ad97a-be8d-4247-b6d2-7c015cbce6cb",
+                    "path": "<Keyboard>/t",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangeTargetMode",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -76,9 +76,17 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""CameraChange"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""d9730d32-a327-48b3-9fc7-316b4c39a803"",
-                    ""expectedControlType"": ""DiscreteButton"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=2)""
+                },
+                {
+                    ""name"": ""ChangeTargetMode"",
+                    ""type"": ""Button"",
+                    ""id"": ""d252cb79-d319-4f5e-9a1d-3b1ed2e5ba59"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -332,8 +340,19 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/c"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Basic Controls"",
                     ""action"": ""CameraChange"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ef3ad97a-be8d-4247-b6d2-7c015cbce6cb"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeTargetMode"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -401,6 +420,7 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
         m_Flight_GunFire = m_Flight.FindAction("Gun Fire", throwIfNotFound: true);
         m_Flight_AimGun = m_Flight.FindAction("Aim Gun", throwIfNotFound: true);
         m_Flight_CameraChange = m_Flight.FindAction("CameraChange", throwIfNotFound: true);
+        m_Flight_ChangeTargetMode = m_Flight.FindAction("ChangeTargetMode", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_EscapeButton = m_Menu.FindAction("Escape Button", throwIfNotFound: true);
@@ -461,6 +481,7 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Flight_GunFire;
     private readonly InputAction m_Flight_AimGun;
     private readonly InputAction m_Flight_CameraChange;
+    private readonly InputAction m_Flight_ChangeTargetMode;
     public struct FlightActions
     {
         private @ControlInputActions m_Wrapper;
@@ -473,6 +494,7 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
         public InputAction @GunFire => m_Wrapper.m_Flight_GunFire;
         public InputAction @AimGun => m_Wrapper.m_Flight_AimGun;
         public InputAction @CameraChange => m_Wrapper.m_Flight_CameraChange;
+        public InputAction @ChangeTargetMode => m_Wrapper.m_Flight_ChangeTargetMode;
         public InputActionMap Get() { return m_Wrapper.m_Flight; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -506,6 +528,9 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 @CameraChange.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnCameraChange;
                 @CameraChange.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnCameraChange;
                 @CameraChange.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnCameraChange;
+                @ChangeTargetMode.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnChangeTargetMode;
+                @ChangeTargetMode.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnChangeTargetMode;
+                @ChangeTargetMode.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnChangeTargetMode;
             }
             m_Wrapper.m_FlightActionsCallbackInterface = instance;
             if (instance != null)
@@ -534,6 +559,9 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 @CameraChange.started += instance.OnCameraChange;
                 @CameraChange.performed += instance.OnCameraChange;
                 @CameraChange.canceled += instance.OnCameraChange;
+                @ChangeTargetMode.started += instance.OnChangeTargetMode;
+                @ChangeTargetMode.performed += instance.OnChangeTargetMode;
+                @ChangeTargetMode.canceled += instance.OnChangeTargetMode;
             }
         }
     }
@@ -590,6 +618,7 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
         void OnGunFire(InputAction.CallbackContext context);
         void OnAimGun(InputAction.CallbackContext context);
         void OnCameraChange(InputAction.CallbackContext context);
+        void OnChangeTargetMode(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {
