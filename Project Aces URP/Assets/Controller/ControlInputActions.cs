@@ -80,12 +80,28 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                     ""id"": ""d9730d32-a327-48b3-9fc7-316b4c39a803"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Press(behavior=2)""
+                    ""interactions"": ""Press""
                 },
                 {
                     ""name"": ""ChangeTargetMode"",
                     ""type"": ""Button"",
                     ""id"": ""d252cb79-d319-4f5e-9a1d-3b1ed2e5ba59"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""CycleTargets"",
+                    ""type"": ""Value"",
+                    ""id"": ""4f705ef8-9272-42d1-80eb-76a198b91983"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""MissileButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""831ca93d-ed42-46b1-b749-770b1ee0df39"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -355,6 +371,28 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                     ""action"": ""ChangeTargetMode"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d66734c8-df53-47a7-a5a0-f07da6adda87"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CycleTargets"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""774d2f15-15cd-4d5e-9a05-6fec8726617d"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MissileButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -421,6 +459,8 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
         m_Flight_AimGun = m_Flight.FindAction("Aim Gun", throwIfNotFound: true);
         m_Flight_CameraChange = m_Flight.FindAction("CameraChange", throwIfNotFound: true);
         m_Flight_ChangeTargetMode = m_Flight.FindAction("ChangeTargetMode", throwIfNotFound: true);
+        m_Flight_CycleTargets = m_Flight.FindAction("CycleTargets", throwIfNotFound: true);
+        m_Flight_MissileButton = m_Flight.FindAction("MissileButton", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_EscapeButton = m_Menu.FindAction("Escape Button", throwIfNotFound: true);
@@ -482,6 +522,8 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Flight_AimGun;
     private readonly InputAction m_Flight_CameraChange;
     private readonly InputAction m_Flight_ChangeTargetMode;
+    private readonly InputAction m_Flight_CycleTargets;
+    private readonly InputAction m_Flight_MissileButton;
     public struct FlightActions
     {
         private @ControlInputActions m_Wrapper;
@@ -495,6 +537,8 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
         public InputAction @AimGun => m_Wrapper.m_Flight_AimGun;
         public InputAction @CameraChange => m_Wrapper.m_Flight_CameraChange;
         public InputAction @ChangeTargetMode => m_Wrapper.m_Flight_ChangeTargetMode;
+        public InputAction @CycleTargets => m_Wrapper.m_Flight_CycleTargets;
+        public InputAction @MissileButton => m_Wrapper.m_Flight_MissileButton;
         public InputActionMap Get() { return m_Wrapper.m_Flight; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -531,6 +575,12 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 @ChangeTargetMode.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnChangeTargetMode;
                 @ChangeTargetMode.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnChangeTargetMode;
                 @ChangeTargetMode.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnChangeTargetMode;
+                @CycleTargets.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnCycleTargets;
+                @CycleTargets.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnCycleTargets;
+                @CycleTargets.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnCycleTargets;
+                @MissileButton.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnMissileButton;
+                @MissileButton.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnMissileButton;
+                @MissileButton.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnMissileButton;
             }
             m_Wrapper.m_FlightActionsCallbackInterface = instance;
             if (instance != null)
@@ -562,6 +612,12 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 @ChangeTargetMode.started += instance.OnChangeTargetMode;
                 @ChangeTargetMode.performed += instance.OnChangeTargetMode;
                 @ChangeTargetMode.canceled += instance.OnChangeTargetMode;
+                @CycleTargets.started += instance.OnCycleTargets;
+                @CycleTargets.performed += instance.OnCycleTargets;
+                @CycleTargets.canceled += instance.OnCycleTargets;
+                @MissileButton.started += instance.OnMissileButton;
+                @MissileButton.performed += instance.OnMissileButton;
+                @MissileButton.canceled += instance.OnMissileButton;
             }
         }
     }
@@ -619,6 +675,8 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
         void OnAimGun(InputAction.CallbackContext context);
         void OnCameraChange(InputAction.CallbackContext context);
         void OnChangeTargetMode(InputAction.CallbackContext context);
+        void OnCycleTargets(InputAction.CallbackContext context);
+        void OnMissileButton(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {

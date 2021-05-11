@@ -26,10 +26,9 @@ public class SpacecraftController : MonoBehaviour, ControlInputActions.IFlightAc
     private float thrustInput, yawInput, brakeInput;
     private Vector2 torqueInput, cameraInput, cursorInputPosition;
     //Utility Inputs
-    private bool gunIsFiring = false;
+    private bool gunInput = false, missileInput = false;
     private Rigidbody _rb;
     private ControlInputActions _controls;
-    public MeshCollider fovRange;
 
     //Input System Setup-----------------------------------------------
     private void Awake(){
@@ -60,7 +59,14 @@ public class SpacecraftController : MonoBehaviour, ControlInputActions.IFlightAc
     
     public void OnMenuButton(InputAction.CallbackContext context){}
     public void OnCameraChange(InputAction.CallbackContext context){
-        firstCam.SetActive(context.ReadValueAsButton());
+        if(firstCam.activeSelf == true){
+            firstCam.SetActive(false);
+            return;
+        }
+        if(firstCam.activeSelf == false){
+            firstCam.SetActive(true);
+            return;
+        }
     }
     public void OnBrake(InputAction.CallbackContext value){
         brakeInput = value.ReadValue<float>();
@@ -75,22 +81,32 @@ public class SpacecraftController : MonoBehaviour, ControlInputActions.IFlightAc
         yawInput = value.ReadValue<float>();
     }
     public void OnChangeTargetMode(InputAction.CallbackContext pressed){
-        if(pressed.ReadValueAsButton()){
-            weaponSystem.GenerateIndicators();
+        if(pressed.ReadValueAsButton() == true){
             weaponSystem.ChangeTargetMode();
         }
     }
-     public void OnAimGun(InputAction.CallbackContext position){
+    public void OnCycleTargets(InputAction.CallbackContext value)
+    {
+        var cycleValue = value.ReadValue<float>();
+        if(cycleValue > 0.5){
+            weaponSystem.CycleMainTarget();
+        }
+    }
+    public void OnAimGun(InputAction.CallbackContext position){
         cursorInputPosition = position.ReadValue<Vector2>();
     }
     public void OnGunFire(InputAction.CallbackContext pressed){
-        gunIsFiring = pressed.ReadValueAsButton();
+        gunInput = pressed.ReadValueAsButton();
+    }
+    public void OnMissileButton(InputAction.CallbackContext pressed){
+        missileInput = pressed.ReadValueAsButton();
     }
     //Player is controlled-----------------------------------------------
     private void FixedUpdate() {
         ThrustControl();
         TorqueControl();
-        weaponSystem.GunControl(cursorInputPosition, gunIsFiring, currentSpeed);
+        weaponSystem.GunControl(cursorInputPosition, gunInput, currentSpeed);
+        weaponSystem.MissileControl(missileInput, currentSpeed);
 
         _rb.AddRelativeForce(0,0,currentSpeed.value);
 
