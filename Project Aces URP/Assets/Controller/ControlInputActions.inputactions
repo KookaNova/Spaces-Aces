@@ -67,12 +67,28 @@
                     "id": "d9730d32-a327-48b3-9fc7-316b4c39a803",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press(behavior=2)"
+                    "interactions": "Press"
                 },
                 {
                     "name": "ChangeTargetMode",
                     "type": "Button",
                     "id": "d252cb79-d319-4f5e-9a1d-3b1ed2e5ba59",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "CycleTargets",
+                    "type": "Value",
+                    "id": "4f705ef8-9272-42d1-80eb-76a198b91983",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "MissileButton",
+                    "type": "Button",
+                    "id": "831ca93d-ed42-46b1-b749-770b1ee0df39",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -340,6 +356,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "ChangeTargetMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d66734c8-df53-47a7-a5a0-f07da6adda87",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CycleTargets",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "774d2f15-15cd-4d5e-9a05-6fec8726617d",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MissileButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

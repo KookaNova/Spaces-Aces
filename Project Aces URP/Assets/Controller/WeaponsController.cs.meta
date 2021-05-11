@@ -3,7 +3,14 @@ guid: f486ab1dfcc4a4541916dcd63287380f
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - hud: {instanceID: 0}
+  - aimReticle: {instanceID: 0}
+  - objectIndicator: {fileID: 2623960372376544828, guid: ddf0deb313decfa4789d5ce2e07ac2b2, type: 3}
+  - lockIndicator: {fileID: 2623960372376544828, guid: dabc930b0a53d7e489d78b1b72850e49, type: 3}
+  - textTargetMode: {instanceID: 0}
+  - ammoType: {fileID: 4155647956408176716, guid: 5a3f45eeaedaf44489399eba23b11ac8, type: 3}
+  - missileType: {fileID: 6200246160423643314, guid: fbe558d5ded7c6444990f035946dd5e0, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -19,7 +19,7 @@ public class AIBehaviour : MonoBehaviour
     }
 
     private IEnumerator DecisionTime(){
-        float randTime = Random.Range(5,15);
+        float randTime = Random.Range(2,15);
         yield return new WaitForSeconds(randTime);
         randRot = Random.rotation;
         StartCoroutine(DecisionTime());
@@ -45,8 +45,8 @@ public class AIBehaviour : MonoBehaviour
 
     private void FixedUpdate() {
 
-        transform.rotation = randRot;
-        _rb.AddRelativeForce(0,0,170);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, randRot, 100 * Time.deltaTime);
+        _rb.AddRelativeForce(0,0,270);
         
     }
 }
