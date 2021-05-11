@@ -163,8 +163,7 @@ public class WeaponsController : MonoBehaviour
         }
         if(currentTargetSelection.Count >= 1){
         if(currentTargetSelection[0] == null)return;
-            Debug.DrawLine(transform.position, currentTargetSelection[0].transform.position, Color.red);
-        if(Physics.Raycast(transform.position,currentTargetSelection[0].transform.position, lockOnRange)){
+        if(Physics.Raycast(transform.position,currentTargetSelection[0].transform.position, lockOnRange) == currentTargetSelection[0]){
             isTargetVisible = true;
             StartCoroutine(LockOn());
             //target is visible
