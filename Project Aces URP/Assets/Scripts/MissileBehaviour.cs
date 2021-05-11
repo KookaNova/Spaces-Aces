@@ -9,15 +9,13 @@ public class MissileBehaviour : MonoBehaviour
     public GameObject explosion, ignoredObj;
     public Transform target = null;
     private Rigidbody _rb;
-    private Collider _col, _trig;
+    private Collider _col;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _col = GetComponent<Collider>();
         _col.enabled = false;
-        _trig = GetComponent<SphereCollider>();
-        _trig.enabled = false;
         _rb.AddRelativeForce(0,0,currentSpeed + 300, ForceMode.VelocityChange);
 
         StartCoroutine(Missile());
@@ -43,23 +41,24 @@ public class MissileBehaviour : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider obj)
     {
-        seeking = closeSeeking;
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        seeking = 0;
+        if(target == null)return;
+        if(obj.gameObject == target.gameObject){
+            seeking = closeSeeking;
+            missileSpeed = missileSpeed + 400;
+            StartCoroutine(LockBreak());
+        }
     }
 
     private IEnumerator WakeCollider(){
         yield return new WaitForSeconds(.25f);
         _col.enabled = true;
     }
-    private IEnumerator WakeTrigger(){
-        yield return new WaitForSeconds(1f);
-        _trig.enabled = true;
+
+    private IEnumerator LockBreak(){
+        yield return new WaitForSeconds(.75f);
+        target = null;
     }
 
     private IEnumerator Missile()
