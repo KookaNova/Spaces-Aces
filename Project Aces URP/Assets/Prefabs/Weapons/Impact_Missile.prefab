@@ -199,7 +199,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 8
+  m_Time: 3
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 3
@@ -229,7 +229,7 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.9995334, g: 1, b: 0.35283017, a: 1}
+      key0: {r: 1, g: 0.35294116, b: 0.41666242, a: 1}
       key1: {r: 1, g: 1, b: 1, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
@@ -366,9 +366,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyTime: 10
-  missileSpeed: 600
-  seeking: 3
-  closeSeeking: 6
+  missileSpeed: 800
+  seeking: 10
+  closeSeeking: 25
   currentSpeed: 0
   explosion: {fileID: 9128587892432602950, guid: e59c9a8b5999cdb4ab01f2f08b1d25b3, type: 3}
   ignoredObj: {fileID: 0}
@@ -411,9 +411,9 @@ SphereCollider:
   m_GameObject: {fileID: 6200246160423643314}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 50
+  m_Radius: 75
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6287389487724851637
 GameObject:
