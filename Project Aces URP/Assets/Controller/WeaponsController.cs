@@ -66,11 +66,21 @@ public class WeaponsController : MonoBehaviour
         }
         textTargetMode.text = ("Targeting Mode: " + targMode.ToString());
 
+        for (int i = 0; i < alltargetList.Count; i++){
+            if(alltargetList[i].GetComponent<TargetableObject>().targetTeam.ToString() == targMode.ToString()){
+                currentTargetSelection.Add(alltargetList[i]);
+            }
+            if(alltargetList[i].GetComponent<TargetableObject>().targetTeam.ToString() != targMode.ToString()){
+                currentTargetSelection.Remove(alltargetList[i]);
+            }
+        }
+
         GenerateIndicators();
     }
 
     private void OnTriggerEnter(Collider obj) {
         if(obj.gameObject.GetComponent<TargetableObject>() != null){
+            if(currentTargetSelection.Contains(obj.gameObject))return;
             if(alltargetList.Contains(obj.gameObject)){
                 currentTargetSelection.Add(obj.gameObject);
                 GenerateIndicators();
@@ -130,13 +140,20 @@ public class WeaponsController : MonoBehaviour
         isTargetVisible = false;
         missileLocked = false;
         var previousTarg = currentTargetSelection[0];
-        currentTargetSelection.RemoveAt(0);
-        currentTargetSelection.Add(previousTarg);
+        int lastIndex = currentTargetSelection.Count - 1;
+        currentTargetSelection.Remove(previousTarg);
+        currentTargetSelection.Insert(lastIndex ,previousTarg);
         lockIndicator.transform.position = new Vector3(-10000,-10000,0);
     }
 
     private void PositionLockIndicator(){
         if(currentTargetSelection.Count <= 0){
+            lockIndicator.SetActive(false);
+            isTargetVisible = false;
+            return;
+        }
+        if(isTargetVisible == false){
+            lockIndicator.transform.position = Vector3.zero;
             lockIndicator.SetActive(false);
             return;
         }
@@ -144,14 +161,10 @@ public class WeaponsController : MonoBehaviour
             Vector3 obj = Camera.main.WorldToScreenPoint(currentTargetSelection[0].transform.position);
             Vector3 slowMove = Vector3.MoveTowards(lockIndicator.transform.position, obj, lockOnEfficiency * 5f);
             lockIndicator.transform.position = new Vector3(slowMove.x, slowMove.y, slowMove.z / 5);
-            if(missileLocked == true){
+            if(missileLocked == true && currentTargetSelection.Count > 0){
                 Vector3 fastMove = Vector3.MoveTowards(lockIndicator.transform.position, obj, lockOnEfficiency * 100f);
                 lockIndicator.transform.position = new Vector3(fastMove.x, fastMove.y, fastMove.z / 5);
             }
-        }
-        if(isTargetVisible == false){
-            lockIndicator.transform.position = Vector3.zero;
-            lockIndicator.SetActive(false);
         }
         
     }
@@ -161,20 +174,25 @@ public class WeaponsController : MonoBehaviour
             missileLocked = false;
             return;
         }
-        if(currentTargetSelection.Count >= 1){
-        if(currentTargetSelection[0] == null)return;
-        if(Physics.Raycast(transform.position,currentTargetSelection[0].transform.position, lockOnRange) == currentTargetSelection[0]){
-            isTargetVisible = true;
-            StartCoroutine(LockOn());
-            //target is visible
-        }
-        else{
-            isTargetVisible = false;
-            missileLocked = false;
-            StopCoroutine(LockOn());
-            lockIndicator.SetActive(false);
-            //target is not visible
-        }
+            RaycastHit hit;
+            Vector3 dir = currentTargetSelection[0].transform.position - transform.position;
+            Vector3 offset = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+            Debug.DrawRay(offset, dir, Color.yellow);
+            if(Physics.SphereCast(offset, 1, dir, out hit, lockOnRange)){
+                print(hit.collider.gameObject.name);
+                Debug.DrawRay(offset, dir, Color.red);
+                isTargetVisible = true;
+                StartCoroutine(LockOn());
+                //target is visible
+            }
+            else{
+                print("Cancel Lock");
+                isTargetVisible = false;
+                missileLocked = false;
+                //CycleMainTarget();
+                StopCoroutine(LockOn());
+                lockIndicator.SetActive(false);
+                //target is not visible
         }
     }
     private IEnumerator LockOn(){
@@ -183,10 +201,13 @@ public class WeaponsController : MonoBehaviour
         missileLocked = true;
     }
 
-    private void Update() {
+    private void FixedUpdate(){
+        DrawLockRay();
+    }
+
+    private void LateUpdate() {
         PositionIndicators();
         PositionLockIndicator();
-        DrawLockRay();
     }
 
     public void GunControl(Vector2 cursorInputPosition, bool gunInput, FloatData currentSpeed){
