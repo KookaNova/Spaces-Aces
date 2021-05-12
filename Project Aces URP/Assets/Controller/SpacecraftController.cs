@@ -20,8 +20,7 @@ public class SpacecraftController : MonoBehaviour, ControlInputActions.IFlightAc
         maxSpeed = 200,
         roll = 5, 
         pitch = 7, 
-        yaw = 3,
-        lockDistance = 3000;
+        yaw = 3;
     //player inputs 
     private float thrustInput, yawInput, brakeInput;
     private Vector2 torqueInput, cameraInput, cursorInputPosition;
