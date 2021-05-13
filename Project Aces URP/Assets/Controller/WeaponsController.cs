@@ -177,10 +177,9 @@ public class WeaponsController : MonoBehaviour
             RaycastHit hit;
             Vector3 dir = currentTargetSelection[0].transform.position - transform.position;
             Vector3 offset = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-            Debug.DrawRay(offset, dir, Color.yellow);
             if(Physics.SphereCast(offset, 1, dir, out hit, lockOnRange)){
+                if(hit.collider.gameObject != currentTargetSelection[0].gameObject)return;
                 print(hit.collider.gameObject.name);
-                Debug.DrawRay(offset, dir, Color.red);
                 isTargetVisible = true;
                 StartCoroutine(LockOn());
                 //target is visible

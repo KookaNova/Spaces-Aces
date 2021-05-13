@@ -37,7 +37,6 @@ public class MissileBehaviour : MonoBehaviour
     private void OnCollisionEnter()
     {
         Instantiate(explosion, transform.position, Quaternion.identity);
-        print("boom");
         Destroy(gameObject);
     }
 
@@ -46,7 +45,7 @@ public class MissileBehaviour : MonoBehaviour
         if(target == null)return;
         if(obj.gameObject == target.gameObject){
             seeking = closeSeeking;
-            missileSpeed = missileSpeed + 400;
+            missileSpeed = missileSpeed - 300;
             StartCoroutine(LockBreak());
         }
     }
@@ -57,7 +56,7 @@ public class MissileBehaviour : MonoBehaviour
     }
 
     private IEnumerator LockBreak(){
-        yield return new WaitForSeconds(.75f);
+        yield return new WaitForSeconds(.25f);
         target = null;
     }
 
