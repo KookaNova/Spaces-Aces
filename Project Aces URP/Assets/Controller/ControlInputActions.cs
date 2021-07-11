@@ -129,6 +129,14 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""StickMouseOverride"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""b43eafe0-6452-4c98-95ba-3e12b1fe2f1d"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -354,19 +362,19 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""fe3afac4-0ebd-4f3e-bceb-0202c4962cdc"",
-                    ""path"": ""<Mouse>/position"",
+                    ""id"": ""2b6cfe15-38b0-4cca-944a-8c69c06a7a5f"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Aim Gun"",
+                    ""action"": ""Gun Fire"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""db551c3e-7d6d-4946-a50d-7cd523d3fcb4"",
-                    ""path"": ""<Joystick>/stick"",
+                    ""id"": ""fe3afac4-0ebd-4f3e-bceb-0202c4962cdc"",
+                    ""path"": ""<Mouse>/position"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -387,8 +395,30 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""732e4333-0e93-479c-9ebe-9dad4be63849"",
+                    ""path"": ""<Gamepad>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CameraChange"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""ef3ad97a-be8d-4247-b6d2-7c015cbce6cb"",
                     ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeTargetMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""000042f7-a2da-489a-af15-ec83ed111368"",
+                    ""path"": ""<Gamepad>/dpad/down"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -409,8 +439,30 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""08a21d43-6bae-486f-b319-381eb408864f"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CycleTargets"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""774d2f15-15cd-4d5e-9a05-6fec8726617d"",
                     ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MissileButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a46efc90-0aab-47af-8538-84afa8e2ec91"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -431,8 +483,30 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""1d9e94c8-e688-474a-9fb1-9c1e5ae455bd"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Primary Ability"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""3bb4b7a1-272f-4b7a-b50c-603692a7a8b4"",
                     ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Secondary Ability"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7709b204-7d8f-4bd8-b050-9058c440e19c"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -448,6 +522,50 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Ace Ability"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Button With One Modifier"",
+                    ""id"": ""2d035d27-a511-409d-8f59-1ccc7789a77a"",
+                    ""path"": ""ButtonWithOneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Ace Ability"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""40d218b7-faaa-44cb-bf74-e4827b01e05e"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Ace Ability"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""button"",
+                    ""id"": ""79d6947c-9108-46fb-8716-1a8f54ab183b"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Ace Ability"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0a6de934-effa-4992-a769-e612fcfa262b"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": ""ScaleVector2(x=3,y=3)"",
+                    ""groups"": """",
+                    ""action"": ""StickMouseOverride"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -521,6 +639,7 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
         m_Flight_PrimaryAbility = m_Flight.FindAction("Primary Ability", throwIfNotFound: true);
         m_Flight_SecondaryAbility = m_Flight.FindAction("Secondary Ability", throwIfNotFound: true);
         m_Flight_AceAbility = m_Flight.FindAction("Ace Ability", throwIfNotFound: true);
+        m_Flight_StickMouseOverride = m_Flight.FindAction("StickMouseOverride", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_EscapeButton = m_Menu.FindAction("Escape Button", throwIfNotFound: true);
@@ -587,6 +706,7 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Flight_PrimaryAbility;
     private readonly InputAction m_Flight_SecondaryAbility;
     private readonly InputAction m_Flight_AceAbility;
+    private readonly InputAction m_Flight_StickMouseOverride;
     public struct FlightActions
     {
         private @ControlInputActions m_Wrapper;
@@ -605,6 +725,7 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
         public InputAction @PrimaryAbility => m_Wrapper.m_Flight_PrimaryAbility;
         public InputAction @SecondaryAbility => m_Wrapper.m_Flight_SecondaryAbility;
         public InputAction @AceAbility => m_Wrapper.m_Flight_AceAbility;
+        public InputAction @StickMouseOverride => m_Wrapper.m_Flight_StickMouseOverride;
         public InputActionMap Get() { return m_Wrapper.m_Flight; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -656,6 +777,9 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 @AceAbility.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnAceAbility;
                 @AceAbility.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnAceAbility;
                 @AceAbility.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnAceAbility;
+                @StickMouseOverride.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnStickMouseOverride;
+                @StickMouseOverride.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnStickMouseOverride;
+                @StickMouseOverride.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnStickMouseOverride;
             }
             m_Wrapper.m_FlightActionsCallbackInterface = instance;
             if (instance != null)
@@ -702,6 +826,9 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 @AceAbility.started += instance.OnAceAbility;
                 @AceAbility.performed += instance.OnAceAbility;
                 @AceAbility.canceled += instance.OnAceAbility;
+                @StickMouseOverride.started += instance.OnStickMouseOverride;
+                @StickMouseOverride.performed += instance.OnStickMouseOverride;
+                @StickMouseOverride.canceled += instance.OnStickMouseOverride;
             }
         }
     }
@@ -764,6 +891,7 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
         void OnPrimaryAbility(InputAction.CallbackContext context);
         void OnSecondaryAbility(InputAction.CallbackContext context);
         void OnAceAbility(InputAction.CallbackContext context);
+        void OnStickMouseOverride(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {

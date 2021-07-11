@@ -110,6 +110,10 @@ public class SpacecraftController : MonoBehaviour, ControlInputActions.IFlightAc
     public void OnAimGun(InputAction.CallbackContext position){
         cursorInputPosition = position.ReadValue<Vector2>();
     }
+    public void OnStickMouseOverride(InputAction.CallbackContext stickInput)
+    {
+        cursorInputPosition = cursorInputPosition + stickInput.ReadValue<Vector2>();
+    }
     public void OnGunFire(InputAction.CallbackContext pressed){
         gunInput = pressed.ReadValueAsButton();
     }
