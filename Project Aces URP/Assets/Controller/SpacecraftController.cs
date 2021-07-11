@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -8,7 +8,8 @@ public class SpacecraftController : MonoBehaviour, ControlInputActions.IFlightAc
 {
     [Header("Spacecraft Objects")]
     public WeaponsController weaponSystem;
-    public GameObject firstCam, shipObject, explosionObject, gunAmmoObject, missileObject, lockIndicator;
+    public CharacterHandler chosenCharacter;
+    public GameObject firstCam, shipObject, avatarUI, explosionObject, gunAmmoObject, missileObject, lockIndicator;
     public Canvas hudCanvas;
     
 
@@ -24,8 +25,13 @@ public class SpacecraftController : MonoBehaviour, ControlInputActions.IFlightAc
     //player inputs 
     private float thrustInput, yawInput, brakeInput;
     private Vector2 torqueInput, cameraInput, cursorInputPosition;
+    private AbilityHandler passiveAbility, primaryAbility, secondaryAbility, aceAbility;
     //Utility Inputs
-    private bool gunInput = false, missileInput = false;
+    private bool gunInput = false, 
+        missileInput = false,
+        canUsePrimary = true,
+        canUseSecondary = true,
+        canUseAce = false;
     private Rigidbody _rb;
     private ControlInputActions _controls;
 
@@ -33,6 +39,16 @@ public class SpacecraftController : MonoBehaviour, ControlInputActions.IFlightAc
     private void Awake(){
         _rb = GetComponent<Rigidbody>();
         weaponSystem = GetComponentInChildren<WeaponsController>();
+        avatarUI.GetComponent<Image>().sprite = chosenCharacter.avatar;
+
+        for (int i = 0; i < chosenCharacter.abilities.Count; i++){
+            chosenCharacter.abilities[i].player = gameObject;
+        }
+        
+        passiveAbility = chosenCharacter.abilities[0];
+        primaryAbility = chosenCharacter.abilities[1];
+        secondaryAbility = chosenCharacter.abilities[2];
+        aceAbility = chosenCharacter.abilities[3];
     }
     private void OnEnable() {
         _controls = new ControlInputActions();
@@ -126,5 +142,55 @@ public class SpacecraftController : MonoBehaviour, ControlInputActions.IFlightAc
          var highspeedhandling = currentSpeed.value/maxSpeed + 1;
         Vector3 torqueForce  = new Vector3((torqueInput.y * pitch) / highspeedhandling, yawInput * yaw, (torqueInput.x * roll) / highspeedhandling);
         _rb.AddRelativeTorque(torqueForce);
+    }
+
+    //Character Abilities
+    public void OnPrimaryAbility(InputAction.CallbackContext context)
+    {
+        if(canUsePrimary){
+            canUsePrimary = false;
+            print("Ability Unavailable");
+            primaryAbility.player = gameObject;
+            StartCoroutine(DelayedAbility(primaryAbility, primaryAbility.startUpTime));
+            StartCoroutine(CooldownTimer(primaryAbility.cooldownTime, "Primary"));
+        }
+        
+        //use ability start up time to delay start
+
+
+        
+    }
+
+    public void OnSecondaryAbility(InputAction.CallbackContext context)
+    {
+
+    }
+
+    public void OnAceAbility(InputAction.CallbackContext context)
+    {
+
+    }
+
+    public IEnumerator DelayedAbility(AbilityHandler ability, float startUpTime){
+        Instantiate(ability.startUpParticle, gameObject.transform);
+        yield return new WaitForSeconds(startUpTime);
+        Instantiate(ability);
+
+    }
+
+    public IEnumerator CooldownTimer(float cooldown, string abilityType){
+        yield return new WaitForSeconds(cooldown);
+
+        if(abilityType == "Primary"){
+            canUsePrimary = true;
+        }
+        if(abilityType == "Secondary"){
+            canUseSecondary = true;
+        }
+        if(abilityType == "Ace"){
+            canUseAce = true;
+        }
+        print("Ability Available");
+
     }
 }

@@ -92,6 +92,30 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Primary Ability",
+                    "type": "Button",
+                    "id": "c794cb57-8f84-4362-88e9-d22889c3201c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Secondary Ability",
+                    "type": "Button",
+                    "id": "d2f5022b-a86b-448b-9422-99bd9d1fccd8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Ace Ability",
+                    "type": "Button",
+                    "id": "4003d615-b0dd-4507-a7a0-4954a08fdef2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -378,6 +402,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "MissileButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "89f395f1-8c0d-485c-ab2a-02e43613c4e4",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Primary Ability",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3bb4b7a1-272f-4b7a-b50c-603692a7a8b4",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Secondary Ability",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "39436436-6d52-447f-94ec-b6e144152dd6",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Ace Ability",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
