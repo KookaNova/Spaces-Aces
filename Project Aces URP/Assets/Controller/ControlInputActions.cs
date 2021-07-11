@@ -105,6 +105,30 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Primary Ability"",
+                    ""type"": ""Button"",
+                    ""id"": ""c794cb57-8f84-4362-88e9-d22889c3201c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Secondary Ability"",
+                    ""type"": ""Button"",
+                    ""id"": ""d2f5022b-a86b-448b-9422-99bd9d1fccd8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Ace Ability"",
+                    ""type"": ""Button"",
+                    ""id"": ""4003d615-b0dd-4507-a7a0-4954a08fdef2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -393,6 +417,39 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                     ""action"": ""MissileButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""89f395f1-8c0d-485c-ab2a-02e43613c4e4"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Primary Ability"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3bb4b7a1-272f-4b7a-b50c-603692a7a8b4"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Secondary Ability"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""39436436-6d52-447f-94ec-b6e144152dd6"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Ace Ability"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -461,6 +518,9 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
         m_Flight_ChangeTargetMode = m_Flight.FindAction("ChangeTargetMode", throwIfNotFound: true);
         m_Flight_CycleTargets = m_Flight.FindAction("CycleTargets", throwIfNotFound: true);
         m_Flight_MissileButton = m_Flight.FindAction("MissileButton", throwIfNotFound: true);
+        m_Flight_PrimaryAbility = m_Flight.FindAction("Primary Ability", throwIfNotFound: true);
+        m_Flight_SecondaryAbility = m_Flight.FindAction("Secondary Ability", throwIfNotFound: true);
+        m_Flight_AceAbility = m_Flight.FindAction("Ace Ability", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_EscapeButton = m_Menu.FindAction("Escape Button", throwIfNotFound: true);
@@ -524,6 +584,9 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Flight_ChangeTargetMode;
     private readonly InputAction m_Flight_CycleTargets;
     private readonly InputAction m_Flight_MissileButton;
+    private readonly InputAction m_Flight_PrimaryAbility;
+    private readonly InputAction m_Flight_SecondaryAbility;
+    private readonly InputAction m_Flight_AceAbility;
     public struct FlightActions
     {
         private @ControlInputActions m_Wrapper;
@@ -539,6 +602,9 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
         public InputAction @ChangeTargetMode => m_Wrapper.m_Flight_ChangeTargetMode;
         public InputAction @CycleTargets => m_Wrapper.m_Flight_CycleTargets;
         public InputAction @MissileButton => m_Wrapper.m_Flight_MissileButton;
+        public InputAction @PrimaryAbility => m_Wrapper.m_Flight_PrimaryAbility;
+        public InputAction @SecondaryAbility => m_Wrapper.m_Flight_SecondaryAbility;
+        public InputAction @AceAbility => m_Wrapper.m_Flight_AceAbility;
         public InputActionMap Get() { return m_Wrapper.m_Flight; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -581,6 +647,15 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 @MissileButton.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnMissileButton;
                 @MissileButton.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnMissileButton;
                 @MissileButton.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnMissileButton;
+                @PrimaryAbility.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnPrimaryAbility;
+                @PrimaryAbility.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnPrimaryAbility;
+                @PrimaryAbility.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnPrimaryAbility;
+                @SecondaryAbility.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnSecondaryAbility;
+                @SecondaryAbility.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnSecondaryAbility;
+                @SecondaryAbility.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnSecondaryAbility;
+                @AceAbility.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnAceAbility;
+                @AceAbility.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnAceAbility;
+                @AceAbility.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnAceAbility;
             }
             m_Wrapper.m_FlightActionsCallbackInterface = instance;
             if (instance != null)
@@ -618,6 +693,15 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 @MissileButton.started += instance.OnMissileButton;
                 @MissileButton.performed += instance.OnMissileButton;
                 @MissileButton.canceled += instance.OnMissileButton;
+                @PrimaryAbility.started += instance.OnPrimaryAbility;
+                @PrimaryAbility.performed += instance.OnPrimaryAbility;
+                @PrimaryAbility.canceled += instance.OnPrimaryAbility;
+                @SecondaryAbility.started += instance.OnSecondaryAbility;
+                @SecondaryAbility.performed += instance.OnSecondaryAbility;
+                @SecondaryAbility.canceled += instance.OnSecondaryAbility;
+                @AceAbility.started += instance.OnAceAbility;
+                @AceAbility.performed += instance.OnAceAbility;
+                @AceAbility.canceled += instance.OnAceAbility;
             }
         }
     }
@@ -677,6 +761,9 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
         void OnChangeTargetMode(InputAction.CallbackContext context);
         void OnCycleTargets(InputAction.CallbackContext context);
         void OnMissileButton(InputAction.CallbackContext context);
+        void OnPrimaryAbility(InputAction.CallbackContext context);
+        void OnSecondaryAbility(InputAction.CallbackContext context);
+        void OnAceAbility(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {
