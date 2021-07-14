@@ -366,7 +366,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destroyTime: 10
   missileSpeed: 800
-  seeking: 10
+  seeking: 8
   currentSpeed: 0
   explosion: {fileID: 9128587892432602950, guid: e59c9a8b5999cdb4ab01f2f08b1d25b3, type: 3}
   ignoredObj: {fileID: 0}
