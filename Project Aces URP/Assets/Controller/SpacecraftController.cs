@@ -62,7 +62,6 @@ public class SpacecraftController : MonoBehaviour, ControlInputActions.IFlightAc
     //Collision---------------------------------------------------------
     private void OnCollisionEnter(Collision collision) {
         if(collision.gameObject.layer == LayerMask.NameToLayer("Crash Hazard") || collision.gameObject.layer == LayerMask.NameToLayer("Enemy Player")){
-            print("crash");
 
            var deathLocation = transform.position;
            Object.Instantiate(explosionObject, deathLocation, transform.rotation);
@@ -153,7 +152,6 @@ public class SpacecraftController : MonoBehaviour, ControlInputActions.IFlightAc
     {
         if(canUsePrimary){
             canUsePrimary = false;
-            print("Ability Unavailable");
             primaryAbility.player = gameObject;
             StartCoroutine(DelayedAbility(primaryAbility, primaryAbility.startUpTime));
             StartCoroutine(CooldownTimer(primaryAbility.cooldownTime, "Primary"));
@@ -194,7 +192,6 @@ public class SpacecraftController : MonoBehaviour, ControlInputActions.IFlightAc
         if(abilityType == "Ace"){
             canUseAce = true;
         }
-        print("Ability Available");
 
     }
 }

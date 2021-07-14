@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2804309931156633429}
   - component: {fileID: 2322223047026071221}
   m_Layer: 14
-  m_Name: Audio (1)
+  m_Name: Audio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,7 +43,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: a7e3952c4a37b924795fbaa380c758fc, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.58
+  m_Volume: 0.15
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -279,7 +279,6 @@ GameObject:
   - component: {fileID: 6683049990132954161}
   - component: {fileID: 6228669630684057789}
   - component: {fileID: 3142369797070535101}
-  - component: {fileID: -76574234157296391}
   m_Layer: 14
   m_Name: Impact_Missile
   m_TagString: Untagged
@@ -368,7 +367,6 @@ MonoBehaviour:
   destroyTime: 10
   missileSpeed: 800
   seeking: 10
-  closeSeeking: 500
   currentSpeed: 0
   explosion: {fileID: 9128587892432602950, guid: e59c9a8b5999cdb4ab01f2f08b1d25b3, type: 3}
   ignoredObj: {fileID: 0}
@@ -382,11 +380,11 @@ Rigidbody:
   m_GameObject: {fileID: 6200246160423643314}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 1
-  m_AngularDrag: 25
+  m_Drag: 1.5
+  m_AngularDrag: 125
   m_UseGravity: 0
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
 --- !u!65 &3142369797070535101
@@ -400,21 +398,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 0.98374987, y: 0.98374987, z: 7.7421255}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!135 &-76574234157296391
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6200246160423643314}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 100
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 2.5, y: 2.5, z: 3.1377811}
+  m_Center: {x: 0, y: 0, z: -2.3021722}
 --- !u!1 &6287389487724851637
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,7 +411,7 @@ GameObject:
   - component: {fileID: 5495636831417587992}
   - component: {fileID: 2091421186943573056}
   m_Layer: 14
-  m_Name: Audio
+  m_Name: Audio Treavel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -458,7 +443,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: a6363a45b86d7a04d9eb3f0df13e989f, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.57
+  m_Volume: 0.17
   m_Pitch: 1
   Loop: 1
   Mute: 0

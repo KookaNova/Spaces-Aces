@@ -179,13 +179,11 @@ public class WeaponsController : MonoBehaviour
             Vector3 offset = new Vector3(transform.position.x, transform.position.y, transform.position.z);
             if(Physics.SphereCast(offset, 1, dir, out hit, lockOnRange)){
                 if(hit.collider.gameObject != currentTargetSelection[0].gameObject)return;
-                print(hit.collider.gameObject.name);
                 isTargetVisible = true;
                 StartCoroutine(LockOn());
                 //target is visible
             }
             else{
-                print("Cancel Lock");
                 isTargetVisible = false;
                 missileLocked = false;
                 //CycleMainTarget();
@@ -269,7 +267,7 @@ public class WeaponsController : MonoBehaviour
 
 
         if(missileLocked == true){
-            m.gameObject.GetComponent<MissileBehaviour>().target = currentTargetSelection[0].transform;
+            m.gameObject.GetComponent<MissileBehaviour>().target = currentTargetSelection[0];
         }
 
         yield return new WaitForSeconds(.5f);
