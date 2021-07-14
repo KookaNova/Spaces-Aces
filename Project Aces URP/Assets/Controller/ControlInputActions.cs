@@ -84,9 +84,9 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""ChangeTargetMode"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""d252cb79-d319-4f5e-9a1d-3b1ed2e5ba59"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""DiscreteButton"",
                     ""processors"": """",
                     ""interactions"": """"
                 },

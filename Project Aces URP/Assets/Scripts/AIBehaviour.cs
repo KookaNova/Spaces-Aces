@@ -6,6 +6,7 @@ using UnityEngine;
 public class AIBehaviour : MonoBehaviour
 {
     public GameObject explosionObject;  
+    public bool isAwaitingRespawn;
     private Quaternion randRot = new Quaternion(0,0,0,0);
     private Rigidbody _rb;
 
@@ -32,14 +33,18 @@ public class AIBehaviour : MonoBehaviour
            var deathLocation = transform.position;
            Object.Instantiate(explosionObject, deathLocation, transform.rotation);
 
-           Destroy(gameObject);
+           isAwaitingRespawn = true;
+
+           gameObject.SetActive(false);
         }
         if(collision.gameObject.layer == LayerMask.NameToLayer("GunAmmo") || collision.gameObject.layer == LayerMask.NameToLayer("Missile")){
 
            var deathLocation = transform.position;
            Object.Instantiate(explosionObject, deathLocation, transform.rotation);
 
-           Destroy(gameObject);
+           isAwaitingRespawn = true;
+
+           gameObject.SetActive(false);
         }
     }
 

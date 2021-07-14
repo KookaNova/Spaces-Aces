@@ -38,7 +38,7 @@ public class WeaponsController : MonoBehaviour
 
     public AudioSource gunCannonAudio, missileCannonAudio;
 
-    private int currentTMode = 0, currentMis = 0;
+    private int currentMis = 0;
 
     private bool canFire = true, isTargetVisible = false, missileLocked = false, canLaunchMissile = true;
 
@@ -48,24 +48,17 @@ public class WeaponsController : MonoBehaviour
         gunCannonAudio = GetComponent<AudioSource>();
         GenerateIndicators();
     }
-    public void ChangeTargetMode(){
-
-        currentTMode += 1;
-
-        if(currentTMode > 2){
-            currentTMode = 0;
-        }
-        if(currentTMode == 0){
+    public void ChangeTargetMode(int input){
+        if(input == 0){
             targMode = TargetingMode.TeamA;
         }
-        if(currentTMode == 1){
+        if(input == 1){
             targMode = TargetingMode.TeamB;
         }
-        if(currentTMode == 2){
+        if(input == 2){
             targMode = TargetingMode.Global;
         }
         textTargetMode.text = ("Targeting Mode: " + targMode.ToString());
-
         for (int i = 0; i < alltargetList.Count; i++){
             if(alltargetList[i].GetComponent<TargetableObject>().targetTeam.ToString() == targMode.ToString()){
                 currentTargetSelection.Add(alltargetList[i]);
@@ -74,7 +67,7 @@ public class WeaponsController : MonoBehaviour
                 currentTargetSelection.Remove(alltargetList[i]);
             }
         }
-
+        if(alltargetList.Count > 0)
         GenerateIndicators();
     }
 
@@ -105,6 +98,7 @@ public class WeaponsController : MonoBehaviour
         }
         activeIndicators.Clear();
         for(int i = 0; i < currentTargetSelection.Count; i++){
+            if(currentTargetSelection[i].gameObject == null)return;
             TargetableObject potentialTarget = currentTargetSelection[i].GetComponent<TargetableObject>();
             if(potentialTarget.targetTeam.ToString() != targMode.ToString()){
                 currentTargetSelection.RemoveAt(i);
@@ -118,8 +112,9 @@ public class WeaponsController : MonoBehaviour
     }
 
     private void PositionIndicators(){
+        if(currentTargetSelection.Count <= 0)return;
         for (int i = 0; i < activeIndicators.Count; i++){
-            if(currentTargetSelection[i] == null){
+            if(currentTargetSelection[i] == null || currentTargetSelection[i].activeSelf == false){
                 currentTargetSelection.RemoveAt(i);
                 GenerateIndicators();
                 return;
@@ -140,9 +135,9 @@ public class WeaponsController : MonoBehaviour
         isTargetVisible = false;
         missileLocked = false;
         var previousTarg = currentTargetSelection[0];
-        int lastIndex = currentTargetSelection.Count - 1;
+        int lastIndex = currentTargetSelection.Count - 1 ;
         currentTargetSelection.Remove(previousTarg);
-        currentTargetSelection.Insert(lastIndex ,previousTarg);
+        currentTargetSelection.Insert(lastIndex, previousTarg);
         lockIndicator.transform.position = new Vector3(-10000,-10000,0);
     }
 
@@ -158,6 +153,7 @@ public class WeaponsController : MonoBehaviour
             return;
         }
         if(isTargetVisible == true){
+            if(currentTargetSelection[0] == null)return;
             Vector3 obj = Camera.main.WorldToScreenPoint(currentTargetSelection[0].transform.position);
             Vector3 slowMove = Vector3.MoveTowards(lockIndicator.transform.position, obj, lockOnEfficiency * 5f);
             lockIndicator.transform.position = new Vector3(slowMove.x, slowMove.y, slowMove.z / 5);
@@ -174,22 +170,23 @@ public class WeaponsController : MonoBehaviour
             missileLocked = false;
             return;
         }
-            RaycastHit hit;
-            Vector3 dir = currentTargetSelection[0].transform.position - transform.position;
-            Vector3 offset = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-            if(Physics.SphereCast(offset, 1, dir, out hit, lockOnRange)){
-                if(hit.collider.gameObject != currentTargetSelection[0].gameObject)return;
-                isTargetVisible = true;
-                StartCoroutine(LockOn());
-                //target is visible
-            }
-            else{
-                isTargetVisible = false;
-                missileLocked = false;
-                //CycleMainTarget();
-                StopCoroutine(LockOn());
-                lockIndicator.SetActive(false);
-                //target is not visible
+
+        RaycastHit hit;
+        Vector3 dir = currentTargetSelection[0].transform.position - transform.position;
+        Vector3 offset = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        if(Physics.SphereCast(offset, 1, dir, out hit, lockOnRange)){
+            if(hit.collider.gameObject != currentTargetSelection[0].gameObject)return;
+            isTargetVisible = true;
+            StartCoroutine(LockOn());
+            //target is visible
+        }
+        else{
+            isTargetVisible = false;
+            missileLocked = false;
+            //CycleMainTarget();
+            StopCoroutine(LockOn());
+            lockIndicator.SetActive(false);
+            //target is not visible
         }
     }
     private IEnumerator LockOn(){

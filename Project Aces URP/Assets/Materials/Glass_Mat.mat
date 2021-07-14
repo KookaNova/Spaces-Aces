@@ -36,6 +36,14 @@ Material:
         m_Texture: {fileID: 2800000, guid: a0b0adb75cf64c746af433dc6b084753, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - Scratch_Base_Color:
+        m_Texture: {fileID: 2800000, guid: 178aff6624bef9a488d20792b4ea2deb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Scratch_Normal:
+        m_Texture: {fileID: 2800000, guid: a0b0adb75cf64c746af433dc6b084753, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -65,9 +73,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Refraction: 0.009
-    - Scratch_Strength: 0.022
-    - Smoothness: 0.772
+    - Refraction: 0
+    - Scratch_Strength: 0
+    - Smoothness: 0.83
     - Transparency: 1
     - _AlphaClip: 0
     - _Blend: 0
@@ -91,8 +99,8 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Specular_Color: {r: 0.030331066, g: 0.08800858, b: 0.11320752, a: 1}
-    - Tint: {r: 0.017248124, g: 0.11522518, b: 0.16037738, a: 1}
+    - Specular_Color: {r: 0.25391597, g: 0.29443637, b: 0.4245283, a: 1}
+    - Tint: {r: 0.63584906, g: 0.6588479, b: 1, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
