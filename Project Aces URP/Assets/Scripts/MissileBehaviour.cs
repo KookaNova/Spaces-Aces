@@ -4,10 +4,10 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody), typeof(Collider))]
 public class MissileBehaviour : MonoBehaviour
 {
-    public int destroyTime = 10, missileSpeed = 650;
-    public float seeking = 3, closeSeeking = 1, currentSpeed;
+    public int destroyTime = 10, missileSpeed = 800;
+    public float seeking = 20, currentSpeed;
     public GameObject explosion, ignoredObj;
-    public Transform target = null;
+    public GameObject target = null;
     private Rigidbody _rb;
     private Collider _col;
 
@@ -16,7 +16,7 @@ public class MissileBehaviour : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         _col = GetComponent<Collider>();
         _col.enabled = false;
-        _rb.AddRelativeForce(0,0,currentSpeed + 300, ForceMode.VelocityChange);
+        _rb.AddRelativeForce(0,0,currentSpeed + 300, ForceMode.Impulse);
 
         StartCoroutine(Missile());
         StartCoroutine(WakeCollider());
@@ -24,15 +24,28 @@ public class MissileBehaviour : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (target != null)
+        RaycastHit hit;
+        
+        if(target != null)
         {
-            var toTarget = target.position - _rb.position;
+            if(Physics.SphereCast(gameObject.transform.position, 5, gameObject.transform.forward, out hit)){
+                if(hit.collider.gameObject != target.gameObject){
+                    target = null;
+                    return;
+                }
+            }
+            print(target);
+            var toTarget = target.transform.position - _rb.position;
             var targetRotation = Quaternion.LookRotation(toTarget);
             
             _rb.rotation = Quaternion.RotateTowards(_rb.rotation, targetRotation, seeking);
         }
+        else{
+            _rb.rotation = _rb.rotation;
+        }
         _rb.AddRelativeForce(0,0,missileSpeed, ForceMode.Acceleration);
     }
+
 
     private void OnCollisionEnter()
     {
@@ -40,31 +53,18 @@ public class MissileBehaviour : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void OnTriggerEnter(Collider obj)
-    {
-        if(target == null)return;
-        if(obj.gameObject == target.gameObject){
-            seeking = closeSeeking;
-            missileSpeed = missileSpeed - 300;
-            StartCoroutine(LockBreak());
-        }
-    }
 
     private IEnumerator WakeCollider(){
-        yield return new WaitForSeconds(.25f);
+        yield return new WaitForSeconds(.5f);
         _col.enabled = true;
-    }
-
-    private IEnumerator LockBreak(){
-        yield return new WaitForSeconds(.25f);
-        target = null;
+        
     }
 
     private IEnumerator Missile()
     {
         if (target != null)
         {
-            _rb.transform.LookAt(target);
+            _rb.transform.LookAt(target.transform);
         }
         yield return new WaitForSeconds(destroyTime); Destroy(gameObject);
 

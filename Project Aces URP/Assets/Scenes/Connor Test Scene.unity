@@ -4211,5 +4211,21 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 135
       objectReference: {fileID: 0}
+    - target: {fileID: 8772679910024869374, guid: 63d292368fef90c44914ab6eb3f874ea, type: 3}
+      propertyPath: gunSpeed
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 8772679910024869374, guid: 63d292368fef90c44914ab6eb3f874ea, type: 3}
+      propertyPath: fireRate
+      value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 8772679910024869374, guid: 63d292368fef90c44914ab6eb3f874ea, type: 3}
+      propertyPath: lockOnRange
+      value: 3000
+      objectReference: {fileID: 0}
+    - target: {fileID: 8772679910024869375, guid: 63d292368fef90c44914ab6eb3f874ea, type: 3}
+      propertyPath: m_Volume
+      value: 0.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63d292368fef90c44914ab6eb3f874ea, type: 3}
