@@ -17,7 +17,8 @@ public class WeaponsController : MonoBehaviour
     public Image aimReticle;
     public GameObject objectIndicator, lockIndicator;
     public TMPro.TextMeshProUGUI textTargetMode;
-    public List<GameObject> alltargetList, currentTargetSelection, activeIndicators;
+    public List<GameObject> activeIndicators;
+    public List<TargetableObject> allTargetList, currentTargetSelection;
 
     [Header("Gun Information")]
     public GameObject ammoType;
@@ -46,8 +47,44 @@ public class WeaponsController : MonoBehaviour
     private void OnEnable() {
         textTargetMode.text = ("Targeting Mode: " + targMode.ToString());
         gunCannonAudio = GetComponent<AudioSource>();
+        FindTargets();
+    }
+    private void LateUpdate() {
+        PositionIndicators();
+        DrawLockRay();
+        PositionLockIndicator();
+    }
+
+    //Targeting
+    private void FindTargets(){
+        allTargetList.Clear();
+        var targets = GameObject.FindObjectsOfType<TargetableObject>();
+        for (int i = 0; i < targets.Length; i++){
+            if(targets[i] != gameObject.GetComponentInParent<TargetableObject>()){
+                allTargetList.Add(targets[i]);
+            }
+        }
+        allTargetList.TrimExcess();
         GenerateIndicators();
     }
+    public void GenerateIndicators(){
+        for(int i = 0; i < activeIndicators.Count; i++){
+            Destroy(activeIndicators[i]);
+        }
+        activeIndicators.Clear();
+        activeIndicators.TrimExcess();
+        for(int i = 0; i < currentTargetSelection.Count; i++){
+            if(currentTargetSelection[i].targetTeam.ToString() != targMode.ToString()){
+                currentTargetSelection.RemoveAt(i);
+            }
+            if(currentTargetSelection[i].targetTeam.ToString() == targMode.ToString()){
+                var a = Instantiate(objectIndicator, hud.transform);
+                activeIndicators.Add(a);
+            }
+        }
+        currentTargetSelection.TrimExcess();
+    }
+
     public void ChangeTargetMode(int input){
         if(input == 0){
             targMode = TargetingMode.TeamA;
@@ -59,66 +96,38 @@ public class WeaponsController : MonoBehaviour
             targMode = TargetingMode.Global;
         }
         textTargetMode.text = ("Targeting Mode: " + targMode.ToString());
-        for (int i = 0; i < alltargetList.Count; i++){
-            if(alltargetList[i].GetComponent<TargetableObject>().targetTeam.ToString() == targMode.ToString()){
-                currentTargetSelection.Add(alltargetList[i]);
-            }
-            if(alltargetList[i].GetComponent<TargetableObject>().targetTeam.ToString() != targMode.ToString()){
-                currentTargetSelection.Remove(alltargetList[i]);
+        if(allTargetList.Count > 0)
+        currentTargetSelection.Clear();
+        for (int i = 0; i < allTargetList.Count; i++){
+            if(allTargetList[i].targetTeam.ToString() == targMode.ToString()){
+                currentTargetSelection.Add(allTargetList[i]);
             }
         }
-        if(alltargetList.Count > 0)
         GenerateIndicators();
     }
 
-    private void OnTriggerEnter(Collider obj) {
-        if(obj.gameObject.GetComponent<TargetableObject>() != null){
-            if(currentTargetSelection.Contains(obj.gameObject))return;
-            if(alltargetList.Contains(obj.gameObject)){
-                currentTargetSelection.Add(obj.gameObject);
-                GenerateIndicators();
-            }
-            else{
-                alltargetList.Add(obj.gameObject);
-                currentTargetSelection.Add(obj.gameObject);
-                GenerateIndicators();
-
-            }
-        }
-    }
-
-    private void OnTriggerExit(Collider obj) {
-        currentTargetSelection.Remove(obj.gameObject);
-        GenerateIndicators();
-    }
-
-    public void GenerateIndicators(){
-        for(int i = 0; i < activeIndicators.Count; i++){
-            Destroy(activeIndicators[i]);
-        }
-        activeIndicators.Clear();
-        for(int i = 0; i < currentTargetSelection.Count; i++){
-            if(currentTargetSelection[i].gameObject == null)return;
-            TargetableObject potentialTarget = currentTargetSelection[i].GetComponent<TargetableObject>();
-            if(potentialTarget.targetTeam.ToString() != targMode.ToString()){
-                currentTargetSelection.RemoveAt(i);
-            }
-            if(potentialTarget.targetTeam.ToString() == targMode.ToString()){
-                var a = Instantiate(objectIndicator, hud.transform);
-                activeIndicators.Add(a);
-            }
-            
-        }
-    }
 
     private void PositionIndicators(){
         if(currentTargetSelection.Count <= 0)return;
         for (int i = 0; i < activeIndicators.Count; i++){
-            if(currentTargetSelection[i] == null || currentTargetSelection[i].activeSelf == false){
-                currentTargetSelection.RemoveAt(i);
+            if(currentTargetSelection[i] == null){
                 GenerateIndicators();
                 return;
             }
+            RaycastHit hit;
+            int layermask = 1 << 14;
+            Vector3 dir = currentTargetSelection[i].gameObject.transform.position - gameObject.transform.position;
+            Physics.SphereCast(gameObject.transform.position, 10, dir, out hit, 5000, ~layermask);
+            Debug.DrawRay(gameObject.transform.position, dir, Color.cyan);
+
+            if(currentTargetSelection[i].gameObject.GetComponentInChildren<Renderer>().isVisible == false || currentTargetSelection[i].gameObject.activeSelf == false || currentTargetSelection[i].gameObject != hit.collider.gameObject){
+                activeIndicators[i].gameObject.SetActive(false);
+                missileLocked = false;
+            }
+            else{
+                activeIndicators[i].gameObject.SetActive(true);
+            }
+
             Vector3 targetPosition = Camera.main.WorldToScreenPoint(currentTargetSelection[i].transform.position);
             Text[] dataText = activeIndicators[i].GetComponentsInChildren<Text>();
             activeIndicators[i].transform.position = new Vector3(targetPosition.x, targetPosition.y, targetPosition.z / 5);
@@ -153,57 +162,18 @@ public class WeaponsController : MonoBehaviour
             return;
         }
         if(isTargetVisible == true){
-            if(currentTargetSelection[0] == null)return;
             Vector3 obj = Camera.main.WorldToScreenPoint(currentTargetSelection[0].transform.position);
             Vector3 slowMove = Vector3.MoveTowards(lockIndicator.transform.position, obj, lockOnEfficiency * 5f);
             lockIndicator.transform.position = new Vector3(slowMove.x, slowMove.y, slowMove.z / 5);
-            if(missileLocked == true && currentTargetSelection.Count > 0){
-                Vector3 fastMove = Vector3.MoveTowards(lockIndicator.transform.position, obj, lockOnEfficiency * 100f);
-                lockIndicator.transform.position = new Vector3(fastMove.x, fastMove.y, fastMove.z / 5);
+            if(lockIndicator.transform.position == obj){
+                missileLocked = true;
+                Vector3 fastMove = Vector3.MoveTowards(lockIndicator.transform.position, obj, lockOnEfficiency * 500f);
+                lockIndicator.transform.position = obj;
             }
         }
-        
     }
 
-    private void DrawLockRay(){
-        if(currentTargetSelection.Count <= 0){
-            missileLocked = false;
-            return;
-        }
-
-        RaycastHit hit;
-        Vector3 dir = currentTargetSelection[0].transform.position - transform.position;
-        Vector3 offset = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        if(Physics.SphereCast(offset, 1, dir, out hit, lockOnRange)){
-            if(hit.collider.gameObject != currentTargetSelection[0].gameObject)return;
-            isTargetVisible = true;
-            StartCoroutine(LockOn());
-            //target is visible
-        }
-        else{
-            isTargetVisible = false;
-            missileLocked = false;
-            //CycleMainTarget();
-            StopCoroutine(LockOn());
-            lockIndicator.SetActive(false);
-            //target is not visible
-        }
-    }
-    private IEnumerator LockOn(){
-        lockIndicator.SetActive(true);
-        yield return new WaitForSeconds(lockOnEfficiency);
-        missileLocked = true;
-    }
-
-    private void FixedUpdate(){
-        DrawLockRay();
-    }
-
-    private void LateUpdate() {
-        PositionIndicators();
-        PositionLockIndicator();
-    }
-
+    //Weapon Controls
     public void GunControl(Vector2 cursorInputPosition, bool gunInput, FloatData currentSpeed){
         //limit reticle position and speed
         Vector2 reticleDirection = new Vector2();
@@ -227,7 +197,39 @@ public class WeaponsController : MonoBehaviour
         }
     }
 
-    public IEnumerator FireGun(bool gunIsFiring, FloatData currentSpeed){
+    private void DrawLockRay(){
+        if(currentTargetSelection.Count <= 0 || currentTargetSelection[0].gameObject == null){
+            missileLocked = false;
+            return;
+        }
+
+        if(currentTargetSelection[0].gameObject.GetComponentInChildren<Renderer>().isVisible){
+            isTargetVisible = true;
+            //StartCoroutine(LockOn());
+            //target is visible
+        }
+        else{
+            isTargetVisible = false;
+            missileLocked = false;
+            //CycleMainTarget();
+            StopCoroutine(LockOn());
+            lockIndicator.SetActive(false);
+            //target is not visible
+        }
+    }
+
+    public void MissileControl(bool missileInput, FloatData currentSpeed){
+        StartCoroutine(MissileLaunch(missileInput, currentSpeed));
+    }
+
+    //IEnumerators
+    private IEnumerator LockOn(){
+        lockIndicator.SetActive(true);
+        yield return new WaitForSeconds(lockOnEfficiency);
+        missileLocked = true;
+    }
+
+    private IEnumerator FireGun(bool gunIsFiring, FloatData currentSpeed){
         canFire = false;
         while(gunIsFiring){
             for(int i = 0; i < gunPosition.Length; i++){
@@ -243,18 +245,14 @@ public class WeaponsController : MonoBehaviour
         canFire = true;
     }
 
-    public void MissileControl(bool missileInput, FloatData currentSpeed){
-        StartCoroutine(MissileLaunch(missileInput, currentSpeed));
-    }
-
-    public IEnumerator MissileReload(){
+    private IEnumerator MissileReload(){
         canLaunchMissile = false;
         yield return new WaitForSeconds(missileReload);
         currentMis = 0;
         canLaunchMissile = true;
 
     }
-    public IEnumerator MissileLaunch(bool missileInput, FloatData currentSpeed){
+    private IEnumerator MissileLaunch(bool missileInput, FloatData currentSpeed){
         if(missileInput == false)yield break;
         if(canLaunchMissile == false)yield break;
         canLaunchMissile = false;
@@ -264,7 +262,7 @@ public class WeaponsController : MonoBehaviour
 
 
         if(missileLocked == true){
-            m.gameObject.GetComponent<MissileBehaviour>().target = currentTargetSelection[0];
+            m.gameObject.GetComponent<MissileBehaviour>().target = currentTargetSelection[0].gameObject;
         }
 
         yield return new WaitForSeconds(.5f);
@@ -274,7 +272,5 @@ public class WeaponsController : MonoBehaviour
             yield break;
         }
         canLaunchMissile = true;
-
-
     }
 }
