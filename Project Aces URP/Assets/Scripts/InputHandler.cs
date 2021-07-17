@@ -58,11 +58,9 @@ public class InputHandler : MonoBehaviour, ControlInputActions.IFlightActions
         spacecraft.CameraChange();
     }
     public void OnChangeTargetMode(InputAction.CallbackContext pressed){
-        if(pressed.ReadValueAsButton())targetMode += 1;
-        if(targetMode > 2)targetMode = 0;
-        spacecraft.ChangeTargetMode(targetMode);
+        
     }
-    public void OnCycleTargets(InputAction.CallbackContext context){
+    public void OnCycleTargets(InputAction.CallbackContext pressed){
         spacecraft.CycleTargets();
     }
     public void OnMissileButton(InputAction.CallbackContext pressed){
@@ -79,5 +77,20 @@ public class InputHandler : MonoBehaviour, ControlInputActions.IFlightActions
     }
     public void OnStickMouseOverride(InputAction.CallbackContext stickInput){
         cursorInputPosition = cursorInputPosition + stickInput.ReadValue<Vector2>();
+    }
+
+    public void OnTargetModeAdd(InputAction.CallbackContext pressed)
+    {
+        if(pressed.ReadValueAsButton())targetMode += 1;
+        if(targetMode > 2)targetMode = 0;
+        spacecraft.ChangeTargetMode(targetMode);
+    }
+
+    public void OnTargetModeSub(InputAction.CallbackContext pressed)
+    {
+        if(pressed.ReadValueAsButton())targetMode -= 1;
+        if(targetMode > 2)targetMode = 0;
+        if(targetMode < 0)targetMode = 2;
+        spacecraft.ChangeTargetMode(targetMode);
     }
 }
