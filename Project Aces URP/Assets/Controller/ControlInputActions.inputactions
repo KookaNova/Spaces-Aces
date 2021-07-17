@@ -70,16 +70,24 @@
                     "interactions": "Press"
                 },
                 {
-                    "name": "ChangeTargetMode",
+                    "name": "TargetModeAdd",
                     "type": "PassThrough",
                     "id": "d252cb79-d319-4f5e-9a1d-3b1ed2e5ba59",
-                    "expectedControlType": "DiscreteButton",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "TargetModeSub",
+                    "type": "PassThrough",
+                    "id": "ebda4c52-725e-49ec-8885-8fc11c20b319",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
                 },
                 {
                     "name": "CycleTargets",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "4f705ef8-9272-42d1-80eb-76a198b91983",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -350,7 +358,7 @@
                 {
                     "name": "",
                     "id": "2b6cfe15-38b0-4cca-944a-8c69c06a7a5f",
-                    "path": "<Gamepad>/leftStickPress",
+                    "path": "<Gamepad>/dpad/down",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -394,22 +402,22 @@
                 {
                     "name": "",
                     "id": "ef3ad97a-be8d-4247-b6d2-7c015cbce6cb",
-                    "path": "<Keyboard>/t",
+                    "path": "<Gamepad>/dpad/right",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ChangeTargetMode",
+                    "action": "TargetModeAdd",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "000042f7-a2da-489a-af15-ec83ed111368",
-                    "path": "<Gamepad>/dpad/down",
+                    "path": "<Mouse>/middleButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ChangeTargetMode",
+                    "action": "TargetModeAdd",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -553,6 +561,17 @@
                     "processors": "ScaleVector2(x=3,y=3)",
                     "groups": "",
                     "action": "StickMouseOverride",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b5a32301-c0ce-4ffc-a625-9a3ce1624e42",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TargetModeSub",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

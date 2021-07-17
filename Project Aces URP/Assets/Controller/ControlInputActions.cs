@@ -83,16 +83,24 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                     ""interactions"": ""Press""
                 },
                 {
-                    ""name"": ""ChangeTargetMode"",
+                    ""name"": ""TargetModeAdd"",
                     ""type"": ""PassThrough"",
                     ""id"": ""d252cb79-d319-4f5e-9a1d-3b1ed2e5ba59"",
-                    ""expectedControlType"": ""DiscreteButton"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""TargetModeSub"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""ebda4c52-725e-49ec-8885-8fc11c20b319"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
                 {
                     ""name"": ""CycleTargets"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""4f705ef8-9272-42d1-80eb-76a198b91983"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -363,7 +371,7 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""2b6cfe15-38b0-4cca-944a-8c69c06a7a5f"",
-                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""path"": ""<Gamepad>/dpad/down"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -407,22 +415,22 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""ef3ad97a-be8d-4247-b6d2-7c015cbce6cb"",
-                    ""path"": ""<Keyboard>/t"",
+                    ""path"": ""<Gamepad>/dpad/right"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ChangeTargetMode"",
+                    ""action"": ""TargetModeAdd"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
                     ""id"": ""000042f7-a2da-489a-af15-ec83ed111368"",
-                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""path"": ""<Mouse>/middleButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ChangeTargetMode"",
+                    ""action"": ""TargetModeAdd"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -568,6 +576,17 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                     ""action"": ""StickMouseOverride"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b5a32301-c0ce-4ffc-a625-9a3ce1624e42"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TargetModeSub"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -633,7 +652,8 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
         m_Flight_GunFire = m_Flight.FindAction("Gun Fire", throwIfNotFound: true);
         m_Flight_AimGun = m_Flight.FindAction("Aim Gun", throwIfNotFound: true);
         m_Flight_CameraChange = m_Flight.FindAction("CameraChange", throwIfNotFound: true);
-        m_Flight_ChangeTargetMode = m_Flight.FindAction("ChangeTargetMode", throwIfNotFound: true);
+        m_Flight_TargetModeAdd = m_Flight.FindAction("TargetModeAdd", throwIfNotFound: true);
+        m_Flight_TargetModeSub = m_Flight.FindAction("TargetModeSub", throwIfNotFound: true);
         m_Flight_CycleTargets = m_Flight.FindAction("CycleTargets", throwIfNotFound: true);
         m_Flight_MissileButton = m_Flight.FindAction("MissileButton", throwIfNotFound: true);
         m_Flight_PrimaryAbility = m_Flight.FindAction("Primary Ability", throwIfNotFound: true);
@@ -700,7 +720,8 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Flight_GunFire;
     private readonly InputAction m_Flight_AimGun;
     private readonly InputAction m_Flight_CameraChange;
-    private readonly InputAction m_Flight_ChangeTargetMode;
+    private readonly InputAction m_Flight_TargetModeAdd;
+    private readonly InputAction m_Flight_TargetModeSub;
     private readonly InputAction m_Flight_CycleTargets;
     private readonly InputAction m_Flight_MissileButton;
     private readonly InputAction m_Flight_PrimaryAbility;
@@ -719,7 +740,8 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
         public InputAction @GunFire => m_Wrapper.m_Flight_GunFire;
         public InputAction @AimGun => m_Wrapper.m_Flight_AimGun;
         public InputAction @CameraChange => m_Wrapper.m_Flight_CameraChange;
-        public InputAction @ChangeTargetMode => m_Wrapper.m_Flight_ChangeTargetMode;
+        public InputAction @TargetModeAdd => m_Wrapper.m_Flight_TargetModeAdd;
+        public InputAction @TargetModeSub => m_Wrapper.m_Flight_TargetModeSub;
         public InputAction @CycleTargets => m_Wrapper.m_Flight_CycleTargets;
         public InputAction @MissileButton => m_Wrapper.m_Flight_MissileButton;
         public InputAction @PrimaryAbility => m_Wrapper.m_Flight_PrimaryAbility;
@@ -759,9 +781,12 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 @CameraChange.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnCameraChange;
                 @CameraChange.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnCameraChange;
                 @CameraChange.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnCameraChange;
-                @ChangeTargetMode.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnChangeTargetMode;
-                @ChangeTargetMode.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnChangeTargetMode;
-                @ChangeTargetMode.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnChangeTargetMode;
+                @TargetModeAdd.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnTargetModeAdd;
+                @TargetModeAdd.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnTargetModeAdd;
+                @TargetModeAdd.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnTargetModeAdd;
+                @TargetModeSub.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnTargetModeSub;
+                @TargetModeSub.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnTargetModeSub;
+                @TargetModeSub.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnTargetModeSub;
                 @CycleTargets.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnCycleTargets;
                 @CycleTargets.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnCycleTargets;
                 @CycleTargets.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnCycleTargets;
@@ -808,9 +833,12 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 @CameraChange.started += instance.OnCameraChange;
                 @CameraChange.performed += instance.OnCameraChange;
                 @CameraChange.canceled += instance.OnCameraChange;
-                @ChangeTargetMode.started += instance.OnChangeTargetMode;
-                @ChangeTargetMode.performed += instance.OnChangeTargetMode;
-                @ChangeTargetMode.canceled += instance.OnChangeTargetMode;
+                @TargetModeAdd.started += instance.OnTargetModeAdd;
+                @TargetModeAdd.performed += instance.OnTargetModeAdd;
+                @TargetModeAdd.canceled += instance.OnTargetModeAdd;
+                @TargetModeSub.started += instance.OnTargetModeSub;
+                @TargetModeSub.performed += instance.OnTargetModeSub;
+                @TargetModeSub.canceled += instance.OnTargetModeSub;
                 @CycleTargets.started += instance.OnCycleTargets;
                 @CycleTargets.performed += instance.OnCycleTargets;
                 @CycleTargets.canceled += instance.OnCycleTargets;
@@ -885,7 +913,8 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
         void OnGunFire(InputAction.CallbackContext context);
         void OnAimGun(InputAction.CallbackContext context);
         void OnCameraChange(InputAction.CallbackContext context);
-        void OnChangeTargetMode(InputAction.CallbackContext context);
+        void OnTargetModeAdd(InputAction.CallbackContext context);
+        void OnTargetModeSub(InputAction.CallbackContext context);
         void OnCycleTargets(InputAction.CallbackContext context);
         void OnMissileButton(InputAction.CallbackContext context);
         void OnPrimaryAbility(InputAction.CallbackContext context);
