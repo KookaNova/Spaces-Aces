@@ -98,6 +98,7 @@ Material:
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
+    - isRefracting: 1
     m_Colors:
     - Specular_Color: {r: 0.25391597, g: 0.29443637, b: 0.4245283, a: 1}
     - Tint: {r: 0.63584906, g: 0.6588479, b: 1, a: 1}
