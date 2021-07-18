@@ -57,9 +57,6 @@ public class InputHandler : MonoBehaviour, ControlInputActions.IFlightActions
     public void OnCameraChange(InputAction.CallbackContext context){
         spacecraft.CameraChange();
     }
-    public void OnChangeTargetMode(InputAction.CallbackContext pressed){
-        
-    }
     public void OnCycleTargets(InputAction.CallbackContext pressed){
         spacecraft.CycleTargets();
     }

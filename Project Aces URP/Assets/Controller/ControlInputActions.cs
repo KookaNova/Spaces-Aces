@@ -426,7 +426,7 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""000042f7-a2da-489a-af15-ec83ed111368"",
-                    ""path"": ""<Mouse>/middleButton"",
+                    ""path"": ""<Keyboard>/t"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
