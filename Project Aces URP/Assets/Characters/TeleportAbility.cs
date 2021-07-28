@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Abilities/Teleport Ability")]
+[CreateAssetMenu(menuName = "Controller/Ability/Teleport")]
 public class TeleportAbility : AbilityHandler
 {
     private Rigidbody rb;
