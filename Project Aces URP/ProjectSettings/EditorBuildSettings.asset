@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Connor Test Scene.unity
     guid: b3e9f9edf134d8d41b14465977cdfa6c
+  - enabled: 1
+    path: Assets/Scenes/Network Test.unity
+    guid: e694aa45a6de8ee47808de47949bbb44
   m_configObjects: {}
