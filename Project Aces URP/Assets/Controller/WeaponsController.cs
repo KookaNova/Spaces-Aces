@@ -45,9 +45,20 @@ public class WeaponsController : MonoBehaviour
     private bool canFire = true, isTargetVisible = false, missileLocked = false, canLaunchMissile = true;
 
 
-    private void OnEnable() {
-        textTargetMode.text = ("Targeting Mode: " + targMode.ToString());
+    public void EnableWeapons() {
         gunCannonAudio = GetComponent<AudioSource>();
+
+        var h = Instantiate(hud);
+        hud = h;
+        var r = Instantiate(aimReticle, parent: hud.transform);
+        aimReticle = r;
+        var l = Instantiate(lockIndicator, parent: hud.transform);
+        lockIndicator = l;
+        lockIndicator.SetActive(false);
+        textTargetMode = hud.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+        textTargetMode.text = ("Targeting Mode: " + targMode.ToString());
+
+
         FindTargets();
     }
     private void LateUpdate() {
