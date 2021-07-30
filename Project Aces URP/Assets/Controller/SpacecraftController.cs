@@ -3,14 +3,16 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using MLAPI;
 
 [RequireComponent(typeof(Rigidbody), typeof(TargetableObject))]
-public class SpacecraftController : MonoBehaviour
+public class SpacecraftController : NetworkBehaviour
 {
     [Header("Spacecraft Objects")]
     public WeaponsController weaponSystem;
     public CharacterHandler chosenCharacter;
-    public GameObject firstCam, shipObject, avatarUI, explosionObject, gunAmmoObject, missileObject, lockIndicator;
+    public ShipHandler chosenShip;
+    public GameObject firstCam, avatarUI, explosionObject, gunAmmoObject, missileObject, lockIndicator;
     public Canvas hudCanvas;
 
     [Header("Spacecraft Stats")]
@@ -38,9 +40,12 @@ public class SpacecraftController : MonoBehaviour
 
     //Input System Setup-----------------------------------------------
     private void Awake(){
+        var ship = Instantiate(chosenShip.shipPrefab, transform.position, transform.rotation, gameObject.transform);
         currentHealth.value = maxHealth;
+        weaponSystem = ship.GetComponentInChildren<WeaponsController>();
+        weaponSystem.EnableWeapons();
+        firstCam = GetComponentInChildren<Cinemachine.CinemachineVirtualCamera>().gameObject;
         _rb = GetComponent<Rigidbody>();
-        weaponSystem = GetComponentInChildren<WeaponsController>();
         avatarUI.GetComponent<Image>().sprite = chosenCharacter.avatar;
 
         for (int i = 0; i < chosenCharacter.abilities.Count; i++){
