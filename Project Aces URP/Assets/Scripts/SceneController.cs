@@ -5,10 +5,6 @@ public class SceneController : MonoBehaviour
 {
     public string defaultScene = "Main Menu";
 
-    private void Start() {
-        LoadDefaultScene();
-    }
-
     public void LoadSpecificScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
