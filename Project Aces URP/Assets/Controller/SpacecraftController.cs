@@ -3,42 +3,50 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.Events;
-using MLAPI;
 
 [RequireComponent(typeof(Rigidbody), typeof(TargetableObject))]
-public class SpacecraftController : NetworkBehaviour
+public class SpacecraftController : MonoBehaviour
 {
+    #region Public Fields
+
     [Header("Spacecraft Objects")]
     public WeaponsController weaponSystem;
     public CharacterHandler chosenCharacter;
     public ShipHandler chosenShip;
     public GameObject firstCam, avatarUI, explosionObject, gunAmmoObject, missileObject, lockIndicator;
     public Canvas hudCanvas;
-
-    [Header("Spacecraft Stats")]
     public FloatData currentSpeed, currentHealth;
-    public float acceleration = 10,
+    public float brakeInput;
+    #endregion
+
+    #region Private Serializable Fields
+    [Header("Spacecraft Stats")]
+    [SerializeField]
+    private float acceleration = 10;
+    [SerializeField]
+    private float
         minSpeed = 10,
         cruiseSpeed = 150,
         maxSpeed = 200,
         roll = 5, 
         pitch = 7, 
         yaw = 3,
-        maxHealth = 100,
-        respawnTime = 5;
+        maxHealth = 100;
+        
+    #endregion
 
-    //player inputs 
-    public float brakeInput;
+    #region Private Fields
     private AbilityHandler passiveAbility, primaryAbility, secondaryAbility, aceAbility;
-    //Utility Inputs
+    private float respawnTime = 5;
     private bool isAwaitingRespawn = false,
         canUsePrimary = true,
         canUseSecondary = true,
         canUseAce = false;
     private Rigidbody _rb;
     private ControlInputActions _controls;
+    #endregion
 
-    //Input System Setup-----------------------------------------------
+    #region setup
     private void Awake(){
         var ship = Instantiate(chosenShip.shipPrefab, transform.position, transform.rotation, gameObject.transform);
         currentHealth.value = maxHealth;
@@ -57,14 +65,22 @@ public class SpacecraftController : NetworkBehaviour
         secondaryAbility = chosenCharacter.abilities[2];
         aceAbility = chosenCharacter.abilities[3];
     }
-    
-    //Collision---------------------------------------------------------
+
     private void OnCollisionEnter(Collision collision) {
         if(collision.gameObject.layer == LayerMask.NameToLayer("Crash Hazard") || collision.gameObject.layer == LayerMask.NameToLayer("Enemy Player")){
            currentHealth.value -= currentSpeed.value + 30;
         }
     }
-    //Input Actions-----------------------------------------------------
+    private void Eliminate(){
+        isAwaitingRespawn = true;
+        firstCam.SetActive(false);
+        Instantiate(explosionObject, gameObject.transform);
+        StartCoroutine(RespawnTimer());
+
+    }
+    #endregion
+    
+    #region targeting and camera
     public void CameraChange(){
         if(firstCam.activeSelf == true){
             firstCam.SetActive(false);
@@ -81,8 +97,9 @@ public class SpacecraftController : NetworkBehaviour
     public void CycleTargets(){
         weaponSystem.CycleMainTarget();
     }
+    #endregion
     
-    //Player is controlled-----------------------------------------------
+    #region Player Control
     private void FixedUpdate(){
         if(isAwaitingRespawn)return;
 
@@ -116,8 +133,9 @@ public class SpacecraftController : NetworkBehaviour
     public void GunControl(Vector2 cursorInputPosition, bool gunInput){
         weaponSystem.GunControl(cursorInputPosition, gunInput, currentSpeed);
     }
+    #endregion
 
-    //Character Abilities
+    #region Character Abilities
     private void PassiveAbility(){}
     public void PrimaryAbility(){
         if(canUsePrimary){
@@ -130,16 +148,9 @@ public class SpacecraftController : NetworkBehaviour
     }
     public void SecondaryAbility(){}
     public void AceAbility(){}
+    #endregion
 
-    private void Eliminate(){
-        isAwaitingRespawn = true;
-        firstCam.SetActive(false);
-        Instantiate(explosionObject, gameObject.transform);
-        StartCoroutine(RespawnTimer());
-
-    }
-
-    //IEnumerators
+    #region IEnumerators
     public IEnumerator DelayedAbility(AbilityHandler ability, float startUpTime){
         Instantiate(ability.startUpParticle, gameObject.transform);
         yield return new WaitForSeconds(startUpTime);
@@ -164,4 +175,5 @@ public class SpacecraftController : NetworkBehaviour
 
         //also teleport to spawn points using a spawn point system
     }
+    #endregion
 }

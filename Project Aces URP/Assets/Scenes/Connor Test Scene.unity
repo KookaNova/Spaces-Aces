@@ -3469,7 +3469,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6249975958604277985, guid: 1be320471559dae47810c1867563daa1, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1be320471559dae47810c1867563daa1, type: 3}
 --- !u!1001 &1344503703
 PrefabInstance:
@@ -4245,6 +4246,30 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 4f705ef8-9272-42d1-80eb-76a198b91983
     m_ActionName: Flight/CycleTargets[/Mouse/middleButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ebda4c52-725e-49ec-8885-8fc11c20b319
+    m_ActionName: Flight/TargetModeSub
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 831ca93d-ed42-46b1-b749-770b1ee0df39
+    m_ActionName: Flight/MissileButton[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c794cb57-8f84-4362-88e9-d22889c3201c
+    m_ActionName: Flight/Primary Ability[/Keyboard/1]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d2f5022b-a86b-448b-9422-99bd9d1fccd8
+    m_ActionName: Flight/Secondary Ability[/Keyboard/2]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4003d615-b0dd-4507-a7a0-4954a08fdef2
+    m_ActionName: Flight/Ace Ability[/Keyboard/3]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b43eafe0-6452-4c98-95ba-3e12b1fe2f1d
+    m_ActionName: Flight/StickMouseOverride
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Basic Controls
   m_DefaultActionMap: Flight

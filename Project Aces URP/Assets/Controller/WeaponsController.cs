@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class WeaponsController : MonoBehaviour
 {
+    #region Public Fields
     public enum TargetingMode{
         TeamA,
         TeamB,
@@ -19,7 +20,9 @@ public class WeaponsController : MonoBehaviour
     public TMPro.TextMeshProUGUI textTargetMode;
     public List<GameObject> activeIndicators;
     public List<TargetableObject> allTargetList, currentTargetSelection;
+    #endregion
 
+    #region Private Serialized Fields
     [Header("Gun Information")]
     public GameObject ammoType;
     public float fireRate = 0.1f,
@@ -38,13 +41,17 @@ public class WeaponsController : MonoBehaviour
     public Transform[] missilePosition;
 
     public AudioSource gunCannonAudio, missileCannonAudio;
+    #endregion
 
+    #region Private Fields
     private int currentMis = 0;
     private float lockOnModifier = 5;
 
     private bool canFire = true, isTargetVisible = false, missileLocked = false, canLaunchMissile = true;
 
+    #endregion
 
+    #region enable
     public void EnableWeapons() {
         gunCannonAudio = GetComponent<AudioSource>();
 
@@ -61,11 +68,13 @@ public class WeaponsController : MonoBehaviour
 
         FindTargets();
     }
+    #endregion
+
+    #region targeting
     private void LateUpdate() {
         PositionIndicators();
         LockPosition();
     }
-
     private void FindTargets(){
         allTargetList.Clear();
         var targets = GameObject.FindObjectsOfType<TargetableObject>();
@@ -188,8 +197,9 @@ public class WeaponsController : MonoBehaviour
         currentTargetSelection.Insert(lastIndex, previousTarg);
         lockIndicator.transform.position = Vector3.zero;
     }
+    #endregion
 
-    //Weapon Controls
+    #region weapon controls
     public void GunControl(Vector2 cursorInputPosition, bool gunInput, FloatData currentSpeed){
         //limit reticle position and speed
         Vector2 reticleDirection = new Vector2();
@@ -216,8 +226,9 @@ public class WeaponsController : MonoBehaviour
     public void MissileControl(bool missileInput, FloatData currentSpeed){
         StartCoroutine(MissileLaunch(missileInput, currentSpeed));
     }
+    #endregion
 
-    //IEnumerators
+    #region IEnumerators
 
     private IEnumerator FireGun(bool gunIsFiring, FloatData currentSpeed){
         canFire = false;
@@ -267,4 +278,5 @@ public class WeaponsController : MonoBehaviour
         }
         canLaunchMissile = true;
     }
+    #endregion
 }
