@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 [CreateAssetMenu]
 public class PlayerProfileData : ScriptableObject
 {
@@ -20,8 +21,8 @@ public class PlayerProfileData : ScriptableObject
 
     }
 
-    public void ChangeName(TMPro.TextMeshProUGUI newName){
-        accountName = newName.text;
+    public void ChangeName(string newName){
+        accountName = newName;
     }
 
     private void LevelUp(){

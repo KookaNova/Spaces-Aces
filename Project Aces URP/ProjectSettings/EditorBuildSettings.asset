@@ -8,19 +8,22 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 1
-    path: Assets/Scenes/Init.unity
-    guid: ac6b2b9b13dff1f4bb54f47849943998
-  - enabled: 1
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
     path: Assets/Scenes/Main Menu.unity
     guid: 5f22863faf0f6044392ac29a1fe35f67
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Private Game Lobby.unity
     guid: 42caf016ccb9f304bb5deeb56354f625
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Connor Test Scene.unity
     guid: b3e9f9edf134d8d41b14465977cdfa6c
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Network Test.unity
     guid: e694aa45a6de8ee47808de47949bbb44
+  - enabled: 1
+    path: Assets/Scenes/Launcher.unity
+    guid: e4ef7f1db4cdcb240be915c8474fe805
   m_configObjects: {}
