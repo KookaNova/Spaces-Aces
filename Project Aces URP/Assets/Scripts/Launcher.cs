@@ -6,9 +6,7 @@ namespace Com.Con.SpacesAcesGame{
 
 public class Launcher : MonoBehaviourPunCallbacks
 {   
-    [Tooltip("The maximum number of players per room. When a room is full, it can't be joined by new players, and so new room will be created")]
-    [SerializeField]
-    private byte maxPlayersPerRoom = 6;
+    public GamesHandler gamesHandler;
     //This client's version number. Users are separated from each other by gameVersion (which allows you to make breaking changes).
     string gameVersion = "1";
 
@@ -54,10 +52,21 @@ public class Launcher : MonoBehaviourPunCallbacks
         Debug.Log("PUN Basics Launcher:OnJoinRandomFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom");
 
         // #Critical: we failed to join a random room, maybe none exists or they are all full. No worries, we create a new room.
-        PhotonNetwork.CreateRoom(null, new RoomOptions{MaxPlayers = maxPlayersPerRoom});
+        gamesHandler.SelectRandomLevel();
+        PhotonNetwork.CreateRoom(null, new RoomOptions{MaxPlayers = gamesHandler.gamemodeSettings.maxPlayers});
     }
     public override void OnJoinedRoom(){
         Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
+    
+        // #Critical: We only load if we are the first player, else we rely on `PhotonNetwork.AutomaticallySyncScene` to sync our instance scene.
+        if (PhotonNetwork.CurrentRoom.PlayerCount == gamesHandler.gamemodeSettings.maxPlayers){
+            Debug.Log("Loading " + gamesHandler.gamemodeSettings.name);
+
+
+            // #Critical
+            // Load the Room Level.
+            PhotonNetwork.LoadLevel(gamesHandler.gamemodeSettings.levelName);
+}
     }
 
 
