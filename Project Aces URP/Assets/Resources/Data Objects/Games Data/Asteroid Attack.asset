@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef816f7ae2e87f14895104c882031053, type: 3}
-  m_Name: Tri-Speeder
+  m_Script: {fileID: 11500000, guid: 62ca6008eb1ad7a4d923bdb429e5f557, type: 3}
+  m_Name: Asteroid Attack
   m_EditorClassIdentifier: 
-  shipName: Tri-Engine Speeder
-  shipIcon: {fileID: 0}
-  shipPrefab: {fileID: 811196013837957695, guid: b6abd7506ce2af1478b51af83dad878d, type: 3}
-  weaponsController: {fileID: 0}
+  levelName: Asteroid Mine
+  gamemodeName: Attack
+  maxPlayers: 2
+  teams: 1
