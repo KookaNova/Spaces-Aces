@@ -3,8 +3,9 @@ using UnityEngine.SceneManagement;
 
 public class SceneController : MonoBehaviour
 {
-    public string defaultScene = "Main Menu";
-
+    [SerializeField]
+    string defaultScene = "Main Menu";
+    
     public void LoadSpecificScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);

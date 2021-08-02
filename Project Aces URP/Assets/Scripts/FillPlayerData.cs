@@ -6,18 +6,25 @@ using UnityEngine.UI;
 public class FillPlayerData : MonoBehaviour
 {
     [Header("Player Profile")]
-    public PlayerProfileData data;
-    public Image namePlate, icon;
-    public TMPro.TextMeshProUGUI nameText, levelText;
+    [SerializeField]
+    private PlayerProfileData data;
+    [SerializeField]
+    private Image namePlate, icon;
+    [SerializeField]
+    private TMPro.TextMeshProUGUI nameText, levelText;
     [Header("Optional")]
-    public Image xpBar;
-    public TMPro.TextMeshProUGUI coinText, premiumText;
+    [SerializeField]
+    private Image xpBar;
+    [SerializeField]
+    private TMPro.TextMeshProUGUI coinText, premiumText;
     
     int currentXp, levelUpPoint;
 
+    private void Awake() {
+        UpdateInfo();
+    }
     private void OnEnable() {
         UpdateInfo();
-
     }
 
     public void UpdateInfo(){
