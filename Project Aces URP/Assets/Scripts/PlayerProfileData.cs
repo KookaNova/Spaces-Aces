@@ -28,6 +28,14 @@ public class PlayerProfileData : ScriptableObject
     private void LevelUp(){
         currentLevel++;
     }
+    
+    public void ResetData(){
+        accountName = null;
+        coin = 0;
+        premium = 0;
+        currentLevel = 0;
+        currentXp = 0;
 
+    }
 
 }

@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
-public class WeaponsController : MonoBehaviour
+public class WeaponsController : MonoBehaviourPunCallbacks
 {
     #region Public Fields
     public enum TargetingMode{

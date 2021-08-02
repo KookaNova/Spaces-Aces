@@ -1,11 +1,10 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using UnityEngine.Events;
+using Photon.Pun;
 
 [RequireComponent(typeof(Rigidbody), typeof(TargetableObject))]
-public class SpacecraftController : MonoBehaviour
+public class SpacecraftController : MonoBehaviourPunCallbacks
 {
     #region Public Fields
 
@@ -176,4 +175,5 @@ public class SpacecraftController : MonoBehaviour
         //also teleport to spawn points using a spawn point system
     }
     #endregion
+
 }
