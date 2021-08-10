@@ -6,54 +6,51 @@ using Photon.Pun;
 [RequireComponent(typeof(Rigidbody), typeof(TargetableObject))]
 public class SpacecraftController : MonoBehaviourPunCallbacks
 {
-    #region Public Fields
+    #region Serialized Fields
 
     [Header("Spacecraft Objects")]
     public WeaponsController weaponSystem;
     public CharacterHandler chosenCharacter;
     public ShipHandler chosenShip;
-    public GameObject firstCam, avatarUI, explosionObject, gunAmmoObject, missileObject, lockIndicator;
-    public Canvas hudCanvas;
-    public FloatData currentSpeed, currentHealth;
-    public float brakeInput;
-    #endregion
+    [SerializeField]
+    private GameObject explosionObject, gunAmmoObject, missileObject, hudCanvas;
+    private Cinemachine.CinemachineVirtualCamera[] cameras;
 
-    #region Private Serializable Fields
-    [Header("Spacecraft Stats")]
-    [SerializeField]
-    private float acceleration = 10;
-    [SerializeField]
-    private float
-        minSpeed = 10,
-        cruiseSpeed = 150,
-        maxSpeed = 200,
-        roll = 5, 
-        pitch = 7, 
-        yaw = 3,
-        maxHealth = 100;
-        
+    [HideInInspector]
+    public float currentSpeed, currentHealth, brakeInput;
     #endregion
 
     #region Private Fields
+    private PlayerHUDController HudController;
     private AbilityHandler passiveAbility, primaryAbility, secondaryAbility, aceAbility;
     private float respawnTime = 5;
-    private bool isAwaitingRespawn = false,
+    private bool 
+        isAwaitingRespawn = false,
         canUsePrimary = true,
         canUseSecondary = true,
         canUseAce = false;
     private Rigidbody _rb;
     private ControlInputActions _controls;
+    private GameObject ship;
     #endregion
 
     #region setup
-    private void Awake(){
-        var ship = Instantiate(chosenShip.shipPrefab, transform.position, transform.rotation, gameObject.transform);
-        currentHealth.value = maxHealth;
-        weaponSystem = ship.GetComponentInChildren<WeaponsController>();
-        weaponSystem.EnableWeapons();
-        firstCam = GetComponentInChildren<Cinemachine.CinemachineVirtualCamera>().gameObject;
-        _rb = GetComponent<Rigidbody>();
-        avatarUI.GetComponent<Image>().sprite = chosenCharacter.avatar;
+    public override void OnEnable(){
+        ship = Instantiate(chosenShip.shipPrefab, transform.position, transform.rotation);
+        ship.transform.SetParent(this.gameObject.transform);
+        currentHealth = chosenShip.maxHealth;
+        if(photonView.IsMine){
+            currentHealth = chosenShip.maxHealth;
+            weaponSystem = ship.GetComponentInChildren<WeaponsController>();
+            weaponSystem.EnableWeapons();
+        
+            var hud = Instantiate(hudCanvas, parent: gameObject.transform);
+            HudController = hud.GetComponent<PlayerHUDController>();
+            HudController.currentCraft = this;
+            HudController.Activate();
+            cameras = GetComponentsInChildren<Cinemachine.CinemachineVirtualCamera>();
+            _rb = GetComponent<Rigidbody>();
+        }
 
         for (int i = 0; i < chosenCharacter.abilities.Count; i++){
             chosenCharacter.abilities[i].player = gameObject;
@@ -66,13 +63,13 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     }
 
     private void OnCollisionEnter(Collision collision) {
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Crash Hazard") || collision.gameObject.layer == LayerMask.NameToLayer("Enemy Player")){
-           currentHealth.value -= currentSpeed.value + 30;
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Crash Hazard") || collision.gameObject.layer == LayerMask.NameToLayer("Player")){
+           currentHealth -= currentSpeed + 30;
         }
     }
     private void Eliminate(){
         isAwaitingRespawn = true;
-        firstCam.SetActive(false);
+        ship.SetActive(false);
         Instantiate(explosionObject, gameObject.transform);
         StartCoroutine(RespawnTimer());
 
@@ -81,13 +78,11 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     
     #region targeting and camera
     public void CameraChange(){
-        if(firstCam.activeSelf == true){
-            firstCam.SetActive(false);
-            return;
+        if(cameras[0].Priority > 1){
+            cameras[0].MoveToTopOfPrioritySubqueue();
         }
-        if(firstCam.activeSelf == false){
-            firstCam.SetActive(true);
-            return;
+        else{
+            cameras[1].MoveToTopOfPrioritySubqueue();
         }
     }
     public void ChangeTargetMode(int input){
@@ -100,36 +95,43 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     
     #region Player Control
     private void FixedUpdate(){
-        if(isAwaitingRespawn)return;
+        if(photonView.IsMine)
+        if(isAwaitingRespawn){
+            currentHealth = 0;
+            return;}
 
-        _rb.AddRelativeForce(0,0,currentSpeed.value);
-        if (currentSpeed.value > cruiseSpeed)
+        _rb.AddRelativeForce(0,0,currentSpeed, ForceMode.Acceleration);
+        if (currentSpeed > chosenShip.cruiseSpeed)
         {
-            currentSpeed.value = Mathf.Lerp(currentSpeed.value, cruiseSpeed, .001f);
+            currentSpeed = Mathf.Lerp(currentSpeed, chosenShip.cruiseSpeed, .001f);
         }
-        currentSpeed.value = Mathf.Lerp(currentSpeed.value, minSpeed, brakeInput * .01f);
+        currentSpeed = Mathf.Lerp(currentSpeed, chosenShip.minSpeed, brakeInput * .01f);
 
-        if(currentHealth.value <= 0){
+        if(currentHealth <= 0){
             Eliminate();
         }
     }
 
     public void ThrustControl(float thrustInput){
-        var speed = currentSpeed.value + (thrustInput * acceleration);
-        currentSpeed.value = Mathf.Lerp(currentSpeed.value, speed, Time.deltaTime);
-        currentSpeed.value = Mathf.Clamp(currentSpeed.value, minSpeed, maxSpeed);
+        if(!photonView.IsMine)return;
+        var speed = currentSpeed + (thrustInput * chosenShip.acceleration);
+        currentSpeed = Mathf.Lerp(currentSpeed, speed, Time.deltaTime);
+        currentSpeed = Mathf.Clamp(currentSpeed, chosenShip.minSpeed, chosenShip.maxSpeed);
     }
 
     public void TorqueControl(Vector2 torqueInput, float yawInput){
-        var highspeedhandling = currentSpeed.value/maxSpeed + 1;
-        Vector3 torqueForce  = new Vector3((torqueInput.y * pitch) / highspeedhandling, yawInput * yaw, (torqueInput.x * roll) / highspeedhandling);
-        _rb.AddRelativeTorque(torqueForce);
+        if(!photonView.IsMine)return;
+        var highspeedhandling = currentSpeed/chosenShip.maxSpeed + 1;
+        Vector3 torqueForce  = new Vector3((torqueInput.y * chosenShip.pitch) / highspeedhandling, yawInput * chosenShip.yaw, (torqueInput.x * chosenShip.roll) / highspeedhandling);
+        _rb.AddRelativeTorque(torqueForce, ForceMode.Force);
     }
 
     public void MissileLaunch(bool missileInput){
+        if(photonView.IsMine)
         weaponSystem.MissileControl(missileInput, currentSpeed);
     }
     public void GunControl(Vector2 cursorInputPosition, bool gunInput){
+        if(photonView.IsMine)
         weaponSystem.GunControl(cursorInputPosition, gunInput, currentSpeed);
     }
     #endregion
@@ -169,8 +171,9 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     }
     public IEnumerator RespawnTimer(){
         yield return new WaitForSeconds(respawnTime);
-        currentHealth.value = maxHealth;
+        currentHealth = chosenShip.maxHealth;
         isAwaitingRespawn = false;
+        ship.SetActive(true);
 
         //also teleport to spawn points using a spawn point system
     }

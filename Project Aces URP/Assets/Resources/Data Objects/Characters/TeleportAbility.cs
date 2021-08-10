@@ -7,6 +7,7 @@ public class TeleportAbility : AbilityHandler
 {
     private Rigidbody rb;
     public void Awake() {
+        if(player == null)return;
         Debug.Log("teleport");
         rb = player.GetComponent<Rigidbody>();
         Vector3 moveVec = rb.transform.forward * 800;

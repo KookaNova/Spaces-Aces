@@ -1,12 +1,12 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 [RequireComponent(typeof(Rigidbody), typeof(Collider))]
 public class MissileBehaviour : MonoBehaviour
 {
     public int destroyTime = 10, missileSpeed = 800;
-    public float seeking = 20, currentSpeed;
-    public GameObject explosion, ignoredObj;
+    public float seeking = 20, currentSpeed, damageOutput = 1000;
+    public GameObject explosion;
     public GameObject target = null;
     private Rigidbody _rb;
     private Collider _col;
@@ -17,7 +17,7 @@ public class MissileBehaviour : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         _col = GetComponent<Collider>();
         _col.enabled = false;
-        _rb.AddRelativeForce(0,0,currentSpeed + 300, ForceMode.VelocityChange);
+        _rb.velocity = transform.forward * (currentSpeed + missileSpeed);
 
         StartCoroutine(Missile());
         StartCoroutine(WakeCollider());
@@ -46,19 +46,22 @@ public class MissileBehaviour : MonoBehaviour
             var toTarget = target.transform.position - _rb.position;
             var targetRotation = Quaternion.LookRotation(toTarget);
             
-            _rb.rotation = Quaternion.RotateTowards(_rb.rotation, targetRotation, seeking * 1000 * Time.deltaTime);
+            _rb.rotation = Quaternion.RotateTowards(_rb.rotation, targetRotation, seeking * 100 * Time.deltaTime);
         }
         else{
             _rb.rotation = _rb.rotation;
         }
-        _rb.AddRelativeForce(0,0,missileSpeed, ForceMode.Acceleration);
+        _rb.AddRelativeForce(0,0,currentSpeed + missileSpeed, ForceMode.Acceleration);
     }
 
 
-    private void OnCollisionEnter()
+    private void OnCollisionEnter(Collision obj)
     {
         Instantiate(explosion, transform.position, Quaternion.identity);
-        Destroy(gameObject);
+        if(obj.gameObject.GetComponent<SpacecraftController>()){
+            obj.gameObject.GetComponent<SpacecraftController>().currentHealth -= 1000;
+        }
+        PhotonNetwork.Destroy(gameObject);
     }
 
 
@@ -75,7 +78,7 @@ public class MissileBehaviour : MonoBehaviour
         {
             _rb.transform.LookAt(target.transform);
         }
-        yield return new WaitForSeconds(destroyTime); Destroy(gameObject);
+        yield return new WaitForSeconds(destroyTime); PhotonNetwork.Destroy(gameObject);
 
     }
 }

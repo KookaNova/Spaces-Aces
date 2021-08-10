@@ -9,6 +9,17 @@ public class ShipHandler : ScriptableObject
     public GameObject shipPrefab;
     public WeaponsController weaponsController;
 
+    [Header("Ship Stats")]
+    public float maxHealth = 2000;
+    public float
+        acceleration = 10,
+        minSpeed = 67,
+        cruiseSpeed = 357,
+        maxSpeed = 500,
+        roll = 12, 
+        pitch = 15, 
+        yaw = 3;
+
     private void Awake() {
         weaponsController = shipPrefab.GetComponent<WeaponsController>();
     }

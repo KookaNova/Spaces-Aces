@@ -22,7 +22,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     public List<TargetableObject> allTargetList, currentTargetSelection;
     #endregion
 
-    #region Private Serialized Fields
+    #region Public Weapon Fields
     [Header("Gun Information")]
     public GameObject ammoType;
     public float fireRate = 0.1f,
@@ -72,8 +72,10 @@ public class WeaponsController : MonoBehaviourPunCallbacks
 
     #region targeting
     private void LateUpdate() {
+        if(photonView.IsMine){
         PositionIndicators();
         LockPosition();
+    }
     }
     private void FindTargets(){
         allTargetList.Clear();
@@ -200,7 +202,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     #endregion
 
     #region weapon controls
-    public void GunControl(Vector2 cursorInputPosition, bool gunInput, FloatData currentSpeed){
+    public void GunControl(Vector2 cursorInputPosition, bool gunInput, float currentSpeed){
         //limit reticle position and speed
         Vector2 reticleDirection = new Vector2();
         var viewWidth = Camera.main.scaledPixelWidth;
@@ -223,21 +225,19 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         }
     }
 
-    public void MissileControl(bool missileInput, FloatData currentSpeed){
+    public void MissileControl(bool missileInput, float currentSpeed){
         StartCoroutine(MissileLaunch(missileInput, currentSpeed));
     }
     #endregion
 
     #region IEnumerators
 
-    private IEnumerator FireGun(bool gunIsFiring, FloatData currentSpeed){
+    private IEnumerator FireGun(bool gunIsFiring, float currentSpeed){
         canFire = false;
         while(gunIsFiring){
             for(int i = 0; i < gunPosition.Length; i++){
-                var g = Instantiate(ammoType);
+                var g = PhotonNetwork.Instantiate(ammoType.name, gunPosition[i].position, gunPosition[i].rotation);
                 gunCannonAudio.Play();
-                g.transform.position = gunPosition[i].position;
-                g.transform.rotation = gunPosition[i].rotation;
                 g.GetComponent<Rigidbody>().velocity = gunPosition[i].transform.forward * gunSpeed;
                 yield return new WaitForSeconds(fireRate);
             }
@@ -253,19 +253,19 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         canLaunchMissile = true;
 
     }
-    private IEnumerator MissileLaunch(bool missileInput, FloatData currentSpeed){
+    private IEnumerator MissileLaunch(bool missileInput, float currentSpeed){
         if(missileInput == false)yield break;
         if(canLaunchMissile == false)yield break;
         canLaunchMissile = false;
 
         if(missileLocked == true){
             var m = Instantiate(missileType.gameObject, missilePosition[currentMis].position, missilePosition[currentMis].rotation);
-            m.GetComponent<MissileBehaviour>().currentSpeed = currentSpeed.value;
+            m.GetComponent<MissileBehaviour>().currentSpeed = currentSpeed;
             m.gameObject.GetComponent<MissileBehaviour>().target = currentTargetSelection[0].gameObject;
         }
         else{
             var m = Instantiate(missileType.gameObject, missilePosition[currentMis].position, missilePosition[currentMis].rotation);
-            m.GetComponent<MissileBehaviour>().currentSpeed = currentSpeed.value;
+            m.GetComponent<MissileBehaviour>().currentSpeed = currentSpeed;
         }
         
         
