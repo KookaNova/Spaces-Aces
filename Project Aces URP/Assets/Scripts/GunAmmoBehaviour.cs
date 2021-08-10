@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using Photon.Pun;
 
 public class GunAmmoBehaviour : MonoBehaviour
 {
@@ -13,11 +14,11 @@ public class GunAmmoBehaviour : MonoBehaviour
     public void OnCollisionEnter(Collision other) {
         var a = Instantiate(impactObj);
         a.transform.position = transform.position;
-        Destroy(this.gameObject);
+        PhotonNetwork.Destroy(this.gameObject);
     }
 
     private IEnumerator DestroyCounter(){
         yield return new WaitForSeconds(destroyTime);
-        Destroy(this.gameObject);
+        PhotonNetwork.Destroy(this.gameObject);
     }
 }
