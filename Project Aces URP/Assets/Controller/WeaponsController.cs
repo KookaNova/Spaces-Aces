@@ -14,7 +14,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     }
 
     public TargetingMode targMode = TargetingMode.TeamA;
-    public Canvas hud;
+    public Canvas worldHud, overlayHud;
     public Image aimReticle;
     public GameObject objectIndicator, lockIndicator;
     public TMPro.TextMeshProUGUI textTargetMode;
@@ -54,15 +54,12 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     #region enable
     public void EnableWeapons() {
         gunCannonAudio = GetComponent<AudioSource>();
+        overlayHud.transform.parent = null;
 
-        var h = Instantiate(hud);
-        hud = h;
-        var r = Instantiate(aimReticle, parent: hud.transform);
-        aimReticle = r;
-        var l = Instantiate(lockIndicator, parent: hud.transform);
+        var l = Instantiate(lockIndicator, parent: overlayHud.transform);
         lockIndicator = l;
         lockIndicator.SetActive(false);
-        textTargetMode = hud.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+        textTargetMode = worldHud.GetComponentInChildren<TMPro.TextMeshProUGUI>();
         textTargetMode.text = ("Targeting Mode: " + targMode.ToString());
 
 
@@ -98,7 +95,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         if(input == 2){
             targMode = TargetingMode.Global;
         }
-        textTargetMode.text = ("Targeting Mode: " + targMode.ToString());
+        textTargetMode.text = ("Targeting " + targMode.ToString());
         CleanTargetSelection();
     
     }
@@ -120,7 +117,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         activeIndicators.Clear();
         activeIndicators.TrimExcess();
         for(int i = 0; i < currentTargetSelection.Count; i++){
-            var a = Instantiate(objectIndicator, hud.transform);
+            var a = Instantiate(objectIndicator, overlayHud.transform);
             activeIndicators.Add(a);
             activeIndicators[i].SetActive(false);
         }
@@ -173,7 +170,6 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             if(Mathf.RoundToInt(lockIndicator.transform.position.x) == Mathf.RoundToInt(targetScreenPosition.x) && Mathf.RoundToInt(lockIndicator.transform.position.y) == Mathf.RoundToInt(targetScreenPosition.y)){
                 missileLocked = true;
                 lockOnModifier = 5000;
-                Debug.Log("Target Locked");
             }
             else{
                 missileLocked = false;
@@ -202,22 +198,11 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     #endregion
 
     #region weapon controls
-    public void GunControl(Vector2 cursorInputPosition, bool gunInput, float currentSpeed){
-        //limit reticle position and speed
-        Vector2 reticleDirection = new Vector2();
-        var viewWidth = Camera.main.scaledPixelWidth;
-        var viewHeight = Camera.main.scaledPixelHeight;
-        reticleDirection = new Vector2(Mathf.Lerp(aimReticle.transform.position.x, cursorInputPosition.x, gunSensitivity*Time.deltaTime),
-            Mathf.Lerp(aimReticle.transform.position.y, cursorInputPosition.y, gunSensitivity*Time.deltaTime));
-        var x = Mathf.Clamp(reticleDirection.x, viewWidth/gunRange, viewWidth - viewWidth/gunRange);
-        var y = Mathf.Clamp(reticleDirection.y, viewHeight/gunRange, viewHeight - viewHeight/gunRange);
-        reticleDirection = new Vector2(x,y);
-
-        aimReticle.transform.position = reticleDirection;
+    public void GunControl(bool gunInput, float currentSpeed){
         //aim gun position towards reticle
-        Ray ray = Camera.main.ScreenPointToRay(aimReticle.transform.position);
+        Ray ray = new Ray(aimReticle.transform.position, aimReticle.transform.forward);
         for(int i = 0; i < gunPosition.Length; i++){
-            gunPosition[i].LookAt(ray.GetPoint(3000));
+            gunPosition[i].LookAt(ray.GetPoint(1500));
         }
         
         if(canFire == true && gunInput == true){
@@ -260,12 +245,14 @@ public class WeaponsController : MonoBehaviourPunCallbacks
 
         if(missileLocked == true){
             var m = Instantiate(missileType.gameObject, missilePosition[currentMis].position, missilePosition[currentMis].rotation);
-            m.GetComponent<MissileBehaviour>().currentSpeed = currentSpeed;
-            m.gameObject.GetComponent<MissileBehaviour>().target = currentTargetSelection[0].gameObject;
+            var behaviour = m.GetComponent<MissileBehaviour>();
+            behaviour.currentSpeed = currentSpeed;
+            behaviour.target = currentTargetSelection[0].gameObject;
         }
         else{
             var m = Instantiate(missileType.gameObject, missilePosition[currentMis].position, missilePosition[currentMis].rotation);
-            m.GetComponent<MissileBehaviour>().currentSpeed = currentSpeed;
+            var behaviour = m.GetComponent<MissileBehaviour>();
+            behaviour.currentSpeed = currentSpeed;
         }
         
         

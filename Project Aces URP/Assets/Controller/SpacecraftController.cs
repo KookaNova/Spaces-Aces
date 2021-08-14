@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 using Photon.Pun;
 
 [RequireComponent(typeof(Rigidbody), typeof(TargetableObject))]
@@ -12,9 +11,9 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     public WeaponsController weaponSystem;
     public CharacterHandler chosenCharacter;
     public ShipHandler chosenShip;
+    private CameraController cameraController;
     [SerializeField]
-    private GameObject explosionObject, gunAmmoObject, missileObject, hudCanvas;
-    private Cinemachine.CinemachineVirtualCamera[] cameras;
+    private GameObject explosionObject, gunAmmoObject, missileObject;
 
     [HideInInspector]
     public float currentSpeed, currentHealth, brakeInput;
@@ -41,14 +40,16 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         currentHealth = chosenShip.maxHealth;
         if(photonView.IsMine){
             currentHealth = chosenShip.maxHealth;
+            HudController = ship.GetComponentInChildren<PlayerHUDController>();
             weaponSystem = ship.GetComponentInChildren<WeaponsController>();
             weaponSystem.EnableWeapons();
-        
-            var hud = Instantiate(hudCanvas, parent: gameObject.transform);
-            HudController = hud.GetComponent<PlayerHUDController>();
             HudController.currentCraft = this;
             HudController.Activate();
-            cameras = GetComponentsInChildren<Cinemachine.CinemachineVirtualCamera>();
+            cameraController = ship.GetComponentInChildren<CameraController>();
+            cameraController.weaponsController = weaponSystem;
+            cameraController.Activate();
+            
+
             _rb = GetComponent<Rigidbody>();
         }
 
@@ -78,12 +79,10 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     
     #region targeting and camera
     public void CameraChange(){
-        if(cameras[0].Priority > 1){
-            cameras[0].MoveToTopOfPrioritySubqueue();
-        }
-        else{
-            cameras[1].MoveToTopOfPrioritySubqueue();
-        }
+        cameraController.ChangeCamera();
+    }
+    public void CameraLockTarget(){
+        cameraController.CameraLockTarget();
     }
     public void ChangeTargetMode(int input){
         weaponSystem.ChangeTargetMode(input);
@@ -98,7 +97,8 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         if(photonView.IsMine)
         if(isAwaitingRespawn){
             currentHealth = 0;
-            return;}
+            return;
+            }
 
         _rb.AddRelativeForce(0,0,currentSpeed, ForceMode.Acceleration);
         if (currentSpeed > chosenShip.cruiseSpeed)
@@ -130,9 +130,12 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         if(photonView.IsMine)
         weaponSystem.MissileControl(missileInput, currentSpeed);
     }
-    public void GunControl(Vector2 cursorInputPosition, bool gunInput){
+    public void GunControl(bool gunInput){
         if(photonView.IsMine)
-        weaponSystem.GunControl(cursorInputPosition, gunInput, currentSpeed);
+        weaponSystem.GunControl(gunInput, currentSpeed);
+    }
+    public void RotateCamera(Vector2 cursorInputPosition){
+        cameraController.RotateCamera(cursorInputPosition);
     }
     #endregion
 

@@ -14,6 +14,10 @@ public class PlayerHUDController : MonoBehaviour
     private float currentSpeed, maxSpeed, currentHealth, maxHealth;
 
     public void Activate(){
+        if(currentCraft == null){
+            Debug.LogError("PlayerHUDController: Activate(), currentCraft is null, script can't function");
+            return;
+        }
         PlayerProfileData data = SaveData.LoadProfile();
         chosenCharacter = currentCraft.chosenCharacter;
         chosenShip = currentCraft.chosenShip;

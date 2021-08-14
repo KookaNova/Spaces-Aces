@@ -152,7 +152,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5324327608559092116}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.55}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6719480203329384968}
@@ -175,7 +175,7 @@ TrailRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 52b1674c5c6cfdd4ba122fae03403c94, type: 2}
@@ -263,7 +263,7 @@ TrailRenderer:
     shadowBias: 0.5
     generateLightingData: 0
   m_MinVertexDistance: 0.1
-  m_Autodestruct: 0
+  m_Autodestruct: 1
   m_Emitting: 1
 --- !u!1 &6200246160423643314
 GameObject:
@@ -366,9 +366,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ad8b4060b4821e47be12bd6667a2e70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyTime: 10
-  missileSpeed: 500
-  seeking: 15
+  destroyTime: 8
+  missileSpeed: 1400
+  turningLimit: 1
+  missProbability: 2
   currentSpeed: 0
   damageOutput: 1000
   explosion: {fileID: 9128587892432602950, guid: e59c9a8b5999cdb4ab01f2f08b1d25b3, type: 3}
@@ -382,8 +383,8 @@ Rigidbody:
   m_GameObject: {fileID: 6200246160423643314}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 1
-  m_AngularDrag: 5
+  m_Drag: 3
+  m_AngularDrag: 1
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 2
@@ -452,7 +453,7 @@ GameObject:
   - component: {fileID: 5495636831417587992}
   - component: {fileID: 2091421186943573056}
   m_Layer: 14
-  m_Name: Audio Treavel
+  m_Name: Audio Travel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
