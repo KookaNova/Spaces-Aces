@@ -8,6 +8,7 @@ public class ShipHandler : ScriptableObject
     public Sprite shipIcon;
     public GameObject shipPrefab;
     public WeaponsController weaponsController;
+    public CameraController cameraController;
 
     [Header("Ship Stats")]
     public float maxHealth = 2000;

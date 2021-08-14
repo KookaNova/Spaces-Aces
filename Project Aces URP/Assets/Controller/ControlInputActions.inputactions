@@ -54,10 +54,10 @@
                     "interactions": "Press"
                 },
                 {
-                    "name": "Aim Gun",
-                    "type": "PassThrough",
+                    "name": "RotateCamera",
+                    "type": "Value",
                     "id": "611c7b84-62e4-4476-9d1a-85822f47935b",
-                    "expectedControlType": "Vector2",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": ""
                 },
@@ -127,9 +127,17 @@
                 },
                 {
                     "name": "StickMouseOverride",
-                    "type": "PassThrough",
+                    "type": "Value",
                     "id": "b43eafe0-6452-4c98-95ba-3e12b1fe2f1d",
                     "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "CameraTargetLock",
+                    "type": "Button",
+                    "id": "450277f3-9615-4df5-9e5d-a7bc680ed88a",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
                 }
@@ -368,17 +376,6 @@
                 },
                 {
                     "name": "",
-                    "id": "fe3afac4-0ebd-4f3e-bceb-0202c4962cdc",
-                    "path": "<Mouse>/position",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Aim Gun",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "cef75e7c-c2bb-49aa-ba1a-18eee0f2995f",
                     "path": "<Keyboard>/c",
                     "interactions": "",
@@ -558,7 +555,7 @@
                     "id": "0a6de934-effa-4992-a769-e612fcfa262b",
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
-                    "processors": "ScaleVector2(x=3,y=3)",
+                    "processors": "ScaleVector2",
                     "groups": "",
                     "action": "StickMouseOverride",
                     "isComposite": false,
@@ -572,6 +569,83 @@
                     "processors": "",
                     "groups": "",
                     "action": "TargetModeSub",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "2D Vector",
+                    "id": "340b42ce-df90-4dd2-8cd9-5077a16da6b9",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateCamera",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "dc9f1955-9c75-4455-9aad-794c51684a87",
+                    "path": "<Mouse>/position/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "e19a3d71-d0ce-4e51-99bf-d44d471faf6b",
+                    "path": "<Mouse>/position/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "0e166725-e780-47b4-bf2a-5676fdde2a18",
+                    "path": "<Mouse>/position/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "4e6b5210-3254-493f-a721-dfdc072a69c3",
+                    "path": "<Mouse>/position/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "4546626b-9269-467b-9a3f-b89c40c6d99a",
+                    "path": "<Gamepad>/leftStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CameraTargetLock",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4a134cef-cda5-4dfa-8e27-8973d476960c",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CameraTargetLock",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

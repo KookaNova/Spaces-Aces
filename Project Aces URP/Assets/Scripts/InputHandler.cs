@@ -12,10 +12,10 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
         
     SpacecraftController spacecraft;
     ControlInputActions _controls;
-    Vector2 torqueInput, cameraInput, cursorInputPosition;
+    Vector2 torqueInput, cameraInput, cursorInput;
 
     public override void OnEnable() {
-        cursorInputPosition = new Vector2 (Screen.width / 2, Screen.height / 2);
+        cursorInput = new Vector2 (Screen.width / 2, Screen.height / 2);
         spacecraft = GetComponentInChildren<SpacecraftController>();
         _controls = new ControlInputActions();
         _controls.Flight.SetCallbacks(this);
@@ -31,8 +31,9 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
         spacecraft.brakeInput = brakeInput;
         spacecraft.ThrustControl(thrustInput);
         spacecraft.TorqueControl(torqueInput, yawInput);
-        spacecraft.GunControl(cursorInputPosition, gunInput);
+        spacecraft.GunControl(gunInput);
         spacecraft.MissileLaunch(missileInput);
+        spacecraft.RotateCamera(cursorInput);
     }
 
     //Inputs
@@ -53,8 +54,8 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
     public void OnGunFire(InputAction.CallbackContext pressed){
         gunInput = pressed.ReadValueAsButton();
     }
-    public void OnAimGun(InputAction.CallbackContext position){
-        cursorInputPosition = position.ReadValue<Vector2>();
+    public void OnRotateCamera(InputAction.CallbackContext position){
+        cursorInput = position.ReadValue<Vector2>();
     }
     public void OnCameraChange(InputAction.CallbackContext context){
         if(photonView.IsMine)
@@ -80,7 +81,7 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
         spacecraft.AceAbility();
     }
     public void OnStickMouseOverride(InputAction.CallbackContext stickInput){
-        cursorInputPosition = cursorInputPosition + stickInput.ReadValue<Vector2>();
+        cursorInput = stickInput.ReadValue<Vector2>();
     }
 
     public void OnTargetModeAdd(InputAction.CallbackContext pressed)
@@ -98,5 +99,11 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
         if(targetMode > 2)targetMode = 0;
         if(targetMode < 0)targetMode = 2;
         spacecraft.ChangeTargetMode(targetMode);
+    }
+
+    public void OnCameraTargetLock(InputAction.CallbackContext context)
+    {
+        if(photonView.IsMine)
+        spacecraft.CameraLockTarget();
     }
 }

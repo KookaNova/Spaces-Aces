@@ -84,7 +84,6 @@ MonoBehaviour:
   explosionObject: {fileID: 9128587892432602950, guid: 8fd703d50be5b704588cc7b5baa1832e, type: 3}
   gunAmmoObject: {fileID: 4155647956408176716, guid: 5a3f45eeaedaf44489399eba23b11ac8, type: 3}
   missileObject: {fileID: 6200246160423643314, guid: fbe558d5ded7c6444990f035946dd5e0, type: 3}
-  hudCanvas: {fileID: 948404730906680870, guid: 0f66f4ac530c89f429cb422763e1ddd3, type: 3}
   currentSpeed: 0
   currentHealth: 0
   brakeInput: 0
