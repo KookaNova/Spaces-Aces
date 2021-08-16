@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class MenuUIController : MonoBehaviour
 {
@@ -11,17 +12,17 @@ public class MenuUIController : MonoBehaviour
         createProfileScreen, 
         personalProfileMenu,
         multiplayerMenu,
+        trainingMenu,
         optionsMenu;
     bool isTransitioning = false;
     [SerializeField]
-    private ProfileHandler proHandler;
+    private ProfileHandler profileHandler;
 
     public void StartScreenClicked() {
         PlayerProfileData data = SaveData.LoadProfile();
-
         if(data == null || data.currentLevel <= 0){
             createProfileScreen.SetActive(true);
-            proHandler.InitializeData();
+            profileHandler.InitializeData();
             mainMenu.SetActive(false);
             
             Debug.Log("MenuController: User must create a profile; activating create screen");
@@ -38,6 +39,10 @@ public class MenuUIController : MonoBehaviour
         mainMenu.SetActive(false);
         multiplayerMenu.SetActive(true);
     }
+    public void OpenTrainingMenu(){
+        mainMenu.SetActive(false);
+        trainingMenu.SetActive(true);
+    }
 
     public void OpenOptionsMenu(){
         mainMenu.SetActive(false);
@@ -51,6 +56,7 @@ public class MenuUIController : MonoBehaviour
         createProfileScreen.SetActive(false);
         personalProfileMenu.SetActive(false);
         multiplayerMenu.SetActive(false);
+        trainingMenu.SetActive(false);
         optionsMenu.SetActive(false);
         
     }

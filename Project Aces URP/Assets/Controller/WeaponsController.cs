@@ -210,8 +210,8 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         }
     }
 
-    public void MissileControl(bool missileInput, float currentSpeed){
-        StartCoroutine(MissileLaunch(missileInput, currentSpeed));
+    public void MissileControl(float currentSpeed){
+        StartCoroutine(MissileLaunch(currentSpeed));
     }
     #endregion
 
@@ -238,8 +238,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         canLaunchMissile = true;
 
     }
-    private IEnumerator MissileLaunch(bool missileInput, float currentSpeed){
-        if(missileInput == false)yield break;
+    private IEnumerator MissileLaunch(float currentSpeed){
         if(canLaunchMissile == false)yield break;
         canLaunchMissile = false;
 
