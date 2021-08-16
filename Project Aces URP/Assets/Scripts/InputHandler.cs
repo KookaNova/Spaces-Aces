@@ -32,13 +32,14 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
         spacecraft.ThrustControl(thrustInput);
         spacecraft.TorqueControl(torqueInput, yawInput);
         spacecraft.GunControl(gunInput);
-        spacecraft.MissileLaunch(missileInput);
         spacecraft.RotateCamera(cursorInput);
     }
 
     //Inputs
-    public void OnMenuButton(InputAction.CallbackContext context)
-    {}
+    public void OnMenuButton(InputAction.CallbackContext context){
+        if(photonView.IsMine)
+        spacecraft.MenuButton();
+    }
     public void OnBrake(InputAction.CallbackContext value){
         brakeInput = value.ReadValue<float>();
     }
@@ -66,7 +67,7 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
         spacecraft.CycleTargets();
     }
     public void OnMissileButton(InputAction.CallbackContext pressed){
-        missileInput = pressed.ReadValueAsButton();
+        spacecraft.MissileLaunch();
     }
     public void OnPrimaryAbility(InputAction.CallbackContext context){
         if(photonView.IsMine)

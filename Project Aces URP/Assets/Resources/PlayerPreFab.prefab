@@ -81,6 +81,7 @@ MonoBehaviour:
   weaponSystem: {fileID: 0}
   chosenCharacter: {fileID: 11400000, guid: 5e0146bfea2a90e4088f2de10ca4483e, type: 2}
   chosenShip: {fileID: 11400000, guid: 5b4d9e73d21b79043a1ee74e4135a453, type: 2}
+  menuPrefab: {fileID: 4008759332623177000, guid: c1a19ce19711da040b987e52e4a4b95f, type: 3}
   explosionObject: {fileID: 9128587892432602950, guid: 8fd703d50be5b704588cc7b5baa1832e, type: 3}
   gunAmmoObject: {fileID: 4155647956408176716, guid: 5a3f45eeaedaf44489399eba23b11ac8, type: 3}
   missileObject: {fileID: 6200246160423643314, guid: fbe558d5ded7c6444990f035946dd5e0, type: 3}

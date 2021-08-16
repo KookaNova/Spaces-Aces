@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Asteroid Mine.unity
     guid: c52018d97214b004b911350169b5e829
+  - enabled: 1
+    path: Assets/Scenes/Training Flight.unity
+    guid: 229c4a60183515a408b57e362e0fb118
   m_configObjects: {}

@@ -6,14 +6,13 @@ using Photon.Pun;
 public class SpacecraftController : MonoBehaviourPunCallbacks
 {
     #region Serialized Fields
-
     [Header("Spacecraft Objects")]
     public WeaponsController weaponSystem;
     public CharacterHandler chosenCharacter;
     public ShipHandler chosenShip;
     private CameraController cameraController;
     [SerializeField]
-    private GameObject explosionObject, gunAmmoObject, missileObject;
+    private GameObject menuPrefab, explosionObject, gunAmmoObject, missileObject;
 
     [HideInInspector]
     public float currentSpeed, currentHealth, brakeInput;
@@ -30,15 +29,18 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         canUseAce = false;
     private Rigidbody _rb;
     private ControlInputActions _controls;
-    private GameObject ship;
+    private GameObject ship, menu;
+    private Transform[] respawnPoints;
     #endregion
 
     #region setup
     public override void OnEnable(){
+        respawnPoints = FindObjectOfType<GameManager>().teamASpawnpoints;
         ship = Instantiate(chosenShip.shipPrefab, transform.position, transform.rotation);
         ship.transform.SetParent(this.gameObject.transform);
         currentHealth = chosenShip.maxHealth;
         if(photonView.IsMine){
+            menu = Instantiate(menuPrefab);
             currentHealth = chosenShip.maxHealth;
             HudController = ship.GetComponentInChildren<PlayerHUDController>();
             weaponSystem = ship.GetComponentInChildren<WeaponsController>();
@@ -63,9 +65,16 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         aceAbility = chosenCharacter.abilities[3];
     }
 
+    public void MenuButton(){
+        if(menu.activeSelf == false)
+            menu.SetActive(true);
+        else
+            menu.SetActive(false);
+    }
+
     private void OnCollisionEnter(Collision collision) {
         if(collision.gameObject.layer == LayerMask.NameToLayer("Crash Hazard") || collision.gameObject.layer == LayerMask.NameToLayer("Player")){
-           currentHealth -= currentSpeed + 30;
+           currentHealth -= currentSpeed + 1700;
         }
     }
     private void Eliminate(){
@@ -126,13 +135,13 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         _rb.AddRelativeTorque(torqueForce, ForceMode.Force);
     }
 
-    public void MissileLaunch(bool missileInput){
-        if(photonView.IsMine)
-        weaponSystem.MissileControl(missileInput, currentSpeed);
+    public void MissileLaunch(){
+        if(photonView.IsMine || !isAwaitingRespawn)
+            weaponSystem.MissileControl(currentSpeed);
     }
     public void GunControl(bool gunInput){
-        if(photonView.IsMine)
-        weaponSystem.GunControl(gunInput, currentSpeed);
+        if(photonView.IsMine || !isAwaitingRespawn)
+            weaponSystem.GunControl(gunInput, currentSpeed);
     }
     public void RotateCamera(Vector2 cursorInputPosition){
         cameraController.RotateCamera(cursorInputPosition);
@@ -176,6 +185,8 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(respawnTime);
         currentHealth = chosenShip.maxHealth;
         isAwaitingRespawn = false;
+        gameObject.transform.position = respawnPoints[0].position;
+        gameObject.transform.rotation = respawnPoints[0].rotation;
         ship.SetActive(true);
 
         //also teleport to spawn points using a spawn point system
