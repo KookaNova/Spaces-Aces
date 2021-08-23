@@ -54,6 +54,9 @@ public class CameraController : MonoBehaviour
     }
 
     private void LateUpdate(){
+        if(rotationInput == Vector2.zero){
+            gameObject.transform.localRotation = Quaternion.identity;
+        }
         if(weaponsController.currentTargetSelection.Count > 0){
             target = weaponsController.currentTargetSelection[0].transform.position;
         }
