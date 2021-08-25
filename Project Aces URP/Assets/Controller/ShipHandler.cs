@@ -7,7 +7,9 @@ public class ShipHandler : ScriptableObject
     public string shipName;
     public Sprite shipIcon;
     public GameObject shipPrefab;
+    [HideInInspector]
     public WeaponsController weaponsController;
+    [HideInInspector]
     public CameraController cameraController;
 
     [Header("Ship Stats")]
