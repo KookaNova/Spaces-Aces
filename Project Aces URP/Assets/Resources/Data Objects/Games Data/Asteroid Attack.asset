@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelName: Asteroid Mine
   gamemodeName: Attack
-  maxPlayers: 2
+  maxPlayers: 1
   teamNames:
   - Attack
   - Defense
