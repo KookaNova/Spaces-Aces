@@ -15,7 +15,7 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.39607847, g: 0.5568628, b: 0.81568635, a: 1}
+  m_FogColor: {r: 0.30192238, g: 0.425533, b: 0.6226415, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.00025
   m_LinearFogStart: 0
@@ -23,9 +23,9 @@ RenderSettings:
   m_AmbientSkyColor: {r: 0.6509434, g: 0.6440363, b: 0.58584905, a: 1}
   m_AmbientEquatorColor: {r: 0.23624064, g: 0.26981091, b: 0.5283019, a: 1}
   m_AmbientGroundColor: {r: 0.04761481, g: 0.15514453, b: 0.23584908, a: 1}
-  m_AmbientIntensity: 1
+  m_AmbientIntensity: 2
   m_AmbientMode: 0
-  m_SubtractiveShadowColor: {r: 0.10149796, g: 0.088839434, b: 0.21698111, a: 1}
+  m_SubtractiveShadowColor: {r: 0.38364416, g: 0.35639015, b: 0.6698113, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: 004d120331eb51040ac103f99d0076fb, type: 2}
   m_HaloStrength: 1
   m_FlareStrength: 1
@@ -34,10 +34,10 @@ RenderSettings:
   m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
   m_DefaultReflectionMode: 0
   m_DefaultReflectionResolution: 256
-  m_ReflectionBounces: 1
+  m_ReflectionBounces: 3
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 0}
+  m_Sun: {fileID: 911342026}
   m_IndirectSpecularColor: {r: 0.038311232, g: 0.07823799, b: 0.21118787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: f863bfcf3d42f4344be746b542e9a3fa, type: 2}
+  m_LightingDataAsset: {fileID: 112000000, guid: 772b362c56e8ade42801cdb3af3280c1, type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: 0bdaa3b54837629429938c2c695c58c8, type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -925,6 +925,7 @@ GameObject:
   m_Component:
   - component: {fileID: 911342027}
   - component: {fileID: 911342026}
+  - component: {fileID: 911342025}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -932,6 +933,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &911342025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 911342024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
 --- !u!108 &911342026
 Light:
   m_ObjectHideFlags: 0
@@ -951,11 +966,11 @@ Light:
   m_CookieSize: 10
   m_Shadows:
     m_Type: 2
-    m_Resolution: -1
+    m_Resolution: 128
     m_CustomResolution: -1
-    m_Strength: 0.8
-    m_Bias: 3.42
-    m_NormalBias: 3
+    m_Strength: 0.983
+    m_Bias: 0
+    m_NormalBias: 0
     m_NearPlane: 0.1
     m_CullingMatrixOverride:
       e00: 1
@@ -3177,8 +3192,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1195537941}
-  m_LocalRotation: {x: -0.018061733, y: 0.8431302, z: 0.0203397, w: 0.53702116}
-  m_LocalPosition: {x: -2991.4229, y: -1245.2346, z: 2559.7239}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 408.03802, y: 459.29858, z: 984.98083}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
