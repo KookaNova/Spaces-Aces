@@ -70,7 +70,7 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                     ""name"": ""RotateCamera"",
                     ""type"": ""Value"",
                     ""id"": ""611c7b84-62e4-4476-9d1a-85822f47935b"",
-                    ""expectedControlType"": ""Axis"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
@@ -604,6 +604,17 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""CameraTargetLock"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""31016e16-c78b-4f54-aad3-0c83367fcef9"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateCamera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
