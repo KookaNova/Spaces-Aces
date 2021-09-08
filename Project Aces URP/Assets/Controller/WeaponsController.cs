@@ -28,7 +28,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     public float fireRate = 0.1f,
         gunSpeed = 1000,
         gunSensitivity = 5,
-        gunRange = 3;
+        gunRange = 3000;
 
     public Transform[] gunPosition;
 
@@ -202,7 +202,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         //aim gun position towards reticle
         Ray ray = new Ray(aimReticle.transform.position, aimReticle.transform.forward);
         for(int i = 0; i < gunPosition.Length; i++){
-            gunPosition[i].LookAt(ray.GetPoint(1500));
+            gunPosition[i].LookAt(ray.GetPoint(gunRange));
         }
         
         if(canFire == true && gunInput == true){
