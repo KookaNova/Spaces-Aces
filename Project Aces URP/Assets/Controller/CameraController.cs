@@ -4,14 +4,13 @@ public class CameraController : MonoBehaviour
 {
     public WeaponsController weaponsController;
     private Vector2 rotationInput;
+    [SerializeField]
     private Cinemachine.CinemachineVirtualCamera[] cameras;
     private int currentCamera = 0;
     private bool isCameraTargetLocked = false;
     private Vector3 target;
 
     public void Activate(){
-        cameras = GetComponentsInChildren<Cinemachine.CinemachineVirtualCamera>();
-
         for(int i = 0; i < cameras.Length; i++){
             cameras[i].gameObject.SetActive(false);
         }
@@ -35,6 +34,12 @@ public class CameraController : MonoBehaviour
     }
 
     public void CameraLockTarget(){
+        if(!isCameraTargetLocked){
+            isCameraTargetLocked = true;
+        }
+        else{
+            isCameraTargetLocked = false;
+        }
         if(weaponsController.currentTargetSelection.Count <= 0){
                 isCameraTargetLocked = false;
                 return;
@@ -45,17 +50,11 @@ public class CameraController : MonoBehaviour
                     return;
                 }
             }
-        if(!isCameraTargetLocked){
-            isCameraTargetLocked = true;
-        }
-        else{
-            isCameraTargetLocked = false;
-        }
     }
 
     private void LateUpdate(){
         if(rotationInput == Vector2.zero){
-            gameObject.transform.localRotation = Quaternion.identity;
+            gameObject.transform.localRotation = Quaternion.Slerp(gameObject.transform.localRotation, Quaternion.identity, .05f);
         }
         if(weaponsController.currentTargetSelection.Count > 0){
             target = weaponsController.currentTargetSelection[0].transform.position;
