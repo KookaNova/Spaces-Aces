@@ -49,7 +49,7 @@ LightingSettings:
   m_PVRMinBounces: 5
   m_PVREnvironmentMIS: 1
   m_PVRFilteringMode: 1
-  m_PVRDenoiserTypeDirect: 1
+  m_PVRDenoiserTypeDirect: 2
   m_PVRDenoiserTypeIndirect: 2
   m_PVRDenoiserTypeAO: 1
   m_PVRFilterTypeDirect: 0
