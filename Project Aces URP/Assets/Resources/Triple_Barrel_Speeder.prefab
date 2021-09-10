@@ -876,7 +876,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3920867384336274371
 Transform:
   m_ObjectHideFlags: 0
@@ -976,7 +976,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3920867384638234176
 Transform:
   m_ObjectHideFlags: 0
@@ -1518,6 +1518,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponsController: {fileID: 2021481887488752200}
+  cameras:
+  - {fileID: 3920867384336274370}
+  - {fileID: 3920867384638234239}
 --- !u!1 &9043254046086924433
 GameObject:
   m_ObjectHideFlags: 0
