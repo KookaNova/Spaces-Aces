@@ -90,7 +90,7 @@ public class CameraController : MonoBehaviour
             //RotateTowards(gameObject.transform.rotation, targetRotation, 50 * Time.deltaTime);
 
             gameObject.transform.localRotation = new Quaternion(
-                Mathf.Clamp(gameObject.transform.localRotation.x, -1f, .2f), 
+                Mathf.Clamp(gameObject.transform.localRotation.x, -.2f, 1), 
                 Mathf.Clamp(gameObject.transform.localRotation.y, -.9f, .9f), 
                 Mathf.Clamp(gameObject.transform.localRotation.z, -.1f, .1f), 
                 Mathf.Clamp(gameObject.transform.localRotation.w, -1, 1));
