@@ -8,7 +8,8 @@ public class PlayerHUDController : MonoBehaviour
 
     [HideInInspector]
     public SpacecraftController currentCraft;
-    
+    [SerializeField]
+    private GameObject firstPersonHUD, thirdPersonHUD, OverlayHUD;
     private CharacterHandler chosenCharacter;
     private ShipHandler chosenShip;
     private float currentSpeed, maxSpeed, currentHealth, maxHealth;
@@ -18,6 +19,7 @@ public class PlayerHUDController : MonoBehaviour
             Debug.LogError("PlayerHUDController: Activate(), currentCraft is null, script can't function");
             return;
         }
+        firstPersonHUD.SetActive(true); OverlayHUD.SetActive(true);
         PlayerProfileData data = SaveData.LoadProfile();
         chosenCharacter = currentCraft.chosenCharacter;
         chosenShip = currentCraft.chosenShip;

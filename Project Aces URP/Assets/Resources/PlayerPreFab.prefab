@@ -65,7 +65,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTeam: 0
-  nameOfTarget: 
+  nameOfTarget: Real Player
 --- !u!114 &702583517967998092
 MonoBehaviour:
   m_ObjectHideFlags: 0

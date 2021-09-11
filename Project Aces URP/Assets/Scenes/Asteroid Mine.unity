@@ -23,7 +23,7 @@ RenderSettings:
   m_AmbientSkyColor: {r: 0.6509434, g: 0.6440363, b: 0.58584905, a: 1}
   m_AmbientEquatorColor: {r: 0.23624064, g: 0.26981091, b: 0.5283019, a: 1}
   m_AmbientGroundColor: {r: 0.04761481, g: 0.15514453, b: 0.23584908, a: 1}
-  m_AmbientIntensity: 0.65
+  m_AmbientIntensity: 0
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.10736917, g: 0.10736917, b: 0.1509434, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: 004d120331eb51040ac103f99d0076fb, type: 2}
@@ -34,7 +34,7 @@ RenderSettings:
   m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
   m_DefaultReflectionMode: 0
   m_DefaultReflectionResolution: 256
-  m_ReflectionBounces: 2
+  m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 911342026}
@@ -958,7 +958,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 0.966778, g: 1, b: 0.87169814, a: 1}
   m_Intensity: 2
   m_Range: 10
   m_SpotAngle: 30

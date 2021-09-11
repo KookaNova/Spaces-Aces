@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class WeaponsController : MonoBehaviourPunCallbacks
 {
@@ -60,11 +61,16 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         lockIndicator = l;
         lockIndicator.SetActive(false);
         textTargetMode = worldHud.GetComponentInChildren<TMPro.TextMeshProUGUI>();
-        textTargetMode.text = ("Targeting Mode: " + targMode.ToString());
+        textTargetMode.text = ("Targeting: " + targMode.ToString());
 
 
         FindTargets();
     }
+    public override void OnPlayerEnteredRoom(Player newPlayer) {
+        FindTargets();
+        
+    }
+    
     #endregion
 
     #region targeting
