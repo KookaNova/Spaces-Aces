@@ -143,10 +143,10 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             RaycastHit hit;
             Vector3 dir = currentTargetSelection[i].gameObject.transform.position - gameObject.transform.position;
             //if cast hits nothing, remove indicators
-            if(!Physics.SphereCast(gameObject.transform.position, 25, dir, out hit, 10000, ~layermask)){activeIndicators[i].SetActive(false); return;}
+            if(!Physics.SphereCast(gameObject.transform.position, 15, dir, out hit, 10000, ~layermask)){activeIndicators[i].SetActive(false); return;}
             
             //if object is visible and not obstructed, activate indicators
-            if(currentTargetSelection[i].GetComponentInChildren<Renderer>().isVisible && hit.collider.GetComponentInParent<TargetableObject>() == currentTargetSelection[i]){
+            if(currentTargetSelection[i].GetComponentInChildren<Renderer>().isVisible && hit.rigidbody.gameObject == currentTargetSelection[i].gameObject){
                 activeIndicators[i].SetActive(true);
             }
             else{
@@ -171,9 +171,9 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         RaycastHit hit;
         int layermask = 1 << 14;
         Vector3 dir = currentTargetSelection[0].gameObject.transform.position - gameObject.transform.position;
-        if(Physics.SphereCast(gameObject.transform.position, 25, dir, out hit, 5000, ~layermask) != true){lockIndicator.SetActive(false); CycleMainTarget(); return;};
+        if(Physics.SphereCast(gameObject.transform.position, 15, dir, out hit, 5000, ~layermask) != true){lockIndicator.SetActive(false); CycleMainTarget(); return;};
 
-        if(currentTargetSelection[0].GetComponentInChildren<Renderer>().isVisible && hit.collider.GetComponentInParent<TargetableObject>() == currentTargetSelection[0]){
+        if(currentTargetSelection[0].GetComponentInChildren<Renderer>().isVisible && hit.rigidbody.gameObject == currentTargetSelection[0].gameObject){
             lockIndicator.SetActive(true);
             lockOnModifier += 5 * Time.deltaTime;
             Vector3 targetScreenPosition = Camera.main.WorldToScreenPoint(currentTargetSelection[0].transform.position);
