@@ -4,16 +4,20 @@ using Photon.Pun;
 
 public class GunAmmoBehaviour : MonoBehaviour
 {
-    public float destroyTime = 6;
+    [SerializeField]
+    private float destroyTime = 6, damageOutput = 223;
     public GameObject impactObj;
 
     private void Awake() {
         StartCoroutine(DestroyCounter());
     }
 
-    public void OnCollisionEnter(Collision other) {
-        var a = Instantiate(impactObj);
-        a.transform.position = transform.position;
+    public void OnCollisionEnter(Collision obj) {
+        var impact = Instantiate(impactObj);
+        if(obj.gameObject.GetComponent<SpacecraftController>()){
+            obj.gameObject.GetComponent<SpacecraftController>().currentHealth -= damageOutput;
+        }
+        impact.transform.position = transform.position;
         PhotonNetwork.Destroy(this.gameObject);
     }
 

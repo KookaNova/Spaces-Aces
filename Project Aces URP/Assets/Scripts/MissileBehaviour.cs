@@ -73,7 +73,7 @@ public class MissileBehaviour : MonoBehaviour
     {
         Instantiate(explosion, transform.position, Quaternion.identity);
         if(obj.gameObject.GetComponent<SpacecraftController>()){
-            obj.gameObject.GetComponent<SpacecraftController>().currentHealth -= 1000;
+            obj.gameObject.GetComponent<SpacecraftController>().currentHealth -= damageOutput;
         }
         trail.transform.parent = null;
         Destroy(gameObject);

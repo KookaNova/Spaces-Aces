@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using Photon.Pun;
 
-[RequireComponent(typeof(Rigidbody), typeof(TargetableObject))]
+[RequireComponent(typeof(Rigidbody))]
 public class SpacecraftController : MonoBehaviourPunCallbacks
 {
     #region Serialized Fields
@@ -13,9 +13,11 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     private CameraController cameraController;
     [SerializeField]
     private GameObject menuPrefab, explosionObject, gunAmmoObject, missileObject;
+    [HideInInspector]
+    public float thrust = 0;
 
     [HideInInspector]
-    public float currentSpeed, currentHealth, brakeInput;
+    public float currentSpeed, currentHealth;
     #endregion
 
     #region Private Fields
@@ -42,16 +44,17 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         if(photonView.IsMine){
             menu = Instantiate(menuPrefab);
             currentHealth = chosenShip.maxHealth;
-            HudController = ship.GetComponentInChildren<PlayerHUDController>();
             weaponSystem = ship.GetComponentInChildren<WeaponsController>();
             weaponSystem.EnableWeapons();
+
+            HudController = ship.GetComponentInChildren<PlayerHUDController>();
             HudController.currentCraft = this;
             HudController.Activate();
+
             cameraController = ship.GetComponentInChildren<CameraController>();
             cameraController.weaponsController = weaponSystem;
             cameraController.Activate();
             
-
             _rb = GetComponent<Rigidbody>();
         }
 
@@ -89,6 +92,15 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     #region targeting and camera
     public void CameraChange(){
         cameraController.ChangeCamera();
+        if(cameraController.currentCamera == 0){
+            HudController.ThirdPersonHudSetInactive();
+        }
+        if(cameraController.currentCamera == 1){
+            HudController.FirstPersonHudSetInactive();
+        }
+        if(cameraController.currentCamera > 1){
+            HudController.HudSetInactive();
+        }
     }
     public void CameraLockTarget(){
         cameraController.CameraLockTarget();
@@ -103,29 +115,35 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     
     #region Player Control
     private void FixedUpdate(){
-        if(photonView.IsMine)
+        if(!photonView.IsMine)return;
         if(isAwaitingRespawn){
             currentHealth = 0;
             return;
             }
+        
+        thrust = Mathf.Clamp(thrust, -1, 1);
+        var speed = currentSpeed + (thrust * chosenShip.acceleration);
+        currentSpeed = Mathf.Lerp(currentSpeed, speed, Time.deltaTime);
+        currentSpeed = Mathf.Clamp(currentSpeed, chosenShip.minSpeed, chosenShip.maxSpeed);
 
         _rb.AddRelativeForce(0,0,currentSpeed, ForceMode.Acceleration);
         if (currentSpeed > chosenShip.cruiseSpeed)
         {
-            currentSpeed = Mathf.Lerp(currentSpeed, chosenShip.cruiseSpeed, .001f);
+            //currentSpeed = Mathf.Lerp(currentSpeed, chosenShip.cruiseSpeed, .001f);
         }
-        currentSpeed = Mathf.Lerp(currentSpeed, chosenShip.minSpeed, brakeInput * .01f);
 
         if(currentHealth <= 0){
             Eliminate();
         }
     }
 
-    public void ThrustControl(float thrustInput){
-        if(!photonView.IsMine)return;
-        var speed = currentSpeed + (thrustInput * chosenShip.acceleration);
-        currentSpeed = Mathf.Lerp(currentSpeed, speed, Time.deltaTime);
-        currentSpeed = Mathf.Clamp(currentSpeed, chosenShip.minSpeed, chosenShip.maxSpeed);
+    public void ThrustControl(){
+        //if(!photonView.IsMine)return;
+        thrust += .025f;
+    }
+    public void BrakeControl(){
+        //if(!photonView.IsMine)return;
+        thrust -= .035f;
     }
 
     public void TorqueControl(Vector2 torqueInput, float yawInput){
@@ -185,8 +203,9 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(respawnTime);
         currentHealth = chosenShip.maxHealth;
         isAwaitingRespawn = false;
-        gameObject.transform.position = respawnPoints[0].position;
-        gameObject.transform.rotation = respawnPoints[0].rotation;
+        int randInt = Random.Range(0, respawnPoints.Length - 1);
+        gameObject.transform.position = respawnPoints[randInt].position;
+        gameObject.transform.rotation = respawnPoints[randInt].rotation;
         ship.SetActive(true);
 
         //also teleport to spawn points using a spawn point system

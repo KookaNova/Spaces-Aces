@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef816f7ae2e87f14895104c882031053, type: 3}
+  m_Name: Tri-Engine
+  m_EditorClassIdentifier: 
+  shipName: Tri-Engine Speeder
+  shipIcon: {fileID: 21300000, guid: 20381379d78ef0a45ac5926fa4255f5d, type: 3}
+  shipPrefab: {fileID: 811196013837957695, guid: b6abd7506ce2af1478b51af83dad878d, type: 3}
+  weaponsController: {fileID: 0}
+  cameraController: {fileID: 0}
+  maxHealth: 1500
+  acceleration: 115
+  minSpeed: 25
+  cruiseSpeed: 355
+  maxSpeed: 500
+  roll: 45
+  pitch: 55
+  yaw: 25
