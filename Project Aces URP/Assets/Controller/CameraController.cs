@@ -6,7 +6,8 @@ public class CameraController : MonoBehaviour
     private Vector2 rotationInput;
     [SerializeField]
     private Cinemachine.CinemachineVirtualCamera[] cameras;
-    private int currentCamera = 0;
+    [HideInInspector]
+    public int currentCamera = 0;
     private bool isCameraTargetLocked = false;
     private Vector3 target;
 
@@ -62,12 +63,14 @@ public class CameraController : MonoBehaviour
         if(gameObject.transform.localRotation.x >= 20 || gameObject.transform.localRotation.x <= -90 || gameObject.transform.localRotation.y >= 120 || gameObject.transform.localRotation.y <= -120){
                 CameraLockTarget();
             }
+
+        //if camera isn't locked, use controller input
         if(!isCameraTargetLocked){
             var targetRotation = Quaternion.Euler(-rotationInput.y, rotationInput.x, 0);
             gameObject.transform.localRotation = Quaternion.Slerp(gameObject.transform.localRotation, targetRotation, .05f);
 
             gameObject.transform.localRotation = new Quaternion(
-                Mathf.Clamp(gameObject.transform.localRotation.x, -1f, .2f), 
+                Mathf.Clamp(gameObject.transform.localRotation.x, -1f, .3f), 
                 Mathf.Clamp(gameObject.transform.localRotation.y, -.9f, .9f), 
                 Mathf.Clamp(gameObject.transform.localRotation.z, -.1f, .1f), 
                 Mathf.Clamp(gameObject.transform.localRotation.w, -1, 1));
@@ -78,7 +81,7 @@ public class CameraController : MonoBehaviour
                 return;
             }
             else{
-                if(weaponsController.currentTargetSelection[0] == null){
+                if(!weaponsController.currentTargetSelection[0].gameObject.activeSelf){
                     isCameraTargetLocked = false;
                     return;
                 }
@@ -90,7 +93,7 @@ public class CameraController : MonoBehaviour
             //RotateTowards(gameObject.transform.rotation, targetRotation, 50 * Time.deltaTime);
 
             gameObject.transform.localRotation = new Quaternion(
-                Mathf.Clamp(gameObject.transform.localRotation.x, -.2f, 1), 
+                Mathf.Clamp(gameObject.transform.localRotation.x, -1f, .3f), 
                 Mathf.Clamp(gameObject.transform.localRotation.y, -.9f, .9f), 
                 Mathf.Clamp(gameObject.transform.localRotation.z, -.1f, .1f), 
                 Mathf.Clamp(gameObject.transform.localRotation.w, -1, 1));

@@ -18,7 +18,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     public Canvas worldHud, overlayHud;
     public Image aimReticle;
     public GameObject objectIndicator, lockIndicator;
-    public TMPro.TextMeshProUGUI textTargetMode;
+    public List<TMPro.TextMeshProUGUI> textTargetMode;
     public List<GameObject> activeIndicators;
     public List<TargetableObject> allTargetList, currentTargetSelection;
     #endregion
@@ -55,20 +55,21 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     #region enable
     public void EnableWeapons() {
         gunCannonAudio = GetComponent<AudioSource>();
-        overlayHud.transform.parent = null;
+        overlayHud.transform.SetParent(null);
 
         var l = Instantiate(lockIndicator, parent: overlayHud.transform);
         lockIndicator = l;
         lockIndicator.SetActive(false);
-        textTargetMode = worldHud.GetComponentInChildren<TMPro.TextMeshProUGUI>();
-        textTargetMode.text = ("Targeting: " + targMode.ToString());
+        for(int i = 0; i < textTargetMode.Count; i++){
+            textTargetMode[i].text = ("Targeting: " + targMode.ToString());
+        }
+        
 
 
         FindTargets();
     }
     public override void OnPlayerEnteredRoom(Player newPlayer) {
         FindTargets();
-        
     }
     
     #endregion
@@ -84,7 +85,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         allTargetList.Clear();
         var targets = GameObject.FindObjectsOfType<TargetableObject>();
         for (int i = 0; i < targets.Length; i++){
-            if(targets[i] != gameObject.GetComponentInParent<TargetableObject>()){
+            if(targets[i] != this.GetComponentInParent<TargetableObject>()){
                 allTargetList.Add(targets[i]);
             }
         }
@@ -101,7 +102,9 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         if(input == 2){
             targMode = TargetingMode.Global;
         }
-        textTargetMode.text = ("Targeting " + targMode.ToString());
+        for(int i = 0; i < textTargetMode.Count; i++){
+            textTargetMode[i].text = ("Targeting " + targMode.ToString());
+        }
         CleanTargetSelection();
     
     }
@@ -117,11 +120,14 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     }
 
     private void GenerateIndicators(){
+        //destroy old indicators when mode is changed
         for(int i = 0; i < activeIndicators.Count; i++){
             Destroy(activeIndicators[i]);
         }
         activeIndicators.Clear();
         activeIndicators.TrimExcess();
+
+        //Create indicators and deactivate them, wait for object to be on camera to activate
         for(int i = 0; i < currentTargetSelection.Count; i++){
             var a = Instantiate(objectIndicator, overlayHud.transform);
             activeIndicators.Add(a);
@@ -131,15 +137,16 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     }
 
     private void PositionIndicators(){
-        if(activeIndicators.Count <= 0){};
+        if(activeIndicators.Count <= 0)return;
         for (int i = 0; i < activeIndicators.Count; i++){
-
-            RaycastHit hit;
             int layermask = 1 << 14;
+            RaycastHit hit;
             Vector3 dir = currentTargetSelection[i].gameObject.transform.position - gameObject.transform.position;
-            if(Physics.SphereCast(gameObject.transform.position, 25, dir, out hit, 5000, ~layermask) != true){activeIndicators[i].SetActive(false); return;}
+            //if cast hits nothing, remove indicators
+            if(!Physics.SphereCast(gameObject.transform.position, 25, dir, out hit, 10000, ~layermask)){activeIndicators[i].SetActive(false); return;}
             
-            if(currentTargetSelection[i].GetComponentInChildren<Renderer>().isVisible && hit.collider.gameObject == currentTargetSelection[i].gameObject){
+            //if object is visible and not obstructed, activate indicators
+            if(currentTargetSelection[i].GetComponentInChildren<Renderer>().isVisible && hit.collider.GetComponentInParent<TargetableObject>() == currentTargetSelection[i]){
                 activeIndicators[i].SetActive(true);
             }
             else{
@@ -166,7 +173,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         Vector3 dir = currentTargetSelection[0].gameObject.transform.position - gameObject.transform.position;
         if(Physics.SphereCast(gameObject.transform.position, 25, dir, out hit, 5000, ~layermask) != true){lockIndicator.SetActive(false); CycleMainTarget(); return;};
 
-        if(currentTargetSelection[0].GetComponentInChildren<Renderer>().isVisible && hit.collider.gameObject == currentTargetSelection[0].gameObject){
+        if(currentTargetSelection[0].GetComponentInChildren<Renderer>().isVisible && hit.collider.GetComponentInParent<TargetableObject>() == currentTargetSelection[0]){
             lockIndicator.SetActive(true);
             lockOnModifier += 5 * Time.deltaTime;
             Vector3 targetScreenPosition = Camera.main.WorldToScreenPoint(currentTargetSelection[0].transform.position);

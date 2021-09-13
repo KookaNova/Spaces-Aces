@@ -28,25 +28,25 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""Thrust"",
-                    ""type"": ""Value"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""39feed91-9511-46e5-ad51-1861b7e92efc"",
-                    ""expectedControlType"": ""Analog"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
                 },
                 {
                     ""name"": ""Brake"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""3fc556eb-640e-42df-a3d5-da8bb14c2e19"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
                 },
                 {
                     ""name"": ""Yaw"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""d1a91c8b-2259-4247-94b2-3818ad2383bb"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
                 },
@@ -159,7 +159,7 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""fac45eca-6e1d-4158-b987-bb92780711c8"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": ""Basic Controls"",
@@ -181,7 +181,7 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""de0a9a32-9db3-44a2-97e1-868296276cd6"",
-                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Basic Controls"",
@@ -236,7 +236,7 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": ""negative"",
                     ""id"": ""e21a66bd-c442-426a-bf78-e211ed60cc2b"",
-                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Basic Controls"",
@@ -247,7 +247,7 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": ""positive"",
                     ""id"": ""0551144f-1705-4813-84ea-5ad1f57d7a22"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Basic Controls"",

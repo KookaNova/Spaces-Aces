@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 702583517967998089}
   - component: {fileID: 702583517967998091}
-  - component: {fileID: 702583517967998094}
   - component: {fileID: 702583517967998092}
   - component: {fileID: 129003246424364282}
   - component: {fileID: 2105643000379996664}
@@ -44,7 +43,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 702583517967998088}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 5
   m_Drag: 1
   m_AngularDrag: 1
   m_UseGravity: 0
@@ -52,20 +51,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 2
---- !u!114 &702583517967998094
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 702583517967998088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c38070f2554414409ab1b8e54b4c564, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetTeam: 0
-  nameOfTarget: Real Player
 --- !u!114 &702583517967998092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,9 +70,9 @@ MonoBehaviour:
   explosionObject: {fileID: 9128587892432602950, guid: 8fd703d50be5b704588cc7b5baa1832e, type: 3}
   gunAmmoObject: {fileID: 4155647956408176716, guid: 5a3f45eeaedaf44489399eba23b11ac8, type: 3}
   missileObject: {fileID: 6200246160423643314, guid: fbe558d5ded7c6444990f035946dd5e0, type: 3}
+  thrust: 0
   currentSpeed: 0
   currentHealth: 0
-  brakeInput: 0
 --- !u!114 &129003246424364282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,7 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: 7034fcd5845e59c4e909d451b0b931ed, type: 3}
-  m_NotificationBehavior: 0
+  m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -195,8 +180,48 @@ MonoBehaviour:
     m_ActionName: Flight/StickMouseOverride[/DualShock4GamepadHID/rightStick]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 97a723eb-ba74-4a02-bf16-88979aa79ae3
-    m_ActionName: Menu/Escape Button[/Keyboard/escape]
+    m_ActionId: 450277f3-9615-4df5-9e5d-a7bc680ed88a
+    m_ActionName: Flight/CameraTargetLock[/DualShock4GamepadHID/leftStickPress,/Keyboard/x]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 91be01a6-80e0-4b62-ad30-8bc732524083
+    m_ActionName: UI/Navigate[/DualShock4GamepadHID/leftStick/up,/DualShock4GamepadHID/rightStick/up,/DualShock4GamepadHID/leftStick/down,/DualShock4GamepadHID/rightStick/down,/DualShock4GamepadHID/leftStick/left,/DualShock4GamepadHID/rightStick/left,/DualShock4GamepadHID/leftStick/right,/DualShock4GamepadHID/rightStick/right,/DualShock4GamepadHID/dpad,/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c7725986-1015-47a3-9b77-968659df9115
+    m_ActionName: UI/Submit[/Keyboard/enter,/DualShock4GamepadHID/buttonSouth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 95339349-bf50-4a82-bfc7-8a091f4868b3
+    m_ActionName: UI/Cancel[/Keyboard/escape,/DualShock4GamepadHID/buttonEast]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b3f68b04-4141-4492-897c-28a7c0b8699e
+    m_ActionName: UI/Point[/Mouse/position,/Pen/position]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a55dc20c-f11a-4f1d-816b-e078f6a868cf
+    m_ActionName: UI/Click[/Mouse/leftButton,/Pen/tip,/DualShock4GamepadHID/buttonSouth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: aa55a057-d81b-4234-8d15-fdca928ab5d9
+    m_ActionName: UI/ScrollWheel[/Mouse/scroll]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 63fb6804-afb2-4dc9-bbc6-ed2a9157636f
+    m_ActionName: UI/MiddleClick[/Mouse/middleButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 38242aee-0b41-46bb-a911-92c8c382d9d2
+    m_ActionName: UI/RightClick[/Mouse/rightButton,/DualShock4GamepadHID/buttonEast]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6bb62b04-73fa-402c-b803-baa993f01c93
+    m_ActionName: UI/TrackedDevicePosition
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 60d42dc7-3d3a-4c93-8d8f-797eb7629819
+    m_ActionName: UI/TrackedDeviceOrientation
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Basic Controls
   m_DefaultActionMap: Flight
@@ -267,7 +292,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 702583518125578460}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22f44004426806f44b68cad82dc3fa24, type: 3}
+  m_Script: {fileID: 11500000, guid: 76c078ee2b38c924a9a904ba5542975f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &702583518136526225
