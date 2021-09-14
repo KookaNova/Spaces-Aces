@@ -7,45 +7,48 @@ using Photon.Realtime;
 
 public class WeaponsController : MonoBehaviourPunCallbacks
 {
-    #region Public Fields
+    #region Serialized Fields
     public enum TargetingMode{
         TeamA,
         TeamB,
         Global
     }
 
-    public TargetingMode targMode = TargetingMode.TeamA;
-    public Canvas worldHud, overlayHud;
-    public Image aimReticle;
-    public GameObject objectIndicator, lockIndicator;
-    public List<TMPro.TextMeshProUGUI> textTargetMode;
-    public List<GameObject> activeIndicators;
-    public List<TargetableObject> allTargetList, currentTargetSelection;
+    
+    [SerializeField] private TargetingMode targMode = TargetingMode.TeamA;
+    [SerializeField] private Canvas worldHud, overlayHud;
+    [SerializeField] private Image aimReticle;
+    [SerializeField] private GameObject objectIndicator, lockIndicator;
+    [SerializeField] private List<TMPro.TextMeshProUGUI> textTargetMode, missileCountText;
+    [SerializeField] private List<GameObject> activeIndicators;
+    [SerializeField] private Camera fovCam;
     #endregion
 
     #region Public Weapon Fields
     [Header("Gun Information")]
-    public GameObject ammoType;
-    public float fireRate = 0.1f,
+    [SerializeField] private GameObject ammoType;
+    [SerializeField] private float fireRate = 0.1f,
         gunSpeed = 1000,
         gunSensitivity = 5,
         gunRange = 3000;
 
-    public Transform[] gunPosition;
+    [SerializeField] private Transform[] gunPosition;
 
     [Header("Missile Information")]
-    public GameObject missileType;
-    public float lockOnEfficiency = 2,
+    [SerializeField] private GameObject missileType;
+    [SerializeField] private float lockOnEfficiency = 2,
         lockOnRange = 2500,
         missileReload = 5;
 
-    public Transform[] missilePosition;
+    [SerializeField] private Transform[] missilePosition;
 
     public AudioSource gunCannonAudio, missileCannonAudio;
     #endregion
 
-    #region Private Fields
+    #region Hidden Fields
+    [HideInInspector] public List<TargetableObject> allTargetList, currentTargetSelection;
     private int currentMis = 0;
+    private int missilesAvailable;
     private float lockOnModifier = 5;
 
     private bool canFire = true, isTargetVisible = false, missileLocked = false, canLaunchMissile = true;
@@ -56,6 +59,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     public void EnableWeapons() {
         gunCannonAudio = GetComponent<AudioSource>();
         overlayHud.transform.SetParent(null);
+        missilesAvailable = missilePosition.Length;
 
         var l = Instantiate(lockIndicator, parent: overlayHud.transform);
         lockIndicator = l;
@@ -70,6 +74,11 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     }
     public override void OnPlayerEnteredRoom(Player newPlayer) {
         FindTargets();
+    }
+    private void UpdateHUD(){
+        for(int i = 0; i < missileCountText.Count; i++){
+            missileCountText[i].text = missilesAvailable.ToString();
+        }
     }
     
     #endregion
@@ -143,10 +152,10 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             RaycastHit hit;
             Vector3 dir = currentTargetSelection[i].gameObject.transform.position - gameObject.transform.position;
             //if cast hits nothing, remove indicators
-            if(!Physics.SphereCast(gameObject.transform.position, 15, dir, out hit, 10000, ~layermask)){activeIndicators[i].SetActive(false); return;}
+            if(!Physics.SphereCast(gameObject.transform.position, 10, dir, out hit, 7500, ~layermask)){activeIndicators[i].SetActive(false); return;}
             
             //if object is visible and not obstructed, activate indicators
-            if(currentTargetSelection[i].GetComponentInChildren<Renderer>().isVisible && hit.rigidbody.gameObject == currentTargetSelection[i].gameObject){
+            if(Physics.SphereCast(gameObject.transform.position, 10, dir, out hit, 7500, ~layermask) && currentTargetSelection[i].GetComponentInChildren<Renderer>().isVisible && hit.rigidbody.gameObject == currentTargetSelection[i].gameObject){
                 activeIndicators[i].SetActive(true);
             }
             else{
@@ -171,11 +180,11 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         RaycastHit hit;
         int layermask = 1 << 14;
         Vector3 dir = currentTargetSelection[0].gameObject.transform.position - gameObject.transform.position;
-        if(Physics.SphereCast(gameObject.transform.position, 15, dir, out hit, 5000, ~layermask) != true){lockIndicator.SetActive(false); CycleMainTarget(); return;};
+        if(!Physics.SphereCast(gameObject.transform.position, 10, dir, out hit, 3500, ~layermask)){lockIndicator.SetActive(false); CycleMainTarget(); return;};
 
-        if(currentTargetSelection[0].GetComponentInChildren<Renderer>().isVisible && hit.rigidbody.gameObject == currentTargetSelection[0].gameObject){
+        if(Physics.SphereCast(gameObject.transform.position, 10, dir, out hit, 3500, ~layermask) && currentTargetSelection[0].GetComponentInChildren<Renderer>().isVisible && hit.rigidbody.gameObject == currentTargetSelection[0].gameObject){
             lockIndicator.SetActive(true);
-            lockOnModifier += 5 * Time.deltaTime;
+            lockOnModifier += 6 * Time.deltaTime;
             Vector3 targetScreenPosition = Camera.main.WorldToScreenPoint(currentTargetSelection[0].transform.position);
             Vector3 slowMove = Vector3.MoveTowards(lockIndicator.transform.position, targetScreenPosition, lockOnEfficiency * lockOnModifier);
             lockIndicator.transform.position = new Vector3(slowMove.x, slowMove.y, 0);
@@ -190,7 +199,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         }
         else{
             CycleMainTarget();
-            lockOnModifier = 5;
+            lockOnModifier = 6;
             lockIndicator.transform.position = Vector3.zero;
             lockIndicator.SetActive(false);
             missileLocked = false;
@@ -201,7 +210,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         if(currentTargetSelection.Count <= 0)return;
         isTargetVisible = false;
         missileLocked = false;
-        lockOnModifier = 5;
+        lockOnModifier = 6;
         var previousTarg = currentTargetSelection[0];
         int lastIndex = currentTargetSelection.Count - 1 ;
         currentTargetSelection.Remove(previousTarg);
@@ -247,11 +256,13 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     private IEnumerator MissileReload(){
         canLaunchMissile = false;
         yield return new WaitForSeconds(missileReload);
-        currentMis = 0;
+        missilesAvailable ++;
+        UpdateHUD();
         canLaunchMissile = true;
 
     }
     private IEnumerator MissileLaunch(float currentSpeed){
+        if(missilesAvailable <= 0)canLaunchMissile = false;
         if(canLaunchMissile == false)yield break;
         canLaunchMissile = false;
 
@@ -260,20 +271,22 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             var behaviour = m.GetComponent<MissileBehaviour>();
             behaviour.currentSpeed = currentSpeed;
             behaviour.target = currentTargetSelection[0].gameObject;
+            missilesAvailable--;
+            UpdateHUD();
         }
         else{
             var m = Instantiate(missileType.gameObject, missilePosition[currentMis].position, missilePosition[currentMis].rotation);
             var behaviour = m.GetComponent<MissileBehaviour>();
             behaviour.currentSpeed = currentSpeed;
+            missilesAvailable--;
+            UpdateHUD();
         }
-        
-        
+        StartCoroutine(MissileReload());
 
         yield return new WaitForSeconds(.5f);
-        currentMis += 1;
+        currentMis++;
         if(currentMis > missilePosition.Length - 1){
-            StartCoroutine(MissileReload());
-            yield break;
+            currentMis = 0;
         }
         canLaunchMissile = true;
     }
