@@ -67,14 +67,6 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                     ""interactions"": ""Press""
                 },
                 {
-                    ""name"": ""RotateCamera"",
-                    ""type"": ""Value"",
-                    ""id"": ""611c7b84-62e4-4476-9d1a-85822f47935b"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
                     ""name"": ""CameraChange"",
                     ""type"": ""Button"",
                     ""id"": ""d9730d32-a327-48b3-9fc7-316b4c39a803"",
@@ -139,7 +131,7 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""StickMouseOverride"",
+                    ""name"": ""CameraStick"",
                     ""type"": ""Value"",
                     ""id"": ""b43eafe0-6452-4c98-95ba-3e12b1fe2f1d"",
                     ""expectedControlType"": ""Vector2"",
@@ -151,6 +143,14 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                     ""type"": ""Button"",
                     ""id"": ""450277f3-9615-4df5-9e5d-a7bc680ed88a"",
                     ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""CameraMouse"",
+                    ""type"": ""Value"",
+                    ""id"": ""64d68f33-742e-4614-8393-e7082a7f3c40"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -570,7 +570,7 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": ""ScaleVector2"",
                     ""groups"": """",
-                    ""action"": ""StickMouseOverride"",
+                    ""action"": ""CameraStick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -609,12 +609,12 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""31016e16-c78b-4f54-aad3-0c83367fcef9"",
-                    ""path"": ""<Gamepad>/rightStick"",
+                    ""id"": ""88087199-83ec-4994-bba7-017febbded0a"",
+                    ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""RotateCamera"",
+                    ""action"": ""CameraMouse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1181,7 +1181,6 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
         m_Flight_Yaw = m_Flight.FindAction("Yaw", throwIfNotFound: true);
         m_Flight_Torque = m_Flight.FindAction("Torque", throwIfNotFound: true);
         m_Flight_GunFire = m_Flight.FindAction("Gun Fire", throwIfNotFound: true);
-        m_Flight_RotateCamera = m_Flight.FindAction("RotateCamera", throwIfNotFound: true);
         m_Flight_CameraChange = m_Flight.FindAction("CameraChange", throwIfNotFound: true);
         m_Flight_TargetModeAdd = m_Flight.FindAction("TargetModeAdd", throwIfNotFound: true);
         m_Flight_TargetModeSub = m_Flight.FindAction("TargetModeSub", throwIfNotFound: true);
@@ -1190,8 +1189,9 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
         m_Flight_PrimaryAbility = m_Flight.FindAction("Primary Ability", throwIfNotFound: true);
         m_Flight_SecondaryAbility = m_Flight.FindAction("Secondary Ability", throwIfNotFound: true);
         m_Flight_AceAbility = m_Flight.FindAction("Ace Ability", throwIfNotFound: true);
-        m_Flight_StickMouseOverride = m_Flight.FindAction("StickMouseOverride", throwIfNotFound: true);
+        m_Flight_CameraStick = m_Flight.FindAction("CameraStick", throwIfNotFound: true);
         m_Flight_CameraTargetLock = m_Flight.FindAction("CameraTargetLock", throwIfNotFound: true);
+        m_Flight_CameraMouse = m_Flight.FindAction("CameraMouse", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1259,7 +1259,6 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Flight_Yaw;
     private readonly InputAction m_Flight_Torque;
     private readonly InputAction m_Flight_GunFire;
-    private readonly InputAction m_Flight_RotateCamera;
     private readonly InputAction m_Flight_CameraChange;
     private readonly InputAction m_Flight_TargetModeAdd;
     private readonly InputAction m_Flight_TargetModeSub;
@@ -1268,8 +1267,9 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Flight_PrimaryAbility;
     private readonly InputAction m_Flight_SecondaryAbility;
     private readonly InputAction m_Flight_AceAbility;
-    private readonly InputAction m_Flight_StickMouseOverride;
+    private readonly InputAction m_Flight_CameraStick;
     private readonly InputAction m_Flight_CameraTargetLock;
+    private readonly InputAction m_Flight_CameraMouse;
     public struct FlightActions
     {
         private @ControlInputActions m_Wrapper;
@@ -1280,7 +1280,6 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
         public InputAction @Yaw => m_Wrapper.m_Flight_Yaw;
         public InputAction @Torque => m_Wrapper.m_Flight_Torque;
         public InputAction @GunFire => m_Wrapper.m_Flight_GunFire;
-        public InputAction @RotateCamera => m_Wrapper.m_Flight_RotateCamera;
         public InputAction @CameraChange => m_Wrapper.m_Flight_CameraChange;
         public InputAction @TargetModeAdd => m_Wrapper.m_Flight_TargetModeAdd;
         public InputAction @TargetModeSub => m_Wrapper.m_Flight_TargetModeSub;
@@ -1289,8 +1288,9 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
         public InputAction @PrimaryAbility => m_Wrapper.m_Flight_PrimaryAbility;
         public InputAction @SecondaryAbility => m_Wrapper.m_Flight_SecondaryAbility;
         public InputAction @AceAbility => m_Wrapper.m_Flight_AceAbility;
-        public InputAction @StickMouseOverride => m_Wrapper.m_Flight_StickMouseOverride;
+        public InputAction @CameraStick => m_Wrapper.m_Flight_CameraStick;
         public InputAction @CameraTargetLock => m_Wrapper.m_Flight_CameraTargetLock;
+        public InputAction @CameraMouse => m_Wrapper.m_Flight_CameraMouse;
         public InputActionMap Get() { return m_Wrapper.m_Flight; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1318,9 +1318,6 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 @GunFire.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnGunFire;
                 @GunFire.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnGunFire;
                 @GunFire.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnGunFire;
-                @RotateCamera.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnRotateCamera;
-                @RotateCamera.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnRotateCamera;
-                @RotateCamera.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnRotateCamera;
                 @CameraChange.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnCameraChange;
                 @CameraChange.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnCameraChange;
                 @CameraChange.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnCameraChange;
@@ -1345,12 +1342,15 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 @AceAbility.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnAceAbility;
                 @AceAbility.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnAceAbility;
                 @AceAbility.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnAceAbility;
-                @StickMouseOverride.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnStickMouseOverride;
-                @StickMouseOverride.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnStickMouseOverride;
-                @StickMouseOverride.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnStickMouseOverride;
+                @CameraStick.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnCameraStick;
+                @CameraStick.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnCameraStick;
+                @CameraStick.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnCameraStick;
                 @CameraTargetLock.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnCameraTargetLock;
                 @CameraTargetLock.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnCameraTargetLock;
                 @CameraTargetLock.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnCameraTargetLock;
+                @CameraMouse.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnCameraMouse;
+                @CameraMouse.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnCameraMouse;
+                @CameraMouse.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnCameraMouse;
             }
             m_Wrapper.m_FlightActionsCallbackInterface = instance;
             if (instance != null)
@@ -1373,9 +1373,6 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 @GunFire.started += instance.OnGunFire;
                 @GunFire.performed += instance.OnGunFire;
                 @GunFire.canceled += instance.OnGunFire;
-                @RotateCamera.started += instance.OnRotateCamera;
-                @RotateCamera.performed += instance.OnRotateCamera;
-                @RotateCamera.canceled += instance.OnRotateCamera;
                 @CameraChange.started += instance.OnCameraChange;
                 @CameraChange.performed += instance.OnCameraChange;
                 @CameraChange.canceled += instance.OnCameraChange;
@@ -1400,12 +1397,15 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 @AceAbility.started += instance.OnAceAbility;
                 @AceAbility.performed += instance.OnAceAbility;
                 @AceAbility.canceled += instance.OnAceAbility;
-                @StickMouseOverride.started += instance.OnStickMouseOverride;
-                @StickMouseOverride.performed += instance.OnStickMouseOverride;
-                @StickMouseOverride.canceled += instance.OnStickMouseOverride;
+                @CameraStick.started += instance.OnCameraStick;
+                @CameraStick.performed += instance.OnCameraStick;
+                @CameraStick.canceled += instance.OnCameraStick;
                 @CameraTargetLock.started += instance.OnCameraTargetLock;
                 @CameraTargetLock.performed += instance.OnCameraTargetLock;
                 @CameraTargetLock.canceled += instance.OnCameraTargetLock;
+                @CameraMouse.started += instance.OnCameraMouse;
+                @CameraMouse.performed += instance.OnCameraMouse;
+                @CameraMouse.canceled += instance.OnCameraMouse;
             }
         }
     }
@@ -1532,7 +1532,6 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
         void OnYaw(InputAction.CallbackContext context);
         void OnTorque(InputAction.CallbackContext context);
         void OnGunFire(InputAction.CallbackContext context);
-        void OnRotateCamera(InputAction.CallbackContext context);
         void OnCameraChange(InputAction.CallbackContext context);
         void OnTargetModeAdd(InputAction.CallbackContext context);
         void OnTargetModeSub(InputAction.CallbackContext context);
@@ -1541,8 +1540,9 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
         void OnPrimaryAbility(InputAction.CallbackContext context);
         void OnSecondaryAbility(InputAction.CallbackContext context);
         void OnAceAbility(InputAction.CallbackContext context);
-        void OnStickMouseOverride(InputAction.CallbackContext context);
+        void OnCameraStick(InputAction.CallbackContext context);
         void OnCameraTargetLock(InputAction.CallbackContext context);
+        void OnCameraMouse(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

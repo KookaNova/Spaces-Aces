@@ -82,8 +82,9 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     }
     private void Eliminate(){
         isAwaitingRespawn = true;
-        ship.SetActive(false);
+        currentHealth = 0;
         Instantiate(explosionObject, gameObject.transform);
+        ship.SetActive(false);
         StartCoroutine(RespawnTimer());
 
     }
@@ -91,6 +92,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     
     #region targeting and camera
     public void CameraChange(){
+        if(photonView.IsMine);
         cameraController.ChangeCamera();
         if(cameraController.currentCamera == 0){
             HudController.ThirdPersonHudSetInactive();
@@ -103,6 +105,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         }
     }
     public void CameraLockTarget(){
+        if(photonView.IsMine)
         cameraController.CameraLockTarget();
     }
     public void ChangeTargetMode(int input){
@@ -138,11 +141,11 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     }
 
     public void ThrustControl(){
-        //if(!photonView.IsMine)return;
+        if(!photonView.IsMine)return;
         thrust += .025f;
     }
     public void BrakeControl(){
-        //if(!photonView.IsMine)return;
+        if(!photonView.IsMine)return;
         thrust -= .035f;
     }
 
@@ -154,14 +157,17 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     }
 
     public void MissileLaunch(){
-        if(photonView.IsMine || !isAwaitingRespawn)
+        if(!photonView.IsMine)return;
+        if(!isAwaitingRespawn)
             weaponSystem.MissileControl(currentSpeed);
     }
     public void GunControl(bool gunInput){
-        if(photonView.IsMine || !isAwaitingRespawn)
+        if(!photonView.IsMine)return;
+        if(!isAwaitingRespawn)
             weaponSystem.GunControl(gunInput, currentSpeed);
     }
     public void RotateCamera(Vector2 cursorInputPosition){
+        if(!photonView.IsMine)return;
         cameraController.RotateCamera(cursorInputPosition);
     }
     #endregion

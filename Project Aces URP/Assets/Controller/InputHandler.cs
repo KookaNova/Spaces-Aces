@@ -1,20 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using Photon.Pun;
 
 public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlightActions
 {
-    float thrustInput, yawInput, brakeInput;
+    float yawInput;
     int targetMode = 0;
     bool gunInput = false, missileInput = false;
         
     SpacecraftController spacecraft;
     ControlInputActions _controls;
-    Vector2 torqueInput, cameraInput, cursorInput;
+    Vector2 torqueInput, cursorInput;
 
     public override void OnEnable() {
+        if(!photonView.IsMine)return;
         cursorInput = new Vector2 (Screen.width / 2, Screen.height / 2);
         spacecraft = GetComponentInChildren<SpacecraftController>();
         _controls = new ControlInputActions();
@@ -28,12 +27,6 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
     //Update
     private void FixedUpdate() {
         if(photonView.IsMine)
-        if(brakeInput > 0){
-            spacecraft.BrakeControl();
-        }
-        if(thrustInput > 0){
-            spacecraft.ThrustControl();
-        }
         spacecraft.TorqueControl(torqueInput, yawInput);
         spacecraft.GunControl(gunInput);
         spacecraft.RotateCamera(cursorInput);
@@ -41,14 +34,13 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
 
     //Inputs
     public void OnMenuButton(InputAction.CallbackContext context){
-        if(photonView.IsMine)
         spacecraft.MenuButton();
     }
     public void OnBrake(InputAction.CallbackContext value){
-        brakeInput = value.ReadValue<float>();
+        spacecraft.BrakeControl();
     }
     public void OnThrust(InputAction.CallbackContext value){
-        thrustInput = value.ReadValue<float>();
+        spacecraft.ThrustControl();
     }
     public void OnTorque(InputAction.CallbackContext value){
         torqueInput = value.ReadValue<Vector2>();
@@ -59,34 +51,29 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
     public void OnGunFire(InputAction.CallbackContext pressed){
         gunInput = pressed.ReadValueAsButton();
     }
-    public void OnRotateCamera(InputAction.CallbackContext position){
-        cursorInput = position.ReadValue<Vector2>();
-    }
     public void OnCameraChange(InputAction.CallbackContext context){
-        if(photonView.IsMine)
         spacecraft.CameraChange();
     }
     public void OnCycleTargets(InputAction.CallbackContext pressed){
-        if(photonView.IsMine)
         spacecraft.CycleTargets();
     }
     public void OnMissileButton(InputAction.CallbackContext pressed){
         spacecraft.MissileLaunch();
     }
     public void OnPrimaryAbility(InputAction.CallbackContext context){
-        if(photonView.IsMine)
         spacecraft.PrimaryAbility();
     }
     public void OnSecondaryAbility(InputAction.CallbackContext context){
-        if(photonView.IsMine)
         spacecraft.SecondaryAbility();
     }
     public void OnAceAbility(InputAction.CallbackContext context){
-        if(photonView.IsMine)
         spacecraft.AceAbility();
     }
-    public void OnStickMouseOverride(InputAction.CallbackContext stickInput){
+    public void OnCameraStick(InputAction.CallbackContext stickInput){
         cursorInput = stickInput.ReadValue<Vector2>();
+    }
+    public void OnCameraMouse(InputAction.CallbackContext deltaInput){
+        cursorInput = deltaInput.ReadValue<Vector2>();
     }
 
     public void OnTargetModeAdd(InputAction.CallbackContext pressed)
