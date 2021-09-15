@@ -30,7 +30,7 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                     ""name"": ""Thrust"",
                     ""type"": ""PassThrough"",
                     ""id"": ""39feed91-9511-46e5-ad51-1861b7e92efc"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
