@@ -4,7 +4,7 @@ using Photon.Pun;
 
 public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlightActions
 {
-    float yawInput;
+    float thrustInput, yawInput, brakeInput;
     int targetMode = 0;
     bool gunInput = false, missileInput = false;
         
@@ -27,6 +27,12 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
     //Update
     private void FixedUpdate() {
         if(photonView.IsMine)
+        if(brakeInput > 0){
+            spacecraft.BrakeControl();
+        }
+        if(thrustInput > 0){
+            spacecraft.ThrustControl();
+        }
         spacecraft.TorqueControl(torqueInput, yawInput);
         spacecraft.GunControl(gunInput);
         spacecraft.RotateCamera(cursorInput);
@@ -37,10 +43,10 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
         spacecraft.MenuButton();
     }
     public void OnBrake(InputAction.CallbackContext value){
-        spacecraft.BrakeControl();
+        brakeInput = value.ReadValue<float>();
     }
     public void OnThrust(InputAction.CallbackContext value){
-        spacecraft.ThrustControl();
+        thrustInput = value.ReadValue<float>();
     }
     public void OnTorque(InputAction.CallbackContext value){
         torqueInput = value.ReadValue<Vector2>();
