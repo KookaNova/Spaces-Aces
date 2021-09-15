@@ -54,14 +54,6 @@
                     "interactions": "Press"
                 },
                 {
-                    "name": "RotateCamera",
-                    "type": "Value",
-                    "id": "611c7b84-62e4-4476-9d1a-85822f47935b",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
                     "name": "CameraChange",
                     "type": "Button",
                     "id": "d9730d32-a327-48b3-9fc7-316b4c39a803",
@@ -126,7 +118,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "StickMouseOverride",
+                    "name": "CameraStick",
                     "type": "Value",
                     "id": "b43eafe0-6452-4c98-95ba-3e12b1fe2f1d",
                     "expectedControlType": "Vector2",
@@ -138,6 +130,14 @@
                     "type": "Button",
                     "id": "450277f3-9615-4df5-9e5d-a7bc680ed88a",
                     "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "CameraMouse",
+                    "type": "Value",
+                    "id": "64d68f33-742e-4614-8393-e7082a7f3c40",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
                 }
@@ -557,7 +557,7 @@
                     "interactions": "",
                     "processors": "ScaleVector2",
                     "groups": "",
-                    "action": "StickMouseOverride",
+                    "action": "CameraStick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -596,12 +596,12 @@
                 },
                 {
                     "name": "",
-                    "id": "31016e16-c78b-4f54-aad3-0c83367fcef9",
-                    "path": "<Gamepad>/rightStick",
+                    "id": "88087199-83ec-4994-bba7-017febbded0a",
+                    "path": "<Mouse>/delta",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "RotateCamera",
+                    "action": "CameraMouse",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -152,10 +152,10 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             RaycastHit hit;
             Vector3 dir = currentTargetSelection[i].gameObject.transform.position - gameObject.transform.position;
             //if cast hits nothing, remove indicators
-            if(!Physics.SphereCast(gameObject.transform.position, 10, dir, out hit, 7500, ~layermask)){activeIndicators[i].SetActive(false); return;}
+            if(!Physics.SphereCast(gameObject.transform.position, 10, dir, out hit, 7500, ~layermask) || hit.rigidbody == null){activeIndicators[i].SetActive(false); return;}
             
             //if object is visible and not obstructed, activate indicators
-            if(Physics.SphereCast(gameObject.transform.position, 10, dir, out hit, 7500, ~layermask) && currentTargetSelection[i].GetComponentInChildren<Renderer>().isVisible && hit.rigidbody.gameObject == currentTargetSelection[i].gameObject){
+            if(currentTargetSelection[i].GetComponentInChildren<Renderer>().isVisible && hit.rigidbody.gameObject == currentTargetSelection[i].gameObject){
                 activeIndicators[i].SetActive(true);
             }
             else{
@@ -180,9 +180,10 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         RaycastHit hit;
         int layermask = 1 << 14;
         Vector3 dir = currentTargetSelection[0].gameObject.transform.position - gameObject.transform.position;
-        if(!Physics.SphereCast(gameObject.transform.position, 10, dir, out hit, 3500, ~layermask)){lockIndicator.SetActive(false); CycleMainTarget(); return;};
+        if(!Physics.SphereCast(gameObject.transform.position, 10, dir, out hit, 3500, ~layermask) || hit.rigidbody == null){lockIndicator.SetActive(false); CycleMainTarget(); return;};
 
         if(Physics.SphereCast(gameObject.transform.position, 10, dir, out hit, 3500, ~layermask) && currentTargetSelection[0].GetComponentInChildren<Renderer>().isVisible && hit.rigidbody.gameObject == currentTargetSelection[0].gameObject){
+            
             lockIndicator.SetActive(true);
             lockOnModifier += 6 * Time.deltaTime;
             Vector3 targetScreenPosition = Camera.main.WorldToScreenPoint(currentTargetSelection[0].transform.position);
@@ -200,7 +201,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         else{
             CycleMainTarget();
             lockOnModifier = 6;
-            lockIndicator.transform.position = Vector3.zero;
+            lockIndicator.transform.position = new Vector2(Camera.main.scaledPixelWidth / 2, Camera.main.scaledPixelHeight / 2);
             lockIndicator.SetActive(false);
             missileLocked = false;
         }
@@ -212,10 +213,9 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         missileLocked = false;
         lockOnModifier = 6;
         var previousTarg = currentTargetSelection[0];
-        int lastIndex = currentTargetSelection.Count - 1 ;
-        currentTargetSelection.Remove(previousTarg);
-        currentTargetSelection.Insert(lastIndex, previousTarg);
-        lockIndicator.transform.position = Vector3.zero;
+        int lastIndex = currentTargetSelection.Count - 1;
+        currentTargetSelection.RemoveAt(0);
+        currentTargetSelection.Add(previousTarg);
     }
     #endregion
 

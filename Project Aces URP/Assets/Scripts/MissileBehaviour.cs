@@ -37,7 +37,7 @@ public class MissileBehaviour : MonoBehaviour
         {
             if(startCasting == true){
                 if(Physics.SphereCast(gameObject.transform.position, missProbability, gameObject.transform.forward, out hit)){
-                    if(hit.rigidbody.gameObject != target.gameObject){
+                    if(hit.rigidbody == null || hit.rigidbody.gameObject != target.gameObject){
                         target = null;
                         Debug.Log("MissileBehaviour: Spherecast obstructed. Missile missed.");
                         return;
