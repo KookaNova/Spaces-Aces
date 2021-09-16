@@ -1,5 +1,17 @@
 {
   "dependencies": {
+    "com.ben.work": {
+      "version": "file:../../../prototypes/benprototype/Packages/benfinal",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
+    "com.sidefx.houdiniengine": {
+      "version": "file:../../../packages/houdiniengine/Packages/com.sidefx.HoudiniEngineUnity",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,
