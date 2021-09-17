@@ -7,7 +7,7 @@
       "dependencies": {}
     },
     "com.sidefx.houdiniengine": {
-      "version": "file:../../../packages/houdiniengine/Packages/com.sidefx.HoudiniEngineUnity",
+      "version": "file:../../../packages/houdiniengineunitypackage/com.sidefx.HoudiniEngineUnity",
       "depth": 0,
       "source": "local",
       "dependencies": {}
