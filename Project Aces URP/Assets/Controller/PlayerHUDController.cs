@@ -37,7 +37,7 @@ public class PlayerHUDController : MonoBehaviour
         maxSpeed = chosenShip.maxSpeed;
         maxHealth = chosenShip.maxHealth;
 
-        avatarImage.sprite = chosenCharacter.avatar;
+        avatarImage.sprite = chosenCharacter.portrait;
     }
     public void FirstPersonHudSetInactive(){
         firstPersonHUD.SetActive(false);

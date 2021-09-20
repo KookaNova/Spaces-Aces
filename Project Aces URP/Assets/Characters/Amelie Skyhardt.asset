@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89f8967145362934d811129b02edaa32, type: 3}
+  m_Name: Amelie Skyhardt
+  m_EditorClassIdentifier: 
+  characterName: Amelie Skyhardt
+  bio: "Daughter to the famous Frank Skyhardt, she is a prodigy aviator from Earth.
+    Entered into the tournament by force, she flies to protect her father, and prove
+    herself as an Ace pilot. After passing through the portal during her summoning
+    to the arena, spacetime\u2019s grip on Amelie faded, allowing her to occasionally
+    phase through the fabric of spacetime and appear seconds later. "
+  portrait: {fileID: 21300000, guid: daa5264082700724b86c940045674059, type: 3}
+  bodyArt: {fileID: 21300000, guid: 0e4d2103cde271546968dbb6e3fc0d88, type: 3}
+  nameArt: {fileID: 21300000, guid: 671823096f77b1248985c456e65d6902, type: 3}
+  abilities:
+  - {fileID: 11400000, guid: c900157cc7ca95a4a9523db6e30e2d35, type: 2}
+  - {fileID: 11400000, guid: c900157cc7ca95a4a9523db6e30e2d35, type: 2}
+  - {fileID: 11400000, guid: c900157cc7ca95a4a9523db6e30e2d35, type: 2}
+  - {fileID: 11400000, guid: c900157cc7ca95a4a9523db6e30e2d35, type: 2}

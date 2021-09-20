@@ -7,6 +7,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Light Up Material
+    second: {fileID: 2100000, guid: 52d8815ca48789b448862078ebee784f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Tri-Canopy
     second: {fileID: 2100000, guid: 15d0bb8b1dda3df4d93fa707fa99b599, type: 2}
   - first:

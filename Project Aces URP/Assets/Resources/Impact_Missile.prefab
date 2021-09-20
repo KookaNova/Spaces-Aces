@@ -281,7 +281,7 @@ GameObject:
   - component: {fileID: 6228669630684057789}
   - component: {fileID: 3142369797070535101}
   - component: {fileID: 6786794137692798478}
-  - component: {fileID: 5118924501721851742}
+  - component: {fileID: 602033360260553131}
   m_Layer: 14
   m_Name: Impact_Missile
   m_TagString: Untagged
@@ -424,11 +424,11 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 5118924501721851742}
+  - {fileID: 602033360260553131}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &5118924501721851742
+--- !u!114 &602033360260553131
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -437,13 +437,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6200246160423643314}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Script: {fileID: 11500000, guid: 64179f3720bbfe947b7724caa67b7c1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
+  m_SynchronizeVelocity: 1
+  m_SynchronizeAngularVelocity: 1
+  m_TeleportEnabled: 0
+  m_TeleportIfDistanceGreaterThan: 3
 --- !u!1 &6287389487724851637
 GameObject:
   m_ObjectHideFlags: 0
