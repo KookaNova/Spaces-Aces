@@ -13,7 +13,7 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
     Vector2 torqueInput, cursorInput;
 
     public override void OnEnable() {
-        if(!photonView.IsMine)return;
+        //if(!photonView.IsMine)return;
         cursorInput = new Vector2 (Screen.width / 2, Screen.height / 2);
         spacecraft = GetComponentInChildren<SpacecraftController>();
         _controls = new ControlInputActions();
