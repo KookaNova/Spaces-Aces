@@ -92,7 +92,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     
     #region targeting and camera
     public void CameraChange(){
-        if(photonView.IsMine);
+        if(photonView.IsMine)
         cameraController.ChangeCamera();
         if(cameraController.currentCamera == 0){
             HudController.ThirdPersonHudSetInactive();

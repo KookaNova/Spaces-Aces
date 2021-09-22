@@ -9,6 +9,7 @@ public class SceneController : MonoBehaviour
     [SerializeField]
     string defaultScene = "Main Menu";
 
+
     void Awake() {
         if(instance == null){
             instance = this;
