@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class SelectScreenBehaviour : MonoBehaviour
 {
@@ -18,5 +19,9 @@ public class SelectScreenBehaviour : MonoBehaviour
         nameArt.sprite = character.nameArt;
         bodyArt.sprite = character.bodyArt;
         bio.text = character.bio;
+    }
+
+    public void UnloadSelectScreen(){
+        SceneManager.UnloadSceneAsync("Select Scene");
     }
 }

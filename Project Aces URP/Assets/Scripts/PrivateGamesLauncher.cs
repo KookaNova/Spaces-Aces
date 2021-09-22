@@ -6,7 +6,7 @@ using System.Collections;
 
 namespace Com.Con.SpacesAcesGame{
 
-public class Launcher : MonoBehaviourPunCallbacks
+public class PrivateGamesLauncher : MonoBehaviourPunCallbacks
 {   
     public GamesHandler quickPlayGamesHandler;
     [SerializeField]
@@ -18,6 +18,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField]
     private List<Player> connectedPlayers;
     bool isConnectingRandom;
+    [SerializeField]
+    private GamemodeData chosenGamemode;
     
     //This client's version number. Users are separated from each other by gameVersion (which allows you to make breaking changes).
     string gameVersion = "1";
