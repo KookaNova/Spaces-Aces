@@ -1428,7 +1428,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &93162828
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2731,6 +2731,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9e19766b5ac7b04d9c59c02c66fd54b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pvCache: {fileID: 0}
   quickPlayGamesHandler: {fileID: 11400000, guid: 22a588adfc7fd3749843287b1f50e517, type: 2}
   matchmakingSearchUI: {fileID: 506949138}
   playerListUI: {fileID: 274416249}
@@ -2747,6 +2748,9 @@ MonoBehaviour:
   - {fileID: 1099057054}
   - {fileID: 2010507987}
   nameplates: []
+  isConnectingRandom: 0
+  chosenGamemode: {fileID: 0}
+  gameVersion: 1
 --- !u!4 &144838371
 Transform:
   m_ObjectHideFlags: 0
@@ -3891,7 +3895,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &275729722
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4451,7 +4455,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7784482, y: 1}
+    m_SensorSize: {x: 1.7777778, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -8349,7 +8353,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 3000
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -8375,8 +8379,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 744867591}
-  m_LocalRotation: {x: -0.3770327, y: 0, z: 0, w: 0.9262}
-  m_LocalPosition: {x: -691.16254, y: 23.876068, z: -20.968758}
+  m_LocalRotation: {x: 0, y: -0.6087605, z: 0, w: 0.79335415}
+  m_LocalPosition: {x: -1774.72, y: 27.962631, z: -1036.82}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -9523,19 +9527,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 843896722}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 557258857}
-        m_TargetAssemblyTypeName: SceneController, Assembly-CSharp
-        m_MethodName: LoadSpecificScene
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Private Game Lobby
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &843896722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12020,7 +12012,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1122709786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12767,7 +12759,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1182232298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15147,7 +15139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1460708285
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19872,7 +19864,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7784754, y: 1}
+    m_SensorSize: {x: 1.7777778, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -20513,7 +20505,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7797235, y: 1}
+    m_SensorSize: {x: 1.7777778, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0

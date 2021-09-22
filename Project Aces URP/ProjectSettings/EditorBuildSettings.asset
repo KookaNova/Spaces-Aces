@@ -9,9 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Main Menu.unity
     guid: 5f22863faf0f6044392ac29a1fe35f67
   - enabled: 1
-    path: Assets/Scenes/Asteroid Mine.unity
-    guid: c52018d97214b004b911350169b5e829
+    path: Assets/Scenes/Select Scene.unity
+    guid: 5b944710028515748b276af02891ef54
   - enabled: 1
     path: Assets/Scenes/Training Flight.unity
     guid: 229c4a60183515a408b57e362e0fb118
+  - enabled: 1
+    path: Assets/Scenes/Asteroid Mine.unity
+    guid: c52018d97214b004b911350169b5e829
   m_configObjects: {}
