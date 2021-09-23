@@ -5,6 +5,8 @@ Build/
 Builds/
 Logs/
 MemoryCaptures/
+Recordings/
+Screenshots/
 
 # Never ignore Asset meta data
 !/Assets/**/*.meta
@@ -55,14 +57,12 @@ sysinfo.txt
 *.unitypackage
 
 # Substance
-.spp
+*.spp
+
+# Houdini
+heu_session.txt
 
 # Crashlytics generated file
 crashlytics-build.properties
 
 Aces Project/.idea/.idea.Aces Project/.idea/workspace.xml
-
-Project Aces URP/Recordings/
-
-Project Aces URP/Screenshots/
-Project Aces URP/heu_session.txt
