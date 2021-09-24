@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
@@ -9,6 +10,13 @@ namespace Com.Con.SpacesAcesGame{
 public class MatchmakingLauncher : MonoBehaviourPunCallbacks
 {   
     public GamesHandler quickPlayGamesHandler;
+    bool isConnectingRandom;
+    [SerializeField]
+    private int countDownTime = 6;
+    [SerializeField]
+    private Text timerText;
+
+    // UI and Nameplates
     [SerializeField]
     private GameObject matchmakingSearchUI, playerListUI, profilePrefab;
     [SerializeField]
@@ -17,11 +25,9 @@ public class MatchmakingLauncher : MonoBehaviourPunCallbacks
     private List<GameObject> nameplates;
     [SerializeField]
     private List<Player> connectedPlayers;
-    bool isConnectingRandom;
-    [SerializeField]
-    private GamemodeData chosenGamemode;
     
-    //This client's version number. Users are separated from each other by gameVersion (which allows you to make breaking changes).
+    
+    //This client's version number. Users are separated from each other by gameVersion (which allows breaking changes).
     string gameVersion = "1";
 
     private void Awake() {
@@ -42,20 +48,6 @@ public class MatchmakingLauncher : MonoBehaviourPunCallbacks
             PhotonNetwork.GameVersion = gameVersion;
         }
         matchmakingSearchUI.SetActive(true);
-    }
-
-    public void CreatePrivateRoom(GamemodeData chosenGamemode){
-         // we check if we are connected, else we connect.
-        if(PhotonNetwork.IsConnected){
-            // We attempt joining a Random Room. If it fails, we'll get notified in OnJoinRandomFailed() and we'll create one.
-            PhotonNetwork.CreateRoom(chosenGamemode.levelName, new RoomOptions{MaxPlayers = chosenGamemode.maxPlayers} );
-        }
-        else{
-            // #Critical, we must first and foremost connect to Photon Online Server.
-            PhotonNetwork.ConnectUsingSettings();
-            PhotonNetwork.GameVersion = gameVersion;
-            CreatePrivateRoom(chosenGamemode);
-        }
     }
 
     public void OnLeaveRoom(){
@@ -170,21 +162,23 @@ public class MatchmakingLauncher : MonoBehaviourPunCallbacks
         var newProfileData = nameplate.GetComponent<FillPlayerData>();
         newProfileData.DisplayData();
         if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers){
-            Debug.Log("Loading...");
-            // #Critical
-            // Load the Room Level.
-            if(PhotonNetwork.IsMasterClient)
-            PhotonNetwork.LoadLevel(PhotonNetwork.CurrentRoom.Name);
+            StartCoroutine(AllPlayersJoined());
         }
 
     }
 
 
-    public IEnumerator AllPlayersJoined(){
+     public IEnumerator AllPlayersJoined(){
         Debug.Log("Starting Countdown...");
 
+        int timer = countDownTime;
 
-        yield return new WaitForSecondsRealtime(6);
+        while (timer > 0){
+            timerText.text = "Game starting in <<" + timer.ToString() + ">>";
+            yield return new WaitForSecondsRealtime(1);
+            timer--;
+        }
+
         Debug.Log("Loading...");
             // #Critical
             // Load the Room Level.
