@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
@@ -8,18 +9,28 @@ namespace Com.Con.SpacesAcesGame{
 
 public class PrivateGamesLauncher : MonoBehaviourPunCallbacks
 {   
-    public GamesHandler quickPlayGamesHandler;
+    //Private game necessities
     [SerializeField]
-    private GameObject matchmakingSearchUI, playerListUI, profilePrefab;
+    private GamemodeData chosenGamemode;
+    [SerializeField]
+    private int countDownTime = 6;
+    [SerializeField]
+    private Text timerText;
+    
+//[SerializeField] 
+
+
+    //Nameplates and UI
+    [SerializeField]
+    private GameObject playerListUI, profilePrefab;
     [SerializeField]
     private Transform[] nameSlots;
     [SerializeField]
     private List<GameObject> nameplates;
     [SerializeField]
     private List<Player> connectedPlayers;
-    bool isConnectingRandom;
-    [SerializeField]
-    private GamemodeData chosenGamemode;
+    bool isConnecting;
+    
     
     //This client's version number. Users are separated from each other by gameVersion (which allows you to make breaking changes).
     string gameVersion = "1";
@@ -30,21 +41,23 @@ public class PrivateGamesLauncher : MonoBehaviourPunCallbacks
     }
 
     #region Public
-    public void Matchmaking(){
+    public void Connect(){
         // we check if we are connected, else we connect.
         if(PhotonNetwork.IsConnected){
-            // We attempt joining a Random Room. If it fails, we'll get notified in OnJoinRandomFailed() and we'll create one.
-            PhotonNetwork.JoinRandomRoom();
+            
         }
         else{
             // #Critical, we must first and foremost connect to Photon Online Server.
-            isConnectingRandom = PhotonNetwork.ConnectUsingSettings();
+            isConnecting = PhotonNetwork.ConnectUsingSettings();
             PhotonNetwork.GameVersion = gameVersion;
         }
-        matchmakingSearchUI.SetActive(true);
     }
 
-    public void CreatePrivateRoom(GamemodeData chosenGamemode){
+    public void ChangeGamemode(GamemodeData chosenGamemode){
+
+    }
+
+    public void CreatePrivateRoom(){
          // we check if we are connected, else we connect.
         if(PhotonNetwork.IsConnected){
             // We attempt joining a Random Room. If it fails, we'll get notified in OnJoinRandomFailed() and we'll create one.
@@ -54,7 +67,7 @@ public class PrivateGamesLauncher : MonoBehaviourPunCallbacks
             // #Critical, we must first and foremost connect to Photon Online Server.
             PhotonNetwork.ConnectUsingSettings();
             PhotonNetwork.GameVersion = gameVersion;
-            CreatePrivateRoom(chosenGamemode);
+            CreatePrivateRoom();
         }
     }
 
@@ -69,30 +82,15 @@ public class PrivateGamesLauncher : MonoBehaviourPunCallbacks
 
     #region PUN
 
-    public override void OnConnectedToMaster(){
-        // #Critical: The first we try to do is to join a potential existing room. If there is, good, else, we'll be called back with OnJoinRandomFailed()
-        if(isConnectingRandom){
-            //will callback OnJoinedRoom() or OnJoinRoomFailed().
-            PhotonNetwork.JoinRandomRoom();
-            isConnectingRandom = false;
-        }
-    }
     public override void OnDisconnected(DisconnectCause cause){
         Debug.LogWarningFormat("Launcher: OnDisconnected() was called by PUN with reason {0}", cause);
-    }
-    public override void OnJoinRandomFailed(short returnCode, string message){
-        Debug.Log("Launcher: OnJoinRandomFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom");
-
-        // #Critical: we failed to join a random room, maybe none exists or they are all full. No worries, we create a new room.
-        quickPlayGamesHandler.SelectRandomLevel();
-        PhotonNetwork.CreateRoom(quickPlayGamesHandler.gamemodeSettings.levelName, new RoomOptions{MaxPlayers = quickPlayGamesHandler.gamemodeSettings.maxPlayers});
-
     }
     public override void OnJoinedRoom(){
         Debug.Log("Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
         playerListUI.SetActive(true);
         nameplates.Clear();
 
+        //Creates nameplates for each player when you join a room.
         for(int i = 0; i < PhotonNetwork.PlayerList.Length; i++){
             var nameplate = PhotonNetwork.Instantiate(profilePrefab.name, nameSlots[i].position, Quaternion.identity);
             nameplates.Add(nameplate);
@@ -113,11 +111,11 @@ public class PrivateGamesLauncher : MonoBehaviourPunCallbacks
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer){
+
+        //Creates a new nameplate each time a new player joins the room.
         var newNameplate = PhotonNetwork.Instantiate(profilePrefab.name, nameSlots[PhotonNetwork.PlayerList.Length - 1].position, Quaternion.identity);
         nameplates.Add(newNameplate);
-
         newNameplate.transform.SetParent(playerListUI.transform);
-        
         newNameplate.GetComponent<FillPlayerData>().FillOnlineData(
             (string)newPlayer.CustomProperties["Name"], 
             (int)newPlayer.CustomProperties["Level"], 
@@ -170,11 +168,7 @@ public class PrivateGamesLauncher : MonoBehaviourPunCallbacks
         var newProfileData = nameplate.GetComponent<FillPlayerData>();
         newProfileData.DisplayData();
         if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers){
-            Debug.Log("Loading...");
-            // #Critical
-            // Load the Room Level.
-            if(PhotonNetwork.IsMasterClient)
-            PhotonNetwork.LoadLevel(PhotonNetwork.CurrentRoom.Name);
+            StartCoroutine(AllPlayersJoined());
         }
 
     }
@@ -183,13 +177,21 @@ public class PrivateGamesLauncher : MonoBehaviourPunCallbacks
     public IEnumerator AllPlayersJoined(){
         Debug.Log("Starting Countdown...");
 
+        int timer = countDownTime;
 
-        yield return new WaitForSecondsRealtime(6);
+        while (timer > 0){
+            timerText.text = "Game starting in <<" + timer.ToString() + ">>";
+            yield return new WaitForSecondsRealtime(1);
+            timer--;
+        }
+
+        if(timer <= 0){
         Debug.Log("Loading...");
             // #Critical
             // Load the Room Level.
             if(PhotonNetwork.IsMasterClient)
             PhotonNetwork.LoadLevel(PhotonNetwork.CurrentRoom.Name);
+        }
     }
     #endregion
 }}
