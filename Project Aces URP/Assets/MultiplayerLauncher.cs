@@ -4,6 +4,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class MultiplayerLauncher : MonoBehaviourPunCallbacks
 {
@@ -14,12 +15,19 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
     #region Serialized Fields
     [Header("UI Menus")]
     [SerializeField] GameObject multiplayerMenu;
-    [SerializeField] GameObject connectingUI, disconnectMessage, matchmakingMenu, matchmakingSearchUI, mainMenu, playerListUI;
+    [SerializeField] GameObject playChoiceButtons, connectingUI, disconnectMessage, matchmakingMenu, matchmakingSearchUI, mainMenu, playerListUI;
 
     [Header("Text")]
     [SerializeField] Text versionText;
     [SerializeField] Text serverText, disconnectText, gameStartText;
-    [SerializeField] int countDownTime = 4;
+    
+    [Header("Private Games")]
+    [SerializeField] GameObject privateRoom;
+    [SerializeField] Button editRoom, startPrivateGame;
+    [SerializeField] Text hostText, levelText, gamemodeText, maxPlayerText, isPublicText, privateStatusText;
+
+    //The time it takes to start a game after StartGame is initiated.
+    int countDownTime = 4;
 
     #endregion
 
@@ -36,6 +44,12 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
     private GamesHandler gamesHandler;
     private RoomOptions roomOptions = new RoomOptions();
 
+    #region Private Games
+    private PrivateGameSettings privateGameSettings = new PrivateGameSettings();
+
+
+    
+    #endregion
 
     private void Awake() {
         //This makes sure we can use PhotonNetwork.LoadLevel() on the master client and all clients in the same room sync their level automatically.
@@ -44,14 +58,16 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         serverText.text = "Offline";
 
         //Makes sure UI is off until it's used.
-        connectingUI.SetActive(false); disconnectMessage.SetActive(false); matchmakingMenu.SetActive(false); 
-        matchmakingSearchUI.SetActive(false); multiplayerMenu.SetActive(false); playerListUI.SetActive(false);
+        connectingUI.SetActive(false); disconnectMessage.SetActive(false); matchmakingMenu.SetActive(false); playChoiceButtons.SetActive(true);
+        matchmakingSearchUI.SetActive(false); multiplayerMenu.SetActive(false); playerListUI.SetActive(false); privateRoom.SetActive(false);
+
+        editRoom.interactable = false; startPrivateGame.interactable = false;
     }
 
     public void ReturnToMainMenu(){
         mainMenu.SetActive(true);
         connectingUI.SetActive(false); disconnectMessage.SetActive(false); matchmakingMenu.SetActive(false); 
-        multiplayerMenu.SetActive(false);
+        multiplayerMenu.SetActive(false); privateRoom.SetActive(false);
     }
 
     #region Connecting to Server
@@ -73,6 +89,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster(){
         multiplayerMenu.SetActive(true);
+        playChoiceButtons.SetActive(true);
         connectingUI.SetActive(false);
         serverText.text = PhotonNetwork.CloudRegion.ToString();
     }
@@ -84,7 +101,8 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         serverText.text = "Offline";
 
         if(connectingUI == null)return;
-        connectingUI.SetActive(false); matchmakingSearchUI.SetActive(false); multiplayerMenu.SetActive(false); mainMenu.SetActive(false);
+        connectingUI.SetActive(false); matchmakingSearchUI.SetActive(false); multiplayerMenu.SetActive(false); mainMenu.SetActive(false); 
+        editRoom.interactable = false; startPrivateGame.interactable = false; privateRoom.SetActive(false); playChoiceButtons.SetActive(true);
 
     }
 
@@ -95,9 +113,10 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         gamesHandler = selectedGamesHandler;
         //Finds a random room using properties set by gamesHandler (essentially playlist). This allows different random search modes.
         //If no rooms are found, a room is created using the same properties.
-        roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable { {"MMT", gamesHandler.matchmakingType}};
+        roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable {{"MMT", gamesHandler.matchmakingType}};
         roomOptions.MaxPlayers = gamesHandler.expectedMaxPlayers;
-        Debug.LogFormat("Launcher: FindMatchFromPlaylist(), searching for a random room with properties {0} and max players {1}", roomOptions.CustomRoomProperties, gamesHandler.expectedMaxPlayers);
+        Debug.LogFormat("Launcher: FindMatchFromPlaylist(), searching for a random room with properties {0} and max players {1}", 
+            roomOptions.CustomRoomProperties, gamesHandler.expectedMaxPlayers);
         PhotonNetwork.JoinRandomRoom(roomOptions.CustomRoomProperties, roomOptions.MaxPlayers);
         matchmakingSearchUI.SetActive(true);
         gameStartText.text = "Searching for a match...";
@@ -119,6 +138,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         matchmakingSearchUI.SetActive(false);
         if(matchmakingMenu.activeSelf == true){
             matchmakingMenu.SetActive(false);
+            privateRoom.SetActive(false);
             multiplayerMenu.SetActive(true);
         }
 
@@ -130,7 +150,6 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         //The local player is labeled the master of the room.
         Player masterPlayer = PhotonNetwork.LocalPlayer;
         gameStartText.text = "Waiting for players...";
-        Debug.Log("Launcher: OnCreatedRoom(), visibility of current room is " + PhotonNetwork.CurrentRoom.IsVisible);
 
         //When player count reaches max, start the game.
         if(PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers){
@@ -145,6 +164,16 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom(){
         //creates player list when local player joins a room.
         CreatePlayerList();
+        if(PhotonNetwork.IsMasterClient){
+            editRoom.interactable = true;
+            startPrivateGame.interactable = true;
+        }
+
+        hostText.text = PhotonNetwork.MasterClient.ToString();
+        maxPlayerText.text = roomOptions.MaxPlayers.ToString();
+        levelText.text = (string)roomOptions.CustomRoomProperties["Level"];
+        gamemodeText.text = (string)roomOptions.CustomRoomProperties["Gamemode"];
+        isPublicText.text = roomOptions.IsVisible.ToString();
     }
 
     public void LeaveRoom(){
@@ -159,10 +188,16 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         gameStartText.text = "Waiting for players...";
         
         playerListUI.SetActive(false);
+        privateRoom.SetActive(false);
+        playChoiceButtons.SetActive(true);
         matchmakingSearchUI.SetActive(false);
         if(matchmakingMenu.activeInHierarchy){
             matchmakingMenu.SetActive(false);
             multiplayerMenu.SetActive(true);
+        }
+        if(PhotonNetwork.IsMasterClient){
+            editRoom.interactable = false;
+            startPrivateGame.interactable = false;
         }
         
     }
@@ -184,6 +219,53 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         }
         Debug.LogFormat("Launcher: OnPlayerEnteredRoom(), Player {0} left room.", leftPlayer);
         UpdatePlayerList();
+    }
+
+    #endregion
+
+    #region Private Games
+
+    public void ChangePrivateSettings(string levelName){
+        privateGameSettings.nameOfLevel = levelName;
+
+    }
+
+    public void ChangePrivateSettings(GamemodeData gamemode){
+        privateGameSettings.gamemodeData = gamemode;
+    }
+
+    public void ChangePrivateSettings(Single setMaxPlayers){
+        privateGameSettings.maxPlayers = ((byte)setMaxPlayers);
+    }
+
+    public void ChangePrivateSettings(bool setVisible){
+        privateGameSettings.isVisible = setVisible;
+    }
+
+    public void SetRoomName(string newName){
+        privateGameSettings.roomName = newName;
+    }
+
+    public void CreateRoomWithPrivateSettings(){
+        //We take our private games settings and fill them into a custom room
+        roomOptions.MaxPlayers = privateGameSettings.maxPlayers;
+        roomOptions.IsVisible = privateGameSettings.isVisible;
+
+        
+
+        roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable{{"MMT", "Custom Game"}, {"Level", privateGameSettings.nameOfLevel}, {"Gamemode", "Attack" /*privateGameSettings.gamemodeData*/}};
+        PhotonNetwork.CreateRoom(privateGameSettings.roomName, roomOptions);
+
+        privateRoom.SetActive(true);
+        privateStatusText.text = "Waiting for host to start.";
+
+        Debug.LogFormat("Launcher: CreateRoomWithPrivateSettings(), created room with name {0}, maxPlayers {1}, visibility {2}, on level {3}.", 
+            privateGameSettings.roomName, roomOptions.MaxPlayers, roomOptions.IsVisible, privateGameSettings.nameOfLevel);
+
+    }
+
+    public void StartPrivateGame(){
+        StartCoroutine(StartingCountdownPrivate());
     }
 
     #endregion
@@ -223,6 +305,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
 
     #endregion
 
+    #region Starting Games
     public IEnumerator StartingCountdown(){
         Debug.Log("Starting Countdown...");
         gameStartText.text = "Players found.";
@@ -245,6 +328,28 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         // #Critical: Load the Room Level.
         if(PhotonNetwork.IsMasterClient) PhotonNetwork.LoadLevel(gamesHandler.gamemodeSettings.levelName);
     }
+
+    public IEnumerator StartingCountdownPrivate(){
+        Debug.Log("Starting Countdown...");
+        privateStatusText.text = "Start game initiated.";
+        
+
+        int timer = countDownTime;
+
+        while (timer > 0){
+            yield return new WaitForSecondsRealtime(1);
+            timer--;
+            privateStatusText.text = "Game starting in " + timer.ToString();
+        }
+        if(timer <= 0){
+            privateStatusText.text = "Prepare for takeoff.";
+        }
+
+        Debug.LogFormat("Loading {0} players into level: {1}...", PhotonNetwork.CurrentRoom.PlayerCount, privateGameSettings.nameOfLevel);
+        // #Critical: Load the Room Level.
+        if(PhotonNetwork.IsMasterClient) PhotonNetwork.LoadLevel(privateGameSettings.nameOfLevel);
+    }
+
 
     public void StartOfflineGame(GamemodeData gamemodeData){
         StartCoroutine(StartingCountdownOffline(gamemodeData));
@@ -270,5 +375,22 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         // #Critical: Load the Room Level.
         PhotonNetwork.LoadLevel(gamemodeData.levelName);
     }
+
+
+
+    #endregion
+
+
+
+}
+/// <summary> Settings used to create private games. </summary>
+public class PrivateGameSettings{
+    public string roomName;
+
+    public string nameOfLevel;
+    public GamemodeData gamemodeData;
+
+    public byte maxPlayers = 6;
+    public bool isVisible = true;
 
 }

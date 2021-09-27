@@ -18,6 +18,17 @@ public class MenuUIController : MonoBehaviour
     [SerializeField]
     private ProfileHandler profileHandler;
 
+    private void Awake() {
+        mainMenu.SetActive(false);
+        profileBar.SetActive(false);
+        createProfileScreen.SetActive(false);
+        personalProfileMenu.SetActive(false);
+        multiplayerMenu.SetActive(false);
+        trainingMenu.SetActive(false);
+        optionsMenu.SetActive(false);
+        startScreen.SetActive(true);
+    }
+
     public void StartScreenClicked() {
         PlayerProfileData data = SaveData.LoadProfile();
         if(data == null || data.currentLevel <= 0){
