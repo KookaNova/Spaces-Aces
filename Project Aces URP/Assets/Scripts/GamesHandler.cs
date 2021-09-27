@@ -5,13 +5,25 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Games/GamesHandler")]
 public class GamesHandler : ScriptableObject
 {
-    public GamemodeData gamemodeSettings;
-    [SerializeField]
-    private List<GamemodeData> levelOptions;
+
+    public string matchmakingType = "Quickplay or name a mode";
+    public byte expectedMaxPlayers = 6;
+    public GamemodeData gamemodeSettings; //current level selection from the playlist
+    [SerializeField] List<GamemodeData> levelOptions; //playlist of possible levels
+
+
+    private int selectionIndex; //current level selection in the code
 
     public void SelectRandomLevel(){
-        int select = Random.Range(0, levelOptions.Count);
+        selectionIndex = Random.Range(0, levelOptions.Count);
 
-        gamemodeSettings = levelOptions[select];
+        gamemodeSettings = levelOptions[selectionIndex];
+    }
+    public void SelectNextLevel(){
+        selectionIndex ++;
+        if(selectionIndex > levelOptions.Count - 1)
+        selectionIndex = 0;
+
+        gamemodeSettings = levelOptions[selectionIndex];
     }
 }
