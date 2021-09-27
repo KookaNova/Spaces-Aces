@@ -69,10 +69,10 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     }
 
     public void MenuButton(){
-        if(menu.activeSelf == false)
+        /*if(menu.activeSelf == false)
             menu.SetActive(true);
         else
-            menu.SetActive(false);
+            menu.SetActive(false);*/
     }
 
     private void OnCollisionEnter(Collision collision) {
