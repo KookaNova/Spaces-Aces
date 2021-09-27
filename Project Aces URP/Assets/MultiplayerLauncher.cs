@@ -58,12 +58,13 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
 
     public void ConnectToServer(){
         //#Critical: we must first and foremost connect to Photon Online Server. We check if we are connected, else we connect.
-        if(PhotonNetwork.IsConnected){
+        if(PhotonNetwork.IsConnected && !PhotonNetwork.OfflineMode){
             multiplayerMenu.SetActive(true);
             mainMenu.SetActive(false);
         }
         else{
             PhotonNetwork.GameVersion = gameVersion;
+            PhotonNetwork.OfflineMode = false;
             connectingUI.SetActive(true);
             mainMenu.SetActive(false);
             PhotonNetwork.ConnectUsingSettings();
@@ -133,7 +134,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
 
         //When player count reaches max, start the game.
         if(PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers){
-            StartCoroutine(StartGame());
+            StartCoroutine(StartingCountdown());
         }
         
     }
@@ -148,23 +149,28 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
 
     public void LeaveRoom(){
         StopAllCoroutines();
-        PhotonNetwork.LeaveRoom(true);
+        if(PhotonNetwork.InRoom){
+            PhotonNetwork.LeaveRoom(true);
+        }
+        
+        Debug.Log("Launcher: OnLeaveRoom() called by PUN. Client exits the room.");
+        
         nameplates.Clear();
         gameStartText.text = "Waiting for players...";
         
         playerListUI.SetActive(false);
         matchmakingSearchUI.SetActive(false);
-        if(matchmakingMenu.activeSelf == true){
+        if(matchmakingMenu.activeInHierarchy){
             matchmakingMenu.SetActive(false);
             multiplayerMenu.SetActive(true);
         }
-        Debug.Log("Launcher: OnLeaveRoom() called by PUN. Client exits the room.");
+        
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer){
         //When player count reaches max, start the game.
         if(PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers){
-            StartCoroutine(StartGame());
+            StartCoroutine(StartingCountdown());
         }
         Debug.LogFormat("Launcher: OnPlayerEnteredRoom(), Player {0} entered room.", newPlayer);
         UpdatePlayerList();
@@ -217,7 +223,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
 
     #endregion
 
-    public IEnumerator StartGame(){
+    public IEnumerator StartingCountdown(){
         Debug.Log("Starting Countdown...");
         gameStartText.text = "Players found.";
         
@@ -238,6 +244,31 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         Debug.LogFormat("Loading {0} players into level: {1}...", PhotonNetwork.CurrentRoom.PlayerCount, gamesHandler.gamemodeSettings.levelName);
         // #Critical: Load the Room Level.
         if(PhotonNetwork.IsMasterClient) PhotonNetwork.LoadLevel(gamesHandler.gamemodeSettings.levelName);
+    }
+
+    public void StartOfflineGame(GamemodeData gamemodeData){
+        StartCoroutine(StartingCountdownOffline(gamemodeData));
+    }
+
+    private IEnumerator StartingCountdownOffline(GamemodeData gamemodeData){
+        Debug.Log("Starting Offline Countdown...");
+        matchmakingSearchUI.SetActive(true);
+        gameStartText.text = "Offline Mode";
+        
+
+        int timer = countDownTime;
+
+        while (timer > 0){
+            yield return new WaitForSecondsRealtime(1);
+            timer--;
+            gameStartText.text = "Game starting in " + timer.ToString();
+        }
+        if(timer <= 0){
+            gameStartText.text = "Prepare for takeoff.";
+        }
+
+        // #Critical: Load the Room Level.
+        PhotonNetwork.LoadLevel(gamemodeData.levelName);
     }
 
 }

@@ -1,9 +1,6 @@
-using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
-using Photon.Realtime;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
@@ -19,6 +16,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         //currentGamemode = FindObjectOfType<SceneController>().chosenGamemode;
         Instance = this; 
         mainScene = SceneManager.GetActiveScene();
+        if(!PhotonNetwork.IsConnected){
+            //allows us to play in a level even when we're offline. We switch to offline mode and create an offline room.
+            PhotonNetwork.OfflineMode = true;
+            PhotonNetwork.CreateRoom(null, null);
+        }
         OpenSelectMenu();
 
     }
@@ -36,25 +38,16 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void SpawnPlayer(){
         if(playerPrefab == null){
-            Debug.LogError("GameManager: playerPrefab is null", this);
+            Debug.LogError("GameManager: SpawnPlayer(), playerPrefab is null. Place a prefab in the inspector.", this);
             return;
         }
-        if(!PhotonNetwork.IsConnected || !PhotonNetwork.InRoom){
-            Instantiate(this.playerPrefab, teamASpawnpoints[0].position, Quaternion.identity);
-        }
-        else{
-            // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-            PhotonNetwork.Instantiate(this.playerPrefab.name, teamASpawnpoints[0].position, Quaternion.identity, 0);
-        }
-    }
 
-    public void CreateRoom(){
-        PhotonNetwork.CreateRoom("tester");
-        Instance = this;
+        // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
+        PhotonNetwork.Instantiate(this.playerPrefab.name, teamASpawnpoints[0].position, Quaternion.identity, 0);
     }
 
     public override void OnLeftRoom(){
-        SceneManager.LoadScene("Main Menu");
+        SceneManager.LoadScene("Main Menu", LoadSceneMode.Single);
     }
 
     public void LeaveRoom(){
