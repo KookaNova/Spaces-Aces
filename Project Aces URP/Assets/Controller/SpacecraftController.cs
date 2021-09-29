@@ -11,45 +11,69 @@ namespace Cox.PlayerControls{
 [RequireComponent(typeof(Rigidbody))]
 public class SpacecraftController : MonoBehaviourPunCallbacks
 {
-    #region Serialized Fields
+
     [Header("Spacecraft Objects")]
-    public WeaponsController weaponSystem;
+    [SerializeField] PlayerObject playerObject; //used to set character and ship
+    [SerializeField] GameObject menuPrefab; 
+    [SerializeField] GameObject explosionObject, gunAmmoObject, missileObject;
+
+    //Items obtained from character selection
+    [HideInInspector]
     public CharacterHandler chosenCharacter;
-    public ShipHandler chosenShip;
-    private CameraController cameraController;
-    [SerializeField]
-    private GameObject menuPrefab, explosionObject, gunAmmoObject, missileObject;
-    [HideInInspector]
-    public float thrust = 0;
-
-    [HideInInspector]
-    public float currentSpeed, currentHealth;
-    #endregion
-
-    #region Private Fields
-    private PlayerHUDController HudController;
     private AbilityHandler passiveAbility, primaryAbility, secondaryAbility, aceAbility;
+    //Items obtained from Ship selection
+    [HideInInspector]
+    public ShipHandler chosenShip;
+    private WeaponsController weaponSystem;
+    private CameraController cameraController;
+    private PlayerHUDController HudController;
+
+   
+
+
+    [HideInInspector]
+    //Public so they can display on HUD using HUD Controller
+    public float currentSpeed, currentShields, currentHealth, thrust = 0;
     private float respawnTime = 5;
     private bool 
         isAwaitingRespawn = false,
+        isShieldRecharging = false,
         canUsePrimary = true,
         canUseSecondary = true,
         canUseAce = false;
+    
+    
     private Rigidbody _rb;
     private ControlInputActions _controls;
     private GameObject ship, menu;
+
+    //Points are stored and retrieved from GameManager
     private Transform[] respawnPoints;
-    #endregion
 
     #region setup
     public override void OnEnable(){
+        if(playerObject == null){
+            Debug.LogError("SpacecraftController: OnEnable(), critical playerObject not set in the inspector.");
+            return;
+        }
+        
+
+        chosenCharacter = playerObject.chosenCharacter;
+        chosenShip = playerObject.chosenShip;
+
+        //Find respawn points. Once teams are figured out, this needs to find specific team spawn points.
         respawnPoints = FindObjectOfType<GameManager>().teamASpawnpoints;
+        //Instantiates the chosen ship and parents it under the controller. Then gets important info from the ship.
         ship = Instantiate(chosenShip.shipPrefab, transform.position, transform.rotation);
         ship.transform.SetParent(this.gameObject.transform);
         currentHealth = chosenShip.maxHealth;
+
+        //If the photon view belongs to the local player...
         if(photonView.IsMine){
+            //instantiate the menuPrefab, activate the weapons, hud, and camera controllers.
             menu = Instantiate(menuPrefab);
             currentHealth = chosenShip.maxHealth;
+            currentShields = chosenShip.maxShield;
             weaponSystem = ship.GetComponentInChildren<WeaponsController>();
             weaponSystem.EnableWeapons();
 
@@ -64,6 +88,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
             _rb = GetComponent<Rigidbody>();
         }
 
+        //Find the character abilities and give them info about the local player. Them apply the abilities to the player.
         for (int i = 0; i < chosenCharacter.abilities.Count; i++){
             chosenCharacter.abilities[i].player = gameObject;
         }
@@ -80,24 +105,11 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         else
             menu.SetActive(false);*/
     }
-
-    private void OnCollisionEnter(Collision collision) {
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Crash Hazard") || collision.gameObject.layer == LayerMask.NameToLayer("Player")){
-           currentHealth -= currentSpeed + 1700;
-        }
-    }
-    public void Eliminate(){
-        isAwaitingRespawn = true;
-        currentHealth = 0;
-        Instantiate(explosionObject, gameObject.transform);
-        ship.SetActive(false);
-        StartCoroutine(RespawnTimer());
-
-    }
     #endregion
     
     #region targeting and camera
     public void CameraChange(){
+        //Change which camera is being used and tell the hud controller which variant of the HUD to display.
         if(photonView.IsMine)
         cameraController.ChangeCamera();
         if(cameraController.currentCamera == 0){
@@ -110,62 +122,90 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
             HudController.HudSetInactive();
         }
     }
+
+    public void RotateCamera(Vector2 cursorInputPosition){
+        //Tells the camera controller to rotate the camera using player input
+        if(!photonView.IsMine)return;
+        cameraController.RotateCamera(cursorInputPosition);
+    }
+
     public void CameraLockTarget(){
+        //Tells the camera controller to look at the current target.
         if(photonView.IsMine)
         cameraController.CameraLockTarget();
     }
     public void ChangeTargetMode(int input){
+        //Tells the WeaponsController which team to target.
         weaponSystem.ChangeTargetMode(input);
     }
     public void CycleTargets(){
+        //Tells the WeaponsController to cycle the current missile target.
         weaponSystem.CycleMainTarget();
     }
     #endregion
     
-    #region Player Control
     private void FixedUpdate(){
+        //If player is not local, return.
         if(!photonView.IsMine)return;
+        //If player is waiting to respawn, keep health at zero and return.
         if(isAwaitingRespawn){
             currentHealth = 0;
             return;
-            }
+        }
         
-        thrust = Mathf.Clamp(thrust, -1, 1);
-        var speed = currentSpeed + (thrust * chosenShip.acceleration);
-        currentSpeed = Mathf.Lerp(currentSpeed, speed, Time.deltaTime);
+
+        //Calculates speed based on current thrust and clamps speed.
+        thrust = Mathf.Clamp01(thrust);
+        var speed = thrust * chosenShip.maxSpeed;
+        currentSpeed = Mathf.Lerp(currentSpeed, speed, (chosenShip.acceleration * Time.fixedDeltaTime)/45);
         currentSpeed = Mathf.Clamp(currentSpeed, chosenShip.minSpeed, chosenShip.maxSpeed);
 
         _rb.AddRelativeForce(0,0,currentSpeed, ForceMode.Acceleration);
-        if (currentSpeed > chosenShip.cruiseSpeed)
-        {
-            //currentSpeed = Mathf.Lerp(currentSpeed, chosenShip.cruiseSpeed, .001f);
+       
+        //activate health states
+        if(currentShields <= 0){
+            NoShield();
         }
 
-        if(currentHealth <= chosenShip.maxHealth ){
-            //Eliminate();
+        if(currentHealth <= chosenShip.maxHealth /*will be percentage*/){
+            //LowHealth();
         }
 
         if(currentHealth <= 0){
             Eliminate();
         }
-    }
 
+        //while shield is recharging, increment shield by recharge rate. If shields are maxed, stop recharging.
+        while(isShieldRecharging){
+            currentShields += chosenShip.shieldRechargeRate;
+            if(currentShields >= chosenShip.maxShield){
+                currentShields = chosenShip.maxShield;
+                isShieldRecharging = false;
+            }
+        }
+    }
+    #region RigidBody Inputs
+    //Take inputs and convert them to speed in FixedUpdate()
     public void ThrustControl(){
         if(!photonView.IsMine)return;
-        thrust += .025f;
+        thrust += .02f;
     }
     public void BrakeControl(){
         if(!photonView.IsMine)return;
-        thrust -= .035f;
+        thrust -= .02f;
     }
 
+    //Take vector2 and convert it to pitch, roll, and yaw. Then add that to the rigidbody as torque.
     public void TorqueControl(Vector2 torqueInput, float yawInput){
         if(!photonView.IsMine)return;
         var highspeedhandling = currentSpeed/chosenShip.maxSpeed + 1;
         Vector3 torqueForce  = new Vector3((torqueInput.y * chosenShip.pitch) / highspeedhandling, yawInput * chosenShip.yaw, (torqueInput.x * chosenShip.roll) / highspeedhandling);
         _rb.AddRelativeTorque(torqueForce, ForceMode.Force);
     }
+    #endregion
 
+    #region Weapons Inputs
+    //Send inputs from input handler to WeaponsController
     public void MissileLaunch(){
         if(!photonView.IsMine)return;
         if(!isAwaitingRespawn)
@@ -176,14 +216,90 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         if(!isAwaitingRespawn)
             weaponSystem.GunControl(gunInput, currentSpeed);
     }
-    public void RotateCamera(Vector2 cursorInputPosition){
-        if(!photonView.IsMine)return;
-        cameraController.RotateCamera(cursorInputPosition);
+
+    #endregion
+
+    #region Damage
+    
+    public void TakeDamage(float damage){
+        isShieldRecharging = false;
+        if(currentShields > 0){
+            currentShields -= damage;
+        }
+        else{
+            currentHealth -= damage;
+        }
+        //Stops the previous attempt to recharge shields and then retries;
+        StopCoroutine(ShieldRechargeTimer());
+        StartCoroutine(ShieldRechargeTimer());
+
+    }
+
+    private void OnCollisionEnter(Collision collision) {
+        //On collision with hazards or other players, damage the player, based partially on speed.
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Crash Hazard") || collision.gameObject.layer == LayerMask.NameToLayer("Player")){
+           TakeDamage(currentSpeed * 8);
+        }
+    }
+
+    #endregion
+
+    #region Player Health States
+
+    public void NoShield(){
+        Debug.Log("Spacecraft: NoShield() called");
+        //Do something when shields are gone
+    }
+
+    public void LowHealth(){
+        Debug.Log("Spacecraft: LowHealth() called");
+        //Do something different related to low health
+    }
+
+    public void Eliminate(){
+        //This happens when the players health reaches zero or they leave the arena.
+        isAwaitingRespawn = true;
+        currentHealth = 0;
+        currentShields = 0;
+        currentSpeed = 0;
+        _rb.velocity = Vector3.zero;
+        _rb.angularVelocity = Vector3.zero;
+        
+        Instantiate(explosionObject, gameObject.transform);
+
+        //Set controls inactive to avoid errors when inputs are made.
+        HudController.gameObject.SetActive(false);
+        cameraController.gameObject.SetActive(false);
+        weaponSystem.gameObject.SetActive(false);
+        ship.SetActive(false);
+        StartCoroutine(RespawnTimer());
+
+    }
+
+    public void SpawnPlayer(){
+        //Set health back to max and no longer awaiting respawn
+        currentHealth = chosenShip.maxHealth;
+        currentShields = chosenShip.maxShield;
+        isAwaitingRespawn = false;
+
+        //Find a random spawn point to respawn at
+        int randInt = Random.Range(0, respawnPoints.Length - 1);
+        gameObject.transform.position = respawnPoints[randInt].position;
+        gameObject.transform.rotation = respawnPoints[randInt].rotation;
+
+        //Set Ship Active. Ship is now completely respawned.
+        ship.SetActive(true);
+        weaponSystem.gameObject.SetActive(true);
+        cameraController.gameObject.SetActive(true);
+        HudController.gameObject.SetActive(true);
     }
     #endregion
 
     #region Character Abilities
-    private void PassiveAbility(){}
+    private void PassiveAbility(){
+        Debug.Log("Spacecraft: PassiveAbility() called");
+        //Seek and apply passives
+    }
     public void PrimaryAbility(){
         if(canUsePrimary){
             canUsePrimary = false;
@@ -193,16 +309,24 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         }
         //use ability start up time to delay start
     }
-    public void SecondaryAbility(){}
-    public void AceAbility(){}
+    public void SecondaryAbility(){
+        Debug.Log("Spacecraft: SecondaryAbility() called");
+        //Seek and apply Secondary Ability
+    }
+    public void AceAbility(){
+        Debug.Log("Spacecraft: AceAbility() called");
+        //Ace Ability
+    }
     #endregion
 
     #region IEnumerators
+    //Delay used when abilities have startup time.
     public IEnumerator DelayedAbility(AbilityHandler ability, float startUpTime){
         Instantiate(ability.startUpParticle, gameObject.transform);
         yield return new WaitForSeconds(startUpTime);
         Instantiate(ability);
     }
+    //Delay used when abilities need to cool down.
     public IEnumerator CooldownTimer(float cooldown, string abilityType){
         yield return new WaitForSeconds(cooldown);
         if(abilityType == "Primary"){
@@ -215,14 +339,16 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
             canUseAce = true;
         }
     }
+    
+    public IEnumerator ShieldRechargeTimer(){
+        yield return new WaitForSecondsRealtime(8);
+        isShieldRecharging = true;
+
+    }
+
     public IEnumerator RespawnTimer(){
         yield return new WaitForSeconds(respawnTime);
-        currentHealth = chosenShip.maxHealth;
-        isAwaitingRespawn = false;
-        int randInt = Random.Range(0, respawnPoints.Length - 1);
-        gameObject.transform.position = respawnPoints[randInt].position;
-        gameObject.transform.rotation = respawnPoints[randInt].rotation;
-        ship.SetActive(true);
+       SpawnPlayer();
 
         //also teleport to spawn points using a spawn point system
     }

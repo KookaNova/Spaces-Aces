@@ -17,8 +17,10 @@ MonoBehaviour:
   shipPrefab: {fileID: 811196013837957695, guid: b6abd7506ce2af1478b51af83dad878d, type: 3}
   weaponsController: {fileID: 0}
   cameraController: {fileID: 0}
-  maxHealth: 1500
-  acceleration: 115
+  maxHealth: 700
+  maxShield: 1300
+  shieldRechargeRate: 15
+  acceleration: 30
   minSpeed: 25
   cruiseSpeed: 355
   maxSpeed: 500

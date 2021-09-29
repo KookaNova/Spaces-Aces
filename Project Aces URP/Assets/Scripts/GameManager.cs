@@ -1,14 +1,16 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
+using Cox.PlayerControls;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
+    [SerializeField] private GameObject playerPrefab;
     public static GameManager Instance;
-    public GameObject playerPrefab;
     public GamemodeData currentGamemode;
     public Transform[] teamASpawnpoints, teamBSpawnpoints;
     public bool isSelectLoaded = false;
+
 
     private Scene mainScene;
 
@@ -41,6 +43,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             Debug.LogError("GameManager: SpawnPlayer(), playerPrefab is null. Place a prefab in the inspector.", this);
             return;
         }
+
 
         // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
         PhotonNetwork.Instantiate(this.playerPrefab.name, teamASpawnpoints[0].position, Quaternion.identity, 0);

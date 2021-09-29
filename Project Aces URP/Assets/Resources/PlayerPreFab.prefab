@@ -63,16 +63,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce798c9375589aa459018553392505aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponSystem: {fileID: 0}
-  chosenCharacter: {fileID: 11400000, guid: 5e0146bfea2a90e4088f2de10ca4483e, type: 2}
-  chosenShip: {fileID: 11400000, guid: 5b4d9e73d21b79043a1ee74e4135a453, type: 2}
+  playerObject: {fileID: 11400000, guid: 797f0036c81719d489acc9411a475a78, type: 2}
   menuPrefab: {fileID: 4008759332623177000, guid: c1a19ce19711da040b987e52e4a4b95f, type: 3}
   explosionObject: {fileID: 9128587892432602950, guid: 8fd703d50be5b704588cc7b5baa1832e, type: 3}
   gunAmmoObject: {fileID: 4155647956408176716, guid: 5a3f45eeaedaf44489399eba23b11ac8, type: 3}
   missileObject: {fileID: 6200246160423643314, guid: fbe558d5ded7c6444990f035946dd5e0, type: 3}
-  thrust: 0
+  chosenCharacter: {fileID: 11400000, guid: 5e0146bfea2a90e4088f2de10ca4483e, type: 2}
+  chosenShip: {fileID: 11400000, guid: 5b4d9e73d21b79043a1ee74e4135a453, type: 2}
   currentSpeed: 0
+  currentShields: 0
   currentHealth: 0
+  thrust: 0
 --- !u!114 &129003246424364282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,10 +139,6 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: c608c628-d07a-4850-afe5-190bd92bcf65
     m_ActionName: Flight/Gun Fire[/DualShock4GamepadHID/buttonSouth,/Mouse/leftButton,/DualShock4GamepadHID/dpad/down]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 611c7b84-62e4-4476-9d1a-85822f47935b
-    m_ActionName: Flight/Aim Gun[/Mouse/position]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: d9730d32-a327-48b3-9fc7-316b4c39a803
@@ -222,6 +219,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 60d42dc7-3d3a-4c93-8d8f-797eb7629819
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 64d68f33-742e-4614-8393-e7082a7f3c40
+    m_ActionName: Flight/CameraMouse[/Mouse/delta]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Basic Controls
   m_DefaultActionMap: Flight
