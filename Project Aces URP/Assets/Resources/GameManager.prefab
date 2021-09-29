@@ -175,6 +175,7 @@ MonoBehaviour:
   teamBSpawnpoints:
   - {fileID: 418026482600791815}
   isSelectLoaded: 0
+  playerObject: {fileID: 11400000, guid: 797f0036c81719d489acc9411a475a78, type: 2}
 --- !u!114 &8887620675940368464
 MonoBehaviour:
   m_ObjectHideFlags: 0

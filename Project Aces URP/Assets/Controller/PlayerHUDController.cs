@@ -6,8 +6,8 @@ namespace Cox.PlayerControls{
 public class PlayerHUDController : MonoBehaviour
 {
     public Image avatarImage;
-    public List<Image> speedBar, thrustBar, healthBar;
-    public List<Text> speedText, healthText;
+    public List<Image> speedBar, thrustBar, healthBar, shieldBar;
+    public List<Text> speedText, healthText, shieldText;
 
     [HideInInspector]
     public SpacecraftController currentCraft;
@@ -15,7 +15,7 @@ public class PlayerHUDController : MonoBehaviour
     private GameObject firstPersonHUD, thirdPersonHUD, OverlayHUD;
     private CharacterHandler chosenCharacter;
     private ShipHandler chosenShip;
-    private float currentSpeed, maxSpeed, thrustInput, currentHealth, maxHealth;
+    private float currentSpeed, maxSpeed, thrustInput, currentHealth, maxHealth, currentShields, maxShields;
 
     public void Activate(){
         if(currentCraft == null){
@@ -37,6 +37,7 @@ public class PlayerHUDController : MonoBehaviour
         
         maxSpeed = chosenShip.maxSpeed;
         maxHealth = chosenShip.maxHealth;
+        maxShields = chosenShip.maxShield;
 
         avatarImage.sprite = chosenCharacter.portrait;
     }
@@ -65,6 +66,7 @@ public class PlayerHUDController : MonoBehaviour
         FillSpeedData();
         FillThrustData();
         FillHealthData();
+        FillShieldData();
     }
 
     private void FillSpeedData(){
@@ -78,11 +80,8 @@ public class PlayerHUDController : MonoBehaviour
         }
     }
     private void FillThrustData(){
-        float offsetThrust = thrustInput + 1;
-        float difference = 2 - offsetThrust;
-        float barfill = 1 - (difference/2);
         for(int i = 0; i < thrustBar.Count; i++){
-            thrustBar[i].fillAmount = barfill;
+            thrustBar[i].fillAmount = thrustInput;
         }
     }
     private void FillHealthData(){
@@ -93,6 +92,17 @@ public class PlayerHUDController : MonoBehaviour
         }
         for(int i = 0; i < healthBar.Count; i++){
             healthBar[i].fillAmount = barfill;
+        }
+        
+    }
+     private void FillShieldData(){
+        float difference = maxShields - currentShields;
+        float barfill = 1 - (difference/maxShields);
+        for(int i = 0; i < shieldText.Count; i++){
+            shieldText[i].text = currentShields.ToString("#####");
+        }
+        for(int i = 0; i < healthBar.Count; i++){
+            shieldBar[i].fillAmount = barfill;
         }
         
     }
