@@ -5,6 +5,9 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 
+namespace Cox.PlayerControls{
+///<summary> Receives information from Cox.PlayerControls.SpacecraftController in order to allow the player to target
+/// and attack enemies with missiles and guns. </summary>
 public class WeaponsController : MonoBehaviourPunCallbacks
 {
     #region Serialized Fields
@@ -291,4 +294,5 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         canLaunchMissile = true;
     }
     #endregion
+}
 }

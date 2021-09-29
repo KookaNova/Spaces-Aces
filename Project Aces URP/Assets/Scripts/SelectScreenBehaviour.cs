@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+namespace Cox.PlayerControls{
 public class SelectScreenBehaviour : MonoBehaviour
 {
     public PlayerObject playerObject;
@@ -24,4 +25,5 @@ public class SelectScreenBehaviour : MonoBehaviour
     public void UnloadSelectScreen(){
         SceneManager.UnloadSceneAsync("Select Scene");
     }
+}
 }

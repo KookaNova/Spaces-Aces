@@ -2,6 +2,7 @@
 using UnityEngine;
 using Photon.Pun;
 
+namespace Cox.PlayerControls{
 public class GunAmmoBehaviour : MonoBehaviour
 {
     [SerializeField]
@@ -25,4 +26,5 @@ public class GunAmmoBehaviour : MonoBehaviour
         yield return new WaitForSeconds(destroyTime);
         PhotonNetwork.Destroy(this.gameObject);
     }
+}
 }

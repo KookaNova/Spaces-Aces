@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+namespace Cox.PlayerControls{
+///<summary> Stores information about a ship and delivers it to the Cox.PlayerControls.SpacecraftController. </summary>
 [CreateAssetMenu(menuName = "Controller/Ship")]
 public class ShipHandler : ScriptableObject
 {
@@ -26,4 +29,5 @@ public class ShipHandler : ScriptableObject
     private void Awake() {
         weaponsController = shipPrefab.GetComponent<WeaponsController>();
     }
+}
 }

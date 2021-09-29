@@ -2,6 +2,12 @@ using System.Collections;
 using UnityEngine;
 using Photon.Pun;
 
+
+namespace Cox.PlayerControls{
+/// <summary> Component required for inputs to cause an object to move as the spaceship. This component is also
+/// required to use the WeaponsController, helps fill in the HudController, and supplies inputs to the CameraController.
+/// These things all work together to create the complex player controller we have. 
+/// Input Controller >> SpacraftController >>instantiates>> Ship Prefab with WeaponsController, HUDController, and CameraController </summary>
 [RequireComponent(typeof(Rigidbody))]
 public class SpacecraftController : MonoBehaviourPunCallbacks
 {
@@ -80,7 +86,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
            currentHealth -= currentSpeed + 1700;
         }
     }
-    private void Eliminate(){
+    public void Eliminate(){
         isAwaitingRespawn = true;
         currentHealth = 0;
         Instantiate(explosionObject, gameObject.transform);
@@ -133,6 +139,10 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         if (currentSpeed > chosenShip.cruiseSpeed)
         {
             //currentSpeed = Mathf.Lerp(currentSpeed, chosenShip.cruiseSpeed, .001f);
+        }
+
+        if(currentHealth <= chosenShip.maxHealth ){
+            //Eliminate();
         }
 
         if(currentHealth <= 0){
@@ -218,4 +228,5 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     }
     #endregion
 
+}
 }

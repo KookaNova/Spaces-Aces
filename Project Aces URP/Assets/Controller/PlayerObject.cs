@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace Cox.PlayerControls{
 [CreateAssetMenu(menuName = "Controller/Player")]
 public class PlayerObject : ScriptableObject
 {
@@ -15,4 +16,5 @@ public class PlayerObject : ScriptableObject
         chosenShip = newShip;
     }
 
+}
 }
