@@ -1,5 +1,6 @@
 using UnityEngine;
 
+namespace Cox.PlayerControls{
 public class CameraController : MonoBehaviour
 {
     public WeaponsController weaponsController;
@@ -100,4 +101,5 @@ public class CameraController : MonoBehaviour
 
         }
     }
+}
 }

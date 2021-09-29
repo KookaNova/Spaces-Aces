@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+namespace Cox.PlayerControls{
 public class PlayerHUDController : MonoBehaviour
 {
     public Image avatarImage;
@@ -95,4 +96,5 @@ public class PlayerHUDController : MonoBehaviour
         }
         
     }
+}
 }

@@ -2,6 +2,11 @@
 using UnityEngine.InputSystem;
 using Photon.Pun;
 
+
+namespace Cox.PlayerControls{
+/// <summary> Receives inputs from either players or AIs and translates them into actions
+/// in the Cox.PlayerControls.SpacecraftController.
+///</summary>
 public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlightActions
 {
     float thrustInput, yawInput, brakeInput;
@@ -104,4 +109,5 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
         if(photonView.IsMine)
         spacecraft.CameraLockTarget();
     }
+}
 }

@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using UnityEngine;
 using Photon.Pun;
+
+namespace Cox.PlayerControls{
+
 [RequireComponent(typeof(Rigidbody), typeof(Collider))]
 public class MissileBehaviour : MonoBehaviour
 {
@@ -96,4 +99,5 @@ public class MissileBehaviour : MonoBehaviour
         yield return new WaitForSecondsRealtime(destroyTime); trail.transform.parent = null; Destroy(gameObject);
 
     }
+}
 }

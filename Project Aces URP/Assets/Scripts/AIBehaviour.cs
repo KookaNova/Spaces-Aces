@@ -30,22 +30,23 @@ public class AIBehaviour : MonoBehaviour
     private void OnCollisionEnter(Collision collision) {
         if(collision.gameObject.layer == LayerMask.NameToLayer("Crash Hazard") || collision.gameObject.layer == LayerMask.NameToLayer("Player")){
 
-           var deathLocation = transform.position;
-           Object.Instantiate(explosionObject, deathLocation, transform.rotation);
-
-           isAwaitingRespawn = true;
-
-           gameObject.SetActive(false);
+            Eliminate();
+            return;
         }
         if(collision.gameObject.layer == LayerMask.NameToLayer("GunAmmo") || collision.gameObject.layer == LayerMask.NameToLayer("Missile")){
-
-           var deathLocation = transform.position;
-           Object.Instantiate(explosionObject, deathLocation, transform.rotation);
-
-           isAwaitingRespawn = true;
-
-           gameObject.SetActive(false);
+            Eliminate();
+            return;
+          
         }
+    }
+
+    public void Eliminate(){
+        var deathLocation = transform.position;
+        Object.Instantiate(explosionObject, deathLocation, transform.rotation);
+
+        isAwaitingRespawn = true;
+
+        gameObject.SetActive(false);
     }
 
     private void FixedUpdate() {
