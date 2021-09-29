@@ -1085,50 +1085,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6775023617831491200, guid: 0f05c02aa2e10f0488eba257b1967b9b, type: 3}
   m_PrefabInstance: {fileID: 1052299212}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1029494202 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7822796711424456140, guid: 68fe6926c0b53cc46a9948d8c2f6974a, type: 3}
-  m_PrefabInstance: {fileID: 1488323872}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1029494203 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7822796711424456114, guid: 68fe6926c0b53cc46a9948d8c2f6974a, type: 3}
-  m_PrefabInstance: {fileID: 1488323872}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1029494202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50d2fd66abe0b324caac99722b59c1bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1029494205
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1029494202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcb9c03599741b3409b297835ab155d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameActionObj: {fileID: 11400000, guid: 6ae02a6c2e56b1348987efaa410cbb71, type: 2}
-  handlerEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1029494203}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: CloseSelectMenu
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &1037195320
 GameObject:
   m_ObjectHideFlags: 0
@@ -3714,7 +3670,7 @@ SphereCollider:
   m_GameObject: {fileID: 1672855680}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.53470004
   m_Center: {x: 0, y: 0, z: 0}
