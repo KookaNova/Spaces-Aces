@@ -1,10 +1,10 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using Photon.Pun;
 
 
 namespace Cox.PlayerControls{
-/// <summary> Receives inputs from either players or AIs and translates them into actions
+/// <summary> Receives inputs from either the player's controller and translates them into actions
 /// in the Cox.PlayerControls.SpacecraftController.
 ///</summary>
 public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlightActions
@@ -18,7 +18,6 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
     Vector2 torqueInput, cursorInput;
 
     public override void OnEnable() {
-        //if(!photonView.IsMine)return;
         cursorInput = new Vector2 (Screen.width / 2, Screen.height / 2);
         spacecraft = GetComponentInChildren<SpacecraftController>();
         _controls = new ControlInputActions();
@@ -29,7 +28,7 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
     public override void OnDisable() {
         _controls.Flight.Disable();
     }
-    //Update
+    //Update, Sends input data for rigidbody, camera rotation, and gun use.
     private void FixedUpdate() {
         if(photonView.IsMine)
         if(brakeInput > 0){

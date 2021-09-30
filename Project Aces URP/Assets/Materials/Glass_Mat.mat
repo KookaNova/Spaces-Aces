@@ -86,8 +86,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - Refraction: 0
-    - Scratch_Strength: 0
+    - Refraction: 0.002
+    - Scratch_Strength: 0.04
     - Smoothness: 0.75
     - Transparency: 1
     - _AlphaClip: 0
@@ -113,8 +113,8 @@ Material:
     - _ZWrite: 1
     - isRefracting: 1
     m_Colors:
-    - Specular_Color: {r: 0.7058824, g: 0.59072155, b: 0.4627451, a: 1}
-    - Tint: {r: 1, g: 0.9503781, b: 0.645283, a: 1}
+    - Specular_Color: {r: 0.7924528, g: 0.6434881, b: 0.47397646, a: 1}
+    - Tint: {r: 0.96178466, g: 1, b: 0.86226416, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

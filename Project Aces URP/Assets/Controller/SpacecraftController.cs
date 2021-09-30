@@ -46,7 +46,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     private Rigidbody _rb;
     private ControlInputActions _controls;
     private GameObject ship, menu;
-
+    
     //Points are stored and retrieved from GameManager
     private Transform[] respawnPoints;
 
@@ -84,6 +84,8 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
             cameraController = ship.GetComponentInChildren<CameraController>();
             cameraController.weaponsController = weaponSystem;
             cameraController.Activate();
+
+            
             
             _rb = GetComponent<Rigidbody>();
         }
