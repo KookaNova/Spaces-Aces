@@ -306,10 +306,10 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         if(canUsePrimary){
             canUsePrimary = false;
             primaryAbility.player = gameObject;
-            StartCoroutine(DelayedAbility(primaryAbility, primaryAbility.startUpTime));
+            StartCoroutine(primaryAbility.Activate());
+            
             StartCoroutine(CooldownTimer(primaryAbility.cooldownTime, "Primary"));
         }
-        //use ability start up time to delay start
     }
     public void SecondaryAbility(){
         Debug.Log("Spacecraft: SecondaryAbility() called");
@@ -323,11 +323,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
 
     #region IEnumerators
     //Delay used when abilities have startup time.
-    public IEnumerator DelayedAbility(AbilityHandler ability, float startUpTime){
-        Instantiate(ability.startUpParticle, gameObject.transform);
-        yield return new WaitForSeconds(startUpTime);
-        Instantiate(ability);
-    }
+    
     //Delay used when abilities need to cool down.
     public IEnumerator CooldownTimer(float cooldown, string abilityType){
         yield return new WaitForSeconds(cooldown);
