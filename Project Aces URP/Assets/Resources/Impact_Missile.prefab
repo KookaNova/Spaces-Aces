@@ -376,6 +376,9 @@ MonoBehaviour:
   damageOutput: 1000
   explosion: {fileID: 9128587892432602950, guid: e59c9a8b5999cdb4ab01f2f08b1d25b3, type: 3}
   target: {fileID: 0}
+  rb: {fileID: 0}
+  missileHit: 0
+  missileMissed: 0
 --- !u!54 &6228669630684057789
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -403,7 +406,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 2.5, y: 2.5, z: 7.9433727}
+  m_Size: {x: 5, y: 5, z: 8}
   m_Center: {x: 0, y: 0, z: 0.100622654}
 --- !u!114 &6786794137692798478
 MonoBehaviour:

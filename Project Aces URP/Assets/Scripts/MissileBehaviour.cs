@@ -7,24 +7,26 @@ namespace Cox.PlayerControls{
 [RequireComponent(typeof(Rigidbody), typeof(Collider))]
 public class MissileBehaviour : MonoBehaviour
 {
-    public int destroyTime = 10, missileSpeed = 800;
-    public float turningLimit = 20, missProbability = 2, currentSpeed, damageOutput = 1000;
+    public int destroyTime = 10;
+    public float missileSpeed = 800, turningLimit = 20, missProbability = 2, currentSpeed, damageOutput = 1000;
     [SerializeField]
     private GameObject explosion;
     [HideInInspector]
     public GameObject target = null;
-    private Rigidbody _rb;
+    public Rigidbody rb;
     private Collider _col;
     private bool startCasting = false;
     private TrailRenderer trail;
 
+    [HideInInspector]public bool missileHit = false, missileMissed = false;
+
     private void Awake()
     {
         trail = GetComponentInChildren<TrailRenderer>();
-        _rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         _col = GetComponent<Collider>();
         _col.enabled = false;
-        _rb.velocity = transform.forward * (currentSpeed + missileSpeed);
+        rb.velocity = transform.forward * (currentSpeed + missileSpeed);
 
         StartCoroutine(Missile());
         StartCoroutine(WakeCollider());
@@ -48,32 +50,34 @@ public class MissileBehaviour : MonoBehaviour
                 }
                 else{
                     target = null;
+                    missileMissed = true;
 
                     Debug.Log("MissileBehaviour: Spherecast missed the target. Missile missed.");
                     return;
                 }
             }
             
-            var toTarget = target.transform.position - _rb.position;
-            var targetRotation = Vector3.RotateTowards(_rb.transform.forward, toTarget, turningLimit, 1080);
-            var step = turningLimit * Time.fixedDeltaTime;
+            var toTarget = target.transform.position - rb.position;
+            var targetRotation = Vector3.RotateTowards(rb.transform.forward, toTarget, turningLimit, 1080);
+            //var step = turningLimit * Time.fixedDeltaTime;
 
             //_rb.rotation = targetRotation;
-            _rb.transform.rotation = Quaternion.LookRotation(targetRotation);
+            rb.transform.rotation = Quaternion.LookRotation(targetRotation);
         }
         else{
-            _rb.rotation = _rb.rotation;
+            rb.rotation = rb.rotation;
         }
         
     }
 
     private void FixedUpdate() {
-        _rb.AddRelativeForce(0,0,currentSpeed + missileSpeed, ForceMode.Acceleration);
+        rb.AddRelativeForce(0,0,currentSpeed + missileSpeed, ForceMode.Acceleration);
     }
 
 
     private void OnCollisionEnter(Collision obj)
     {
+
         Instantiate(explosion, transform.position, Quaternion.identity);
         if(obj.gameObject.GetComponent<SpacecraftController>()){
             obj.gameObject.GetComponent<SpacecraftController>().currentHealth -= damageOutput;
@@ -94,7 +98,7 @@ public class MissileBehaviour : MonoBehaviour
     {
         if (target != null)
         {
-            _rb.transform.LookAt(target.transform);
+            rb.transform.LookAt(target.transform);
         }
         yield return new WaitForSecondsRealtime(destroyTime); trail.transform.parent = null; Destroy(gameObject);
 

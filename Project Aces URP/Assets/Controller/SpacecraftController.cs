@@ -24,7 +24,8 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     //Items obtained from Ship selection
     [HideInInspector]
     public ShipHandler chosenShip;
-    private WeaponsController weaponSystem;
+    [HideInInspector]
+    public WeaponsController weaponSystem;
     private CameraController cameraController;
     private PlayerHUDController HudController;
 
@@ -37,12 +38,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     private float respawnTime = 5;
     private bool 
         isAwaitingRespawn = false,
-        isShieldRecharging = false,
-        canUsePrimary = true,
-        canUseSecondary = true,
-        canUseAce = false;
-    
-    
+        isShieldRecharging = false;
     private Rigidbody _rb;
     private ControlInputActions _controls;
     private GameObject ship, menu;
@@ -92,13 +88,42 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
 
         //Find the character abilities and give them info about the local player. Them apply the abilities to the player.
         for (int i = 0; i < chosenCharacter.abilities.Count; i++){
-            chosenCharacter.abilities[i].player = gameObject;
+            if(chosenCharacter.abilities[i] == null){
+                Debug.LogWarningFormat("{0} is missing an ability in slot {1}. This may cause errors.", chosenCharacter.name, i);
+            }
+            else{
+                chosenCharacter.abilities[i].player = this;
+            }
+            
+        }
+        if(chosenCharacter.abilities[0] != null){
+            passiveAbility = chosenCharacter.abilities[0];
+            passiveAbility.canUse = true;
+            passiveAbility.isActive = false;
+            passiveAbility.isUpdating = false;
+        }
+        if(chosenCharacter.abilities[1] != null){
+            primaryAbility = chosenCharacter.abilities[1];
+            primaryAbility.canUse = true;
+            primaryAbility.isActive = false;
+            primaryAbility.isUpdating = false;
+        }
+        if(chosenCharacter.abilities[2] != null){
+            secondaryAbility = chosenCharacter.abilities[2];
+            secondaryAbility.canUse = true;
+            secondaryAbility.isActive = false;
+            secondaryAbility.isUpdating = false;
+        }
+        if(chosenCharacter.abilities[3] != null){
+            aceAbility = chosenCharacter.abilities[3];
+            aceAbility.canUse = false;
+            aceAbility.isActive = false;
+            aceAbility.isUpdating = false;
         }
         
-        passiveAbility = chosenCharacter.abilities[0];
-        primaryAbility = chosenCharacter.abilities[1];
-        secondaryAbility = chosenCharacter.abilities[2];
-        aceAbility = chosenCharacter.abilities[3];
+        
+        
+        
     }
 
     public void MenuButton(){
@@ -147,8 +172,23 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     #endregion
     
     private void FixedUpdate(){
-        //If player is not local, return.
+        //#Critical: If player is not local, return.
         if(!photonView.IsMine)return;
+
+        //keep abilities updated and active if needed, even if the player is eliminated.
+        /*if(passiveAbility.isUpdating){
+            passiveAbility.OnUpdate();
+        }*/
+        if(primaryAbility.isUpdating){
+            primaryAbility.OnUpdate();
+        }
+        if(secondaryAbility.isUpdating){
+            secondaryAbility.OnUpdate();
+        }
+        /*if(aceAbility.isUpdating){
+            aceAbility.OnUpdate();
+        }*/
+
         //If player is waiting to respawn, keep health at zero and return.
         if(isAwaitingRespawn){
             currentHealth = 0;
@@ -264,6 +304,8 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         currentHealth = 0;
         currentShields = 0;
         currentSpeed = 0;
+        primaryAbility.canUse = true;
+        secondaryAbility.canUse = true;
         _rb.velocity = Vector3.zero;
         _rb.angularVelocity = Vector3.zero;
         
@@ -303,39 +345,35 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         //Seek and apply passives
     }
     public void PrimaryAbility(){
-        if(canUsePrimary){
-            canUsePrimary = false;
-            primaryAbility.player = gameObject;
+        if(primaryAbility.canUse){
             StartCoroutine(primaryAbility.Activate());
-            
-            StartCoroutine(CooldownTimer(primaryAbility.cooldownTime, "Primary"));
         }
     }
     public void SecondaryAbility(){
-        Debug.Log("Spacecraft: SecondaryAbility() called");
-        //Seek and apply Secondary Ability
+        if(secondaryAbility.canUse){
+            StartCoroutine(secondaryAbility.Activate());
+            
+        }
     }
     public void AceAbility(){
         Debug.Log("Spacecraft: AceAbility() called");
         //Ace Ability
     }
+    //Handles ability cooldown
+    public void CoolDownAbility(float coolDown, AbilityHandler ability){
+        StartCoroutine(CooldownTimer(coolDown, ability));
+    }
+
     #endregion
 
     #region IEnumerators
     //Delay used when abilities have startup time.
     
     //Delay used when abilities need to cool down.
-    public IEnumerator CooldownTimer(float cooldown, string abilityType){
+    public IEnumerator CooldownTimer(float cooldown, AbilityHandler ability){
         yield return new WaitForSeconds(cooldown);
-        if(abilityType == "Primary"){
-            canUsePrimary = true;
-        }
-        if(abilityType == "Secondary"){
-            canUseSecondary = true;
-        }
-        if(abilityType == "Ace"){
-            canUseAce = true;
-        }
+        ability.canUse = true;
+        ability.isActive = false;
     }
     
     public IEnumerator ShieldRechargeTimer(){

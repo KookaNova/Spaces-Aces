@@ -38,23 +38,24 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     [SerializeField] private Transform[] gunPosition;
 
     [Header("Missile Information")]
-    [SerializeField] private GameObject missileType;
+    public GameObject missileType;
     [SerializeField] private float lockOnEfficiency = 2,
         lockOnRange = 2500,
         missileReload = 5;
 
-    [SerializeField] private Transform[] missilePosition;
+    [SerializeField] public Transform[] missilePosition;
 
     public AudioSource gunCannonAudio, missileCannonAudio;
     #endregion
 
     #region Hidden Fields
     [HideInInspector] public List<TargetableObject> allTargetList, currentTargetSelection;
-    private int currentMis = 0;
+    [HideInInspector] public int currentMis = 0;
     private int missilesAvailable;
     private float lockOnModifier = 5;
 
-    private bool canFire = true, isTargetVisible = false, missileLocked = false, canLaunchMissile = true;
+    public bool missileLocked = false;
+    private bool canFire = true, isTargetVisible = false, canLaunchMissile = true;
 
     #endregion
 
@@ -155,7 +156,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             RaycastHit hit;
             Vector3 dir = currentTargetSelection[i].gameObject.transform.position - gameObject.transform.position;
             //if cast hits nothing, remove indicators
-            if(!Physics.SphereCast(gameObject.transform.position, 10, dir, out hit, 7500, ~layermask) || hit.rigidbody == null){activeIndicators[i].SetActive(false); return;}
+            if(!Physics.SphereCast(gameObject.transform.position, 8, dir, out hit, 7500, ~layermask) || hit.rigidbody == null){activeIndicators[i].SetActive(false); return;}
             
             //if object is visible and not obstructed, activate indicators
             if(currentTargetSelection[i].GetComponentInChildren<Renderer>().isVisible && hit.rigidbody.gameObject == currentTargetSelection[i].gameObject){
