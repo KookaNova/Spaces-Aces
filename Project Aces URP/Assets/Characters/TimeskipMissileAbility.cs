@@ -54,6 +54,7 @@ public class TimeskipMissileAbility : AbilityHandler
         Vector3 moveVec = missile.transform.forward * 400;
         missile.rb.MovePosition(missile.rb.transform.position + moveVec);
         Instantiate(endParticle, missile.transform.position, missile.transform.rotation);
+        missile.gameObject.GetComponentInChildren<TrailRenderer>().widthMultiplier *= 5;
         Debug.Log("Timeskip Missile: Skip!");
         
         player.CoolDownAbility(cooldownTime, this);

@@ -61,6 +61,7 @@ public class PlayerHUDController : MonoBehaviour
         }
         currentSpeed = currentCraft.currentSpeed;
         currentHealth = currentCraft.currentHealth;
+        currentShields = currentCraft.currentShields;
         thrustInput = currentCraft.thrust;
 
         FillSpeedData();

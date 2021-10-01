@@ -371,7 +371,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     
     //Delay used when abilities need to cool down.
     public IEnumerator CooldownTimer(float cooldown, AbilityHandler ability){
-        yield return new WaitForSeconds(cooldown);
+        yield return new WaitForSecondsRealtime(cooldown);
         ability.canUse = true;
         ability.isActive = false;
     }
@@ -383,7 +383,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     }
 
     public IEnumerator RespawnTimer(){
-        yield return new WaitForSeconds(respawnTime);
+        yield return new WaitForSecondsRealtime(respawnTime);
        SpawnPlayer();
 
         //also teleport to spawn points using a spawn point system
