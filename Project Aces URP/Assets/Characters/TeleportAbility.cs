@@ -1,8 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Controller/Ability/Teleport")]
 public class TeleportAbility : AbilityHandler
 {
     private Rigidbody rb;
@@ -15,23 +13,20 @@ public class TeleportAbility : AbilityHandler
             yield break;
         }
         if(!canUse)yield break;
+        canUse = false;
 
         //Plays startup effect or animation if added to the script
         Instantiate(startUpParticle, player.transform);
-        yield return new WaitForSeconds(startUpTime);
+        yield return new WaitForSecondsRealtime(startUpTime);
 
-        if(!isActive){
-            Debug.Log("teleport");
-            isActive = true;
-            canUse = false;
+        Debug.Log("teleport");
             
-            rb = player.GetComponent<Rigidbody>();
-            Vector3 moveVec = rb.transform.forward * 1500;
-            rb.MovePosition(rb.transform.position + moveVec);
-            Instantiate(endParticle, player.transform);
-            isActive = false;
-            yield break;
-        }
+        rb = player.gameObject.GetComponent<Rigidbody>();
+        Vector3 moveVec = rb.transform.forward * 1500;
+        rb.MovePosition(rb.transform.position + moveVec);
+        Instantiate(endParticle, player.gameObject.transform);
+        player.CoolDownAbility(cooldownTime, this);
+
     }
     
 }

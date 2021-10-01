@@ -70,6 +70,7 @@ MonoBehaviour:
   missileObject: {fileID: 6200246160423643314, guid: fbe558d5ded7c6444990f035946dd5e0, type: 3}
   chosenCharacter: {fileID: 11400000, guid: 5e0146bfea2a90e4088f2de10ca4483e, type: 2}
   chosenShip: {fileID: 11400000, guid: 5b4d9e73d21b79043a1ee74e4135a453, type: 2}
+  weaponSystem: {fileID: 0}
   currentSpeed: 0
   currentShields: 0
   currentHealth: 0

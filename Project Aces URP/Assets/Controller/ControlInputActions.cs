@@ -108,7 +108,7 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""Primary Ability"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""c794cb57-8f84-4362-88e9-d22889c3201c"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -116,7 +116,7 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""Secondary Ability"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""d2f5022b-a86b-448b-9422-99bd9d1fccd8"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -124,7 +124,7 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""Ace Ability"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""4003d615-b0dd-4507-a7a0-4954a08fdef2"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -544,7 +544,7 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": ""modifier"",
                     ""id"": ""40d218b7-faaa-44cb-bf74-e4827b01e05e"",
-                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -555,7 +555,7 @@ public class @ControlInputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": ""button"",
                     ""id"": ""79d6947c-9108-46fb-8716-1a8f54ab183b"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

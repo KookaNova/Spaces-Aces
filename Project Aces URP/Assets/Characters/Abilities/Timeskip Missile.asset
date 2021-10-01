@@ -7,16 +7,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 529e22b36914575408cda968f3773375, type: 3}
-  m_Name: Teleport
+  m_Script: {fileID: 11500000, guid: 7d898b05395136e46b1595b7242377ee, type: 3}
+  m_Name: Timeskip Missile
   m_EditorClassIdentifier: 
-  abilityName: Spacetime Leap
-  icon: {fileID: 21300000, guid: 20381379d78ef0a45ac5926fa4255f5d, type: 3}
-  cooldownTime: 8
-  startUpTime: 0.75
-  startUpParticle: {fileID: 7007054171437604164, guid: 959b1b6103881834498c91c386e3bfca, type: 3}
+  abilityName: Timeskip Missile
+  icon: {fileID: 21300000, guid: a07eec4cb3aa0b843a3e071d2bd7bfb7, type: 3}
+  cooldownTime: 3
+  startUpTime: 0
+  startUpParticle: {fileID: 0}
   endParticle: {fileID: 7007054171437604164, guid: 334acb49b0bae5b46ad1f8b6ff8f647f, type: 3}
   canUse: 1
   isActive: 0

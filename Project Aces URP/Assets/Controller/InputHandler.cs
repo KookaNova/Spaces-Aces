@@ -70,13 +70,16 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
     public void OnMissileButton(InputAction.CallbackContext pressed){
         spacecraft.MissileLaunch();
     }
-    public void OnPrimaryAbility(InputAction.CallbackContext context){
+    public void OnPrimaryAbility(InputAction.CallbackContext pressed){
+        if(pressed.ReadValueAsButton())
         spacecraft.PrimaryAbility();
     }
-    public void OnSecondaryAbility(InputAction.CallbackContext context){
+    public void OnSecondaryAbility(InputAction.CallbackContext pressed){
+        if(pressed.ReadValueAsButton())
         spacecraft.SecondaryAbility();
     }
-    public void OnAceAbility(InputAction.CallbackContext context){
+    public void OnAceAbility(InputAction.CallbackContext pressed){
+        if(pressed.ReadValueAsButton())
         spacecraft.AceAbility();
     }
     public void OnCameraStick(InputAction.CallbackContext stickInput){
