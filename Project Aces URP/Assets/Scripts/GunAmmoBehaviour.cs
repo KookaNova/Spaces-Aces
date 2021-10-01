@@ -16,7 +16,7 @@ public class GunAmmoBehaviour : MonoBehaviour
     public void OnCollisionEnter(Collision obj) {
         var impact = Instantiate(impactObj);
         if(obj.gameObject.GetComponent<SpacecraftController>()){
-            obj.gameObject.GetComponent<SpacecraftController>().currentHealth -= damageOutput;
+            obj.gameObject.GetComponent<SpacecraftController>().TakeDamage(damageOutput);
         }
         impact.transform.position = transform.position;
         PhotonNetwork.Destroy(this.gameObject);
