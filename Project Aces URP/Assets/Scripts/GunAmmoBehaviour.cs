@@ -6,7 +6,8 @@ namespace Cox.PlayerControls{
 public class GunAmmoBehaviour : MonoBehaviour
 {
     [SerializeField]
-    private float destroyTime = 6, damageOutput = 223;
+    private float destroyTime = 6;
+    public float damageOutput = 223;
     public GameObject impactObj;
 
     private void Awake() {
@@ -14,11 +15,14 @@ public class GunAmmoBehaviour : MonoBehaviour
     }
 
     public void OnCollisionEnter(Collision obj) {
-        var impact = Instantiate(impactObj);
+        if(impactObj != null){
+            var impact = Instantiate(impactObj);
+            impact.transform.position = transform.position;
+        }
+        
         if(obj.gameObject.GetComponent<SpacecraftController>()){
             obj.gameObject.GetComponent<SpacecraftController>().TakeDamage(damageOutput);
         }
-        impact.transform.position = transform.position;
         PhotonNetwork.Destroy(this.gameObject);
     }
 

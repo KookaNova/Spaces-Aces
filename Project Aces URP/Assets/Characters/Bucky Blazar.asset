@@ -22,4 +22,20 @@ MonoBehaviour:
   portrait: {fileID: 21300000, guid: 6c7854df2f154414982795a12d3495d7, type: 3}
   bodyArt: {fileID: 21300000, guid: eada8db83bd02234a83b314fd64c627b, type: 3}
   nameArt: {fileID: 21300000, guid: 380cbc4e1dcd98545afd9c9827ad3f47, type: 3}
-  abilities: []
+  abilities:
+  - {fileID: 11400000, guid: c900157cc7ca95a4a9523db6e30e2d35, type: 2}
+  - {fileID: 11400000, guid: f2cea10384c121646b07a57806b35d10, type: 2}
+  - {fileID: 11400000, guid: c900157cc7ca95a4a9523db6e30e2d35, type: 2}
+  health: 10
+  shield: 100
+  shieldRechargeRate: 75
+  acceleration: -5
+  minSpeed: 15
+  maxSpeed: 100
+  roll: -2
+  pitch: -4
+  yaw: -2
+  gunDamage: 100
+  missileDamage: 0
+  missileReload: 0
+  lockOnEfficiency: -1

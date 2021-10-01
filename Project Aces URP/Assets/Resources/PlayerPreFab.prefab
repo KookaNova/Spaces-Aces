@@ -75,6 +75,18 @@ MonoBehaviour:
   currentShields: 0
   currentHealth: 0
   thrust: 0
+  maxHealth: 0
+  maxShield: 0
+  shieldRechargeRate: 0
+  acceleration: 0
+  minSpeed: 0
+  maxSpeed: 0
+  roll: 0
+  pitch: 0
+  yaw: 0
+  gunDamage: 0
+  missileDamage: 0
+  lockSpeed: 0
 --- !u!114 &129003246424364282
 MonoBehaviour:
   m_ObjectHideFlags: 0
