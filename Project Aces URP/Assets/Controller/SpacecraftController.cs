@@ -20,7 +20,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     //Items obtained from character selection
     [HideInInspector]
     public CharacterHandler chosenCharacter;
-    private AbilityHandler passiveAbility, primaryAbility, secondaryAbility, aceAbility;
+    private AbilityHandler primaryAbility, secondaryAbility, aceAbility;
     //Items obtained from Ship selection
     [HideInInspector]
     public ShipHandler chosenShip;
@@ -35,6 +35,21 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     [HideInInspector]
     //Public so they can display on HUD using HUD Controller
     public float currentSpeed, currentShields, currentHealth, thrust = 0;
+    //Floats edited by character passives
+    [HideInInspector]
+    public float maxHealth, 
+        maxShield,
+        shieldRechargeRate,
+        acceleration,
+        minSpeed,
+        maxSpeed,
+        roll, 
+        pitch, 
+        yaw,
+        gunDamage,
+        missileDamage,
+        lockSpeed;
+
     private float respawnTime = 5;
     private bool 
         isAwaitingRespawn = false,
@@ -48,6 +63,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
 
     #region setup
     public override void OnEnable(){
+        isAwaitingRespawn = true;
         if(playerObject == null){
             Debug.LogError("SpacecraftController: OnEnable(), critical playerObject not set in the inspector.");
             return;
@@ -62,28 +78,32 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         //Instantiates the chosen ship and parents it under the controller. Then gets important info from the ship.
         ship = Instantiate(chosenShip.shipPrefab, transform.position, transform.rotation);
         ship.transform.SetParent(this.gameObject.transform);
-        currentHealth = chosenShip.maxHealth;
 
         //If the photon view belongs to the local player...
         if(photonView.IsMine){
-            //instantiate the menuPrefab, activate the weapons, hud, and camera controllers.
+            //instantiate the menuPrefab, weapons, hud, and camera controllers.
             menu = Instantiate(menuPrefab);
-            currentHealth = chosenShip.maxHealth;
-            currentShields = chosenShip.maxShield;
             weaponSystem = ship.GetComponentInChildren<WeaponsController>();
-            weaponSystem.EnableWeapons();
-
+            
             HudController = ship.GetComponentInChildren<PlayerHUDController>();
             HudController.currentCraft = this;
-            HudController.Activate();
-
+            
             cameraController = ship.GetComponentInChildren<CameraController>();
             cameraController.weaponsController = weaponSystem;
-            cameraController.Activate();
 
             
-            
             _rb = GetComponent<Rigidbody>();
+
+
+
+            //Activate systems after the passive modifiers are applied
+            PassiveAbility();
+            weaponSystem.EnableWeapons();
+            HudController.Activate();
+            cameraController.Activate();
+            currentHealth = maxHealth;
+            currentShields = maxShield;
+
         }
 
         //Find the character abilities and give them info about the local player. Them apply the abilities to the player.
@@ -97,33 +117,25 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
             
         }
         if(chosenCharacter.abilities[0] != null){
-            passiveAbility = chosenCharacter.abilities[0];
-            passiveAbility.canUse = true;
-            passiveAbility.isActive = false;
-            passiveAbility.isUpdating = false;
-        }
-        if(chosenCharacter.abilities[1] != null){
-            primaryAbility = chosenCharacter.abilities[1];
+            primaryAbility = chosenCharacter.abilities[0];
             primaryAbility.canUse = true;
             primaryAbility.isActive = false;
             primaryAbility.isUpdating = false;
         }
-        if(chosenCharacter.abilities[2] != null){
-            secondaryAbility = chosenCharacter.abilities[2];
+        if(chosenCharacter.abilities[1] != null){
+            secondaryAbility = chosenCharacter.abilities[1];
             secondaryAbility.canUse = true;
             secondaryAbility.isActive = false;
             secondaryAbility.isUpdating = false;
         }
-        if(chosenCharacter.abilities[3] != null){
-            aceAbility = chosenCharacter.abilities[3];
+        if(chosenCharacter.abilities[2] != null){
+            aceAbility = chosenCharacter.abilities[2];
             aceAbility.canUse = false;
             aceAbility.isActive = false;
             aceAbility.isUpdating = false;
         }
-        
-        
-        
-        
+
+        isAwaitingRespawn = false;
     }
 
     public void MenuButton(){
@@ -176,9 +188,6 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         if(!photonView.IsMine)return;
 
         //keep abilities updated and active if needed, even if the player is eliminated.
-        /*if(passiveAbility.isUpdating){
-            passiveAbility.OnUpdate();
-        }*/
         if(primaryAbility.isUpdating){
             primaryAbility.OnUpdate();
         }
@@ -186,21 +195,20 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
             secondaryAbility.OnUpdate();
         }
         /*if(aceAbility.isUpdating){
-            aceAbility.OnUpdate();
+            aceAbility.OnUpdate(); ///not implemented
         }*/
 
-        //If player is waiting to respawn, keep health at zero and return.
+        //If player is waiting to respawn, return.
         if(isAwaitingRespawn){
-            currentHealth = 0;
             return;
         }
         
 
         //Calculates speed based on current thrust and clamps speed.
         thrust = Mathf.Clamp01(thrust);
-        var speed = thrust * chosenShip.maxSpeed;
-        currentSpeed = Mathf.Lerp(currentSpeed, speed, (chosenShip.acceleration * Time.fixedDeltaTime)/45);
-        currentSpeed = Mathf.Clamp(currentSpeed, chosenShip.minSpeed, chosenShip.maxSpeed);
+        var speed = thrust * maxSpeed;
+        currentSpeed = Mathf.Lerp(currentSpeed, speed, (acceleration * Time.fixedDeltaTime)/45);
+        currentSpeed = Mathf.Clamp(currentSpeed, minSpeed, maxSpeed);
 
         _rb.AddRelativeForce(0,0,currentSpeed, ForceMode.Acceleration);
        
@@ -209,7 +217,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
             NoShield();
         }
 
-        if(currentHealth <= chosenShip.maxHealth /*will be percentage*/){
+        if(currentHealth <= maxHealth /*will be percentage*/){
             //LowHealth();
         }
 
@@ -217,11 +225,11 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
             Eliminate();
         }
 
-        //while shield is recharging, increment shield by recharge rate. If shields are maxed, stop recharging.
-        while(isShieldRecharging){
-            currentShields += chosenShip.shieldRechargeRate;
-            if(currentShields >= chosenShip.maxShield){
-                currentShields = chosenShip.maxShield;
+        //if shield is recharging, increment shield by recharge rate. If shields are maxed, stop recharging.
+        if(isShieldRecharging){
+            currentShields = Mathf.MoveTowards(currentShields, maxShield, shieldRechargeRate * Time.deltaTime);
+            if(currentShields >= maxShield){
+                currentShields = maxShield;
                 isShieldRecharging = false;
             }
         }
@@ -240,8 +248,8 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     //Take vector2 and convert it to pitch, roll, and yaw. Then add that to the rigidbody as torque.
     public void TorqueControl(Vector2 torqueInput, float yawInput){
         if(!photonView.IsMine)return;
-        var highspeedhandling = currentSpeed/chosenShip.maxSpeed + 1;
-        Vector3 torqueForce  = new Vector3((torqueInput.y * chosenShip.pitch) / highspeedhandling, yawInput * chosenShip.yaw, (torqueInput.x * chosenShip.roll) / highspeedhandling);
+        var highspeedhandling = currentSpeed/maxSpeed + 1;
+        Vector3 torqueForce  = new Vector3((torqueInput.y * pitch) / highspeedhandling, yawInput * yaw, (torqueInput.x * roll) / highspeedhandling);
         _rb.AddRelativeTorque(torqueForce, ForceMode.Force);
     }
     #endregion
@@ -289,6 +297,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     #region Player Health States
 
     public void NoShield(){
+        currentShields = 0;
         Debug.Log("Spacecraft: NoShield() called");
         //Do something when shields are gone
     }
@@ -299,6 +308,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     }
 
     public void Eliminate(){
+        Debug.Log("Spacecraft: Eliminate() called");
         //This happens when the players health reaches zero or they leave the arena.
         isAwaitingRespawn = true;
         currentHealth = 0;
@@ -322,8 +332,8 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
 
     public void SpawnPlayer(){
         //Set health back to max and no longer awaiting respawn
-        currentHealth = chosenShip.maxHealth;
-        currentShields = chosenShip.maxShield;
+        currentHealth = maxHealth;
+        currentShields = maxShield;
         isAwaitingRespawn = false;
 
         //Find a random spawn point to respawn at
@@ -341,8 +351,23 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
 
     #region Character Abilities
     private void PassiveAbility(){
-        Debug.Log("Spacecraft: PassiveAbility() called");
-        //Seek and apply passives
+        //Adds passive modifiers from the chosen character
+        maxHealth = chosenShip.maxHealth + chosenCharacter.health;
+        maxShield = chosenShip.maxShield + chosenCharacter.shield;
+        shieldRechargeRate = chosenShip.shieldRechargeRate + chosenCharacter.shieldRechargeRate;
+        acceleration = chosenShip.acceleration + chosenCharacter.acceleration;
+        minSpeed = chosenShip.minSpeed + chosenCharacter.minSpeed;
+        maxSpeed = chosenShip.maxSpeed + chosenCharacter.maxSpeed;
+        roll = chosenShip.roll + chosenCharacter.roll;
+        pitch = chosenShip.pitch + chosenCharacter.pitch;
+        yaw = chosenShip.yaw + chosenCharacter.yaw;
+        //weapons based modifiers
+        weaponSystem.gunModifier += chosenCharacter.gunDamage;
+        weaponSystem.missileModifier += chosenCharacter.missileDamage;
+        weaponSystem.lockOnEfficiency += chosenCharacter.lockOnEfficiency;
+        weaponSystem.missileReload += chosenCharacter.missileReload;
+        
+        
     }
     public void PrimaryAbility(){
         if(primaryAbility.canUse){

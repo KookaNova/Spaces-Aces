@@ -23,7 +23,6 @@ public class ShipHandler : ScriptableObject
         shieldRechargeRate = 15,
         acceleration = 10,
         minSpeed = 67,
-        cruiseSpeed = 357,
         maxSpeed = 500,
         roll = 12, 
         pitch = 15, 

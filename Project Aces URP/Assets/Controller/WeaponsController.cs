@@ -32,15 +32,14 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject ammoType;
     [SerializeField] private float fireRate = 0.1f,
         gunSpeed = 1000,
-        gunSensitivity = 5,
         gunRange = 3000;
 
     [SerializeField] private Transform[] gunPosition;
 
     [Header("Missile Information")]
     public GameObject missileType;
-    [SerializeField] private float lockOnEfficiency = 2,
-        lockOnRange = 2500,
+    public float lockOnEfficiency = 2,
+        lockOnRange = 2750,
         missileReload = 5;
 
     [SerializeField] public Transform[] missilePosition;
@@ -51,6 +50,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     #region Hidden Fields
     [HideInInspector] public List<TargetableObject> allTargetList, currentTargetSelection;
     [HideInInspector] public int currentMis = 0;
+    [HideInInspector] public float gunModifier = 0, missileModifier = 0;
     private int missilesAvailable;
     private float lockOnModifier = 5;
 
@@ -250,6 +250,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
                 var g = PhotonNetwork.Instantiate(ammoType.name, gunPosition[i].position, gunPosition[i].rotation);
                 gunCannonAudio.Play();
                 g.GetComponent<Rigidbody>().velocity = gunPosition[i].transform.forward * gunSpeed;
+                g.GetComponent<GunAmmoBehaviour>().damageOutput += gunModifier;
                 yield return new WaitForSeconds(fireRate);
             }
             gunIsFiring = false;
@@ -275,6 +276,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             var behaviour = m.GetComponent<MissileBehaviour>();
             behaviour.currentSpeed = currentSpeed;
             behaviour.target = currentTargetSelection[0].gameObject;
+            behaviour.damageOutput += missileModifier;
             missilesAvailable--;
             UpdateHUD();
         }
@@ -282,6 +284,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             var m = Instantiate(missileType.gameObject, missilePosition[currentMis].position, missilePosition[currentMis].rotation);
             var behaviour = m.GetComponent<MissileBehaviour>();
             behaviour.currentSpeed = currentSpeed;
+            behaviour.damageOutput += missileModifier;
             missilesAvailable--;
             UpdateHUD();
         }

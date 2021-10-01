@@ -14,7 +14,6 @@ public class PlayerHUDController : MonoBehaviour
     [SerializeField]
     private GameObject firstPersonHUD, thirdPersonHUD, OverlayHUD;
     private CharacterHandler chosenCharacter;
-    private ShipHandler chosenShip;
     private float currentSpeed, maxSpeed, thrustInput, currentHealth, maxHealth, currentShields, maxShields;
 
     public void Activate(){
@@ -24,20 +23,15 @@ public class PlayerHUDController : MonoBehaviour
         }
         firstPersonHUD.SetActive(true); OverlayHUD.SetActive(true);
         chosenCharacter = currentCraft.chosenCharacter;
-        chosenShip = currentCraft.chosenShip;
 
         if(chosenCharacter == null){
             Debug.LogWarning("PlayerHUDController: OnEnable(), currentCraft is null, can't fill Spacecraft info");
             return;
         }
-        if(chosenShip == null){
-            Debug.LogWarning("PlayerHUDController: OnEnable(), chosenShip is null, can't fill character info");
-            return;
-        }
         
-        maxSpeed = chosenShip.maxSpeed;
-        maxHealth = chosenShip.maxHealth;
-        maxShields = chosenShip.maxShield;
+        maxSpeed = currentCraft.maxSpeed;
+        maxHealth = currentCraft.maxHealth;
+        maxShields = currentCraft.maxShield;
 
         avatarImage.sprite = chosenCharacter.portrait;
     }
