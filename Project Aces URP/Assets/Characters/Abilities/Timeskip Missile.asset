@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Timeskip Missile
   icon: {fileID: 21300000, guid: a07eec4cb3aa0b843a3e071d2bd7bfb7, type: 3}
-  cooldownTime: 3
+  cooldownTime: 10
   startUpTime: 0
   startUpParticle: {fileID: 0}
   endParticle: {fileID: 7007054171437604164, guid: 334acb49b0bae5b46ad1f8b6ff8f647f, type: 3}
