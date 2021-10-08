@@ -336,7 +336,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2853054746878085}
   m_Layer: 9
-  m_Name: Triple_Barrel_Speeder
+  m_Name: Ship.Tri-Speeder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -495,7 +495,6 @@ MonoBehaviour:
   ammoType: {fileID: 4155647956408176716, guid: 5a3f45eeaedaf44489399eba23b11ac8, type: 3}
   fireRate: 0.2
   gunSpeed: 1500
-  gunSensitivity: 5
   gunRange: 1500
   gunPosition:
   - {fileID: 3920867384800913286}
@@ -511,6 +510,10 @@ MonoBehaviour:
   missileCannonAudio: {fileID: 0}
   allTargetList: []
   currentTargetSelection: []
+  currentMis: 0
+  gunModifier: 0
+  missileModifier: 0
+  missileLocked: 0
 --- !u!82 &2021481887488752201
 AudioSource:
   m_ObjectHideFlags: 0

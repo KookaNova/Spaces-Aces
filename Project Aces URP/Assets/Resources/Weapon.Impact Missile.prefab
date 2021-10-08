@@ -283,7 +283,7 @@ GameObject:
   - component: {fileID: 6786794137692798478}
   - component: {fileID: 602033360260553131}
   m_Layer: 14
-  m_Name: Impact_Missile
+  m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

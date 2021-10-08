@@ -68,14 +68,25 @@ public class PlayerHUDController : MonoBehaviour
         float difference = maxSpeed - currentSpeed;
         float barfill = 1 - (difference/maxSpeed);
         for(int i = 0; i < speedText.Count; i++){
+            if(speedText[i] == null){
+                Debug.LogError("HudController: Speed Text list is larger than the amount of objects in the list. This will cause errors with HUD. Remove unused elements.");
+                return;
+            }
             speedText[i].text = currentSpeed.ToString("#####");
         }
         for(int i = 0; i < speedBar.Count; i++){
+            if(speedBar[i] == null){
+                Debug.LogError("HudController: Speed Bar list is larger than the amount of objects in the list. This will cause errors with HUD. Remove unused elements.");
+            }
             speedBar[i].fillAmount = barfill;
         }
     }
     private void FillThrustData(){
         for(int i = 0; i < thrustBar.Count; i++){
+            if(thrustBar[i] == null){
+                Debug.LogError("HudController: Thrust Bar list is larger than the amount of objects in the list. This will cause errors with HUD. Remove unused elements.");
+                return;
+            }
             thrustBar[i].fillAmount = thrustInput;
         }
     }
@@ -83,9 +94,17 @@ public class PlayerHUDController : MonoBehaviour
         float difference = maxHealth - currentHealth;
         float barfill = 1 - (difference/maxHealth);
         for(int i = 0; i < healthText.Count; i++){
+            if(healthText[i] == null){
+                Debug.LogError("HudController: Health Text list is larger than the amount of objects in the list. This will cause errors with HUD. Remove unused elements.");
+                return;
+            }
             healthText[i].text = currentHealth.ToString("#####");
         }
         for(int i = 0; i < healthBar.Count; i++){
+            if(healthBar[i] == null){
+                Debug.LogError("HudController: Health Bar list is larger than the amount of objects in the list. This will cause errors with HUD. Remove unused elements.");
+                return;
+            }
             healthBar[i].fillAmount = barfill;
         }
         
@@ -94,9 +113,17 @@ public class PlayerHUDController : MonoBehaviour
         float difference = maxShields - currentShields;
         float barfill = 1 - (difference/maxShields);
         for(int i = 0; i < shieldText.Count; i++){
+            if(shieldText[i] == null){
+                Debug.LogError("HudController: Shield Text list is larger than the amount of objects in the list. This will cause errors with HUD. Remove unused elements.");
+                return;
+            }
             shieldText[i].text = currentShields.ToString("#####");
         }
         for(int i = 0; i < healthBar.Count; i++){
+            if(shieldBar[i] == null){
+                Debug.LogError("HudController: Shield Bar list is larger than the amount of objects in the list. This will cause errors with HUD. Remove unused elements.");
+                return;
+            }
             shieldBar[i].fillAmount = barfill;
         }
         

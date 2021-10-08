@@ -155,8 +155,9 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             int layermask = 1 << 14;
             RaycastHit hit;
             Vector3 dir = currentTargetSelection[i].gameObject.transform.position - gameObject.transform.position;
+            Debug.DrawRay(gameObject.transform.position, dir, Color.green);
             //if cast hits nothing, remove indicators
-            if(!Physics.SphereCast(gameObject.transform.position, 8, dir, out hit, 7500, ~layermask) || hit.rigidbody == null){activeIndicators[i].SetActive(false); return;}
+            if(!Physics.SphereCast(gameObject.transform.position, 10, dir, out hit, 7500, ~layermask) || hit.rigidbody == null){activeIndicators[i].SetActive(false); return;}
             
             //if object is visible and not obstructed, activate indicators
             if(currentTargetSelection[i].GetComponentInChildren<Renderer>().isVisible && hit.rigidbody.gameObject == currentTargetSelection[i].gameObject){
@@ -183,7 +184,9 @@ public class WeaponsController : MonoBehaviourPunCallbacks
 
         RaycastHit hit;
         int layermask = 1 << 14;
+        
         Vector3 dir = currentTargetSelection[0].gameObject.transform.position - gameObject.transform.position;
+        Debug.DrawRay(gameObject.transform.position, dir, Color.red);
         if(!Physics.SphereCast(gameObject.transform.position, 10, dir, out hit, 3500, ~layermask) || hit.rigidbody == null){lockIndicator.SetActive(false); CycleMainTarget(); return;};
 
         if(Physics.SphereCast(gameObject.transform.position, 10, dir, out hit, 3500, ~layermask) && currentTargetSelection[0].GetComponentInChildren<Renderer>().isVisible && hit.rigidbody.gameObject == currentTargetSelection[0].gameObject){
