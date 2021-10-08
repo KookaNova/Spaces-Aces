@@ -6,12 +6,16 @@ namespace Cox.PlayerControls{
 public class GunAmmoBehaviour : MonoBehaviour
 {
     [SerializeField]
-    private float destroyTime = 6;
+    private float destroyTime = 6, colliderDelay = .1f;
     public float damageOutput = 223;
     public GameObject impactObj;
 
+    private Collider thisCollider;
+
     private void Awake() {
-        StartCoroutine(DestroyCounter());
+        thisCollider = GetComponent<Collider>();
+        thisCollider.enabled = false;
+        StartCoroutine(StartUp());
     }
 
     public void OnCollisionEnter(Collision obj) {
@@ -26,7 +30,10 @@ public class GunAmmoBehaviour : MonoBehaviour
         PhotonNetwork.Destroy(this.gameObject);
     }
 
-    private IEnumerator DestroyCounter(){
+    private IEnumerator StartUp(){
+        yield return new WaitForSeconds(colliderDelay);
+        thisCollider.enabled = true;
+
         yield return new WaitForSeconds(destroyTime);
         PhotonNetwork.Destroy(this.gameObject);
     }

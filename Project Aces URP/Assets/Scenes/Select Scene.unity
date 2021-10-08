@@ -134,6 +134,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Select Ship Button (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6007974120845349174, guid: 6b41bf20d36e0494a9e8c0eb7dfa685d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangeShip
+      objectReference: {fileID: 0}
+    - target: {fileID: 6007974120845349174, guid: 6b41bf20d36e0494a9e8c0eb7dfa685d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Cox.PlayerControls.PlayerObject, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6007974120845349174, guid: 6b41bf20d36e0494a9e8c0eb7dfa685d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 11400000, guid: a6546ff0b32504e4e9ab6557ed3f4b77, type: 2}
+    - target: {fileID: 6007974120845349174, guid: 6b41bf20d36e0494a9e8c0eb7dfa685d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: ShipHandler, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 6155770412365630518, guid: 6b41bf20d36e0494a9e8c0eb7dfa685d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -5138,7 +5154,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7772894, y: 1}
+    m_SensorSize: {x: 1.7777778, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0

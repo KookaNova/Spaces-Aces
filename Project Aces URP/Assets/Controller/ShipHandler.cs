@@ -20,13 +20,13 @@ public class ShipHandler : ScriptableObject
     public float maxHealth = 700;
     public float
         maxShield = 1300,
-        shieldRechargeRate = 15,
-        acceleration = 10,
-        minSpeed = 67,
+        shieldRechargeRate = 100,
+        acceleration = 30,
+        minSpeed = 25,
         maxSpeed = 500,
-        roll = 12, 
-        pitch = 15, 
-        yaw = 3;
+        roll = 45, 
+        pitch = 55, 
+        yaw = 25;
 
     private void Awake() {
         weaponsController = shipPrefab.GetComponent<WeaponsController>();
