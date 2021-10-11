@@ -17,10 +17,9 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         Global
     }
 
-    
     [SerializeField] private TargetingMode targMode = TargetingMode.TeamA;
     [SerializeField] private Canvas worldHud, overlayHud;
-    [SerializeField] private Image aimReticle;
+    [SerializeField] private Image aimReticle, distanceReticle;
     [SerializeField] private GameObject objectIndicator, lockIndicator;
     [SerializeField] private List<TMPro.TextMeshProUGUI> textTargetMode, missileCountText;
     [SerializeField] private List<GameObject> activeIndicators;
@@ -48,11 +47,11 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     #endregion
 
     #region Hidden Fields
-    [HideInInspector] public List<TargetableObject> allTargetList, currentTargetSelection;
-    [HideInInspector] public int currentMis = 0;
+    public List<TargetableObject> allTargetList, currentTargetSelection;
+    [HideInInspector] public int currentMis = 0, currentTarget = 0;
     [HideInInspector] public float gunModifier = 0, missileModifier = 0;
     private int missilesAvailable;
-    private float lockOnModifier = 5;
+    private float lockOnModifier, lockOnDefault = 6;
 
     public bool missileLocked = false;
     private bool canFire = true, isTargetVisible = false, canLaunchMissile = true;
@@ -61,13 +60,15 @@ public class WeaponsController : MonoBehaviourPunCallbacks
 
     #region enable
     public void EnableWeapons() {
-        gunCannonAudio = GetComponent<AudioSource>();
+        currentTarget = 0;
+        lockOnModifier = lockOnDefault;
         overlayHud.transform.SetParent(null);
         missilesAvailable = missilePosition.Length;
 
         var l = Instantiate(lockIndicator, parent: overlayHud.transform);
         lockIndicator = l;
         lockIndicator.SetActive(false);
+
         for(int i = 0; i < textTargetMode.Count; i++){
             textTargetMode[i].text = ("Targeting: " + targMode.ToString());
         }
@@ -88,12 +89,15 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     #endregion
 
     #region targeting
-    private void LateUpdate() {
+    private void LateUpdate()
+    {
         if(photonView.IsMine){
         PositionIndicators();
         LockPosition();
+        AimGun();
+        }
     }
-    }
+    
     private void FindTargets(){
         allTargetList.Clear();
         var targets = GameObject.FindObjectsOfType<TargetableObject>();
@@ -144,58 +148,124 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         for(int i = 0; i < currentTargetSelection.Count; i++){
             var a = Instantiate(objectIndicator, overlayHud.transform);
             activeIndicators.Add(a);
-            activeIndicators[i].SetActive(false);
+            a.name = "Target_Indicator." + i;
+            a.SetActive(false);
+            a.GetComponent<Animator>().StopPlayback();
         }
-        currentTargetSelection.TrimExcess();
+        currentTargetSelection.TrimExcess(); 
     }
 
     private void PositionIndicators(){
-        if(activeIndicators.Count <= 0)return;
+        if(currentTargetSelection.Count <= 0)return;
         for (int i = 0; i < activeIndicators.Count; i++){
+            //Is the object active and on camera? If not, skip drawing the indicators.
+            if(!currentTargetSelection[i].gameObject.activeSelf || !currentTargetSelection[i].GetComponentInChildren<MeshRenderer>().isVisible)
+            {
+                activeIndicators[i].SetActive(false);
+                continue;
+            }
+            
+            
+            //raycast
             int layermask = 1 << 14;
             RaycastHit hit;
-            Vector3 dir = currentTargetSelection[i].gameObject.transform.position - gameObject.transform.position;
-            Debug.DrawRay(gameObject.transform.position, dir, Color.green);
-            //if cast hits nothing, remove indicators
-            if(!Physics.SphereCast(gameObject.transform.position, 10, dir, out hit, 7500, ~layermask) || hit.rigidbody == null){activeIndicators[i].SetActive(false); return;}
+
+            Vector3 origin = gameObject.transform.position + (transform.forward * 15);
+            Vector3 dir = currentTargetSelection[i].gameObject.transform.position - origin;
+            Debug.DrawRay(origin, dir, Color.green);
             
-            //if object is visible and not obstructed, activate indicators
-            if(currentTargetSelection[i].GetComponentInChildren<Renderer>().isVisible && hit.rigidbody.gameObject == currentTargetSelection[i].gameObject){
+            
+            
+
+            
+            //if cast hits nothing, or the hit doesn't have a rigidbody, remove indicators
+            if(!Physics.SphereCast(origin, 10, dir, out hit, 15000, ~layermask)){
+                activeIndicators[i].SetActive(false); 
+                //Debug.LogFormat("WeaponsSystem: PositionIndicators(), target {0} not visible. Indicator is inactive.", currentTargetSelection[i].name);
+                continue;
+            }
+            if(hit.rigidbody == null){
+                activeIndicators[i].SetActive(false); 
+                //Debug.LogFormat("WeaponsSystem: PositionIndicators(), No rigidbody found on target {0}. Indicator is inactive.", currentTargetSelection[i].name);
+                continue;
+            }
+            
+            //if object is not obstructed, activate indicators
+            if(hit.rigidbody.gameObject == currentTargetSelection[i].gameObject){
                 activeIndicators[i].SetActive(true);
             }
             else{
                 activeIndicators[i].SetActive(false);
+                continue;
             }
+            
+            //Position indicator to the indicated objects screen position
 
-            Vector3 targetScreenPosition = Camera.main.WorldToScreenPoint(currentTargetSelection[i].transform.position);
+            var screen = Camera.main.WorldToScreenPoint(currentTargetSelection[i].transform.position);
+            screen.z = (overlayHud.transform.position - Camera.main.transform.position).magnitude;
+            var targetScreenPosition = Camera.main.ScreenToWorldPoint(screen);
             activeIndicators[i].transform.position = targetScreenPosition;
 
+            if(i == currentTarget){
+                activeIndicators[i].GetComponent<Animator>().StopPlayback();
+            }
+            if(i != currentTarget){
+                activeIndicators[i].GetComponent<Animator>().StartPlayback();
+            }
+
+            //Write text for name and distance
             Text[] dataText = activeIndicators[i].GetComponentsInChildren<Text>();
-            activeIndicators[i].transform.position = new Vector3(targetScreenPosition.x, targetScreenPosition.y, 0);
             //Displays name
             dataText[0].text = currentTargetSelection[i].GetComponent<TargetableObject>().nameOfTarget;
             //Displays distance
             dataText[1].text = (Vector3.Distance(transform.position, currentTargetSelection[i].transform.position)).ToString();
         }
+        
     }
 
     private void LockPosition(){
-        if(currentTargetSelection.Count <= 0){lockIndicator.SetActive(false); return;}
+        if(currentTarget >= currentTargetSelection.Count){
+            return;
+        }
+        if(currentTargetSelection.Count <= 0){
+            CycleMainTarget();
+            return;
+        }
+        if(!currentTargetSelection[currentTarget].GetComponentInChildren<MeshRenderer>().isVisible || !currentTargetSelection[currentTarget].gameObject.activeSelf){
+            CycleMainTarget();
+            return;
+        }
 
         RaycastHit hit;
         int layermask = 1 << 14;
-        
-        Vector3 dir = currentTargetSelection[0].gameObject.transform.position - gameObject.transform.position;
-        Debug.DrawRay(gameObject.transform.position, dir, Color.red);
-        if(!Physics.SphereCast(gameObject.transform.position, 10, dir, out hit, 3500, ~layermask) || hit.rigidbody == null){lockIndicator.SetActive(false); CycleMainTarget(); return;};
 
-        if(Physics.SphereCast(gameObject.transform.position, 10, dir, out hit, 3500, ~layermask) && currentTargetSelection[0].GetComponentInChildren<Renderer>().isVisible && hit.rigidbody.gameObject == currentTargetSelection[0].gameObject){
+        Vector3 origin = gameObject.transform.position + (transform.forward * 15);
+        Vector3 dir = currentTargetSelection[currentTarget].gameObject.transform.position - origin;
+        Debug.DrawRay(origin, dir, Color.red);
+        if(!Physics.SphereCast(origin, 10, dir, out hit, 3500, ~layermask)){
+            lockIndicator.SetActive(false);
+            Debug.LogFormat("WeaponsSystem: PositionIndicators(), target {0} not visible. Indicator is inactive.", currentTargetSelection[currentTarget].name);
+            return;
+        }
+        else if(hit.rigidbody == null){
+            CycleMainTarget();
+            Debug.LogFormat("WeaponsSystem: LockPosition(), No rigidbody found on target {0}. Indicator is inactive.", currentTargetSelection[currentTarget].name);
+        }
+        else if(hit.rigidbody.gameObject == currentTargetSelection[currentTarget].gameObject){
             
             lockIndicator.SetActive(true);
-            lockOnModifier += 6 * Time.deltaTime;
-            Vector3 targetScreenPosition = Camera.main.WorldToScreenPoint(currentTargetSelection[0].transform.position);
+            lockOnModifier += (lockOnDefault/5) * Time.deltaTime;
+
+            
+
+            var screen = Camera.main.WorldToScreenPoint(currentTargetSelection[currentTarget].transform.position);
+            screen.z = (overlayHud.transform.position - Camera.main.transform.position).magnitude;
+            var targetScreenPosition = Camera.main.ScreenToWorldPoint(screen);
+
             Vector3 slowMove = Vector3.MoveTowards(lockIndicator.transform.position, targetScreenPosition, lockOnEfficiency * lockOnModifier);
-            lockIndicator.transform.position = new Vector3(slowMove.x, slowMove.y, 0);
+            lockIndicator.transform.position = slowMove;
+
+            
             
             if(Mathf.RoundToInt(lockIndicator.transform.position.x) == Mathf.RoundToInt(targetScreenPosition.x) && Mathf.RoundToInt(lockIndicator.transform.position.y) == Mathf.RoundToInt(targetScreenPosition.y)){
                 missileLocked = true;
@@ -207,32 +277,74 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         }
         else{
             CycleMainTarget();
-            lockOnModifier = 6;
-            lockIndicator.transform.position = new Vector2(Camera.main.scaledPixelWidth / 2, Camera.main.scaledPixelHeight / 2);
-            lockIndicator.SetActive(false);
-            missileLocked = false;
+            
         }
     }
 
     public void CycleMainTarget(){
-        if(currentTargetSelection.Count <= 0)return;
-        isTargetVisible = false;
+
+        lockOnModifier = lockOnDefault;
+        lockIndicator.transform.position = new Vector2(Camera.main.scaledPixelWidth / 2, Camera.main.scaledPixelHeight / 2);
+        lockIndicator.SetActive(false);
         missileLocked = false;
-        lockOnModifier = 6;
-        var previousTarg = currentTargetSelection[0];
-        int lastIndex = currentTargetSelection.Count - 1;
-        currentTargetSelection.RemoveAt(0);
-        currentTargetSelection.Add(previousTarg);
+
+        for(int i = 0; i < currentTargetSelection.Count; i++){
+            currentTarget++;
+
+            if(currentTarget >= currentTargetSelection.Count){
+               currentTarget = 0;
+               Debug.Log("selection outnumbered");
+               continue;
+            }
+           
+            if(!currentTargetSelection[i].GetComponentInChildren<MeshRenderer>().isVisible || !currentTargetSelection[currentTarget].gameObject.activeSelf){
+                Debug.Log("target not visible, incrementing");
+                continue;
+            }
+
+            RaycastHit hit;
+            int layermask = 1 << 14;
+            Vector3 origin = gameObject.transform.position + (transform.forward * 15);
+            Vector3 dir = currentTargetSelection[currentTarget].gameObject.transform.position - origin;
+            Debug.DrawRay(origin, dir, Color.white);
+
+            if(!Physics.SphereCast(origin, 10, dir, out hit, 15000, ~layermask)){
+                continue;
+            }
+            else if(hit.rigidbody == false){
+                continue;
+            }
+            else if(hit.rigidbody.gameObject == currentTargetSelection[currentTarget].gameObject){
+                return;
+            }
+            else{
+                continue;
+            }
+        }
     }
     #endregion
 
     #region weapon controls
-    public void GunControl(bool gunInput, float currentSpeed){
+
+    private void AimGun(){
         //aim gun position towards reticle
         Ray ray = new Ray(aimReticle.transform.position, aimReticle.transform.forward);
+
+        var hitPoint = ray.GetPoint(gunRange);
+        //var p = Camera.main.WorldToScreenPoint(hitPoint);
+
+        var screen = Camera.main.WorldToScreenPoint(hitPoint);
+        screen.z = (overlayHud.transform.position - Camera.main.transform.position).magnitude;
+        var position = Camera.main.ScreenToWorldPoint(screen);
+        distanceReticle.transform.position = position;
+
+
         for(int i = 0; i < gunPosition.Length; i++){
-            gunPosition[i].LookAt(ray.GetPoint(gunRange));
+            gunPosition[i].LookAt(hitPoint);
         }
+    }
+
+    public void GunControl(bool gunInput, float currentSpeed){
         
         if(canFire == true && gunInput == true){
             StartCoroutine(FireGun(gunInput, currentSpeed));
@@ -278,7 +390,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             var m = Instantiate(missileType.gameObject, missilePosition[currentMis].position, missilePosition[currentMis].rotation);
             var behaviour = m.GetComponent<MissileBehaviour>();
             behaviour.currentSpeed = currentSpeed;
-            behaviour.target = currentTargetSelection[0].gameObject;
+            behaviour.target = currentTargetSelection[currentTarget].gameObject;
             behaviour.damageOutput += missileModifier;
             missilesAvailable--;
             UpdateHUD();

@@ -30,7 +30,7 @@ public class TimeskipMissileAbility : AbilityHandler
             missile.currentSpeed = player.GetComponent<SpacecraftController>().currentSpeed;
             
             if(weapons.missileLocked){
-                missile.target = weapons.currentTargetSelection[0].gameObject;
+                missile.target = weapons.currentTargetSelection[weapons.currentTarget].gameObject;
             }
             
             isActive = true;

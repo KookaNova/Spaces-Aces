@@ -36,18 +36,13 @@ public class CameraController : MonoBehaviour
     }
 
     public void CameraLockTarget(){
-        if(!isCameraTargetLocked){
-            isCameraTargetLocked = true;
-        }
-        else{
-            isCameraTargetLocked = false;
-        }
+        isCameraTargetLocked = !isCameraTargetLocked;
         if(weaponsController.currentTargetSelection.Count <= 0){
                 isCameraTargetLocked = false;
                 return;
             }
             else{
-                if(weaponsController.currentTargetSelection[0] == null){
+                if(weaponsController.currentTargetSelection[weaponsController.currentTarget] == null){
                     isCameraTargetLocked = false;
                     return;
                 }
@@ -59,7 +54,7 @@ public class CameraController : MonoBehaviour
             gameObject.transform.localRotation = Quaternion.Slerp(gameObject.transform.localRotation, Quaternion.identity, .05f);
         }
         if(weaponsController.currentTargetSelection.Count > 0){
-            target = weaponsController.currentTargetSelection[0].transform.position;
+            target = weaponsController.currentTargetSelection[weaponsController.currentTarget].transform.position;
         }
         if(gameObject.transform.localRotation.x >= 20 || gameObject.transform.localRotation.x <= -90 || gameObject.transform.localRotation.y >= 120 || gameObject.transform.localRotation.y <= -120){
                 CameraLockTarget();
@@ -82,7 +77,7 @@ public class CameraController : MonoBehaviour
                 return;
             }
             else{
-                if(!weaponsController.currentTargetSelection[0].gameObject.activeSelf){
+                if(!weaponsController.currentTargetSelection[weaponsController.currentTarget].gameObject.activeSelf){
                     isCameraTargetLocked = false;
                     return;
                 }

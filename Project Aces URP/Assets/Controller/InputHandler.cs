@@ -65,13 +65,17 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
         spacecraft.CameraChange();
     }
     public void OnCycleTargets(InputAction.CallbackContext pressed){
-        spacecraft.CycleTargets();
+        if(pressed.ReadValueAsButton()){
+            spacecraft.CycleTargets();
+        }
+        
     }
     public void OnMissileButton(InputAction.CallbackContext pressed){
         spacecraft.MissileLaunch();
     }
     public void OnPrimaryAbility(InputAction.CallbackContext pressed){
-        if(pressed.ReadValueAsButton())
+        if(pressed.ReadValueAsButton()){
+        }
         spacecraft.PrimaryAbility();
     }
     public void OnSecondaryAbility(InputAction.CallbackContext pressed){
