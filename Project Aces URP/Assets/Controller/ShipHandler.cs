@@ -9,8 +9,10 @@ using UnityEngine;
 public class ShipHandler : ScriptableObject
 {
     public string shipName;
-    public Sprite shipIcon;
-    public GameObject shipPrefab;
+    [TextArea( 2, 50 )]
+    public string bio = "Ship bio...";
+    public Sprite shipIcon, nameArt;
+    public GameObject shipPrefab, displayShip;
     [HideInInspector]
     public WeaponsController weaponsController;
     [HideInInspector]
