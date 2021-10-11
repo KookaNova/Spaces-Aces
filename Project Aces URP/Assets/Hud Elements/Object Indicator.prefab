@@ -169,6 +169,7 @@ GameObject:
   - component: {fileID: 2623960372376544803}
   - component: {fileID: 2623960372376544801}
   - component: {fileID: 2623960372376544802}
+  - component: {fileID: 12570709847334885}
   m_Layer: 5
   m_Name: Object Indicator
   m_TagString: Untagged
@@ -217,8 +218,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.4377358, g: 1, b: 0.7927339, a: 1}
+  m_Material: {fileID: 2100000, guid: 3245a27006edcbd43b15b4dee4f7f07f, type: 2}
+  m_Color: {r: 0, g: 0.5566038, b: 0.09382606, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -228,10 +229,29 @@ MonoBehaviour:
   m_Sprite: {fileID: 21300000, guid: 2ecbd0562f47ed94f88c9bf31565e58b, type: 3}
   m_Type: 1
   m_PreserveAspect: 1
-  m_FillCenter: 1
+  m_FillCenter: 0
   m_FillMethod: 4
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 1
-  m_PixelsPerUnitMultiplier: 3
+  m_PixelsPerUnitMultiplier: 8.33
+--- !u!95 &12570709847334885
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2623960372376544828}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ff267ff2acbc44440adf33eb1551f106, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
