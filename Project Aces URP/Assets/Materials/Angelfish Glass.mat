@@ -23,10 +23,10 @@ Material:
   m_Name: Angelfish Glass
   m_Shader: {fileID: -6465566751694194690, guid: 077e5f56775f9af46ab8d42b0149e3fb, type: 3}
   m_ShaderKeywords: 
-  m_LightmapFlags: 4
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: 3001
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -88,7 +88,8 @@ Material:
     m_Floats:
     - Refraction: 0
     - Scratch_Strength: 0
-    - Smoothness: 0.66
+    - Scratch_Tile: 108.25
+    - Smoothness: 0.71
     - Transparency: 1
     - _AlphaClip: 0
     - _Blend: 0
@@ -113,8 +114,9 @@ Material:
     - _ZWrite: 1
     - isRefracting: 1
     m_Colors:
-    - Specular_Color: {r: 0.7921569, g: 0.70284975, b: 0.4745098, a: 1}
-    - Tint: {r: 0.9390836, g: 1, b: 0.78679246, a: 1}
+    - Scratch_Color: {r: 0.8301887, g: 0.55920255, b: 0.55920255, a: 0}
+    - Specular_Color: {r: 0.6509434, g: 0.2941682, b: 0, a: 1}
+    - Tint: {r: 0.990566, g: 0.70461017, b: 0.70461017, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

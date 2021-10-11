@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: Tri-Engine
   m_EditorClassIdentifier: 
   shipName: Ol' Tri-Speeder
+  bio: Tri-Speeder bio...
   shipIcon: {fileID: 21300000, guid: 20381379d78ef0a45ac5926fa4255f5d, type: 3}
+  nameArt: {fileID: 21300000, guid: f1cf449cc45dedf4ea6d51135322568f, type: 3}
   shipPrefab: {fileID: 811196013837957695, guid: b6abd7506ce2af1478b51af83dad878d, type: 3}
+  displayShip: {fileID: 676247703242460443, guid: f593fbf0b051a30498734421b034838c, type: 3}
   weaponsController: {fileID: 0}
   cameraController: {fileID: 0}
   maxHealth: 700

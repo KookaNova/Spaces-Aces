@@ -120,9 +120,10 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     - isBlinking: 1
+    - usingSaw: 0
     m_Colors:
     - Base_Color: {r: 0.19811317, g: 0.19811317, b: 0.19811317, a: 0}
-    - Light_Color: {r: 0.53129226, g: 0.9811321, b: 0.91788644, a: 0}
+    - Light_Color: {r: 0.390566, g: 1, b: 0.9645583, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

@@ -88,6 +88,7 @@ Material:
     m_Floats:
     - Refraction: 0
     - Scratch_Strength: 0.01
+    - Scratch_Tile: 4
     - Smoothness: 0.75
     - Transparency: 1
     - _AlphaClip: 0
@@ -113,6 +114,7 @@ Material:
     - _ZWrite: 1
     - isRefracting: 1
     m_Colors:
+    - Scratch_Color: {r: 1, g: 1, b: 1, a: 0}
     - Specular_Color: {r: 0.7924528, g: 0.6434881, b: 0.47397646, a: 1}
     - Tint: {r: 0.96178466, g: 1, b: 0.86226416, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
