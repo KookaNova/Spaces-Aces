@@ -22,6 +22,7 @@ public class PlayerHUDController : MonoBehaviour
             return;
         }
         firstPersonHUD.SetActive(true); OverlayHUD.SetActive(true);
+        OverlayHUD.GetComponent<Canvas>().worldCamera = Camera.main;
         chosenCharacter = currentCraft.chosenCharacter;
 
         if(chosenCharacter == null){

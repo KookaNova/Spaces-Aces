@@ -233,6 +233,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
                 isShieldRecharging = false;
             }
         }
+
     }
     #region RigidBody Inputs
     //Take inputs and convert them to speed in FixedUpdate()

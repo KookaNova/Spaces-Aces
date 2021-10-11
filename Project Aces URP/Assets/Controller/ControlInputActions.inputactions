@@ -79,7 +79,7 @@
                 },
                 {
                     "name": "CycleTargets",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "4f705ef8-9272-42d1-80eb-76a198b91983",
                     "expectedControlType": "Button",
                     "processors": "",
