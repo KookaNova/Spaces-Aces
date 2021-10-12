@@ -37,24 +37,20 @@ public class CameraController : MonoBehaviour
 
     public void CameraLockTarget(){
         isCameraTargetLocked = !isCameraTargetLocked;
-        if(weaponsController.currentTargetSelection.Count <= 0){
+        if(weaponsController.currentTargetSelection.Count <= 0 || weaponsController.currentTarget == -1){
                 isCameraTargetLocked = false;
                 return;
             }
-            else{
-                if(weaponsController.currentTargetSelection[weaponsController.currentTarget] == null){
+            else if(weaponsController.currentTargetSelection[weaponsController.currentTarget] == null){
                     isCameraTargetLocked = false;
                     return;
-                }
             }
     }
 
     private void LateUpdate(){
+
         if(rotationInput == Vector2.zero){
             gameObject.transform.localRotation = Quaternion.Slerp(gameObject.transform.localRotation, Quaternion.identity, .05f);
-        }
-        if(weaponsController.currentTargetSelection.Count > 0){
-            target = weaponsController.currentTargetSelection[weaponsController.currentTarget].transform.position;
         }
         if(gameObject.transform.localRotation.x >= 20 || gameObject.transform.localRotation.x <= -90 || gameObject.transform.localRotation.y >= 120 || gameObject.transform.localRotation.y <= -120){
                 CameraLockTarget();
@@ -70,17 +66,18 @@ public class CameraController : MonoBehaviour
                 Mathf.Clamp(gameObject.transform.localRotation.y, -.9f, .9f), 
                 Mathf.Clamp(gameObject.transform.localRotation.z, -.1f, .1f), 
                 Mathf.Clamp(gameObject.transform.localRotation.w, -1, 1));
-        }
+        } // else if Camera is Target Locked
         else{
-            if(weaponsController.currentTargetSelection.Count <= 0){
+            if(weaponsController.currentTargetSelection.Count <= 0 || weaponsController.currentTarget == -1){
                 isCameraTargetLocked = false;
                 return;
             }
-            else{
-                if(!weaponsController.currentTargetSelection[weaponsController.currentTarget].gameObject.activeSelf){
+            else if(!weaponsController.currentTargetSelection[weaponsController.currentTarget].gameObject.activeInHierarchy){
                     isCameraTargetLocked = false;
                     return;
-                }
+            }
+            else if(weaponsController.currentTargetSelection.Count > 0){
+                target = weaponsController.currentTargetSelection[weaponsController.currentTarget].transform.position;
             }
             var toTarget = target - gameObject.transform.position;
             var targetRotation = Quaternion.LookRotation(toTarget, weaponsController.gameObject.transform.up);
