@@ -4814,6 +4814,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: flippedIcoSphere
       objectReference: {fileID: 0}
+    - target: {fileID: 6422265270688635891, guid: 44d8d8c813daed04a9915b28c9711f59, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44d8d8c813daed04a9915b28c9711f59, type: 3}
 --- !u!4 &6775023618730659616 stripped
