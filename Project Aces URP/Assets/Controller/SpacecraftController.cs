@@ -12,6 +12,7 @@ namespace Cox.PlayerControls{
 public class SpacecraftController : MonoBehaviourPunCallbacks
 {
 
+    #region  Spacecraft Variables
     [Header("Spacecraft Objects")]
     [SerializeField] PlayerObject playerObject; //used to set character and ship
     [SerializeField] GameObject menuPrefab; 
@@ -29,12 +30,6 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     private CameraController cameraController;
     private PlayerHUDController HudController;
 
-   
-
-
-    [HideInInspector]
-    //Public so they can display on HUD using HUD Controller
-    public float currentSpeed, currentShields, currentHealth, thrust = 0;
     //Floats edited by character passives
     [HideInInspector]
     public float maxHealth, 
@@ -49,6 +44,18 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         gunDamage,
         missileDamage,
         lockSpeed;
+
+    #endregion
+
+    #region HUD Variables
+    [HideInInspector]
+    //Public so they can display on HUD using HUD Controller
+    public float currentSpeed, currentShields, currentHealth, thrust = 0;
+
+
+    #endregion
+
+
 
     private float respawnTime = 5;
     private bool 
@@ -136,6 +143,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         }
 
         isAwaitingRespawn = false;
+        HudController.IsLowHealth(false);
     }
 
     public void MenuButton(){
@@ -217,8 +225,9 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
             NoShield();
         }
 
-        if(currentHealth <= maxHealth /*will be percentage*/){
-            //LowHealth();
+        var healthPercentage = (maxHealth - currentHealth)/maxHealth;
+        if(currentHealth <= .25f){
+            LowHealth();
         }
 
         if(currentHealth <= 0){
@@ -305,6 +314,8 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
 
     public void LowHealth(){
         Debug.Log("Spacecraft: LowHealth() called");
+        HudController.IsLowHealth(true);
+
         //Do something different related to low health
     }
 
@@ -336,6 +347,8 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         currentHealth = maxHealth;
         currentShields = maxShield;
         isAwaitingRespawn = false;
+        HudController.IsLowHealth(false);
+        
 
         //Find a random spawn point to respawn at
         int randInt = Random.Range(0, respawnPoints.Length - 1);

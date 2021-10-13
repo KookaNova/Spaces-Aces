@@ -21,11 +21,11 @@ MonoBehaviour:
   weaponsController: {fileID: 0}
   cameraController: {fileID: 0}
   maxHealth: 375
-  maxShield: 1000
+  maxShield: 700
   shieldRechargeRate: 200
   acceleration: 55
-  minSpeed: 40
-  maxSpeed: 670
+  minSpeed: 20
+  maxSpeed: 375
   roll: 40
   pitch: 45
   yaw: 35
