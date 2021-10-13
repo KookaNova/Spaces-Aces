@@ -20,12 +20,12 @@ MonoBehaviour:
   displayShip: {fileID: 676247703242460443, guid: f593fbf0b051a30498734421b034838c, type: 3}
   weaponsController: {fileID: 0}
   cameraController: {fileID: 0}
-  maxHealth: 700
-  maxShield: 1300
+  maxHealth: 600
+  maxShield: 1000
   shieldRechargeRate: 100
   acceleration: 30
-  minSpeed: 25
-  maxSpeed: 500
+  minSpeed: 75
+  maxSpeed: 450
   roll: 45
   pitch: 50
   yaw: 25

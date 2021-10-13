@@ -5,15 +5,22 @@ using UnityEngine.UI;
 namespace Cox.PlayerControls{
 public class PlayerHUDController : MonoBehaviour
 {
-    public Image avatarImage;
-    public List<Image> speedBar, thrustBar, healthBar, shieldBar;
-    public List<Text> speedText, healthText, shieldText;
+    //Canvases
+    [SerializeField] private GameObject firstPersonHUD, thirdPersonHUD, OverlayHUD;
 
-    [HideInInspector]
-    public SpacecraftController currentCraft;
-    [SerializeField]
-    private GameObject firstPersonHUD, thirdPersonHUD, OverlayHUD;
+    //UI displayed for character items like abilities and portraits.
+    [Header("Character UI")]
+    [SerializeField] private Image avatarImage;
     private CharacterHandler chosenCharacter;
+
+    //UI displayed for ship UI.
+    [Header("Ship UI")]
+    [SerializeField] private GameObject lowHealthIndicator;
+    [SerializeField] private List<Image> speedBar, thrustBar, healthBar, shieldBar;
+    [SerializeField] private List<Text> speedText, healthText, shieldText;
+    [HideInInspector] public SpacecraftController currentCraft;
+
+    //values to display in UI.
     private float currentSpeed, maxSpeed, thrustInput, currentHealth, maxHealth, currentShields, maxShields;
 
     public void Activate(){
@@ -39,14 +46,17 @@ public class PlayerHUDController : MonoBehaviour
     public void FirstPersonHudSetInactive(){
         firstPersonHUD.SetActive(false);
         thirdPersonHUD.SetActive(true);
+        OverlayHUD.SetActive(true);
     }
     public void ThirdPersonHudSetInactive(){
         firstPersonHUD.SetActive(true);
         thirdPersonHUD.SetActive(false);
+        OverlayHUD.SetActive(true);
     }
     public void HudSetInactive(){
         firstPersonHUD.SetActive(false);
         thirdPersonHUD.SetActive(false);
+        OverlayHUD.SetActive(false);
     }
 
     private void LateUpdate() {
@@ -99,7 +109,13 @@ public class PlayerHUDController : MonoBehaviour
                 Debug.LogError("HudController: Health Text list is larger than the amount of objects in the list. This will cause errors with HUD. Remove unused elements.");
                 return;
             }
-            healthText[i].text = currentHealth.ToString("#####");
+            if(currentHealth > 0){
+                healthText[i].text = currentHealth.ToString("#####");
+            }
+            else{
+                healthText[i].text = "0";
+            }
+            
         }
         for(int i = 0; i < healthBar.Count; i++){
             if(healthBar[i] == null){
@@ -110,7 +126,7 @@ public class PlayerHUDController : MonoBehaviour
         }
         
     }
-     private void FillShieldData(){
+    private void FillShieldData(){
         float difference = maxShields - currentShields;
         float barfill = 1 - (difference/maxShields);
         for(int i = 0; i < shieldText.Count; i++){
@@ -118,7 +134,13 @@ public class PlayerHUDController : MonoBehaviour
                 Debug.LogError("HudController: Shield Text list is larger than the amount of objects in the list. This will cause errors with HUD. Remove unused elements.");
                 return;
             }
-            shieldText[i].text = currentShields.ToString("#####");
+            if(currentShields > 0){
+                shieldText[i].text = currentShields.ToString("#####");
+            }
+            else{
+                shieldText[i].text = "NO SHIELDS!";
+            }
+            
         }
         for(int i = 0; i < healthBar.Count; i++){
             if(shieldBar[i] == null){
@@ -128,6 +150,10 @@ public class PlayerHUDController : MonoBehaviour
             shieldBar[i].fillAmount = barfill;
         }
         
+    }
+
+    public void IsLowHealth(bool Active){
+        lowHealthIndicator.SetActive(Active);
     }
 }
 }

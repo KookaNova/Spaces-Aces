@@ -71,10 +71,6 @@ MonoBehaviour:
   chosenCharacter: {fileID: 11400000, guid: 5e0146bfea2a90e4088f2de10ca4483e, type: 2}
   chosenShip: {fileID: 11400000, guid: 5b4d9e73d21b79043a1ee74e4135a453, type: 2}
   weaponSystem: {fileID: 0}
-  currentSpeed: 0
-  currentShields: 0
-  currentHealth: 0
-  thrust: 0
   maxHealth: 0
   maxShield: 0
   shieldRechargeRate: 0
@@ -87,6 +83,10 @@ MonoBehaviour:
   gunDamage: 0
   missileDamage: 0
   lockSpeed: 0
+  currentSpeed: 0
+  currentShields: 0
+  currentHealth: 0
+  thrust: 0
 --- !u!114 &129003246424364282
 MonoBehaviour:
   m_ObjectHideFlags: 0

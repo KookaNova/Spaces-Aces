@@ -6,7 +6,7 @@ public class CameraController : MonoBehaviour
     public WeaponsController weaponsController;
     private Vector2 rotationInput;
     [SerializeField]
-    private Cinemachine.CinemachineVirtualCamera[] cameras;
+    public Cinemachine.CinemachineVirtualCamera[] cameras;
     [HideInInspector]
     public int currentCamera = 0;
     private bool isCameraTargetLocked = false;
