@@ -194,7 +194,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             if(hit.rigidbody.gameObject == currentTargetSelection[i].gameObject){
                 activeIndicators[i].SetActive(true);
                 if(currentTarget == -1){
-                currentTarget = 1;
+                currentTarget = i;
                 }  
             }
             else{
