@@ -74,8 +74,7 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
         spacecraft.MissileLaunch();
     }
     public void OnPrimaryAbility(InputAction.CallbackContext pressed){
-        if(pressed.ReadValueAsButton()){
-        }
+        if(pressed.ReadValueAsButton())
         spacecraft.PrimaryAbility();
     }
     public void OnSecondaryAbility(InputAction.CallbackContext pressed){
