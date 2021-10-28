@@ -9,9 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 702583517967998089}
-  - component: {fileID: 702583517967998091}
   - component: {fileID: 702583517967998092}
-  - component: {fileID: 129003246424364282}
   - component: {fileID: 2105643000379996664}
   m_Layer: 9
   m_Name: Player
@@ -35,22 +33,6 @@ Transform:
   m_Father: {fileID: 702583518125578461}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -3.078, y: 115.024, z: -0.494}
---- !u!54 &702583517967998091
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 702583517967998088}
-  serializedVersion: 2
-  m_Mass: 5
-  m_Drag: 1
-  m_AngularDrag: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 1
-  m_Constraints: 0
-  m_CollisionDetection: 2
 --- !u!114 &702583517967998092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerObject: {fileID: 11400000, guid: 797f0036c81719d489acc9411a475a78, type: 2}
-  menuPrefab: {fileID: 4008759332623177000, guid: c1a19ce19711da040b987e52e4a4b95f, type: 3}
+  menuPrefab: {fileID: 4869130168119835939, guid: 7e57d672f120f6f438850a00051d5005, type: 3}
   explosionObject: {fileID: 9128587892432602950, guid: 8fd703d50be5b704588cc7b5baa1832e, type: 3}
   gunAmmoObject: {fileID: 4155647956408176716, guid: 5a3f45eeaedaf44489399eba23b11ac8, type: 3}
   missileObject: {fileID: 6200246160423643314, guid: fbe558d5ded7c6444990f035946dd5e0, type: 3}
@@ -87,22 +69,6 @@ MonoBehaviour:
   currentShields: 0
   currentHealth: 0
   thrust: 0
---- !u!114 &129003246424364282
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 702583517967998088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64179f3720bbfe947b7724caa67b7c1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 1
-  m_TeleportEnabled: 1
-  m_TeleportIfDistanceGreaterThan: 50
 --- !u!114 &2105643000379996664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,7 +260,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 129003246424364282}
+  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

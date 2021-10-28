@@ -8,7 +8,6 @@ namespace Cox.PlayerControls{
 /// required to use the WeaponsController, helps fill in the HudController, and supplies inputs to the CameraController.
 /// These things all work together to create the complex player controller we have. 
 /// Input Controller >> SpacraftController >>instantiates>> Ship Prefab with WeaponsController, HUDController, and CameraController </summary>
-[RequireComponent(typeof(Rigidbody))]
 public class SpacecraftController : MonoBehaviourPunCallbacks
 {
 
@@ -71,6 +70,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     #region setup
     public override void OnEnable(){
         isAwaitingRespawn = true;
+        menuPrefab.SetActive(false);
         if(playerObject == null){
             Debug.LogError("SpacecraftController: OnEnable(), critical playerObject not set in the inspector.");
             return;
@@ -85,7 +85,9 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         //Instantiates the chosen ship and parents it under the controller. Then gets important info from the ship.
         ship = Instantiate(chosenShip.shipPrefab, transform.position, transform.rotation);
         ship.transform.SetParent(this.gameObject.transform);
+        
 
+        if(photonView == null)return;
         //If the photon view belongs to the local player...
         if(photonView.IsMine){
             //instantiate the menuPrefab, weapons, hud, and camera controllers.
@@ -98,8 +100,8 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
             cameraController = ship.GetComponentInChildren<CameraController>();
             cameraController.weaponsController = weaponSystem;
 
-            
-            _rb = GetComponent<Rigidbody>();
+            _rb = ship.GetComponent<Rigidbody>();
+            //_rb = GetComponent<Rigidbody>();
 
 
 
@@ -147,10 +149,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     }
 
     public void MenuButton(){
-        /*if(menu.activeSelf == false)
-            menu.SetActive(true);
-        else
-            menu.SetActive(false);*/
+        menu.SetActive(!menu.activeSelf);
     }
     #endregion
     
@@ -193,6 +192,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     
     private void FixedUpdate(){
         //#Critical: If player is not local, return.
+        if(photonView == null)return;
         if(!photonView.IsMine)return;
 
         //keep abilities updated and active if needed, even if the player is eliminated.

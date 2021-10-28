@@ -6,6 +6,7 @@ using Cox.PlayerControls;
 public class GameManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private GameObject debugPlayer;
     public static GameManager Instance;
     public GamemodeData currentGamemode;
     public Transform[] teamASpawnpoints, teamBSpawnpoints;
@@ -28,6 +29,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     public void OpenSelectMenu(){
+        
         SceneManager.LoadSceneAsync("Select Scene", LoadSceneMode.Additive);
         isSelectLoaded = true;
     }
@@ -55,5 +57,14 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void LeaveRoom(){
         PhotonNetwork.LeaveRoom();
+    }
+
+    public void SpawnDebugPlayer(){
+        if(playerPrefab == null){
+            Debug.LogError("GameManager: SpawnPlayer(), playerPrefab is null. Place a prefab in the inspector.", this);
+            return;
+        }
+
+        var dp = PhotonNetwork.InstantiateRoomObject(this.playerPrefab.name, teamASpawnpoints[0].position, Quaternion.identity, 0);
     }
 }
