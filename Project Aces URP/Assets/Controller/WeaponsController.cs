@@ -156,11 +156,16 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     }
 
     private void PositionIndicators(){
-        if(currentTargetSelection.Count <= 0)return;
+        if(currentTargetSelection.Count <= 0){
+            Debug.Log("count is zero.");
+            return;
+        }
+
         for (int i = 0; i < activeIndicators.Count; i++){
             //Is the object active and on camera? If not, skip drawing the indicators.
             if(!currentTargetSelection[i].gameObject.activeInHierarchy || !currentTargetSelection[i].GetComponentInChildren<MeshRenderer>().isVisible)
             {
+                Debug.Log(activeIndicators[i].name);
                 activeIndicators[i].SetActive(false);
                 continue;
             }
@@ -181,12 +186,12 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             //if cast hits nothing, or the hit doesn't have a rigidbody, remove indicators
             if(!Physics.SphereCast(origin, 10, dir, out hit, 15000, ~layermask)){
                 activeIndicators[i].SetActive(false); 
-                //Debug.LogFormat("WeaponsSystem: PositionIndicators(), target {0} not visible. Indicator is inactive.", currentTargetSelection[i].name);
+                Debug.LogFormat("WeaponsSystem: PositionIndicators(), target {0} not visible. Indicator is inactive.", currentTargetSelection[i].nameOfTarget);
                 continue;
             }
             if(hit.rigidbody == null){
                 activeIndicators[i].SetActive(false); 
-                //Debug.LogFormat("WeaponsSystem: PositionIndicators(), No rigidbody found on target {0}. Indicator is inactive.", currentTargetSelection[i].name);
+                Debug.LogFormat("WeaponsSystem: PositionIndicators(), No rigidbody found on target {0}. Indicator is inactive.", currentTargetSelection[i].name);
                 continue;
             }
             
