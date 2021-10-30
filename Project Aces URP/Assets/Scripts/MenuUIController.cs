@@ -12,12 +12,17 @@ public class MenuUIController : MonoBehaviour
         createProfileScreen, 
         personalProfileMenu,
         multiplayerMenu,
+        friendsMenu,
+        hangarMenu,
+        eventsMenu,
         trainingMenu,
-        optionsMenu;
+        settingsMenu,
+        challengesMenu;
     bool isTransitioning = false;
     [SerializeField]
     private ProfileHandler profileHandler;
 
+    //Return to start screen on Awake()
     private void Awake() {
         mainMenu.SetActive(false);
         profileBar.SetActive(false);
@@ -25,10 +30,11 @@ public class MenuUIController : MonoBehaviour
         personalProfileMenu.SetActive(false);
         multiplayerMenu.SetActive(false);
         trainingMenu.SetActive(false);
-        optionsMenu.SetActive(false);
+        settingsMenu.SetActive(false);
         startScreen.SetActive(true);
     }
 
+    //Check if there's a profile, if not, create one.
     public void StartScreenClicked() {
         PlayerProfileData data = SaveData.LoadProfile();
         if(data == null || data.currentLevel <= 0){
@@ -39,28 +45,11 @@ public class MenuUIController : MonoBehaviour
             Debug.Log("MenuController: User must create a profile; activating create screen");
         }
         else{
-            ReturnToMainMenu();
+            MenuReturnToMain();
         }
     }
-
-    public void OpenProfileMenu(){
-        personalProfileMenu.SetActive(true);
-    }
-    public void OpenMultiplayerMenu(){
-        mainMenu.SetActive(false);
-        multiplayerMenu.SetActive(true);
-    }
-    public void OpenTrainingMenu(){
-        mainMenu.SetActive(false);
-        trainingMenu.SetActive(true);
-    }
-
-    public void OpenOptionsMenu(){
-        mainMenu.SetActive(false);
-        optionsMenu.SetActive(true);
-    }
-
-    public void ReturnToMainMenu(){
+    //Deactivates all menus, activates the main menu
+    public void MenuReturnToMain(){
         mainMenu.SetActive(true);
         profileBar.SetActive(true);
         startScreen.SetActive(false);
@@ -68,7 +57,40 @@ public class MenuUIController : MonoBehaviour
         personalProfileMenu.SetActive(false);
         multiplayerMenu.SetActive(false);
         trainingMenu.SetActive(false);
-        optionsMenu.SetActive(false);
+        settingsMenu.SetActive(false);
         
+    }
+
+    public void MenuProfile(){
+        mainMenu.SetActive(false);
+        personalProfileMenu.SetActive(true);
+    }
+    public void MenuMultiplayer(){
+        mainMenu.SetActive(false);
+        multiplayerMenu.SetActive(true);
+    }
+    public void MenuTraining(){
+        mainMenu.SetActive(false);
+        trainingMenu.SetActive(true);
+    }
+    public void MenuFriends(){
+        mainMenu.SetActive(false);
+        friendsMenu.SetActive(true);
+    }
+    public void MenuHangar(){
+        mainMenu.SetActive(false);
+        hangarMenu.SetActive(true);
+    }
+    public void MenuEvents(){
+        mainMenu.SetActive(false);
+        eventsMenu.SetActive(true);
+    }
+    public void MenuSettings(){
+        mainMenu.SetActive(false);
+        settingsMenu.SetActive(true);
+    }
+    public void MenuChallenges(){
+        mainMenu.SetActive(false);
+        challengesMenu.SetActive(true);
     }
 }
