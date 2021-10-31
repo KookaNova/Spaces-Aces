@@ -9,7 +9,7 @@ using System;
 public class MultiplayerLauncher : MonoBehaviourPunCallbacks
 {
     //This client's version number. Users are separated from each other by gameVersion (which allows breaking changes).
-    string gameVersion = "0.1";
+    string gameVersion = "0.23";
 
     //The multiplayer launcher should be in the main menu scene, and most methods accessible by pressing buttons.
     #region Serialized Fields
