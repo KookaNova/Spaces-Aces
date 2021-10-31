@@ -57,7 +57,11 @@ public class MenuUIController : MonoBehaviour
         personalProfileMenu.SetActive(false);
         multiplayerMenu.SetActive(false);
         trainingMenu.SetActive(false);
+        friendsMenu.SetActive(false);
+        hangarMenu.SetActive(false);
+        eventsMenu.SetActive(false);
         settingsMenu.SetActive(false);
+        challengesMenu.SetActive(false);
         
     }
 
