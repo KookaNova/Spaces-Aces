@@ -13,7 +13,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
 
     //The multiplayer launcher should be in the main menu scene, and most methods accessible by pressing buttons.
     #region Serialized Fields
-    [Header("UI Menus")]
+    [Header("Menus")]
     [SerializeField] GameObject multiplayerMenu;
     [SerializeField] GameObject playChoiceButtons, connectingUI, disconnectMessage, matchmakingMenu, matchmakingSearchUI, mainMenu, playerListUI;
 
@@ -69,7 +69,6 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         connectingUI.SetActive(false); disconnectMessage.SetActive(false); matchmakingMenu.SetActive(false); 
         multiplayerMenu.SetActive(false); privateRoom.SetActive(false);
     }
-
     #region Connecting to Server
 
     public void ConnectToServer(){
