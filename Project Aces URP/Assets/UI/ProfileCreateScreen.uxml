@@ -1,0 +1,17 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="Style.uss" />
+    <ui:VisualElement name="Screen" class="screen" style="align-items: center; justify-content: center;">
+        <ui:VisualElement name="MiddleMenu" class="container" style="width: 45%; height: 75%; align-items: center; justify-content: flex-start; border-top-left-radius: 60px; border-bottom-left-radius: 60px; border-top-right-radius: 60px; border-bottom-right-radius: 60px;">
+            <ui:Label text="Create Profile" display-tooltip-when-elided="true" class="h1" />
+            <ui:TextField picking-mode="Ignore" label="Choose a username (this can be changed later" value="filler text" text="New Username" max-length="16" multiline="false" is-delayed="false" readonly="false" focusable="true" name="UsernameInput" class="p2" style="flex-direction: column; -unity-font-style: normal; -unity-text-align: upper-center; align-items: center; justify-content: flex-start; padding-top: 30px;" />
+            <ui:VisualElement name="ColorSelector" style="flex-direction: row; justify-content: center; align-items: stretch; height: 30%; width: 50%; padding-left: 0; margin-left: 0; padding-top: 0; margin-top: 91px;">
+                <ui:Slider picking-mode="Ignore" label="Hue" value="0.73" high-value="1" direction="Vertical" show-input-field="false" name="Hue" class="p1 container" style="flex-direction: column; background-image: none; align-items: stretch; justify-content: flex-start; padding-right: 40px;" />
+                <ui:Slider picking-mode="Ignore" label="Saturation" value="0.73" high-value="1" direction="Vertical" show-input-field="false" name="Saturation" class="p1 container" style="flex-direction: column; background-image: none; align-items: stretch; justify-content: space-around; padding-right: 82px;" />
+                <ui:Slider picking-mode="Ignore" label="Value" value="0.73" high-value="1" direction="Vertical" show-input-field="false" name="Value" class="p1 container" style="flex-direction: column; background-image: none; align-items: stretch; justify-content: flex-start; padding-right: 40px;" />
+            </ui:VisualElement>
+            <ui:VisualElement style="justify-content: flex-end; align-items: center; flex-direction: column-reverse; margin-top: 233px;">
+                <ui:Button text="Confirm" display-tooltip-when-elided="true" name="Confirm" class="leadingButton h1" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

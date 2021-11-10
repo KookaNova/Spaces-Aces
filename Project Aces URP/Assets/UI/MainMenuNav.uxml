@@ -1,0 +1,31 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Template name="TopBar" src="TopBar.uxml" />
+    <ui:Template name="TitleScreen" src="TitleScreen.uxml" />
+    <ui:Template name="ProfileCreateScreen" src="ProfileCreateScreen.uxml" />
+    <ui:Template name="LauncherButtons" src="LauncherButtons.uxml" />
+    <ui:Template name="ReturnButton" src="ReturnButton.uxml" />
+    <ui:Template name="ConnectingScreen" src="ConnectingScreen.uxml" />
+    <ui:Template name="MultiplayerMenu" src="MultiplayerScreen.uxml" />
+    <ui:Template name="ProfileScreen" src="ProfileScreen.uxml" />
+    <ui:Template name="FriendsScreen" src="FriendsScreen.uxml" />
+    <ui:Template name="HangarScreen" src="HangarScreen.uxml" />
+    <ui:Template name="ChallengesScreen" src="ChallengesScreen.uxml" />
+    <ui:Template name="EventsScreen" src="EventsScreen.uxml" />
+    <ui:Template name="SettingsScreen" src="SettingsScreen.uxml" />
+    <Style src="Style.uss" />
+    <MainMenuManager class="screen" style="justify-content: center; flex-direction: column; align-items: stretch;">
+        <ui:Instance template="TopBar" name="TopBar" class="screen" style="display: none;" />
+        <ui:Instance template="TitleScreen" name="TitleScreen" style="display: flex;" />
+        <ui:Instance template="ProfileCreateScreen" name="ProfileCreateScreen" class="screen" style="display: none;" />
+        <ui:Instance template="LauncherButtons" name="LauncherButtons" style="display: none;" />
+        <ui:Instance template="ReturnButton" name="ReturnButton" style="display: none;" />
+        <ui:Instance template="ConnectingScreen" name="ConnectingScreen" />
+        <ui:Instance template="MultiplayerMenu" name="MultiplayerScreen" style="display: none;" />
+        <ui:Instance template="ProfileScreen" name="ProfileScreen" style="display: none;" />
+        <ui:Instance template="FriendsScreen" name="FriendsScreen" style="display: none;" />
+        <ui:Instance template="HangarScreen" name="HangarScreen" style="display: none;" />
+        <ui:Instance template="ChallengesScreen" name="ChallengesScreen" style="display: none;" />
+        <ui:Instance template="EventsScreen" name="EventsScreen" style="display: none;" />
+        <ui:Instance template="SettingsScreen" name="SettingsScreen" style="display: none;" />
+    </MainMenuManager>
+</ui:UXML>

@@ -2,7 +2,7 @@
     <Style src="Style.uss" />
     <ui:VisualElement name="Screen" class="screen" style="justify-content: center; align-items: center;">
         <ui:Button display-tooltip-when-elided="true" name="StartScreenButton" enable-rich-text="false" style="background-color: rgba(56, 56, 56, 0); background-image: url(&apos;/Assets/Sprites/SA Logo Gradient@2x.png#SA Logo Gradient@2x&apos;); height: 566px; -unity-background-scale-mode: scale-and-crop; width: 1710px; flex-direction: column; align-items: center; justify-content: flex-end; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0);">
-            <ui:Label text="Click to Start" display-tooltip-when-elided="true" class="h1" style="border-left-width: 0; border-right-width: 0; border-top-width: 0;" />
+            <ui:Label text="Click to Start" display-tooltip-when-elided="true" class="h1 strongLabel" style="border-left-width: 0; border-right-width: 0; border-top-width: 0;" />
         </ui:Button>
     </ui:VisualElement>
 </ui:UXML>

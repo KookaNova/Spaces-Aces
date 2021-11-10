@@ -1,0 +1,4 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="Style.uss" />
+    <ui:VisualElement name="Screen" class="screen" style="justify-content: space-between; flex-direction: row;" />
+</ui:UXML>

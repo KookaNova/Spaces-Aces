@@ -1,103 +1,77 @@
-.container {
-    background-color: rgba(0, 50, 83, 0.59);
-    padding-left: 20px;
-    padding-bottom: 20px;
-    padding-right: 20px;
-    padding-top: 20px;
-}
-
-.p1 {
-    -unity-font: url('/Assets/TextMesh Pro/Fonts/BAHNSCHRIFT.TTF');
-    -unity-font-definition: none;
-    font-size: 16px;
-    -unity-text-align: upper-left;
-    color: rgba(212, 212, 212, 255);
-}
-
-.leadingButton {
-    background-image: url('/Assets/Sprites/Nameplates/Vertical Gradient.jpg#Vertical Gradient');
-    -unity-background-image-tint-color: rgba(0, 255, 233, 0.64);
-    background-color: rgba(23, 3, 128, 255);
-}
-
-.containerBeveled {
-    align-items: flex-end;
-    flex-direction: row;
-    border-top-right-radius: 0;
-    background-image: url('/Assets/Sprites/Beveled Edge Square.png#Beveled Edge Square');
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    border-left-color: rgb(0, 0, 0);
-    border-right-color: rgb(0, 0, 0);
-    border-top-color: rgb(0, 0, 0);
-    border-bottom-color: rgb(0, 0, 0);
-    -unity-slice-left: 300;
-    -unity-slice-top: 0;
-    -unity-slice-right: 0;
-    -unity-slice-bottom: 100;
-    -unity-background-scale-mode: stretch-to-fill;
-    background-color: rgba(0, 50, 83, 0);
-    -unity-background-image-tint-color: rgba(0, 50, 83, 0.59);
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-}
-
-.p2 {
-    -unity-font: url('/Assets/TextMesh Pro/Fonts/BAHNSCHRIFT.TTF');
-    -unity-font-definition: none;
-    font-size: 24px;
-    -unity-text-align: upper-left;
-    color: rgba(212, 212, 212, 255);
-}
-
-.h1 {
-    -unity-font: url('/Assets/TextMesh Pro/Fonts/nasalization-rg.otf');
-    -unity-font-definition: none;
-    font-size: 75px;
-    -unity-text-align: upper-left;
-    color: rgba(204, 204, 204, 255);
-}
-
-.button1 {
-    overflow: visible;
-    visibility: visible;
-    align-items: stretch;
-    -unity-font-definition: none;
-    white-space: nowrap;
-    -unity-text-align: middle-center;
-    -unity-background-scale-mode: stretch-to-fill;
-    border-left-width: 1px;
-    border-right-width: 1px;
-    border-top-width: 1px;
-    border-bottom-width: 1px;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    background-color: rgb(0, 50, 83);
-    background-image: url('/Assets/Sprites/Nameplates/Vertical Gradient.jpg#Vertical Gradient');
-    -unity-background-image-tint-color: rgba(0, 96, 160, 0.83);
-    border-left-color: rgba(0, 50, 83, 255);
-    border-right-color: rgba(0, 50, 83, 255);
-    border-top-color: rgba(0, 50, 83, 255);
-    border-bottom-color: rgba(0, 50, 83, 255);
-}
-
-.h2 {
-    -unity-font: url('/Assets/TextMesh Pro/Fonts/BAHNSCHRIFT.TTF');
-    -unity-font-definition: none;
-    font-size: 21px;
-    -unity-text-align: middle-center;
-    color: rgb(204, 204, 204);
-    padding-left: 65px;
-    padding-top: 0;
-    padding-right: 65px;
-}
-
 .screen {
     width: 100%;
     height: 100%;
+}
+
+.screenFilled {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(21, 40, 96, 0.82);
+}
+
+.panel {
+    background-color: rgb(34, 36, 51);
+    width: 100%;
+    height: 100%;
+}
+
+.panelButton {
+    background-image: url('/Assets/Sprites/Nameplates/Vertical Gradient.jpg#Vertical Gradient');
+    -unity-background-image-tint-color: rgb(126, 223, 255);
+    margin-left: 3%;
+    margin-right: 3%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    height: 5%;
+    top: 93px;
+    color: rgb(41, 46, 79);
+    font-size: 30px;
+    -unity-font: url('/Assets/TextMesh Pro/Fonts/BAHNSCHRIFT.TTF');
+    -unity-font-definition: none;
+    -unity-text-align: middle-right;
+    white-space: normal;
+    padding-left: 0;
+    padding-right: 10%;
+}
+
+.topBarButton {
+    -unity-background-image-tint-color: rgba(157, 243, 255, 0.53);
+    background-image: url('/Assets/Sprites/Gradient Square.png#Gradient Square');
+    background-color: rgb(107, 110, 188);
+    color: rgba(217, 217, 217, 255);
+}
+
+.launchButton {
+    width: auto;
+    height: auto;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-left: 2%;
+    padding-top: 2%;
+    padding-right: 2%;
+    padding-bottom: 2%;
+    background-image: url('/Assets/Sprites/Gradient Square.png#Gradient Square');
+    background-color: rgb(0, 137, 183);
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0.6);
+    -unity-font: url('/Assets/TextMesh Pro/Fonts/nasalization-rg.otf');
+    -unity-font-definition: none;
+    font-size: 54px;
+    -unity-text-align: middle-center;
+    color: rgba(224, 224, 224, 255);
+}
+
+.baseLabel {
+    -unity-font: url('/Assets/TextMesh Pro/Fonts/BAHNSCHRIFT.TTF');
+    -unity-font-definition: none;
+    font-size: 24px;
+    color: rgba(214, 214, 214, 255);
+}
+
+.strongLabel {
+    -unity-font: url('/Assets/TextMesh Pro/Fonts/nasalization-rg.otf');
+    -unity-font-definition: none;
+    font-size: 60px;
+    color: rgb(210, 223, 255);
 }

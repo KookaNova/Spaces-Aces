@@ -1,0 +1,37 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Template name="NavigationButtons" src="NavigationButtons.uxml" />
+    <Style src="Style.uss" />
+    <ui:VisualElement name="Screen" class="screen" style="justify-content: flex-start; align-items: stretch; flex-direction: column;">
+        <ui:VisualElement name="Top" class="container panel" style="justify-content: space-between; flex-direction: row; height: 4%; align-items: flex-start; width: 100%; padding-top: 0; padding-right: 0; padding-left: 0; padding-bottom: 0;">
+            <ui:VisualElement name="Left" style="width: 0; height: 43px; flex-direction: row; align-items: flex-start; justify-content: flex-start;">
+                <ui:VisualElement style="height: 100%; width: 0; align-items: flex-start; justify-content: space-between; flex-direction: row;">
+                    <ui:Button text="|||" display-tooltip-when-elided="true" name="DropDownButton" class="topBarButton" style="height: 100%; width: 42px;" />
+                    <ui:VisualElement style="height: 100%; width: 5px; background-color: rgb(66, 255, 251);" />
+                    <ui:Label text="12:00AM" display-tooltip-when-elided="true" name="SystemTime" class="baseLabel" style="-unity-text-align: middle-left;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="Center" style="flex-direction: row; align-items: center; justify-content: center; width: 0; height: 0;" />
+            <ui:VisualElement name="Right" style="width: 0; height: 0; flex-direction: row; justify-content: flex-end; align-items: flex-start; padding-left: 20px; padding-right: 20px; padding-top: 20px; padding-bottom: 20px;">
+                <ui:Button text="Nameplate" display-tooltip-when-elided="true" name="Nameplate" style="height: 52px; width: 488px; padding-right: 6px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="SubScreen" class="screen" style="flex-direction: row; justify-content: space-between;">
+            <ui:VisualElement name="Left" style="flex-direction: row; width: 50%;">
+                <ui:Instance template="NavigationButtons" name="NavigationButtons" style="display: none;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Right" style="justify-content: space-between; align-items: auto; flex-direction: column; width: 50%;">
+                <ui:VisualElement name="ChallengeList" style="margin-left: 2.5%; margin-right: 2.5%; margin-top: 5%; margin-bottom: 2.5%; display: flex;">
+                    <ui:VisualElement name="Text" style="flex-direction: row; justify-content: space-between; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; width: 431px;">
+                        <ui:Label text="Daily Challenges" display-tooltip-when-elided="true" class="baseLabel" />
+                        <ui:Label text="Resets in ##:##" display-tooltip-when-elided="true" name="ChallengeTimer" class="baseLabel" />
+                    </ui:VisualElement>
+                    <ui:VisualElement style="background-color: rgb(202, 192, 128); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; height: 75px; margin-top: 15px; margin-bottom: 15px; margin-left: 0; margin-right: 0; width: auto;" />
+                    <ui:VisualElement style="background-color: rgb(202, 192, 128); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; height: 75px; margin-top: 15px; margin-bottom: 15px; margin-left: 0; margin-right: 0;" />
+                    <ui:VisualElement style="background-color: rgb(202, 192, 128); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; height: 75px; margin-top: 15px; margin-bottom: 15px; margin-left: 0; margin-right: 0;" />
+                    <ui:VisualElement style="background-color: rgb(202, 192, 128); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; height: 75px; margin-top: 15px; margin-bottom: 15px; margin-left: 0; margin-right: 0;" />
+                    <ui:VisualElement style="background-color: rgb(202, 192, 128); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; height: 75px; margin-top: 15px; margin-bottom: 15px; margin-left: 0; margin-right: 0;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
