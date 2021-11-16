@@ -89,6 +89,8 @@ public class MainMenuManager : VisualElement
         //Multiplayer Buttons
         m_Multiplayer?.Q("QuickplayButton")?.RegisterCallback<ClickEvent>(ev => multiplayerLauncher.FindMatchFromPlaylist(multiplayerLauncher.quickplay));
         o_SearchStatus?.Q("CancelButton")?.RegisterCallback<ClickEvent>(ev => multiplayerLauncher.LeaveRoom());
+
+
        
         
 
@@ -113,12 +115,8 @@ public class MainMenuManager : VisualElement
     #region Enable Menus
     
     void EnableDropdown(){
-        if(o_NavigationButtons.style.display.Equals(DisplayStyle.None)){
-            o_NavigationButtons.style.display = DisplayStyle.Flex;
-        }
-        else{
-            o_NavigationButtons.style.display = DisplayStyle.None;
-        }
+
+        o_NavigationButtons.SetEnabled(!o_NavigationButtons.enabledSelf);
     }
 
     public void EnableSearchOverlay(bool isFlex){
@@ -164,10 +162,12 @@ public class MainMenuManager : VisualElement
         m_Profile.style.display = DisplayStyle.None;
 
         o_TopBar.style.display = DisplayStyle.Flex; //------
-        o_NavigationButtons.style.display = DisplayStyle.None;
+        o_NavigationButtons.style.display = DisplayStyle.Flex;
         o_ChallengeList.style.display = DisplayStyle.Flex; //--------
         o_LauncherButtons.style.display = DisplayStyle.Flex; //--------
         o_ReturnButton.style.display = DisplayStyle.None;     
+
+        o_NavigationButtons.SetEnabled(false);
 
         Debug.Log("Menu: Home");
     }
@@ -313,9 +313,7 @@ public class MainMenuManager : VisualElement
         o_ReturnButton.style.display = DisplayStyle.Flex;//----
 
     }
-
     #endregion
-
 }
 
 

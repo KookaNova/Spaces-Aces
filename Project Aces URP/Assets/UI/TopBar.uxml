@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:Template name="NavigationButtons" src="NavigationButtons.uxml" />
-    <Style src="Style.uss" />
+    <ui:Template name="NavigationButtons" src="project://database/Assets/UI/NavigationButtons.uxml?fileID=9197481963319205126&amp;guid=a197a8c3ffe97454a89c135c1e324cf7&amp;type=3#NavigationButtons" />
+    <Style src="project://database/Assets/UI/Style.uss?fileID=7433441132597879392&amp;guid=5f5cd455162d302479a25627e01f7028&amp;type=3#Style" />
     <ui:VisualElement name="Screen" class="screen" style="justify-content: flex-start; align-items: stretch; flex-direction: column;">
         <ui:VisualElement name="Top" class="container panel" style="justify-content: space-between; flex-direction: row; height: 4%; align-items: flex-start; width: 100%; padding-top: 0; padding-right: 0; padding-left: 0; padding-bottom: 0;">
             <ui:VisualElement name="Left" style="width: 0; height: 43px; flex-direction: row; align-items: flex-start; justify-content: flex-start;">
@@ -22,7 +22,7 @@
         </ui:VisualElement>
         <ui:VisualElement name="SubScreen" class="screen" style="flex-direction: row; justify-content: space-between;">
             <ui:VisualElement name="Left" style="flex-direction: row; width: 50%;">
-                <ui:Instance template="NavigationButtons" name="NavigationButtons" style="display: none;" />
+                <ui:Instance template="NavigationButtons" name="NavigationButtons" style="display: flex; visibility: visible;" />
             </ui:VisualElement>
             <ui:VisualElement name="Right" style="justify-content: space-between; align-items: auto; flex-direction: column; width: 50%;">
                 <ui:VisualElement name="ChallengeList" style="margin-left: 2.5%; margin-right: 2.5%; margin-top: 5%; margin-bottom: 2.5%; display: flex;">
