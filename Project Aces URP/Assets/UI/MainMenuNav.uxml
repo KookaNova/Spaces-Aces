@@ -1,31 +1,31 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:Template name="TitleScreen" src="TitleScreen.uxml" />
-    <ui:Template name="ProfileCreateScreen" src="ProfileCreateScreen.uxml" />
-    <ui:Template name="ConnectingScreen" src="ConnectingScreen.uxml" />
-    <ui:Template name="MultiplayerScreen" src="MultiplayerScreen.uxml" />
-    <ui:Template name="ChallengesScreen" src="ChallengesScreen.uxml" />
-    <ui:Template name="ProfileScreen" src="ProfileScreen.uxml" />
-    <ui:Template name="FriendsScreen" src="FriendsScreen.uxml" />
-    <ui:Template name="HangarScreen" src="HangarScreen.uxml" />
-    <ui:Template name="EventsScreen" src="EventsScreen.uxml" />
-    <ui:Template name="SettingsScreen" src="SettingsScreen.uxml" />
-    <ui:Template name="TopBar" src="TopBar.uxml" />
-    <ui:Template name="LauncherButtons" src="LauncherButtons.uxml" />
-    <ui:Template name="ReturnButton" src="ReturnButton.uxml" />
-    <Style src="Style.uss" />
-    <MainMenuManager class="screen" style="justify-content: space-around; flex-direction: column; align-items: stretch;">
-        <ui:Instance template="TitleScreen" name="TitleScreen" class="screen" />
+    <ui:Template name="TitleScreen" src="project://database/Assets/UI/TitleScreen.uxml?fileID=9197481963319205126&amp;guid=029488d096f141c47b42eeb85a2af900&amp;type=3#TitleScreen" />
+    <ui:Template name="ProfileCreateScreen" src="project://database/Assets/UI/ProfileCreateScreen.uxml?fileID=9197481963319205126&amp;guid=4ada817600856be4a971498773ca36eb&amp;type=3#ProfileCreateScreen" />
+    <ui:Template name="ConnectingScreen" src="project://database/Assets/UI/ConnectingScreen.uxml?fileID=9197481963319205126&amp;guid=e4ecd1726651cb8429094a5a1531d885&amp;type=3#ConnectingScreen" />
+    <ui:Template name="MultiplayerScreen" src="project://database/Assets/UI/MultiplayerScreen.uxml?fileID=9197481963319205126&amp;guid=63a92e50faf6cbc46a3fb7a4b235b0eb&amp;type=3#MultiplayerScreen" />
+    <ui:Template name="TopBar" src="project://database/Assets/UI/TopBar.uxml?fileID=9197481963319205126&amp;guid=6e26f14871735fa4ea8e3e306bc261d1&amp;type=3#TopBar" />
+    <ui:Template name="ChallengesScreen" src="project://database/Assets/UI/ChallengesScreen.uxml?fileID=9197481963319205126&amp;guid=570ef71f60c67ef4b8d08a12869d3e6c&amp;type=3#ChallengesScreen" />
+    <ui:Template name="ProfileScreen" src="project://database/Assets/UI/ProfileScreen.uxml?fileID=9197481963319205126&amp;guid=57755b1a6e7e9134c947d2909df99c06&amp;type=3#ProfileScreen" />
+    <ui:Template name="HangarScreen" src="project://database/Assets/UI/HangarScreen.uxml?fileID=9197481963319205126&amp;guid=2345d94eaf8cdd44aaa823e83cacb374&amp;type=3#HangarScreen" />
+    <ui:Template name="EventsScreen" src="project://database/Assets/UI/EventsScreen.uxml?fileID=9197481963319205126&amp;guid=6e9d50ede69b25044a7ec29e4e926919&amp;type=3#EventsScreen" />
+    <ui:Template name="SettingsScreen" src="project://database/Assets/UI/SettingsScreen.uxml?fileID=9197481963319205126&amp;guid=4d672753aa48016448ba0a855a122735&amp;type=3#SettingsScreen" />
+    <ui:Template name="FriendsScreen" src="project://database/Assets/UI/FriendsScreen.uxml?fileID=9197481963319205126&amp;guid=0a55e1d337c52d544a93fbb08e623073&amp;type=3#FriendsScreen" />
+    <ui:Template name="LauncherButtons" src="project://database/Assets/UI/LauncherButtons.uxml?fileID=9197481963319205126&amp;guid=0da11fb016659e14f99b81798e2bde32&amp;type=3#LauncherButtons" />
+    <ui:Template name="ReturnButton" src="project://database/Assets/UI/ReturnButton.uxml?fileID=9197481963319205126&amp;guid=220c6fc51511757469e64d11101d908c&amp;type=3#ReturnButton" />
+    <Style src="project://database/Assets/UI/Style.uss?fileID=7433441132597879392&amp;guid=5f5cd455162d302479a25627e01f7028&amp;type=3#Style" />
+    <MainMenuManager name="MainMenuManager" class="screen" style="justify-content: space-around; flex-direction: column; align-items: stretch;">
+        <ui:Instance template="TitleScreen" name="TitleScreen" class="screen" style="display: flex;" />
         <ui:Instance template="ProfileCreateScreen" name="ProfileCreateScreen" class="screen" style="display: none;" />
         <ui:Instance template="ConnectingScreen" name="ConnectingScreen" class="screen" style="display: none;" />
         <ui:Instance template="MultiplayerScreen" name="MultiplayerScreen" class="screen" style="display: none;" />
+        <ui:Instance template="TopBar" name="TopBar" class="screen" style="display: none;" />
         <ui:Instance template="ChallengesScreen" name="ChallengesScreen" class="screen absolute" style="display: none;" />
         <ui:Instance template="ProfileScreen" name="ProfileScreen" class="screen absolute" style="display: none;" />
-        <ui:Instance template="FriendsScreen" name="FriendsScreen" class="absolute" style="display: none;" />
         <ui:Instance template="HangarScreen" name="HangarScreen" class="screen absolute" style="display: none;" />
         <ui:Instance template="EventsScreen" name="EventsScreen" class="screen absolute" style="display: none;" />
         <ui:Instance template="SettingsScreen" name="SettingsScreen" class="screen" style="display: none;" />
-        <ui:Instance template="TopBar" name="TopBar" class="screen" style="display: none;" />
+        <ui:Instance template="FriendsScreen" name="FriendsScreen" class="screen" style="display: none;" />
         <ui:Instance template="LauncherButtons" name="LauncherButtons" style="display: none;" />
-        <ui:Instance template="ReturnButton" name="ReturnButton" class="absolute" style="display: none;" />
+        <ui:Instance template="ReturnButton" name="ReturnButton" class="absolute" style="display: none; width: auto; height: auto;" />
     </MainMenuManager>
 </ui:UXML>
