@@ -1,6 +1,10 @@
 .screen {
     width: 100%;
     height: 100%;
+    flex-shrink: initial;
+    flex-basis: initial;
+    overflow: visible;
+    flex-grow: initial;
 }
 
 .screenFilled {
@@ -34,11 +38,15 @@
     padding-right: 10%;
 }
 
+.panelButton:hover {
+    -unity-background-image-tint-color: rgb(255, 253, 128);
+}
+
 .topBarButton {
     -unity-background-image-tint-color: rgba(157, 243, 255, 0.53);
     background-image: url('/Assets/Sprites/Gradient Square.png#Gradient Square');
     background-color: rgb(107, 110, 188);
-    color: rgba(217, 217, 217, 255);
+    color: rgb(217, 217, 217);
 }
 
 .launchButton {
@@ -59,19 +67,78 @@
     -unity-font-definition: none;
     font-size: 54px;
     -unity-text-align: middle-center;
-    color: rgba(224, 224, 224, 255);
+    color: rgb(224, 224, 224);
+}
+
+.launchButton:hover {
+    background-color: rgb(176, 207, 69);
+    -unity-background-image-tint-color: rgb(229, 250, 117);
 }
 
 .baseLabel {
     -unity-font: url('/Assets/TextMesh Pro/Fonts/BAHNSCHRIFT.TTF');
     -unity-font-definition: none;
     font-size: 24px;
-    color: rgba(214, 214, 214, 255);
+    color: rgb(214, 214, 214);
+}
+
+.midLabel {
+    -unity-font: url('/Assets/TextMesh Pro/Fonts/BAHNSCHRIFT.TTF');
+    -unity-font-definition: none;
+    font-size: 45px;
+    color: rgb(214, 214, 214);
+    -unity-text-align: upper-center;
 }
 
 .strongLabel {
     -unity-font: url('/Assets/TextMesh Pro/Fonts/nasalization-rg.otf');
     -unity-font-definition: none;
     font-size: 60px;
-    color: rgb(210, 223, 255);
+    color: rgb(199, 214, 253);
+    text-shadow: 2px 4px 2px rgb(22, 24, 26);
+}
+
+.background {
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+    align-items: stretch;
+    flex-direction: row;
+    flex-basis: initial;
+    flex-shrink: initial;
+    flex-grow: 0;
+    background-color: rgb(185, 169, 139);
+}
+
+.overlayText {
+    font-size: 48px;
+    -unity-font-definition: none;
+    -unity-font: url('/Assets/TextMesh Pro/Fonts/nasalization-rg.otf');
+    -unity-text-outline-color: rgb(182, 213, 231);
+    -unity-background-scale-mode: stretch-to-fill;
+    margin-left: -25px;
+    margin-right: -25px;
+    margin-top: -25px;
+    margin-bottom: -25px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    -unity-text-align: middle-left;
+    border-top-right-radius: 103px;
+    border-top-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+    color: rgb(195, 223, 226);
+    background-image: url('/Assets/Sprites/Gradient Square.png#Gradient Square');
+    -unity-background-image-tint-color: rgba(145, 183, 255, 0.77);
+}
+
+.absolute {
+    position: absolute;
+    width: 100%;
+    height: 100%;
 }

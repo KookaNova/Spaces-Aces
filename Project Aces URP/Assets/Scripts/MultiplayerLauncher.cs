@@ -8,15 +8,16 @@ using System;
 
 public class MultiplayerLauncher : MonoBehaviourPunCallbacks
 {
+    //The multiplayer launcher should be in the main menu scene, and most functions accessible by pressing buttons.
     //This client's version number. Users are separated from each other by gameVersion (which allows breaking changes).
     string gameVersion = "0.23";
 
-    //The multiplayer launcher should be in the main menu scene, and most methods accessible by pressing buttons.
+    
     #region UI Fields
     VisualElement root;
+    MainMenuManager mainMenuManager;
 
-    [HideInInspector] public string versionLabel = "0.0", serverName = "n/a", disconnectLabel, gameStartLabel;
-    
+    Label versionLabel, serverLabel, connectingLabel, connectMessageLabel, gameStatusLabel;
     //Private Games UI
     string hostText, levelText, gamemodeText, maxPlayerText, isPublicText, privateStatusText;
 
@@ -29,19 +30,19 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
     //Important for generating nameplates and placing them
     [Header("Nameplates")]
     [SerializeField] GameObject profilePrefab;
-    [SerializeField] Transform nameplateStartingPosition;
-    private List<GameObject> nameplates = new List<GameObject>();
-    private List<Player> connectedPlayers;
+    //[SerializeField] Transform nameplateStartingPosition;
+    //private List<GameObject> nameplates = new List<GameObject>();
+    //private List<Player> connectedPlayers;
 
     #endregion
+
+    public GamesHandler quickplay;
 
     private GamesHandler gamesHandler;
     private RoomOptions roomOptions = new RoomOptions();
 
     #region Private Games
     private PrivateGameSettings privateGameSettings = new PrivateGameSettings();
-
-
     
     #endregion
 
@@ -52,11 +53,17 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         //Send info to UI easily
         root = GetComponent<UIDocument>().rootVisualElement;
 
-        versionLabel = gameVersion;
-        serverName = "Offline";
+        versionLabel = root.Q<Label>("VersionNumber");
+        serverLabel = root.Q<Label>("ServerName");
+        mainMenuManager = root.Q<MainMenuManager>();
 
-        root.Q<Label>("VersionNumber").text = versionLabel;
-        root.Q<Label>("ServerName").text = serverName;
+        connectingLabel = root.Q<Label>("ConnectingLabel");
+        connectMessageLabel = root.Q<Label>("ConnectMessage");
+        gameStatusLabel = root.Q<Label>("GameStatus");
+
+        versionLabel.text = gameVersion;
+        serverLabel.text = "Offline";
+
     }
 
     public void ReturnToMainMenu(){
@@ -66,25 +73,39 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
     public void ConnectToServer(){
         //#Critical: we must first and foremost connect to Photon Online Server. We check if we are connected, else we connect.
         if(PhotonNetwork.IsConnected && !PhotonNetwork.OfflineMode){
+            mainMenuManager.EnableMultiplayerScreen();
         }
         else{
             PhotonNetwork.GameVersion = gameVersion;
             PhotonNetwork.OfflineMode = false;
             PhotonNetwork.ConnectUsingSettings();
+            mainMenuManager.EnableConnectingScreen();
+            connectingLabel.text = "Connecting...";
+            var m = root.Q("MessageContainer");
+            m.style.display = DisplayStyle.None;
         }
     }
 
     public override void OnConnectedToMaster(){
-        serverName = PhotonNetwork.CloudRegion.ToString();
+        serverLabel.text = PhotonNetwork.CloudRegion.ToString();
+
+        if(root.Q("ConnectingScreen").style.display == DisplayStyle.Flex){
+            mainMenuManager.EnableMultiplayerScreen();
+        }
+        
+
     }
 
     public override void OnDisconnected(DisconnectCause cause){
         Debug.LogWarningFormat("Launcher: OnDisconnected() was called by PUN with reason {0}", cause);
-        disconnectLabel = cause.ToString();
-        serverName = "Offline";
 
-       
-
+        //UI
+        var m = root.Q("MessageContainer");
+        mainMenuManager.EnableSearchOverlay(false);
+        m.style.display = DisplayStyle.Flex;
+        connectMessageLabel.text = cause.ToString();
+        connectingLabel.text = ("Disconnected");
+        serverLabel.text = "Offline";
     }
 
     #endregion
@@ -99,7 +120,11 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         Debug.LogFormat("Launcher: FindMatchFromPlaylist(), searching for a random room with properties {0} and max players {1}", 
             roomOptions.CustomRoomProperties, gamesHandler.expectedMaxPlayers);
         PhotonNetwork.JoinRandomRoom(roomOptions.CustomRoomProperties, roomOptions.MaxPlayers);
-        gameStartLabel = "Searching for a match...";
+
+        //UI
+        mainMenuManager.EnableSearchOverlay(true);
+        mainMenuManager.EnableHomeMenu();
+        gameStatusLabel.text = "Searching for a match...";
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -123,7 +148,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom(){
         //The local player is labeled the master of the room.
         Player masterPlayer = PhotonNetwork.LocalPlayer;
-        gameStartLabel = "Waiting for players...";
+        gameStatusLabel.text = "Waiting for players...";
 
         //When player count reaches max, start the game.
         if(PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers){
@@ -154,8 +179,9 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         
         Debug.Log("Launcher: OnLeaveRoom() called by PUN. Client exits the room.");
         
-        nameplates.Clear();
-        gameStartLabel = "Waiting for players...";
+        //nameplates.Clear();
+        //UI
+        mainMenuManager.EnableSearchOverlay(false);
         
     }
 
@@ -172,7 +198,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         //When player count reaches max, start the game.
         if(PhotonNetwork.CurrentRoom.PlayerCount < PhotonNetwork.CurrentRoom.MaxPlayers){
             StopAllCoroutines();
-            gameStartLabel = "Waiting for players...";
+            gameStatusLabel.text = "Waiting for players...";
         }
         Debug.LogFormat("Launcher: OnPlayerEnteredRoom(), Player {0} left room.", leftPlayer);
         UpdatePlayerList();
@@ -229,15 +255,15 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
     #region PlayerList
 
     private void CreatePlayerList(){
-        var nameplate = Instantiate(profilePrefab, nameplateStartingPosition.position, Quaternion.identity /*, playerListUI.transform*/);
+        /*var nameplate = Instantiate(profilePrefab, nameplateStartingPosition.position, Quaternion.identity , playerListUI.transform);
         nameplates.Add(nameplate);
         var newProfileData = nameplate.GetComponent<FillPlayerData>();
-        newProfileData.DisplayData();
+        newProfileData.DisplayData();*/
 
     }
 
     private void UpdatePlayerList(){
-        nameplates.Clear();
+        /*nameplates.Clear();
 
         for(int i = 0; i < PhotonNetwork.PlayerList.Length; i++){
             var nameplate = Instantiate(profilePrefab, nameplateStartingPosition.position, Quaternion.identity);
@@ -254,7 +280,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
             (int)PhotonNetwork.PlayerList[i].CustomProperties["Emblem Background"],
             (float)PhotonNetwork.PlayerList[i].CustomProperties["Emblem Primary Hue"],
             (float)PhotonNetwork.PlayerList[i].CustomProperties["Emblem Background Hue"]);
-        }
+        }*/
     }
 
     #endregion
@@ -262,7 +288,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
     #region Starting Games
     public IEnumerator StartingCountdown(){
         Debug.Log("Starting Countdown...");
-        gameStartLabel = "Players found.";
+        gameStatusLabel.text = "Players found.";
         
 
         int timer = countDownTime;
@@ -270,10 +296,10 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         while (timer > 0){
             yield return new WaitForSecondsRealtime(1);
             timer--;
-            gameStartLabel = "Game starting in " + timer.ToString();
+            gameStatusLabel.text = "Game starting in " + timer.ToString();
         }
         if(timer <= 0){
-            gameStartLabel = "Prepare for takeoff.";
+            gameStatusLabel.text = "Prepare for takeoff.";
         }
         //Selects the level from the playlist
         gamesHandler.SelectRandomLevel();
@@ -311,7 +337,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
 
     private IEnumerator StartingCountdownOffline(GamemodeData gamemodeData){
         Debug.Log("Starting Offline Countdown...");
-        gameStartLabel = "Offline Mode";
+        gameStatusLabel.text = "Offline Mode";
         
 
         int timer = countDownTime;
@@ -319,10 +345,10 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         while (timer > 0){
             yield return new WaitForSecondsRealtime(1);
             timer--;
-            gameStartLabel = "Game starting in " + timer.ToString();
+            gameStatusLabel.text = "Game starting in " + timer.ToString();
         }
         if(timer <= 0){
-            gameStartLabel = "Prepare for takeoff.";
+            gameStatusLabel.text = "Prepare for takeoff.";
         }
 
         // #Critical: Load the Room Level.
