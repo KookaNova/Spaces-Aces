@@ -6,11 +6,12 @@ public class SceneController : MonoBehaviour
     public static SceneController instance = null;
 
     public GamemodeData chosenGamemode;
-    [SerializeField]
-    string defaultScene = "Main Menu";
+    
+    string defaultScene = "Home Scene";
 
 
     void Awake() {
+
         if(instance == null){
             instance = this;
             Debug.Log("SceneController: Awake(), instance set to " + this);
@@ -37,6 +38,7 @@ public class SceneController : MonoBehaviour
     
     public void ExitGame()
     {
+        Debug.Log("Exiting Game");
         Application.Quit();
     }
 }

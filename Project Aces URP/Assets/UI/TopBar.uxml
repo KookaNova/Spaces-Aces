@@ -10,7 +10,12 @@
                     <ui:Label text="12:00AM" display-tooltip-when-elided="true" name="SystemTime" class="baseLabel" style="-unity-text-align: middle-left;" />
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="Center" style="flex-direction: row; align-items: center; justify-content: center; width: 0; height: 0;" />
+            <ui:VisualElement name="Center" style="flex-direction: row; align-items: flex-start; justify-content: center; width: auto; height: auto;">
+                <ui:VisualElement name="GameStatusContainer" class="panel" style="align-items: center; justify-content: flex-start; width: auto; height: auto; padding-left: 9px; padding-right: 9px; padding-top: 9px; padding-bottom: 65px; border-top-left-radius: 20px; border-bottom-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; display: none; overflow: visible;">
+                    <ui:Button text="Cancel Search" display-tooltip-when-elided="true" name="CancelButton" class="topBarButton" style="width: 100%; height: 72%; border-top-left-radius: 12px; border-bottom-left-radius: 12px; border-top-right-radius: 12px; border-bottom-right-radius: 12px; visibility: visible; overflow: visible;" />
+                    <ui:Label text="GameStatus" display-tooltip-when-elided="true" name="GameStatus" class="midLabel" style="margin-bottom: 69px; padding-bottom: 0; padding-top: 0; padding-left: 2px; overflow: visible;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
             <ui:VisualElement name="Right" style="width: 0; height: 0; flex-direction: row; justify-content: flex-end; align-items: flex-start; padding-left: 20px; padding-right: 20px; padding-top: 20px; padding-bottom: 20px;">
                 <ui:Button text="Nameplate" display-tooltip-when-elided="true" name="Nameplate" style="height: 52px; width: 488px; padding-right: 6px;" />
             </ui:VisualElement>
