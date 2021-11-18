@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Photon.Pun;
 using UnityEngine.UIElements.Experimental;
+using System.Collections;
 
 public class MainMenuManager : VisualElement
 {
@@ -48,6 +49,7 @@ public class MainMenuManager : VisualElement
         this.RegisterCallback<GeometryChangedEvent>(OnGeometryChange);
     }
 
+
     void OnGeometryChange(GeometryChangedEvent evt){
         
         Debug.Log(sceneController);
@@ -90,16 +92,13 @@ public class MainMenuManager : VisualElement
         m_Multiplayer?.Q("QuickplayButton")?.RegisterCallback<ClickEvent>(ev => multiplayerLauncher.FindMatchFromPlaylist(multiplayerLauncher.quickplay));
         o_SearchStatus?.Q("CancelButton")?.RegisterCallback<ClickEvent>(ev => multiplayerLauncher.LeaveRoom());
 
-
-       
-        
-
         this.UnregisterCallback<GeometryChangedEvent>(OnGeometryChange);
     }
 
     void CheckProfile(){
         profileHandler = GameObject.FindObjectOfType<ProfileHandler>();
         PlayerProfileData data = SaveData.LoadProfile();
+        o_NavigationButtons.SetEnabled(false);
         if(data == null || data.currentLevel <= 0){
             profileHandler.InitializeData();
             EnableProfileCreate();
@@ -112,10 +111,8 @@ public class MainMenuManager : VisualElement
 
     }
 
-    #region Enable Menus
-    
+    #region Overlay
     void EnableDropdown(){
-
         o_NavigationButtons.SetEnabled(!o_NavigationButtons.enabledSelf);
     }
 
@@ -127,7 +124,9 @@ public class MainMenuManager : VisualElement
            o_SearchStatus.style.display = DisplayStyle.None;
        }
     }
+    #endregion
 
+    #region Enable Menus
 
     void EnableProfileCreate(){
         m_Title.style.display = DisplayStyle.None;
@@ -313,6 +312,7 @@ public class MainMenuManager : VisualElement
         o_ReturnButton.style.display = DisplayStyle.Flex;//----
 
     }
+
     #endregion
 }
 
