@@ -1,0 +1,365 @@
+.screen {
+    width: 100%;
+    height: 100%;
+    flex-shrink: initial;
+    flex-basis: initial;
+    overflow: visible;
+    flex-grow: initial;
+}
+
+.panel {
+    background-color: rgb(34, 36, 51);
+    width: 100%;
+    height: 100%;
+    transition-duration: 0.3s;
+    transition-delay: 0s;
+    translate: 0 0;
+}
+
+.panelButton {
+    background-image: url('project://database/Assets/Sprites/Nameplates/Vertical%20Gradient.jpg?fileID=21300000&guid=94d03b176e516264e8cd6d31b1930268&type=3#Vertical Gradient');
+    -unity-background-image-tint-color: rgba(126, 223, 255, 0);
+    top: auto;
+    color: rgb(197, 197, 197);
+    font-size: 24px;
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/BAHNSCHRIFT.TTF?fileID=12800000&guid=b8a3fef9f615d4b458db3dcec0da4da1&type=3#BAHNSCHRIFT');
+    -unity-font-definition: none;
+    -unity-text-align: middle-left;
+    white-space: normal;
+    transition-duration: 0.2s;
+    transition-delay: 0s;
+    background-color: rgba(0, 0, 0, 0);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-color: rgba(214, 214, 214, 0);
+    border-right-color: rgba(214, 214, 214, 0);
+    border-top-color: rgb(214, 214, 214);
+    border-bottom-color: rgb(214, 214, 214);
+    height: auto;
+    margin-left: 0;
+    margin-right: 5px;
+    margin-top: 10px;
+    margin-bottom: 0;
+    padding-left: 40px;
+    padding-right: 150px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    -unity-font-style: normal;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    align-items: flex-start;
+}
+
+.panelButton:hover {
+    -unity-background-image-tint-color: rgba(121, 121, 123, 0);
+    translate: 0 0;
+    scale: 1.03 1.03;
+    rotate: 0;
+    transform-origin: left;
+    color: rgb(41, 41, 41);
+    background-color: rgba(255, 255, 255, 0.89);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-color: rgb(82, 82, 82);
+    border-right-color: rgb(89, 89, 89);
+    border-top-color: rgb(156, 156, 156);
+    border-bottom-color: rgb(38, 38, 38);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    -unity-font-style: bold;
+}
+
+.topBarButton {
+    -unity-background-image-tint-color: rgb(157, 243, 255);
+    background-image: none;
+    background-color: rgba(137, 137, 137, 0);
+    color: rgb(217, 217, 217);
+    -unity-font-definition: none;
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/BAHNSCHRIFT.TTF?fileID=12800000&guid=b8a3fef9f615d4b458db3dcec0da4da1&type=3#BAHNSCHRIFT');
+    font-size: 18px;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    -unity-text-align: middle-center;
+    border-left-color: rgb(233, 233, 233);
+    border-right-color: rgb(233, 233, 233);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(233, 233, 233, 0);
+    transition-duration: 0.2s;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-left: -1px;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.topBarButton:hover {
+    background-color: rgb(255, 255, 255);
+    -unity-font-style: normal;
+    color: rgb(43, 43, 43);
+    scale: 1 1.19;
+}
+
+.launchButton {
+    width: auto;
+    height: auto;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-left: 2%;
+    padding-top: 2%;
+    padding-right: 2%;
+    padding-bottom: 2%;
+    background-image: url('project://database/Assets/Sprites/Gradient%20Square.png?fileID=21300000&guid=c5295c9f1cc247b4f94b22b3f3b36188&type=3#Gradient Square');
+    background-color: rgb(0, 137, 183);
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0.6);
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/nasalization-rg.otf?fileID=12800000&guid=2f3a78fadadb162489e989f949893a3d&type=3#nasalization-rg');
+    -unity-font-definition: none;
+    font-size: 54px;
+    -unity-text-align: middle-center;
+    color: rgb(224, 224, 224);
+    transition-duration: 0.4s;
+}
+
+.launchButton:hover {
+    background-color: rgb(195, 195, 195);
+    -unity-background-image-tint-color: rgba(0, 255, 54, 0.69);
+    scale: 1.03 1.03;
+    cursor: url('project://database/Assets/Sprites/Fighter%20Icon.png?fileID=2800000&guid=31bbcc9c2962e634c85ff712f9aef01a&type=3#Fighter Icon');
+}
+
+.actionButton {
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    background-color: rgba(0, 0, 0, 0);
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    font-size: 30px;
+    transition-duration: 0.2s;
+    color: rgb(229, 229, 229);
+    -unity-font: none;
+    -unity-font-definition: url('project://database/Assets/TextMesh%20Pro/Fonts/BAHNSCHRIFT%20SDF.asset?fileID=11400000&guid=bb11bb5e493f74248883e976094fed42&type=2#BAHNSCHRIFT SDF');
+}
+
+.actionButton:hover {
+    background-color: rgba(212, 172, 31, 0.86);
+    scale: 1.01 1.01;
+    translate: 0 0;
+    transform-origin: center;
+    border-left-color: rgb(29, 29, 29);
+    border-right-color: rgb(29, 29, 29);
+    border-top-color: rgb(29, 29, 29);
+    border-bottom-color: rgb(29, 29, 29);
+    color: rgb(48, 48, 48);
+}
+
+.baseLabel {
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/BAHNSCHRIFT.TTF?fileID=12800000&guid=b8a3fef9f615d4b458db3dcec0da4da1&type=3#BAHNSCHRIFT');
+    -unity-font-definition: none;
+    font-size: 24px;
+    color: rgb(214, 214, 214);
+}
+
+.midLabel {
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/BAHNSCHRIFT.TTF?fileID=12800000&guid=b8a3fef9f615d4b458db3dcec0da4da1&type=3#BAHNSCHRIFT');
+    -unity-font-definition: none;
+    font-size: 45px;
+    color: rgb(214, 214, 214);
+    -unity-text-align: upper-center;
+}
+
+.strongLabel {
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/nasalization-rg.otf?fileID=12800000&guid=2f3a78fadadb162489e989f949893a3d&type=3#nasalization-rg');
+    -unity-font-definition: none;
+    font-size: 45px;
+    color: rgb(199, 214, 253);
+    text-shadow: 2px 4px 2px rgb(22, 24, 26);
+    -unity-text-align: middle-center;
+}
+
+.background {
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+    align-items: stretch;
+    flex-direction: row;
+    flex-basis: initial;
+    flex-shrink: initial;
+    flex-grow: 0;
+    background-color: rgb(185, 169, 139);
+}
+
+.overlayText {
+    font-size: 48px;
+    -unity-font-definition: none;
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/nasalization-rg.otf?fileID=12800000&guid=2f3a78fadadb162489e989f949893a3d&type=3#nasalization-rg');
+    -unity-text-outline-color: rgb(182, 213, 231);
+    -unity-background-scale-mode: stretch-to-fill;
+    margin-left: -25px;
+    margin-right: -25px;
+    margin-top: -25px;
+    margin-bottom: -25px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    -unity-text-align: middle-left;
+    border-top-right-radius: 103px;
+    border-top-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+    color: rgb(195, 223, 226);
+    background-image: url('project://database/Assets/Sprites/Gradient%20Square.png?fileID=21300000&guid=c5295c9f1cc247b4f94b22b3f3b36188&type=3#Gradient Square');
+    -unity-background-image-tint-color: rgba(145, 183, 255, 0.77);
+}
+
+.opacityOut {
+    background-color: rgba(0, 0, 0, 0);
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0);
+}
+
+.offsetLeft {
+    translate: -800px 0;
+    transform-origin: left;
+}
+
+.offsetRight {
+    translate: 800px 0;
+}
+
+.pictureButton {
+    -unity-background-image-tint-color: rgb(111, 111, 111);
+    transition-duration: 0.3s;
+}
+
+.pictureButton:hover {
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+}
+
+.progressContainer {
+    border-left-color: rgb(195, 195, 195);
+    border-right-color: rgb(195, 195, 195);
+    border-top-color: rgb(195, 195, 195);
+    border-bottom-color: rgb(195, 195, 195);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    overflow: hidden;
+    border-top-left-radius: -2px;
+    border-bottom-left-radius: -2px;
+    border-top-right-radius: -2px;
+    border-bottom-right-radius: -2px;
+}
+
+.progressBar {
+    height: 100%;
+    background-color: rgb(188, 136, 40);
+}
+
+.list {
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+    background-color: rgba(25, 21, 51, 0.51);
+    width: 33%;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.p_Nameplate {
+    background-color: rgba(0, 0, 0, 0);
+    -unity-text-align: middle-left;
+    justify-content: space-between;
+    align-items: stretch;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+    background-image: url('project://database/Assets/Sprites/Nameplates/Plate.jpg?fileID=2800000&guid=751b8b63d33878b408bca91b027fdf8b&type=3#Plate');
+    -unity-background-scale-mode: scale-and-crop;
+    flex-shrink: 0;
+}
+
+.p_Name {
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/nasalization-rg.otf?fileID=12800000&guid=2f3a78fadadb162489e989f949893a3d&type=3#nasalization-rg');
+    -unity-font-definition: none;
+    font-size: 24px;
+    -unity-text-align: middle-left;
+    white-space: nowrap;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.62);
+    color: rgba(255, 255, 255, 255);
+}
+
+.p_Emblem {
+    background-image: url('project://database/Assets/Sprites/Alphas/Blast.png?fileID=21300000&guid=a07eec4cb3aa0b843a3e071d2bd7bfb7&type=3#Blast');
+    background-color: rgba(0, 0, 0, 0);
+    -unity-background-scale-mode: scale-to-fit;
+    height: 100%;
+    width: auto;
+    flex-shrink: 1;
+    -unity-background-image-tint-color: rgb(0, 10, 255);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    overflow: visible;
+    visibility: visible;
+    align-items: stretch;
+    padding-left: 8%;
+    padding-right: 8%;
+    padding-top: 8%;
+    padding-bottom: 8%;
+}
+
+.p_Level {
+    -unity-text-align: upper-right;
+    -unity-font-definition: url('project://database/Assets/TextMesh%20Pro/Fonts/BAHNSCHRIFT%20SDF.asset?fileID=11400000&guid=bb11bb5e493f74248883e976094fed42&type=2#BAHNSCHRIFT SDF');
+    color: rgba(244, 255, 0, 255);
+    text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.55);
+}
+
+.profileIcon {
+    height: 100%;
+    width: 40%;
+    transition-duration: 0.5s;
+    overflow: hidden;
+}
+
+.profileIcon:hover {
+    scale: 1.03 1.03;
+    transform-origin: center;
+    border-left-color: rgba(255, 227, 0, 255);
+    border-right-color: rgba(255, 227, 0, 255);
+    border-top-color: rgba(255, 227, 0, 255);
+    border-bottom-color: rgba(255, 227, 0, 255);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+}
