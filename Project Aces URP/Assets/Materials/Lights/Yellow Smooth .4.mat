@@ -110,6 +110,7 @@ Material:
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
+    - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Smoothness: 0.5
@@ -120,6 +121,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     - isBlinking: 1
+    - usingSaw: 0
     m_Colors:
     - Base_Color: {r: 0.19811317, g: 0.19811317, b: 0.19811317, a: 0}
     - Light_Color: {r: 1, g: 0.9497277, b: 0.45660377, a: 0}

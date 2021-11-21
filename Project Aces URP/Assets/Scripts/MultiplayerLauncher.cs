@@ -15,7 +15,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
     
     #region UI Fields
     VisualElement root;
-    MainMenuManager mainMenuManager;
+    MenuManager menuManager;
 
     Label versionLabel, serverLabel, connectingLabel, connectMessageLabel, gameStatusLabel;
     //Private Games UI
@@ -55,7 +55,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
 
         versionLabel = root.Q<Label>("VersionNumber");
         serverLabel = root.Q<Label>("ServerName");
-        mainMenuManager = root.Q<MainMenuManager>();
+        menuManager = root.Q<MenuManager>();
 
         connectingLabel = root.Q<Label>("ConnectingLabel");
         connectMessageLabel = root.Q<Label>("ConnectMessage");
@@ -73,36 +73,55 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
     public void ConnectToServer(){
         //#Critical: we must first and foremost connect to Photon Online Server. We check if we are connected, else we connect.
         if(PhotonNetwork.IsConnected && !PhotonNetwork.OfflineMode){
-            mainMenuManager.EnableMultiplayerScreen();
+            menuManager.EnableMultiplayerScreen();
         }
         else{
+            var m_connectScreen = root.Q("ConnectingScreen");
+            m_connectScreen.Q("Progress").style.width = new StyleLength(Length.Percent(0));
             PhotonNetwork.GameVersion = gameVersion;
             PhotonNetwork.OfflineMode = false;
             PhotonNetwork.ConnectUsingSettings();
-            mainMenuManager.EnableConnectingScreen();
+            menuManager.EnableConnectingScreen();
             connectingLabel.text = "Connecting...";
-            var m = root.Q("MessageContainer");
-            m.style.display = DisplayStyle.None;
+            
+            /*var m = root.Q("MessageContainer");
+            m.style.display = DisplayStyle.None;*/
         }
     }
 
     public override void OnConnectedToMaster(){
         serverLabel.text = PhotonNetwork.CloudRegion.ToString();
+        var m_connectScreen = root.Q("ConnectingScreen");
 
-        if(root.Q("ConnectingScreen").style.display == DisplayStyle.Flex){
-            mainMenuManager.EnableMultiplayerScreen();
+        if(m_connectScreen.style.display == DisplayStyle.Flex){
+            m_connectScreen.Q("Progress").style.width = new StyleLength(Length.Percent(100));
+            m_connectScreen.Q("Progress").RegisterCallback<TransitionEndEvent>(ev => menuManager.EnableMultiplayerScreen());
+            
         }
-        
 
     }
+
+    public override void OnRegionListReceived(RegionHandler regionHandler)
+    {
+        var m_connectScreen = root.Q("ConnectingScreen");
+        m_connectScreen.Q("Progress").style.width = new StyleLength(Length.Percent(25));
+    }
+
+    public override void OnConnected()
+    {
+        var m_connectScreen = root.Q("ConnectingScreen");
+        m_connectScreen.Q("Progress").style.width = new StyleLength(Length.Percent(75));
+    }
+
+    
 
     public override void OnDisconnected(DisconnectCause cause){
         Debug.LogWarningFormat("Launcher: OnDisconnected() was called by PUN with reason {0}", cause);
 
         //UI
         var m = root.Q("MessageContainer");
-        mainMenuManager.EnableSearchOverlay(false);
-        m.style.display = DisplayStyle.Flex;
+        //menuManager.EnableSearchOverlay(false);
+        //m.style.display = DisplayStyle.Flex;
         connectMessageLabel.text = cause.ToString();
         connectingLabel.text = ("Disconnected");
         serverLabel.text = "Offline";
@@ -122,8 +141,8 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinRandomRoom(roomOptions.CustomRoomProperties, roomOptions.MaxPlayers);
 
         //UI
-        mainMenuManager.EnableSearchOverlay(true);
-        mainMenuManager.EnableHomeMenu();
+        menuManager.EnableMatchSearch();
+        menuManager.EnableHome();
         gameStatusLabel.text = "Searching for a match...";
     }
 
@@ -181,7 +200,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         
         //nameplates.Clear();
         //UI
-        mainMenuManager.EnableSearchOverlay(false);
+        menuManager.DisableMatchSearch();
         
     }
 
