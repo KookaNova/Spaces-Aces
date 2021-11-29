@@ -1,4 +1,71 @@
-﻿{
+{
+
+    "workbench.colorCustomizations":{
+        "[Monokai]": {
+            "editor.background": "#111915",
+            "editor.foreground": "#ABC8C0",
+            
+        }
+    },
+
+    "editor.tokenColorCustomizations": {
+        "[Monokai]": {
+            "textMateRules": [
+                {
+                    "scope":"entity",
+                    "settings": {
+                        "foreground": "#e6debf",
+                    }
+                },
+                {
+                    "scope":"entity.name.function",
+                    "settings": {
+                        "foreground": "#9BC53D",
+                    }
+                },
+                {
+                    "scope": "entity.name.function",
+                    "settings": {
+                        "foreground": "#9EE493",
+                        "fontStyle": "",
+                    }
+                },
+                {
+                    "scope": "entity.name.type",
+                    "settings": {
+                        "foreground": "#b8b8b8",
+                        "fontStyle": "",
+                    }
+                },
+                {
+                    "scope":"storage.type",
+                    "settings": {
+                        "foreground": "#41EAD4",
+                    }
+                },
+                {
+                    "scope": "storage",
+                    "settings": {
+                        "foreground": "#0B7A75",
+                    }
+                },
+                {
+                    "scope":"keyword.operator",
+                    "settings": {
+                        "foreground": "#FF9F1C",
+                    }
+                },
+                {
+                    "scope": "keyword.other",
+                    "settings": {
+                        "foreground": "#A96DA3",
+                    }
+                },
+
+            ]
+        }
+    },
+
     "files.exclude":
     {
         "**/.DS_Store":true,

@@ -1,13 +1,14 @@
 using System;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.UIElements;
 
-[ExecuteAlways]
 public class DisplaySystemTime : MonoBehaviour
-{
-    Text dateText;
-    private void Awake() {
-        dateText = GetComponent<Text>();
+{   
+    Label systemTime;
+
+    private void OnEnable() {
+        var root = GetComponent<UIDocument>().rootVisualElement;
+        systemTime = root.Q<Label>("SystemTime");
     }
 
     void LateUpdate()
@@ -17,7 +18,7 @@ public class DisplaySystemTime : MonoBehaviour
         int minute = time.Minute;
         string dayPart = "AM";
 
-        if(hour > 12){
+        if(hour >= 12){
             hour -= 12;
             dayPart = "PM";
         }
@@ -26,8 +27,6 @@ public class DisplaySystemTime : MonoBehaviour
         }
 
         string finalTime = hour.ToString() + ":" + minute.ToString("0#") + dayPart;
-        dateText.text = finalTime;
-
-        
+        systemTime.text = finalTime;
     }
 }
