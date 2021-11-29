@@ -1,0 +1,111 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Style.uss?fileID=7433441132597879392&amp;guid=5f5cd455162d302479a25627e01f7028&amp;type=3#Style" />
+    <MenuManager class="screen" style="flex-direction: column; overflow: hidden; justify-content: space-between;">
+        <ui:VisualElement name="Screen" style="justify-content: space-between; align-items: stretch; flex-direction: column; width: 100%; height: 100%; padding-left: 2%; padding-right: 2%; padding-top: 2%; padding-bottom: 2%; font-size: 18px;">
+            <ui:VisualElement name="TopBar" style="flex-direction: row; justify-content: space-between; display: flex; height: 7%;">
+                <Style src="project://database/Assets/UI/Style.uss?fileID=7433441132597879392&amp;guid=5f5cd455162d302479a25627e01f7028&amp;type=3#Style" />
+                <ui:Label text="MenuName" display-tooltip-when-elided="true" name="MenuName" class="midLabel" style="justify-content: center; -unity-text-align: middle-left; display: none;" />
+                <ui:VisualElement name="MenuSelector" style="flex-direction: row; transition-duration: 0.5s; display: none;">
+                    <ui:Button text="HOME" display-tooltip-when-elided="true" name="b_Home" enable-rich-text="false" class="topBarButton" />
+                    <ui:Button text="HANGAR" display-tooltip-when-elided="true" name="b_Hangar" enable-rich-text="false" class="topBarButton" />
+                    <ui:Button text="CHALLENGES" display-tooltip-when-elided="true" name="b_Challenges" enable-rich-text="false" class="topBarButton" />
+                    <ui:Button text="FRIENDS" display-tooltip-when-elided="true" name="b_Friends" enable-rich-text="false" class="topBarButton" />
+                    <ui:Button text="SETTINGS" display-tooltip-when-elided="true" name="b_Settings" enable-rich-text="false" class="topBarButton" />
+                </ui:VisualElement>
+                <ui:VisualElement style="width: 26%; flex-direction: row; justify-content: flex-end; height: 100%; align-items: stretch;">
+                    <ProfileIcon name="ThisProfile" class="profileIcon" style="width: 100%; display: none;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="CenterScreen" class="screen">
+                <ui:VisualElement name="ConnectingScreen" class="screen" style="display: none;">
+                    <Style src="project://database/Assets/UI/Style.uss?fileID=7433441132597879392&amp;guid=5f5cd455162d302479a25627e01f7028&amp;type=3#Style" />
+                    <ui:VisualElement name="Screen" class="screen" style="justify-content: space-between; flex-direction: row;">
+                        <ui:VisualElement />
+                        <ui:VisualElement style="justify-content: space-between; align-items: stretch; flex-direction: column;">
+                            <ui:Label text="ConnectingLabel" display-tooltip-when-elided="true" name="ConnectingLabel" class="strongLabel" style="margin-top: 0; -unity-text-align: upper-center;" />
+                            <ui:VisualElement name="ProgressContrainer" class="progressContainer" style="height: 3%;">
+                                <ui:VisualElement name="Progress" class="progressBar" style="transition-timing-function: linear; transition-duration: 0.1s;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="Friends" class="screen" style="justify-content: center; flex-direction: row; display: none;">
+                    <ui:ListView focusable="true" name="FriendsList" class="list" />
+                    <ui:ListView focusable="true" name="RecentList" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Credits" class="screen" style="flex-direction: row; justify-content: space-between; display: none;">
+                    <ui:VisualElement name="Con">
+                        <ui:Label text="Connor Cox" display-tooltip-when-elided="true" name="Label" class="midLabel" />
+                        <ui:Label text="Things" display-tooltip-when-elided="true" class="midLabel" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Ty" class="midLabel">
+                        <ui:Label text="Tyler Hales" display-tooltip-when-elided="true" name="Label" />
+                        <ui:Label text="Things" display-tooltip-when-elided="true" class="midLabel" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Ben">
+                        <ui:Label text="Ben Shurts" display-tooltip-when-elided="true" name="Label" class="midLabel" />
+                        <ui:Label text="Things" display-tooltip-when-elided="true" class="midLabel" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="MultiplayerScreen" class="screen" style="justify-content: center; flex-direction: row; display: none;">
+                    <ui:VisualElement name="Center" style="justify-content: center; flex-direction: row; align-items: stretch;">
+                        <ui:VisualElement name="PlayChoice" style="flex-direction: row; justify-content: space-around; align-items: stretch;">
+                            <ui:VisualElement name="Tall" style="flex-direction: row; width: 1000px; justify-content: space-between; height: 100%; margin-right: 0; padding-right: 10px;">
+                                <ui:Button display-tooltip-when-elided="true" name="Quickplay" usage-hints="DynamicTransform" class="pictureButton" style="background-image: url(&apos;project://database/Assets/Sprites/GamemodeIcon.png?fileID=21300000&amp;guid=096f1b68a97a5f34296a20109338e8d2&amp;type=3#GamemodeIcon&apos;); -unity-background-scale-mode: scale-and-crop; align-items: stretch; flex-direction: column-reverse; -unity-text-align: middle-left; justify-content: space-between; width: 50%; overflow: hidden; visibility: visible; display: flex; cursor: initial;">
+                                    <ui:Label text="Quickplay" display-tooltip-when-elided="true" class="overlayText" />
+                                </ui:Button>
+                                <ui:Button display-tooltip-when-elided="true" name="PartyGames" class="pictureButton" style="background-image: url(&apos;project://database/Assets/Sprites/GamemodeIcon.png?fileID=21300000&amp;guid=096f1b68a97a5f34296a20109338e8d2&amp;type=3#GamemodeIcon&apos;); -unity-background-scale-mode: scale-and-crop; align-items: stretch; flex-direction: column-reverse; -unity-text-align: middle-left; justify-content: space-between; width: 50%; display: flex; overflow: hidden;">
+                                    <ui:Label text="Party Games" display-tooltip-when-elided="true" class="overlayText" />
+                                </ui:Button>
+                            </ui:VisualElement>
+                            <ui:VisualElement name="Short" style="justify-content: flex-start; align-items: stretch; flex-direction: column; width: 50%; height: 100%;">
+                                <ui:Button display-tooltip-when-elided="true" name="PrivateGames" class="pictureButton" style="background-image: url(&apos;project://database/Assets/Sprites/GamemodeIcon.png?fileID=21300000&amp;guid=096f1b68a97a5f34296a20109338e8d2&amp;type=3#GamemodeIcon&apos;); -unity-background-scale-mode: scale-and-crop; max-width: none; align-items: stretch; width: auto; flex-direction: column-reverse; -unity-text-align: middle-left; justify-content: space-between; height: 50%; display: flex; padding-bottom: 5px; padding-top: 5px; padding-right: 5px; padding-left: 5px;">
+                                    <ui:Label text="Private Games" display-tooltip-when-elided="true" class="overlayText" />
+                                </ui:Button>
+                                <ui:Button display-tooltip-when-elided="true" name="Special" class="pictureButton" style="background-image: url(&apos;project://database/Assets/Sprites/GamemodeIcon.png?fileID=21300000&amp;guid=096f1b68a97a5f34296a20109338e8d2&amp;type=3#GamemodeIcon&apos;); -unity-background-scale-mode: scale-and-crop; max-width: none; align-items: stretch; width: auto; flex-direction: column-reverse; -unity-text-align: middle-left; justify-content: space-between; height: 50%; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px;">
+                                    <ui:Label text="Special Playlist" display-tooltip-when-elided="true" class="overlayText" />
+                                </ui:Button>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="Title" style="display: flex; width: 100%; height: 100%;">
+                    <Style src="project://database/Assets/UI/Style.uss?fileID=7433441132597879392&amp;guid=5f5cd455162d302479a25627e01f7028&amp;type=3#Style" />
+                    <ui:VisualElement name="Screen" class="screen" style="justify-content: center; align-items: center;">
+                        <ui:VisualElement style="justify-content: center; width: 85%; height: 85%;">
+                            <ui:Button display-tooltip-when-elided="true" name="Art" enable-rich-text="false" style="background-image: url(&apos;project://database/Assets/Sprites/SA%20Logo%20Gradient@2x.png?fileID=21300000&amp;guid=60b129382eb881849b935cac5cf0a969&amp;type=3#SA Logo Gradient@2x&apos;); height: 56%; -unity-background-scale-mode: scale-and-crop; width: auto; flex-direction: column; align-items: center; justify-content: center; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); flex-shrink: 0; overflow: visible; margin-bottom: -5%; color: rgb(238, 238, 238); background-color: rgba(0, 0, 0, 0); transition-duration: 1s; transition-timing-function: ease-out;" />
+                            <ui:Label text="Click to Start" display-tooltip-when-elided="true" name="Start" class="h1 strongLabel" style="border-left-width: 0; border-right-width: 0; border-top-width: 0; top: auto; -unity-text-align: upper-center; transition-duration: 0s;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="Bottom" style="width: 100%; height: auto; flex-direction: row; justify-content: space-between; flex-shrink: 0; display: flex;">
+                <ui:VisualElement style="justify-content: flex-end; width: 33%;">
+                    <ui:VisualElement name="HomeButtons" style="display: none; transition-duration: 0.5s; transition-timing-function: ease; justify-content: flex-end; align-items: stretch; overflow: visible;">
+                        <ui:Button text="MULTIPLAYER" display-tooltip-when-elided="true" enable-rich-text="true" name="Multiplayer" class="panelButton" />
+                        <ui:Button text="TRAINING" display-tooltip-when-elided="true" name="Training" class="panelButton" />
+                        <ui:Button text="CREDITS" display-tooltip-when-elided="true" name="Credits" class="panelButton" />
+                        <ui:Button text="STORY" display-tooltip-when-elided="true" name="Story" class="panelButton" />
+                        <ui:Button text="EXIT" display-tooltip-when-elided="true" name="Exit" class="panelButton" />
+                    </ui:VisualElement>
+                    <ui:Button text="RETURN" display-tooltip-when-elided="true" name="Return" class="actionButton" style="display: none; margin-right: 229px;" />
+                </ui:VisualElement>
+                <ui:VisualElement style="justify-content: flex-end; align-items: center; width: 33%;">
+                    <ui:VisualElement name="MatchSearch" style="justify-content: flex-end; width: auto; display: none;">
+                        <ui:Label text="Searching" display-tooltip-when-elided="true" name="GameStatus" class="midLabel" style="font-size: 40px;" />
+                        <ui:Button text="Cancel Search" display-tooltip-when-elided="true" name="CancelSearch" class="actionButton" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement style="justify-content: flex-end; width: 33%;">
+                    <ui:VisualElement name="Feed" style="padding-bottom: 20px; background-color: rgba(0, 21, 65, 0.16); border-left-color: rgb(0, 174, 255); border-right-color: rgb(0, 174, 255); border-top-color: rgb(0, 174, 255); border-bottom-color: rgb(0, 174, 255); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; height: 33%; display: none;" />
+                    <ui:VisualElement name="GameInfo" style="flex-direction: row; justify-content: flex-end; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; display: flex;">
+                        <ui:Label text="GDC" display-tooltip-when-elided="true" name="ServerName" class="baseLabel" style="padding-right: 1px; padding-left: 1px;" />
+                        <ui:Label text="0.13" display-tooltip-when-elided="true" name="VersionNumber" class="baseLabel" />
+                        <ui:Label text="12:00AM" display-tooltip-when-elided="true" name="SystemTime" class="baseLabel" style="padding-left: 50px;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </MenuManager>
+</ui:UXML>
