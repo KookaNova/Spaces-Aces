@@ -7,7 +7,7 @@ public class SceneController : MonoBehaviour
 
     public GamemodeData chosenGamemode;
     
-    string defaultScene = "Home Scene";
+    string defaultScene = "Home";
 
 
     void Awake() {
