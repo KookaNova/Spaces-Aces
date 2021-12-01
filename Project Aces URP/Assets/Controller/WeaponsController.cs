@@ -165,7 +165,6 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             //Is the object active and on camera? If not, skip drawing the indicators.
             if(!currentTargetSelection[i].gameObject.activeInHierarchy || !currentTargetSelection[i].GetComponentInChildren<MeshRenderer>().isVisible)
             {
-                Debug.Log(activeIndicators[i].name);
                 activeIndicators[i].SetActive(false);
                 continue;
             }
@@ -250,7 +249,6 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         }
 
         Vector2 fovPosition = fovCam.WorldToViewportPoint(currentTargetSelection[currentTarget].transform.position);
-        Debug.Log(fovPosition);
 
         if(fovPosition.x >= 1 || fovPosition.x <= 0 || fovPosition.y >= 1 || fovPosition.x <= 0){
 
