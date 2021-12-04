@@ -10,6 +10,9 @@ namespace Cox.PlayerControls{
 /// Input Controller >> SpacraftController >>instantiates>> Ship Prefab with WeaponsController, HUDController, and CameraController </summary>
 public class SpacecraftController : MonoBehaviourPunCallbacks
 {
+    [HideInInspector] public string playerName;
+    
+    private GameManager gameManager;
 
     #region  Spacecraft Variables
     [Header("Spacecraft Objects")]
@@ -54,6 +57,14 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
 
     #endregion
 
+    #region Multiplayer Variables
+    private ExitGames.Client.Photon.Hashtable customProperties;
+    private int kills = 0;
+    private int deaths = 0;
+    private int score = 0;
+
+    #endregion
+
 
 
     private float respawnTime = 5;
@@ -69,6 +80,18 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
 
     #region setup
     public override void OnEnable(){
+        gameManager = FindObjectOfType<GameManager>();
+
+        if(this.photonView.Owner != null){
+            if(photonView.IsMine){
+                photonView.Owner.NickName = "KookaNova";
+            }
+            playerName = this.photonView.Owner.NickName;
+        }
+        else{
+            playerName = "DebugMan";
+        }
+       
         isAwaitingRespawn = true;
         menuPrefab.SetActive(false);
         if(playerObject == null){
@@ -93,6 +116,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
             //instantiate the menuPrefab, weapons, hud, and camera controllers.
             menu = Instantiate(menuPrefab);
             weaponSystem = ship.GetComponentInChildren<WeaponsController>();
+            weaponSystem.owner = this;
             
             HudController = ship.GetComponentInChildren<PlayerHUDController>();
             HudController.currentCraft = this;
@@ -146,6 +170,18 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
 
         isAwaitingRespawn = false;
         HudController.IsLowHealth(false);
+
+        ApplyCustomData();
+
+    }
+
+    private void ApplyCustomData(){
+        customProperties = new ExitGames.Client.Photon.Hashtable(){
+            {"Score", score},
+            {"Kills", kills},
+            {"Deaths", deaths},
+        };
+        PhotonNetwork.SetPlayerCustomProperties(customProperties);
     }
 
     public void MenuButton(){
@@ -219,20 +255,6 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         currentSpeed = Mathf.Clamp(currentSpeed, minSpeed, maxSpeed);
 
         _rb.AddRelativeForce(0,0,currentSpeed, ForceMode.Acceleration);
-       
-        //activate health states
-        if(currentShields <= 0){
-            NoShield();
-        }
-
-        var healthPercentage = (maxHealth - currentHealth)/maxHealth;
-        if(currentHealth <= .25f){
-            LowHealth();
-        }
-
-        if(currentHealth <= 0){
-            Eliminate();
-        }
 
         //if shield is recharging, increment shield by recharge rate. If shields are maxed, stop recharging.
         if(isShieldRecharging){
@@ -281,13 +303,21 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
 
     #region Damage
     
-    public void TakeDamage(float damage){
+    public void TakeDamage(float damage, SpacecraftController attacker, string cause){
         isShieldRecharging = false;
         if(currentShields > 0){
             currentShields -= damage;
         }
         else{
+            NoShield();
             currentHealth -= damage;
+        }
+        if(currentHealth < 0){
+            Eliminate(attacker, cause);
+        }
+        var healthPercentage = (maxHealth - currentHealth)/maxHealth;
+        if(currentHealth <= .25f){
+            LowHealth();
         }
         //Stops the previous attempt to recharge shields and then retries;
         StopCoroutine(ShieldRechargeTimer());
@@ -298,7 +328,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     private void OnCollisionEnter(Collision collision) {
         //On collision with hazards or other players, damage the player, based partially on speed.
         if(collision.gameObject.layer == LayerMask.NameToLayer("Crash Hazard") || collision.gameObject.layer == LayerMask.NameToLayer("Player")){
-           TakeDamage(currentSpeed * 8);
+           TakeDamage(currentSpeed * 8, null, "accident");
         }
     }
 
@@ -307,7 +337,6 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     #region Player Health States
 
     public void NoShield(){
-        currentShields = 0;
         Debug.Log("Spacecraft: NoShield() called");
         //Do something when shields are gone
     }
@@ -319,8 +348,10 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         //Do something different related to low health
     }
 
-    public void Eliminate(){
-        Debug.Log("Spacecraft: Eliminate() called");
+    public void Eliminate(SpacecraftController attacker, string cause){
+        deaths++;
+
+        gameManager.FeedEvent(attacker, this, cause);
         //This happens when the players health reaches zero or they leave the arena.
         isAwaitingRespawn = true;
         currentHealth = 0;
@@ -339,6 +370,12 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         weaponSystem.gameObject.SetActive(false);
         ship.SetActive(false);
         StartCoroutine(RespawnTimer());
+
+        ApplyCustomData();
+
+    }
+
+    public  void TargetDestroyed(){
 
     }
 

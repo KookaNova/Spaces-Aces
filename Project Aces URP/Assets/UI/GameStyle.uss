@@ -1,0 +1,96 @@
+.scoreContainer {
+    background-color: rgb(68, 88, 108);
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.score {
+    -unity-font-definition: none;
+    font-size: 45px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    -unity-text-align: middle-center;
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    border-top-left-radius: 11px;
+    border-bottom-left-radius: 11px;
+    border-top-right-radius: 11px;
+    border-bottom-right-radius: 11px;
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/nasalization-rg.otf?fileID=12800000&guid=2f3a78fadadb162489e989f949893a3d&type=3#nasalization-rg');
+}
+
+.divider {
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    padding-left: 23px;
+    padding-right: 23px;
+    padding-top: 23px;
+    padding-bottom: 23px;
+    background-color: rgb(255, 255, 255);
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+.container {
+    background-color: rgba(0, 3, 67, 0.83);
+}
+
+.gradientClear {
+    background-color: rgba(202, 83, 83, 0);
+    background-image: url('project://database/Assets/Sprites/Gradient%20Square.png?fileID=2800000&guid=c5295c9f1cc247b4f94b22b3f3b36188&type=3#Gradient Square');
+    -unity-background-image-tint-color: rgba(172, 233, 255, 0.38);
+    -unity-background-scale-mode: stretch-to-fill;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+}
+
+.p1 {
+    -unity-font-definition: url('project://database/Assets/TextMesh%20Pro/Fonts/BAHNSCHRIFT%20SDF.asset?fileID=11400000&guid=bb11bb5e493f74248883e976094fed42&type=2#BAHNSCHRIFT SDF');
+    font-size: 32px;
+    color: rgb(207, 214, 128);
+    -unity-text-align: middle-center;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.feedItem {
+    -unity-text-align: middle-center;
+    white-space: nowrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    transition-duration: 0.5s;
+    opacity: 1;
+}
+
+.opacityOut {
+    background-color: rgba(0, 0, 0, 0);
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0);
+    opacity: 0;
+}

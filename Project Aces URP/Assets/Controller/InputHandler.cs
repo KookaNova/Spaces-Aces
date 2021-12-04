@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Photon.Pun;
+using UnityEngine.UIElements;
 
 
 namespace Cox.PlayerControls{
@@ -17,13 +18,17 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
     ControlInputActions _controls;
     Vector2 torqueInput, cursorInput;
 
+    VisualElement root;
+
     public override void OnEnable() {
+        root = FindObjectOfType<UIDocument>().rootVisualElement;
+
         cursorInput = new Vector2 (Screen.width / 2, Screen.height / 2);
         spacecraft = GetComponentInChildren<SpacecraftController>();
         _controls = new ControlInputActions();
         _controls.Flight.SetCallbacks(this);
         _controls.Flight.Enable();
-        Cursor.visible = false;
+        UnityEngine.Cursor.visible = false;
     }
     public override void OnDisable() {
         _controls.Flight.Disable();
@@ -43,8 +48,15 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
     }
 
     //Inputs
-    public void OnMenuButton(InputAction.CallbackContext context){
-        spacecraft.MenuButton();
+    public void OnMenuButton(InputAction.CallbackContext pressed){
+        if(pressed.ReadValueAsButton())
+        Debug.Log("pressed");
+        root.Q<GameUIManager>().ToggleMenu();
+    }
+    public void OnTabMenuButton(InputAction.CallbackContext pressed){
+        if(pressed.ReadValueAsButton())
+        Debug.Log("pressed");
+        root.Q<GameUIManager>().ToggleTab();
     }
     public void OnBrake(InputAction.CallbackContext value){
         brakeInput = value.ReadValue<float>();

@@ -5,8 +5,9 @@ using Photon.Pun;
 namespace Cox.PlayerControls{
 public class GunAmmoBehaviour : MonoBehaviour
 {
-    [SerializeField]
-    private float destroyTime = 6, colliderDelay = .1f;
+    [HideInInspector] public SpacecraftController owner = null;
+
+    [SerializeField] private float destroyTime = 6, colliderDelay = .1f;
     public float damageOutput = 223;
     public GameObject impactObj;
 
@@ -24,8 +25,8 @@ public class GunAmmoBehaviour : MonoBehaviour
             impact.transform.position = transform.position;
         }
         
-        if(obj.gameObject.GetComponent<SpacecraftController>()){
-            obj.gameObject.GetComponent<SpacecraftController>().TakeDamage(damageOutput);
+        if(obj.gameObject.GetComponentInParent<SpacecraftController>()){
+            obj.gameObject.GetComponentInParent<SpacecraftController>().TakeDamage(damageOutput, owner, "gun");
         }
         PhotonNetwork.Destroy(this.gameObject);
     }

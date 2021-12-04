@@ -16,6 +16,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         TeamB,
         Global
     }
+    [HideInInspector] public SpacecraftController owner = null;
 
     [SerializeField] private TargetingMode targMode = TargetingMode.TeamA;
     [SerializeField] private Canvas worldHud, overlayHud;
@@ -163,12 +164,10 @@ public class WeaponsController : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < activeIndicators.Count; i++){
             //Is the object active and on camera? If not, skip drawing the indicators.
-            if(!currentTargetSelection[i].gameObject.activeInHierarchy || !currentTargetSelection[i].GetComponentInChildren<MeshRenderer>().isVisible)
-            {
+            if(currentTargetSelection[i].gameObject.activeInHierarchy == false){
                 activeIndicators[i].SetActive(false);
                 continue;
             }
-            
             
             //raycast
             int layermask = 1 << 14;
@@ -319,7 +318,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
                currentTarget = 0;
             }
            
-            if(!currentTargetSelection[i].GetComponentInChildren<MeshRenderer>().isVisible || !currentTargetSelection[currentTarget].gameObject.activeInHierarchy){
+            if(!currentTargetSelection[currentTarget].gameObject.activeInHierarchy){
                 Debug.Log("target not visible, incrementing");
                 if(i == currentTargetSelection.Count - 1){
                     currentTarget = -1;
@@ -401,7 +400,9 @@ public class WeaponsController : MonoBehaviourPunCallbacks
                 var g = PhotonNetwork.Instantiate(ammoType.name, gunPosition[i].position, gunPosition[i].rotation);
                 gunCannonAudio.Play();
                 g.GetComponent<Rigidbody>().velocity = gunPosition[i].transform.forward * gunSpeed;
-                g.GetComponent<GunAmmoBehaviour>().damageOutput += gunModifier;
+                var behaviour = g.GetComponent<GunAmmoBehaviour>();
+                behaviour.damageOutput += gunModifier;
+                behaviour.owner = owner;
                 yield return new WaitForSeconds(fireRate);
             }
             gunIsFiring = false;
@@ -423,16 +424,17 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         canLaunchMissile = false;
 
         if(missileLocked == true){
-            var m = Instantiate(missileType.gameObject, missilePosition[currentMis].position, missilePosition[currentMis].rotation);
+            var m = PhotonNetwork.Instantiate(missileType.gameObject.name, missilePosition[currentMis].position, missilePosition[currentMis].rotation);
             var behaviour = m.GetComponent<MissileBehaviour>();
             behaviour.currentSpeed = currentSpeed;
+            behaviour.owner = owner;
             behaviour.target = currentTargetSelection[currentTarget].gameObject;
             behaviour.damageOutput += missileModifier;
             missilesAvailable--;
             UpdateHUD();
         }
         else{
-            var m = Instantiate(missileType.gameObject, missilePosition[currentMis].position, missilePosition[currentMis].rotation);
+            var m = PhotonNetwork.Instantiate(missileType.gameObject.name, missilePosition[currentMis].position, missilePosition[currentMis].rotation);
             var behaviour = m.GetComponent<MissileBehaviour>();
             behaviour.currentSpeed = currentSpeed;
             behaviour.damageOutput += missileModifier;
