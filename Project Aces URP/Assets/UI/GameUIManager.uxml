@@ -1,0 +1,23 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/GameStyle.uss?fileID=7433441132597879392&amp;guid=427ebf016c89ab8408178a645774230f&amp;type=3#GameStyle" />
+    <GameUIManager style="width: 100%; height: 100%;">
+        <ui:VisualElement name="Screen" style="width: 100%; height: 100%; justify-content: space-between;">
+            <ui:VisualElement name="Top" style="align-items: center; flex-direction: row; justify-content: space-between;">
+                <ui:VisualElement style="width: 33%;" />
+                <ui:VisualElement name="GameData" style="align-items: center; flex-direction: row; justify-content: space-around;">
+                    <ui:Label text="12" display-tooltip-when-elided="false" name="TeamAScore" enable-rich-text="true" class="score" style="border-right-width: 15px;" />
+                    <ui:VisualElement name="Divider" class="divider" />
+                    <ui:Label text="34" display-tooltip-when-elided="true" name="TeamBScore" class="score" style="border-left-width: 15px;" />
+                </ui:VisualElement>
+                <ui:VisualElement style="overflow: visible; height: 100%; width: 33%; flex-direction: row-reverse; justify-content: flex-end; align-items: flex-start;">
+                    <ui:VisualElement name="EventFeed" style="width: 100%;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="Center" style="width: 100%; height: 100%;">
+                <ui:VisualElement name="TabScreen" class="container" style="height: 100%; display: none;" />
+                <ui:VisualElement name="StartScreen" class="container" style="height: 100%; display: none;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Bottom" />
+        </ui:VisualElement>
+    </GameUIManager>
+</ui:UXML>

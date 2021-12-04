@@ -9,11 +9,11 @@ public class MissileBehaviour : MonoBehaviour
 {
     public int destroyTime = 10;
     public float missileSpeed = 800, turningLimit = 20, missProbability = 2, currentSpeed, damageOutput = 1000;
-    [SerializeField]
-    private GameObject explosion;
-    [HideInInspector]
-    public GameObject target = null;
-    public Rigidbody rb;
+
+    [SerializeField]private GameObject explosion;
+    [HideInInspector]public SpacecraftController owner = null;
+    [HideInInspector]public GameObject target = null;
+    [HideInInspector]public Rigidbody rb;
     private Collider _col;
     private bool startCasting = false;
     private TrailRenderer trail;
@@ -77,13 +77,12 @@ public class MissileBehaviour : MonoBehaviour
 
     private void OnCollisionEnter(Collision obj)
     {
-
         Instantiate(explosion, transform.position, Quaternion.identity);
-        if(obj.gameObject.GetComponent<SpacecraftController>()){
-            obj.gameObject.GetComponent<SpacecraftController>().TakeDamage(damageOutput);
+        if(obj.gameObject.GetComponentInParent<SpacecraftController>()){
+            obj.gameObject.GetComponentInParent<SpacecraftController>().TakeDamage(damageOutput, owner, "missile");
         }
         trail.transform.parent = null;
-        Destroy(gameObject);
+        PhotonNetwork.Destroy(gameObject);
     }
 
 
@@ -100,7 +99,8 @@ public class MissileBehaviour : MonoBehaviour
         {
             rb.transform.LookAt(target.transform);
         }
-        yield return new WaitForSecondsRealtime(destroyTime); trail.transform.parent = null; Destroy(gameObject);
+        yield return new WaitForSecondsRealtime(destroyTime); 
+        trail.transform.parent = null; PhotonNetwork.Destroy(gameObject);
 
     }
 }

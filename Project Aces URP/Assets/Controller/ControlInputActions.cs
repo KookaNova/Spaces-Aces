@@ -37,6 +37,15 @@ public partial class @ControlInputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""TabMenuButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""8b0d834a-1333-40e4-aeac-c612e6a31944"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Thrust"",
                     ""type"": ""PassThrough"",
                     ""id"": ""39feed91-9511-46e5-ad51-1861b7e92efc"",
@@ -643,6 +652,28 @@ public partial class @ControlInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""CameraMouse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e37233f7-5ee6-4e5d-8d59-6acc1467ae2d"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Basic Controls"",
+                    ""action"": ""TabMenuButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""25f385fa-f5e8-4b5f-9f95-40c8bafab50e"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Basic Controls"",
+                    ""action"": ""TabMenuButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -1212,6 +1243,7 @@ public partial class @ControlInputActions : IInputActionCollection2, IDisposable
         // Flight
         m_Flight = asset.FindActionMap("Flight", throwIfNotFound: true);
         m_Flight_MenuButton = m_Flight.FindAction("MenuButton", throwIfNotFound: true);
+        m_Flight_TabMenuButton = m_Flight.FindAction("TabMenuButton", throwIfNotFound: true);
         m_Flight_Thrust = m_Flight.FindAction("Thrust", throwIfNotFound: true);
         m_Flight_Brake = m_Flight.FindAction("Brake", throwIfNotFound: true);
         m_Flight_Yaw = m_Flight.FindAction("Yaw", throwIfNotFound: true);
@@ -1300,6 +1332,7 @@ public partial class @ControlInputActions : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Flight;
     private IFlightActions m_FlightActionsCallbackInterface;
     private readonly InputAction m_Flight_MenuButton;
+    private readonly InputAction m_Flight_TabMenuButton;
     private readonly InputAction m_Flight_Thrust;
     private readonly InputAction m_Flight_Brake;
     private readonly InputAction m_Flight_Yaw;
@@ -1321,6 +1354,7 @@ public partial class @ControlInputActions : IInputActionCollection2, IDisposable
         private @ControlInputActions m_Wrapper;
         public FlightActions(@ControlInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @MenuButton => m_Wrapper.m_Flight_MenuButton;
+        public InputAction @TabMenuButton => m_Wrapper.m_Flight_TabMenuButton;
         public InputAction @Thrust => m_Wrapper.m_Flight_Thrust;
         public InputAction @Brake => m_Wrapper.m_Flight_Brake;
         public InputAction @Yaw => m_Wrapper.m_Flight_Yaw;
@@ -1349,6 +1383,9 @@ public partial class @ControlInputActions : IInputActionCollection2, IDisposable
                 @MenuButton.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnMenuButton;
                 @MenuButton.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnMenuButton;
                 @MenuButton.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnMenuButton;
+                @TabMenuButton.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnTabMenuButton;
+                @TabMenuButton.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnTabMenuButton;
+                @TabMenuButton.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnTabMenuButton;
                 @Thrust.started -= m_Wrapper.m_FlightActionsCallbackInterface.OnThrust;
                 @Thrust.performed -= m_Wrapper.m_FlightActionsCallbackInterface.OnThrust;
                 @Thrust.canceled -= m_Wrapper.m_FlightActionsCallbackInterface.OnThrust;
@@ -1404,6 +1441,9 @@ public partial class @ControlInputActions : IInputActionCollection2, IDisposable
                 @MenuButton.started += instance.OnMenuButton;
                 @MenuButton.performed += instance.OnMenuButton;
                 @MenuButton.canceled += instance.OnMenuButton;
+                @TabMenuButton.started += instance.OnTabMenuButton;
+                @TabMenuButton.performed += instance.OnTabMenuButton;
+                @TabMenuButton.canceled += instance.OnTabMenuButton;
                 @Thrust.started += instance.OnThrust;
                 @Thrust.performed += instance.OnThrust;
                 @Thrust.canceled += instance.OnThrust;
@@ -1573,6 +1613,7 @@ public partial class @ControlInputActions : IInputActionCollection2, IDisposable
     public interface IFlightActions
     {
         void OnMenuButton(InputAction.CallbackContext context);
+        void OnTabMenuButton(InputAction.CallbackContext context);
         void OnThrust(InputAction.CallbackContext context);
         void OnBrake(InputAction.CallbackContext context);
         void OnYaw(InputAction.CallbackContext context);

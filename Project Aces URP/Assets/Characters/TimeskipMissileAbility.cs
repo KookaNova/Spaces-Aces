@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using Cox.PlayerControls;
+using Photon.Pun;
 
 public class TimeskipMissileAbility : AbilityHandler
 {
@@ -25,8 +26,9 @@ public class TimeskipMissileAbility : AbilityHandler
             var weapons = player.weaponSystem;
 
             //launches missile
-            GameObject m = Instantiate(weapons.missileType.gameObject, weapons.missilePosition[weapons.currentMis].position, weapons.missilePosition[weapons.currentMis].rotation);
+            GameObject m =  PhotonNetwork.Instantiate(weapons.missileType.gameObject.name, weapons.missilePosition[weapons.currentMis].position, weapons.missilePosition[weapons.currentMis].rotation);
             missile = m.GetComponent<MissileBehaviour>();
+            missile.owner = player;
             missile.currentSpeed = player.GetComponent<SpacecraftController>().currentSpeed;
             
             if(weapons.missileLocked){

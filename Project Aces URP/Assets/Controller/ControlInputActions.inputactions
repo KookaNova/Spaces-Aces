@@ -11,7 +11,17 @@
                     "id": "cc0bce3e-3366-4aff-9e47-3f802c411806",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "TabMenuButton",
+                    "type": "Button",
+                    "id": "8b0d834a-1333-40e4-aeac-c612e6a31944",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Thrust",
@@ -19,7 +29,8 @@
                     "id": "39feed91-9511-46e5-ad51-1861b7e92efc",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Brake",
@@ -27,7 +38,8 @@
                     "id": "3fc556eb-640e-42df-a3d5-da8bb14c2e19",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Yaw",
@@ -35,7 +47,8 @@
                     "id": "d1a91c8b-2259-4247-94b2-3818ad2383bb",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Torque",
@@ -43,7 +56,8 @@
                     "id": "30f87051-4450-490b-a645-54055514bcf6",
                     "expectedControlType": "Vector2",
                     "processors": "InvertVector2(invertY=false)",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Gun Fire",
@@ -51,7 +65,8 @@
                     "id": "c608c628-d07a-4850-afe5-190bd92bcf65",
                     "expectedControlType": "Button",
                     "processors": "InvertVector2(invertY=false)",
-                    "interactions": "Press"
+                    "interactions": "Press",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "CameraChange",
@@ -59,7 +74,8 @@
                     "id": "d9730d32-a327-48b3-9fc7-316b4c39a803",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press"
+                    "interactions": "Press",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "TargetModeAdd",
@@ -67,7 +83,8 @@
                     "id": "d252cb79-d319-4f5e-9a1d-3b1ed2e5ba59",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "TargetModeSub",
@@ -75,7 +92,8 @@
                     "id": "ebda4c52-725e-49ec-8885-8fc11c20b319",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "CycleTargets",
@@ -83,7 +101,8 @@
                     "id": "4f705ef8-9272-42d1-80eb-76a198b91983",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "MissileButton",
@@ -91,7 +110,8 @@
                     "id": "831ca93d-ed42-46b1-b749-770b1ee0df39",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Primary Ability",
@@ -99,7 +119,8 @@
                     "id": "c794cb57-8f84-4362-88e9-d22889c3201c",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Secondary Ability",
@@ -107,7 +128,8 @@
                     "id": "d2f5022b-a86b-448b-9422-99bd9d1fccd8",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Ace Ability",
@@ -115,7 +137,8 @@
                     "id": "4003d615-b0dd-4507-a7a0-4954a08fdef2",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "CameraStick",
@@ -123,7 +146,8 @@
                     "id": "b43eafe0-6452-4c98-95ba-3e12b1fe2f1d",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "CameraTargetLock",
@@ -131,7 +155,8 @@
                     "id": "450277f3-9615-4df5-9e5d-a7bc680ed88a",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "CameraMouse",
@@ -139,7 +164,8 @@
                     "id": "64d68f33-742e-4614-8393-e7082a7f3c40",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -604,6 +630,28 @@
                     "action": "CameraMouse",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e37233f7-5ee6-4e5d-8d59-6acc1467ae2d",
+                    "path": "<Gamepad>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Basic Controls",
+                    "action": "TabMenuButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "25f385fa-f5e8-4b5f-9f95-40c8bafab50e",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Basic Controls",
+                    "action": "TabMenuButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -617,7 +665,8 @@
                     "id": "91be01a6-80e0-4b62-ad30-8bc732524083",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Submit",
@@ -625,7 +674,8 @@
                     "id": "c7725986-1015-47a3-9b77-968659df9115",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Cancel",
@@ -633,7 +683,8 @@
                     "id": "95339349-bf50-4a82-bfc7-8a091f4868b3",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Point",
@@ -641,7 +692,8 @@
                     "id": "b3f68b04-4141-4492-897c-28a7c0b8699e",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Click",
@@ -649,7 +701,8 @@
                     "id": "a55dc20c-f11a-4f1d-816b-e078f6a868cf",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "ScrollWheel",
@@ -657,7 +710,8 @@
                     "id": "aa55a057-d81b-4234-8d15-fdca928ab5d9",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "MiddleClick",
@@ -665,7 +719,8 @@
                     "id": "63fb6804-afb2-4dc9-bbc6-ed2a9157636f",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "RightClick",
@@ -673,7 +728,8 @@
                     "id": "38242aee-0b41-46bb-a911-92c8c382d9d2",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "TrackedDevicePosition",
@@ -681,7 +737,8 @@
                     "id": "6bb62b04-73fa-402c-b803-baa993f01c93",
                     "expectedControlType": "Vector3",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "TrackedDeviceOrientation",
@@ -689,7 +746,8 @@
                     "id": "60d42dc7-3d3a-4c93-8d8f-797eb7629819",
                     "expectedControlType": "Quaternion",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
