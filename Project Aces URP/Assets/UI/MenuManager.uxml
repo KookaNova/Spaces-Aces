@@ -6,11 +6,11 @@
                 <Style src="project://database/Assets/UI/Style.uss?fileID=7433441132597879392&amp;guid=5f5cd455162d302479a25627e01f7028&amp;type=3#Style" />
                 <ui:Label text="MenuName" display-tooltip-when-elided="true" name="MenuName" class="midLabel" style="justify-content: center; -unity-text-align: middle-left; display: none;" />
                 <ui:VisualElement name="MenuSelector" style="flex-direction: row; transition-duration: 0.5s; display: none;">
-                    <ui:Button text="HOME" display-tooltip-when-elided="true" name="b_Home" enable-rich-text="false" class="topBarButton" />
-                    <ui:Button text="HANGAR" display-tooltip-when-elided="true" name="b_Hangar" enable-rich-text="false" class="topBarButton" />
-                    <ui:Button text="CHALLENGES" display-tooltip-when-elided="true" name="b_Challenges" enable-rich-text="false" class="topBarButton" />
-                    <ui:Button text="FRIENDS" display-tooltip-when-elided="true" name="b_Friends" enable-rich-text="false" class="topBarButton" />
-                    <ui:Button text="SETTINGS" display-tooltip-when-elided="true" name="b_Settings" enable-rich-text="false" class="topBarButton" />
+                    <ui:Button text="HOME" display-tooltip-when-elided="true" name="b_Home" enable-rich-text="false" class="panelButton topButtons" />
+                    <ui:Button text="HANGAR" display-tooltip-when-elided="true" name="b_Hangar" enable-rich-text="false" class="panelButton topButtons" />
+                    <ui:Button text="CHALLENGES" display-tooltip-when-elided="true" name="b_Challenges" enable-rich-text="false" class="panelButton topButtons" />
+                    <ui:Button text="FRIENDS" display-tooltip-when-elided="true" name="b_Friends" enable-rich-text="false" class="panelButton topButtons" />
+                    <ui:Button text="SETTINGS" display-tooltip-when-elided="true" name="b_Settings" enable-rich-text="false" class="panelButton topButtons" />
                 </ui:VisualElement>
                 <ui:VisualElement style="width: 26%; flex-direction: row; justify-content: flex-end; height: 100%; align-items: stretch;">
                     <ProfileIcon name="ThisProfile" class="profileIcon" style="width: 100%; display: none;" />
@@ -83,11 +83,11 @@
             <ui:VisualElement name="Bottom" style="width: 100%; height: auto; flex-direction: row; justify-content: space-between; flex-shrink: 0; display: flex;">
                 <ui:VisualElement style="justify-content: flex-end; width: 33%;">
                     <ui:VisualElement name="HomeButtons" style="display: none; transition-duration: 0.5s; transition-timing-function: ease; justify-content: flex-end; align-items: stretch; overflow: visible;">
-                        <ui:Button text="MULTIPLAYER" display-tooltip-when-elided="true" enable-rich-text="true" name="Multiplayer" class="panelButton" />
-                        <ui:Button text="TRAINING" display-tooltip-when-elided="true" name="Training" class="panelButton" />
-                        <ui:Button text="CREDITS" display-tooltip-when-elided="true" name="Credits" class="panelButton" />
-                        <ui:Button text="STORY" display-tooltip-when-elided="true" name="Story" class="panelButton" />
-                        <ui:Button text="EXIT" display-tooltip-when-elided="true" name="Exit" class="panelButton" />
+                        <ui:Button text="MULTIPLAYER" display-tooltip-when-elided="true" enable-rich-text="true" name="Multiplayer" class="panelButton sideButtons" />
+                        <ui:Button text="TRAINING" display-tooltip-when-elided="true" name="Training" class="panelButton sideButtons" />
+                        <ui:Button text="CREDITS" display-tooltip-when-elided="true" name="Credits" class="panelButton sideButtons" />
+                        <ui:Button text="STORY" display-tooltip-when-elided="true" name="Story" class="panelButton sideButtons" />
+                        <ui:Button text="EXIT" display-tooltip-when-elided="true" name="Exit" class="panelButton sideButtons" />
                     </ui:VisualElement>
                     <ui:Button text="RETURN" display-tooltip-when-elided="true" name="Return" class="actionButton" style="display: none; margin-right: 229px;" />
                 </ui:VisualElement>
