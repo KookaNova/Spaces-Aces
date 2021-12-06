@@ -19,17 +19,17 @@ public class FeedItem : VisualElement
         leftName = new Label();
         leftName.text = "SideA";
         leftName.name = "LeftName";
-        leftName.AddToClassList("p1");
+        leftName.AddToClassList("nas1");
 
         action = new Label();
         action.text = " => ";
         action.name = "Action";
-        action.AddToClassList("p1");
+        action.AddToClassList("nas1");
 
         rightName = new Label();
         rightName.text = "SideB";
         rightName.name = "RightName";
-        rightName.AddToClassList("p1");
+        rightName.AddToClassList("nas1");
 
         this.Add(leftName); 
         this.Add(action);

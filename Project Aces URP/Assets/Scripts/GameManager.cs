@@ -14,11 +14,16 @@ public class GameManager : MonoBehaviourPunCallbacks
     public Transform[] teamASpawnpoints, teamBSpawnpoints;
     public bool isSelectLoaded = false;
 
+    [Tooltip("The amount of time in seconds that the match will last.")]
+    [SerializeField] private int gameTimer = 600;
+
     //UI
     private VisualElement root, feed;
 
 
     private Scene mainScene;
+
+    #region GameStart
 
     private void Start() {
         //currentGamemode = FindObjectOfType<SceneController>().chosenGamemode;
@@ -35,6 +40,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             PhotonNetwork.CreateRoom(null, null);
         }
         SpawnPlayer();
+        StartCoroutine(GameTimer());
         //OpenSelectMenu();
 
     }
@@ -63,13 +69,31 @@ public class GameManager : MonoBehaviourPunCallbacks
         Debug.LogFormat("GameManager: SpawnPlayer(), Spawned player {0}", p);
     }
 
+    private IEnumerator StartCheck(){
+        yield return new WaitForSeconds(1);
+
+    }
+
+    private void StartGame(){
+
+    }
+
+    private void GameOver(){
+        Debug.Log("GameOver() Called! Game has ended!");
+
+    }
+
+    #endregion
+
+    #region Leaving
     public override void OnLeftRoom(){
         SceneManager.LoadScene("Main Menu", LoadSceneMode.Single);
     }
 
     public void LeaveRoom(){
         PhotonNetwork.LeaveRoom();
-    }
+    }    
+    #endregion
 
     #region UI
 
@@ -83,7 +107,32 @@ public class GameManager : MonoBehaviourPunCallbacks
         StartCoroutine(item.feedTimer());
 
     }
+
     #endregion
+
+
+
+    private IEnumerator GameTimer(){
+        int minutes = Mathf.CeilToInt(gameTimer /60);
+        int seconds = gameTimer % 60;
+
+        string timeText = minutes.ToString() + ":" + seconds.ToString("0#");
+
+        root.Q<Label>("GameTimer").text = timeText;
+        yield return new WaitForSecondsRealtime(1);
+
+        gameTimer--;
+        if(gameTimer <= 0){
+            GameOver();
+        }
+
+        StartCoroutine(GameTimer());
+
+
+        
+    }
+
+
 
 
 }

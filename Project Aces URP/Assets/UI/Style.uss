@@ -17,10 +17,8 @@
 }
 
 .panelButton {
-    background-image: url('project://database/Assets/Sprites/Nameplates/Vertical%20Gradient.jpg?fileID=21300000&guid=94d03b176e516264e8cd6d31b1930268&type=3#Vertical Gradient');
-    -unity-background-image-tint-color: rgba(126, 223, 255, 0);
     top: auto;
-    color: rgb(197, 197, 197);
+    color: rgb(221, 249, 244);
     font-size: 24px;
     -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/BAHNSCHRIFT.TTF?fileID=12800000&guid=b8a3fef9f615d4b458db3dcec0da4da1&type=3#BAHNSCHRIFT');
     -unity-font-definition: none;
@@ -28,15 +26,14 @@
     white-space: normal;
     transition-duration: 0.2s;
     transition-delay: 0s;
-    background-color: rgba(0, 0, 0, 0);
     border-left-width: 1px;
     border-right-width: 1px;
     border-top-width: 1px;
     border-bottom-width: 1px;
-    border-left-color: rgba(214, 214, 214, 0);
-    border-right-color: rgba(214, 214, 214, 0);
-    border-top-color: rgb(214, 214, 214);
-    border-bottom-color: rgb(214, 214, 214);
+    border-left-color: rgb(221, 249, 244);
+    border-right-color: rgb(221, 249, 244);
+    border-top-color: rgb(221, 249, 244);
+    border-bottom-color: rgb(221, 249, 244);
     height: auto;
     margin-left: 0;
     margin-right: 5px;
@@ -52,6 +49,7 @@
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
     align-items: flex-start;
+    background-color: rgba(0, 0, 0, 0);
 }
 
 .panelButton:hover {
@@ -59,57 +57,30 @@
     translate: 0 0;
     scale: 1.03 1.03;
     rotate: 0;
-    transform-origin: left;
-    color: rgb(41, 41, 41);
-    background-color: rgba(255, 255, 255, 0.89);
-    border-left-width: 1px;
-    border-right-width: 1px;
+    color: rgb(37, 62, 95);
+    background-color: rgb(145, 247, 249);
+    -unity-font-style: normal;
+}
+
+.sideButtons {
+    border-left-width: 0;
+    border-right-width: 0;
     border-top-width: 1px;
     border-bottom-width: 1px;
-    border-left-color: rgb(82, 82, 82);
-    border-right-color: rgb(89, 89, 89);
-    border-top-color: rgb(156, 156, 156);
-    border-bottom-color: rgb(38, 38, 38);
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    -unity-font-style: bold;
+    transform-origin: left;
 }
 
-.topBarButton {
-    -unity-background-image-tint-color: rgb(157, 243, 255);
-    background-image: none;
-    background-color: rgba(137, 137, 137, 0);
-    color: rgb(217, 217, 217);
-    -unity-font-definition: none;
-    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/BAHNSCHRIFT.TTF?fileID=12800000&guid=b8a3fef9f615d4b458db3dcec0da4da1&type=3#BAHNSCHRIFT');
-    font-size: 18px;
-    padding-left: 50px;
-    padding-right: 50px;
-    padding-top: 25px;
-    padding-bottom: 25px;
+.topButtons {
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 0;
+    border-bottom-width: 0;
     -unity-text-align: middle-center;
-    border-left-color: rgb(233, 233, 233);
-    border-right-color: rgb(233, 233, 233);
-    border-top-color: rgba(0, 0, 0, 0);
-    border-bottom-color: rgba(233, 233, 233, 0);
-    transition-duration: 0.2s;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    margin-left: -1px;
-    margin-right: 0;
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
-.topBarButton:hover {
-    background-color: rgb(255, 255, 255);
-    -unity-font-style: normal;
-    color: rgb(43, 43, 43);
-    scale: 1 1.19;
+    padding-left: 3%;
+    padding-right: 3%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    transform-origin: top;
 }
 
 .launchButton {
@@ -147,10 +118,10 @@
     border-top-width: 2px;
     border-bottom-width: 2px;
     background-color: rgba(0, 0, 0, 0);
-    border-left-color: rgb(255, 255, 255);
-    border-right-color: rgb(255, 255, 255);
-    border-top-color: rgb(255, 255, 255);
-    border-bottom-color: rgb(255, 255, 255);
+    border-left-color: rgb(221, 249, 244);
+    border-right-color: rgb(221, 249, 244);
+    border-top-color: rgb(221, 249, 244);
+    border-bottom-color: rgb(221, 249, 244);
     font-size: 30px;
     transition-duration: 0.2s;
     color: rgb(229, 229, 229);
@@ -159,7 +130,7 @@
 }
 
 .actionButton:hover {
-    background-color: rgba(212, 172, 31, 0.86);
+    background-color: rgb(223, 188, 85);
     scale: 1.01 1.01;
     translate: 0 0;
     transform-origin: center;
@@ -314,7 +285,7 @@
     -unity-text-align: middle-left;
     white-space: nowrap;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.62);
-    color: rgba(255, 255, 255, 255);
+    color: rgb(255, 255, 255);
 }
 
 .p_Emblem {
@@ -340,7 +311,7 @@
 .p_Level {
     -unity-text-align: upper-right;
     -unity-font-definition: url('project://database/Assets/TextMesh%20Pro/Fonts/BAHNSCHRIFT%20SDF.asset?fileID=11400000&guid=bb11bb5e493f74248883e976094fed42&type=2#BAHNSCHRIFT SDF');
-    color: rgba(244, 255, 0, 255);
+    color: rgb(244, 255, 0);
     text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.55);
 }
 
@@ -354,10 +325,10 @@
 .profileIcon:hover {
     scale: 1.03 1.03;
     transform-origin: center;
-    border-left-color: rgba(255, 227, 0, 255);
-    border-right-color: rgba(255, 227, 0, 255);
-    border-top-color: rgba(255, 227, 0, 255);
-    border-bottom-color: rgba(255, 227, 0, 255);
+    border-left-color: rgb(255, 227, 0);
+    border-right-color: rgb(255, 227, 0);
+    border-top-color: rgb(255, 227, 0);
+    border-bottom-color: rgb(255, 227, 0);
     border-left-width: 1px;
     border-right-width: 1px;
     border-top-width: 1px;
