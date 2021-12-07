@@ -11,7 +11,7 @@ public class ShipHandler : ScriptableObject
     public string shipName;
     [TextArea( 2, 50 )]
     public string bio = "Ship bio...";
-    public Sprite shipIcon, nameArt;
+    public Texture2D shipIcon, nameArt;
     public GameObject shipPrefab, displayShip;
     [HideInInspector]
     public WeaponsController weaponsController;

@@ -1,22 +1,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 namespace Cox.PlayerControls{
 public class PlayerHUDController : MonoBehaviour
 {
     //Canvases
-    [SerializeField] private GameObject firstPersonHUD, thirdPersonHUD, OverlayHUD;
+    [SerializeField] private GameObject firstPersonHUD, OverlayHUD;
+    VisualElement root;
 
     //UI displayed for character items like abilities and portraits.
     [Header("Character UI")]
-    [SerializeField] private Image avatarImage;
     private CharacterHandler chosenCharacter;
 
     //UI displayed for ship UI.
     [Header("Ship UI")]
     [SerializeField] private GameObject lowHealthIndicator;
-    [SerializeField] private List<Image> speedBar, thrustBar, healthBar, shieldBar;
+    [SerializeField] private List<UnityEngine.UI.Image> speedBar, thrustBar, healthBar, shieldBar;
     [SerializeField] private List<Text> speedText, healthText, shieldText;
     [HideInInspector] public SpacecraftController currentCraft;
 
@@ -24,6 +25,9 @@ public class PlayerHUDController : MonoBehaviour
     private float currentSpeed, maxSpeed, thrustInput, currentHealth, maxHealth, currentShields, maxShields;
 
     public void Activate(){
+
+        root = FindObjectOfType<UIDocument>().rootVisualElement;
+
         if(currentCraft == null){
             Debug.LogError("PlayerHUDController: Activate(), currentCraft is null, script can't function");
             return;
@@ -41,22 +45,20 @@ public class PlayerHUDController : MonoBehaviour
         maxHealth = currentCraft.maxHealth;
         maxShields = currentCraft.maxShield;
 
-        avatarImage.sprite = chosenCharacter.portrait;
+        SetPlayerIcons();
     }
     public void FirstPersonHudSetInactive(){
         firstPersonHUD.SetActive(false);
-        thirdPersonHUD.SetActive(true);
         OverlayHUD.SetActive(true);
+        root.Q("Radar").style.display.Equals(DisplayStyle.None);
     }
     public void ThirdPersonHudSetInactive(){
         firstPersonHUD.SetActive(true);
-        thirdPersonHUD.SetActive(false);
         OverlayHUD.SetActive(true);
+        root.Q("Radar").style.display.Equals(DisplayStyle.Flex);
     }
     public void HudSetInactive(){
         firstPersonHUD.SetActive(false);
-        thirdPersonHUD.SetActive(false);
-        OverlayHUD.SetActive(false);
     }
 
     private void LateUpdate() {
@@ -68,6 +70,8 @@ public class PlayerHUDController : MonoBehaviour
         currentHealth = currentCraft.currentHealth;
         currentShields = currentCraft.currentShields;
         thrustInput = currentCraft.thrust;
+
+        root.Q<Label>("TargetingMode").text = "Targeting:" + currentCraft.weaponSystem.targMode.ToString();
 
         FillSpeedData();
         FillThrustData();
@@ -155,5 +159,14 @@ public class PlayerHUDController : MonoBehaviour
     public void IsLowHealth(bool Active){
         lowHealthIndicator.SetActive(Active);
     }
+
+    #region UITK
+
+    public void SetPlayerIcons(){
+        root.Q("Portrait").style.backgroundImage = chosenCharacter.portrait;
+
+    }
+
+    #endregion
 }
 }

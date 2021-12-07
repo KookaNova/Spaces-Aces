@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 public class GameUIManager : VisualElement
 {
     VisualElement selectScreen;
+    VisualElement mainScreen;
     VisualElement tabMenu;
     VisualElement startMenu;
 
@@ -15,26 +16,41 @@ public class GameUIManager : VisualElement
     }
 
     private void OnGeometryChange(GeometryChangedEvent evt){
+        mainScreen = this.Q("MainScreen");
         tabMenu = this.Q("TabScreen");
         startMenu = this.Q("StartScreen");
 
         UnregisterCallback<GeometryChangedEvent>(OnGeometryChange);
     }
 
+    private void DisableScreens(){
+        mainScreen.style.display = DisplayStyle.None;
+        tabMenu.style.display = DisplayStyle.None;
+        startMenu.style.display = DisplayStyle.None;
+
+    }
+
+    private void EnableMainScreen(){
+        DisableScreens();
+        mainScreen.style.display = DisplayStyle.Flex;
+    }
+
     public void ToggleTab(){
         if(tabMenu.style.display == DisplayStyle.Flex){
-            tabMenu.style.display = DisplayStyle.None;
+            EnableMainScreen();
         }
         else{
+            DisableScreens();
             tabMenu.style.display = DisplayStyle.Flex;
         }
 
     }
     public void ToggleMenu(){
         if(startMenu.style.display == DisplayStyle.Flex){
-            startMenu.style.display = DisplayStyle.None;
+            EnableMainScreen();
         }
         else{
+            DisableScreens();
             startMenu.style.display = DisplayStyle.Flex;
         }
 

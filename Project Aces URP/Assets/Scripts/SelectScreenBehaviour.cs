@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 using Cox.PlayerControls;
 
@@ -7,9 +7,9 @@ public class SelectScreenBehaviour : MonoBehaviour
 {
     public PlayerObject playerObject;
     
-    [SerializeField] private Image characterNameArt, bodyArt, shipNameArt;
+    [SerializeField] private Texture characterNameArt, bodyArt, shipNameArt;
     [SerializeField] private Transform shipLocation;
-    [SerializeField] private Text charBio, shipBio;
+    [SerializeField] private Label charBio, shipBio;
 
     private CharacterHandler character;
     private ShipHandler ship;
@@ -20,8 +20,8 @@ public class SelectScreenBehaviour : MonoBehaviour
     public void DisplayCharacterData(){
         character = playerObject.chosenCharacter;
         
-        characterNameArt.sprite = character.nameArt;
-        bodyArt.sprite = character.bodyArt;
+        characterNameArt = character.nameArt;
+        bodyArt = character.bodyArt;
         charBio.text = character.bio;
     }
 
@@ -32,7 +32,7 @@ public class SelectScreenBehaviour : MonoBehaviour
 
         ship = playerObject.chosenShip;
 
-        shipNameArt.sprite = ship.nameArt;
+        shipNameArt = ship.nameArt;
         shipBio.text = ship.bio;
         shipModel = ship.displayShip;
 

@@ -18,7 +18,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     }
     [HideInInspector] public SpacecraftController owner = null;
 
-    [SerializeField] private TargetingMode targMode = TargetingMode.TeamA;
+    [HideInInspector] public TargetingMode targMode = TargetingMode.TeamA;
     [SerializeField] private Canvas worldHud, overlayHud;
     [SerializeField] private Image aimReticle, distanceReticle;
     [SerializeField] private GameObject objectIndicator, lockIndicator;
@@ -69,10 +69,6 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         var l = Instantiate(lockIndicator, parent: overlayHud.transform);
         lockIndicator = l;
         lockIndicator.SetActive(false);
-
-        for(int i = 0; i < textTargetMode.Count; i++){
-            textTargetMode[i].text = ("Targeting: " + targMode.ToString());
-        }
         
 
 
