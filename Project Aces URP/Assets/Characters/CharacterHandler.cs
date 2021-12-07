@@ -8,7 +8,7 @@ public class CharacterHandler : ScriptableObject
     public string characterName = "Character Name";
     [TextArea( 2, 50 )]
     public string bio = "Character bio...";
-    public Sprite portrait, bodyArt, nameArt;
+    public Texture2D portrait, bodyArt, nameArt;
     [Tooltip("Abilities are ordered 0 = Primary, 1 = Secondary, and 2 = Ace")]
     public List<AbilityHandler> abilities;
 
