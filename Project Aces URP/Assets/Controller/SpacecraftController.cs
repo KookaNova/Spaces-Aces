@@ -84,7 +84,8 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
 
         if(this.photonView.Owner != null){
             if(photonView.IsMine){
-                photonView.Owner.NickName = "KookaNova";
+                PlayerProfileData data = SaveData.LoadProfile();
+                playerName = data.profileName;
             }
             playerName = this.photonView.Owner.NickName;
         }
@@ -177,11 +178,15 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
 
     private void ApplyCustomData(){
         customProperties = new ExitGames.Client.Photon.Hashtable(){
+            {"Name", playerName},
+            {"Character", chosenCharacter.name},
+            {"Ship", chosenShip.name},
             {"Score", score},
             {"Kills", kills},
             {"Deaths", deaths},
         };
         PhotonNetwork.SetPlayerCustomProperties(customProperties);
+        gameManager.UpdateScoreBoard();
     }
 
     public void MenuButton(){

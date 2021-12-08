@@ -17,8 +17,9 @@ public class MenuManager : VisualElement
     VisualElement m_MatchSearch;
     VisualElement m_ReturnMain;
     VisualElement m_Friends;
+    VisualElement m_Profile;
     VisualElement m_Credits;
-    VisualElement m_ThisProfile;
+    VisualElement m_Nameplate;
 
     Label l_MenuName;
 
@@ -44,13 +45,14 @@ public class MenuManager : VisualElement
         m_Title = this.Q("Title");
         m_TopBar = this.Q("TopBar");
         m_MenuSelector = this.Q("MenuSelector");
-        m_ThisProfile = this.Q("ThisProfile");
+        m_Nameplate = this.Q("Nameplate");
         m_Home = this.Q("HomeButtons");
         m_Multiplayer = this.Q("MultiplayerScreen");
         m_Connecting = this.Q("ConnectingScreen");
         m_MatchSearch = this.Q("MatchSearch");
         m_ReturnMain = this.Q("Return");
         m_Friends = this.Q("Friends");
+        m_Profile = this.Q("Profile");
         m_Credits = this.Q("Credits");
         
 
@@ -67,6 +69,7 @@ public class MenuManager : VisualElement
 
         m_MenuSelector?.Q("b_Home")?.RegisterCallback<ClickEvent>(ev => EnableHome());
         m_MenuSelector?.Q("b_Friends")?.RegisterCallback<ClickEvent>(ev => EnableFriends());
+        m_Nameplate.RegisterCallback<ClickEvent>(ev => EnableProfile());
         //m_Exit?.RegisterCallback<ClickEvent>(ev => sceneController.ExitGame());
 
         //Multiplayer Clicks
@@ -85,7 +88,7 @@ public class MenuManager : VisualElement
         m_Home.AddToClassList("offsetLeft");
         this.Q("GameInfo").AddToClassList("offsetRight");
         m_MenuSelector.AddToClassList("offsetLeft");
-        m_ThisProfile.AddToClassList("offsetRight");
+        m_Nameplate.AddToClassList("offsetRight");
 
         //code to check profile
     }
@@ -93,19 +96,20 @@ public class MenuManager : VisualElement
         //Add or remove necessary animation classes
         m_Home.AddToClassList("offsetLeft");
         m_MenuSelector.AddToClassList("offsetLeft");
-        m_ThisProfile.AddToClassList("offsetRight");
+        m_Nameplate.AddToClassList("offsetRight");
 
         //turn off all screens
         m_Title.style.display = DisplayStyle.None;
         m_Home.style.display = DisplayStyle.None;
         m_MenuSelector.style.display = DisplayStyle.None;
-        m_ThisProfile.style.display = DisplayStyle.None;
+        m_Nameplate.style.display = DisplayStyle.None;
         m_ReturnMain.style.display = DisplayStyle.None;
         
         m_Connecting.style.display = DisplayStyle.None;
         m_Multiplayer.style.display = DisplayStyle.None;
         m_Friends.style.display = DisplayStyle.None;
         m_Credits.style.display = DisplayStyle.None;
+        m_Profile.style.display = DisplayStyle.None;
 
         l_MenuName.style.display = DisplayStyle.None;
     }
@@ -119,13 +123,13 @@ public class MenuManager : VisualElement
 
         m_Home.RemoveFromClassList("offsetLeft");
         m_MenuSelector.RemoveFromClassList("offsetLeft");
-        m_ThisProfile.RemoveFromClassList("offsetRight");
+        m_Nameplate.RemoveFromClassList("offsetRight");
 
         m_ReturnMain.style.display = DisplayStyle.None;
         
         m_Home.style.display = DisplayStyle.Flex;
         m_MenuSelector.style.display = DisplayStyle.Flex;
-        m_ThisProfile.style.display = DisplayStyle.Flex;
+        m_Nameplate.style.display = DisplayStyle.Flex;
         
     }
 
@@ -133,9 +137,18 @@ public class MenuManager : VisualElement
         DisableAllScreens();
         m_MenuSelector.RemoveFromClassList("offsetLeft");
         m_MenuSelector.style.display = DisplayStyle.Flex;
-        m_ThisProfile.style.display = DisplayStyle.Flex;
+        m_Nameplate.style.display = DisplayStyle.Flex;
 
         m_Friends.style.display = DisplayStyle.Flex;
+    }
+
+    void EnableProfile(){
+        DisableAllScreens();
+        m_MenuSelector.RemoveFromClassList("offsetLeft");
+        m_MenuSelector.style.display = DisplayStyle.Flex;
+        m_Nameplate.style.display = DisplayStyle.Flex;
+
+        m_Profile.style.display = DisplayStyle.Flex;
     }
 
     void EnableCredits(){

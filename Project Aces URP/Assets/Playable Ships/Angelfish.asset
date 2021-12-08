@@ -15,7 +15,7 @@ MonoBehaviour:
   shipName: Angelfish
   bio: Angelfish bio...
   shipIcon: {fileID: 21300000, guid: a07eec4cb3aa0b843a3e071d2bd7bfb7, type: 3}
-  nameArt: {fileID: 21300000, guid: 79e30794531c2c14488d27b60368617d, type: 3}
+  nameArt: {fileID: 2800000, guid: 79e30794531c2c14488d27b60368617d, type: 3}
   shipPrefab: {fileID: 3471604245177547285, guid: 1c6dcf6c4ad1f044da4b6764631c8b14, type: 3}
   displayShip: {fileID: 757422611348001292, guid: d138fca277a51d44981e930366973ddf, type: 3}
   weaponsController: {fileID: 0}

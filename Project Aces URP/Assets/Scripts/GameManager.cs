@@ -4,6 +4,7 @@ using Photon.Pun;
 using Cox.PlayerControls;
 using UnityEngine.UIElements;
 using System.Collections;
+using Photon.Realtime;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
@@ -17,8 +18,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     [Tooltip("The amount of time in seconds that the match will last.")]
     [SerializeField] private int gameTimer = 600;
 
+
     //UI
-    private VisualElement root, feed;
+    VisualElement root, feed, tabScreen;
+    [SerializeField] UIDocument uIDocument;
+
 
 
     private Scene mainScene;
@@ -27,9 +31,10 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private void Start() {
         //currentGamemode = FindObjectOfType<SceneController>().chosenGamemode;
-
-        root = FindObjectOfType<UIDocument>().rootVisualElement;
+        root = uIDocument.rootVisualElement;
         feed = root.Q("EventFeed");
+        tabScreen = root.Q("TabScreen");
+        
         
 
         Instance = this; 
@@ -39,21 +44,22 @@ public class GameManager : MonoBehaviourPunCallbacks
             PhotonNetwork.OfflineMode = true;
             PhotonNetwork.CreateRoom(null, null);
         }
-        SpawnPlayer();
-        StartCoroutine(GameTimer());
-        //OpenSelectMenu();
+        
+        OpenSelectMenu();
 
     }
 
     public void OpenSelectMenu(){
-        
-        //SceneManager.LoadSceneAsync("Select Scene", LoadSceneMode.Additive);
-        //isSelectLoaded = true;
+        SceneManager.LoadSceneAsync("Select Scene", LoadSceneMode.Additive);
+        uIDocument.sortingOrder = -1;
+        isSelectLoaded = true;
     }
      public void CloseSelectMenu(){
-        //isSelectLoaded = false;
-        //SceneManager.UnloadSceneAsync("Select Scene");
-        //SpawnPlayer();
+        isSelectLoaded = false;
+        SceneManager.UnloadSceneAsync("Select Scene");
+        uIDocument.sortingOrder = 1;
+        SpawnPlayer();
+        StartGame();
         
     }
 
@@ -75,6 +81,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     private void StartGame(){
+        StartCoroutine(GameTimer());
+
+        Debug.Log("Current Players: " + PhotonNetwork.PlayerList.Length);
+        UpdateScoreBoard();
 
     }
 
@@ -85,7 +95,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     #endregion
 
-    #region Leaving
+    #region Leaving & Joining
     public override void OnLeftRoom(){
         SceneManager.LoadScene("Main Menu", LoadSceneMode.Single);
     }
@@ -93,6 +103,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void LeaveRoom(){
         PhotonNetwork.LeaveRoom();
     }    
+
+    public override void OnPlayerEnteredRoom(Player newPlayer){
+        UpdateScoreBoard();
+
+    }
     #endregion
 
     #region UI
@@ -105,6 +120,28 @@ public class GameManager : MonoBehaviourPunCallbacks
         item.SetData(dealer.playerName, receiver.playerName, cause);
 
         StartCoroutine(item.feedTimer());
+
+    }
+
+    public void UpdateScoreBoard(){
+        var list = PhotonNetwork.PlayerList;
+
+        tabScreen.Q("Friendly").Clear();
+
+        for(int i = 0; i < list.Length; i++){
+            
+            string _player = (string)list[i].CustomProperties["Name"];
+            string _char = (string)list[i].CustomProperties["Character"];
+            string _ship = (string)list[i].CustomProperties["Ship"];
+            int _kills = (int)list[i].CustomProperties["Kills"];
+            int _score = (int)list[i].CustomProperties["Score"];
+            int _deaths = (int)list[i].CustomProperties["Deaths"];
+
+            var card = new ScoreBoardCard();
+            tabScreen.Q("Friendly").Add(card);
+            card.SetData(true, _player, _char, _ship, _kills, _score, _deaths);
+            Debug.Log(card.name + " added.");
+        }
 
     }
 
@@ -127,10 +164,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
 
         StartCoroutine(GameTimer());
-
-
-        
     }
+
+    
 
 
 

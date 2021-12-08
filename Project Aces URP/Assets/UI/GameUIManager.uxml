@@ -10,20 +10,20 @@
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="TabScreen" class="container" style="height: 100%; display: none; justify-content: space-between; overflow: hidden; align-items: center;">
-            <ui:VisualElement name="Friendly" />
+            <ui:VisualElement name="Friendly" style="justify-content: center; align-items: center; width: 100%; height: 50%; display: flex;" />
             <ui:VisualElement name="Mode" class="panel">
                 <ui:Label text="Deathmatch" display-tooltip-when-elided="true" name="Gamemode" class="nas1" style="font-size: 50px;" />
             </ui:VisualElement>
-            <ui:VisualElement name="Enemy" />
+            <ui:VisualElement name="Enemy" style="justify-content: center; align-items: center; width: 100%; height: 50%;" />
         </ui:VisualElement>
-        <ui:VisualElement name="MainScreen" style="width: 100%; height: 100%; justify-content: space-between; display: flex;">
+        <ui:VisualElement name="MainScreen" style="width: 100%; height: 100%; justify-content: space-between; display: none;">
             <ui:VisualElement name="Top" style="align-items: center; flex-direction: row; justify-content: space-between; overflow: visible; flex-shrink: 0; flex-grow: 0; flex-basis: auto;">
                 <ui:VisualElement name="Left" style="width: 33%;" />
                 <ui:VisualElement name="Center" style="overflow: visible;">
                     <ui:VisualElement name="ScoreBoard" style="align-items: center; flex-direction: row; justify-content: space-around;">
-                        <ui:Label text="12" display-tooltip-when-elided="false" name="FriendScore" enable-rich-text="true" class="score friendly" style="border-right-width: 15px; width: 40%; border-top-left-radius: 40px; border-bottom-left-radius: 40px;" />
+                        <ui:Label text="00" display-tooltip-when-elided="false" name="FriendScore" enable-rich-text="true" class="score friendly" style="border-right-width: 15px; width: 40%; border-top-left-radius: 40px; border-bottom-left-radius: 40px;" />
                         <ui:VisualElement name="Favor" class="divider" />
-                        <ui:Label text="34" display-tooltip-when-elided="true" name="EnemyScore" class="score enemy" style="border-left-width: 15px; width: 40%; border-top-right-radius: 40px; border-bottom-right-radius: 40px;" />
+                        <ui:Label text="00" display-tooltip-when-elided="true" name="EnemyScore" class="score enemy" style="border-left-width: 15px; width: 40%; border-top-right-radius: 40px; border-bottom-right-radius: 40px;" />
                     </ui:VisualElement>
                     <ui:Label text="12:34" display-tooltip-when-elided="true" name="GameTimer" class="bans1" style="align-items: stretch; -unity-text-align: upper-center;" />
                 </ui:VisualElement>
