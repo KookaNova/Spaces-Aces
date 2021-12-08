@@ -140,6 +140,43 @@
     margin-right: 4px;
     margin-top: 4px;
     margin-bottom: 4px;
+    background-color: rgba(83, 121, 172, 0);
+    -unity-font-definition: url('project://database/Assets/TextMesh%20Pro/Fonts/BAHNSCHRIFT%20SDF.asset?fileID=11400000&guid=bb11bb5e493f74248883e976094fed42&type=2#BAHNSCHRIFT SDF');
+    font-size: 24px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
+    transition-duration: 0.2s;
+    -unity-font-style: bold;
+}
+
+.menuButton:hover {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-left: 4px;
+    margin-right: 4px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    background-color: rgb(223, 188, 85);
+    -unity-font-definition: url('project://database/Assets/TextMesh%20Pro/Fonts/BAHNSCHRIFT%20SDF.asset?fileID=11400000&guid=bb11bb5e493f74248883e976094fed42&type=2#BAHNSCHRIFT SDF');
+    font-size: 24px;
+    border-top-left-radius: 19px;
+    border-bottom-left-radius: 19px;
+    border-top-right-radius: 19px;
+    border-bottom-right-radius: 19px;
+    border-left-color: rgba(255, 255, 255, 0);
+    border-right-color: rgba(255, 255, 255, 0);
+    border-top-color: rgba(255, 255, 255, 0);
+    border-bottom-color: rgba(255, 255, 255, 0);
+    color: rgb(37, 62, 95);
 }
 
 .enemy {
@@ -158,7 +195,39 @@
     border-bottom-color: rgb(83, 121, 172);
 }
 
+.panel {
+    background-color: rgb(37, 62, 95);
+    border-top-left-radius: 63px;
+    border-bottom-left-radius: 63px;
+    border-top-right-radius: 63px;
+    border-bottom-right-radius: 63px;
+    height: auto;
+    margin-top: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 12px;
+    padding-bottom: 30px;
+    margin-bottom: 10px;
+}
+
 .portrait {
+    margin-left: 3px;
+    margin-right: 3px;
+    margin-top: 3px;
+    margin-bottom: -29px;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    transition-duration: 0.1s;
+    -unity-background-image-tint-color: rgb(130, 131, 178);
+    width: 125px;
+    height: 145px;
+    background-image: url('project://database/Assets/Sprites/Characters/Portraits/Default%20Portrait.png?fileID=2800000&guid=c6bb7b281ae46d347a418fea54a52fbc&type=3#Default Portrait');
+    align-items: center;
+}
+
+.portrait:hover {
     margin-left: 3px;
     margin-right: 3px;
     margin-top: 3px;
@@ -167,18 +236,41 @@
     padding-right: 65px;
     padding-top: 65px;
     padding-bottom: 65px;
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    scale: 1.01 1.01;
 }
 
-.panel {
-    background-color: rgb(37, 62, 95);
-    padding-left: 150px;
-    padding-right: 150px;
-    padding-top: 25px;
-    padding-bottom: 25px;
-    border-top-left-radius: 63px;
-    border-bottom-left-radius: 63px;
-    border-top-right-radius: 63px;
-    border-bottom-right-radius: 63px;
-    height: 1030%;
-    margin-top: 19px;
+.portrait:focus {
+    margin-left: 3px;
+    margin-right: 3px;
+    margin-top: 3px;
+    margin-bottom: -29px;
+    padding-left: 65px;
+    padding-right: 65px;
+    padding-top: 65px;
+    padding-bottom: 65px;
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    scale: 1.05 1.05;
+}
+
+.cardItem {
+    align-items: center;
+    justify-content: flex-end;
+    width: 20%;
+    height: 100%;
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+    border-top-left-radius: 8%;
+    border-bottom-left-radius: 8%;
+    border-top-right-radius: 8%;
+    border-bottom-right-radius: 8%;
+}
+
+.tabPortrait {
+    background-image: url('project://database/Assets/Sprites/Characters/Portraits/Default%20Portrait.png?fileID=2800000&guid=c6bb7b281ae46d347a418fea54a52fbc&type=3#Default Portrait');
+    width: 124px;
+    height: 140px;
+    -unity-background-scale-mode: scale-to-fit;
 }

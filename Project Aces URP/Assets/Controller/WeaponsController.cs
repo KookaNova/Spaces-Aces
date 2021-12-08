@@ -154,13 +154,12 @@ public class WeaponsController : MonoBehaviourPunCallbacks
 
     private void PositionIndicators(){
         if(currentTargetSelection.Count <= 0){
-            Debug.Log("count is zero.");
             return;
         }
 
         for (int i = 0; i < activeIndicators.Count; i++){
             //Is the object active and on camera? If not, skip drawing the indicators.
-            if(currentTargetSelection[i].gameObject.activeInHierarchy == false){
+            if(currentTargetSelection[i].gameObject.activeInHierarchy == false || !currentTargetSelection[i].GetComponentInChildren<MeshRenderer>().isVisible){
                 activeIndicators[i].SetActive(false);
                 continue;
             }
@@ -314,7 +313,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
                currentTarget = 0;
             }
            
-            if(!currentTargetSelection[currentTarget].gameObject.activeInHierarchy){
+            if(!currentTargetSelection[i].GetComponentInChildren<MeshRenderer>().isVisible || !currentTargetSelection[currentTarget].gameObject.activeInHierarchy){
                 Debug.Log("target not visible, incrementing");
                 if(i == currentTargetSelection.Count - 1){
                     currentTarget = -1;

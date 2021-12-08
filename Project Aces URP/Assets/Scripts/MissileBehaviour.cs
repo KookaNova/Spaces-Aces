@@ -35,17 +35,28 @@ public class MissileBehaviour : MonoBehaviour
 
     private void Update()
     {
+        int layer = 1 << 14;
+
         Debug.DrawLine(gameObject.transform.position, gameObject.transform.position + (gameObject.transform.forward * 2500), Color.red);
         RaycastHit hit;
         
         if(target != null)
         {
             if(startCasting == true){
-                if(Physics.SphereCast(gameObject.transform.position, missProbability, gameObject.transform.forward, out hit)){
-                    if(hit.rigidbody == null || hit.rigidbody.gameObject != target.gameObject){
+                if(Physics.SphereCast(gameObject.transform.position, missProbability, gameObject.transform.forward, out hit, 5000, ~layer)){
+                    
+                    if(hit.rigidbody == null || hit.rigidbody.gameObject != target){
                         target = null;
                         missileMissed = true;
                         Debug.Log("MissileBehaviour: Spherecast obstructed. Missile missed.");
+                        if(hit.rigidbody == null){
+                            Debug.Log("Missile: Did not hit a RigidBody");
+                            return;
+                        }
+                        else{
+                            Debug.Log(hit.rigidbody.gameObject + " does not equal " + target.name);
+                        }
+                        
                         return;
                     }
                 }
@@ -53,7 +64,7 @@ public class MissileBehaviour : MonoBehaviour
                     target = null;
                     missileMissed = true;
 
-                    Debug.Log("MissileBehaviour: Spherecast missed the target. Missile missed.");
+                    Debug.Log("MissileBehaviour: Spherecast missed the target. Missile missed. No hit.");
                     return;
                 }
             }

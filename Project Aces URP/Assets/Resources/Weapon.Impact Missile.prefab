@@ -373,7 +373,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destroyTime: 8
   missileSpeed: 1500
-  turningLimit: 1
+  turningLimit: 3
   missProbability: 2
   currentSpeed: 0
   damageOutput: 1000
@@ -408,10 +408,10 @@ BoxCollider:
   m_GameObject: {fileID: 6200246160423643314}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 5, y: 5, z: 8}
-  m_Center: {x: 0, y: 0, z: 0.100622654}
+  m_Size: {x: 5, y: 5, z: 3.9579544}
+  m_Center: {x: 0, y: 0, z: -1.9204001}
 --- !u!114 &6786794137692798478
 MonoBehaviour:
   m_ObjectHideFlags: 0

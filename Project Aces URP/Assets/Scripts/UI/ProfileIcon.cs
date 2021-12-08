@@ -14,6 +14,10 @@ public class ProfileIcon : VisualElement
 
     public ProfileIcon(){
         //create new image element
+        PlayerProfileData data = SaveData.LoadProfile();
+        playerName = data.profileName;
+        level = data.currentLevel;
+
         emblem = new Image();
         emblem.name = "emblem";
         nameplate = new Image();
@@ -44,12 +48,5 @@ public class ProfileIcon : VisualElement
         nameLabel.AddToClassList("p_Name");
         levelLabel.AddToClassList("p_Level");
 
-        this.RegisterCallback<GeometryChangedEvent>(OnGeometryChange);
-
-    }
-
-    private void OnGeometryChange(GeometryChangedEvent evt)
-    {
-        UnregisterCallback<GeometryChangedEvent>(OnGeometryChange);
     }
 }
