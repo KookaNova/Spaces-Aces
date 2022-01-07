@@ -360,7 +360,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     public void Eliminate(SpacecraftController attacker, string cause){
         deaths++;
 
-        gameManager.FeedEvent(attacker, this, cause);
+        gameManager.FeedEvent(attacker, this, cause, true);
         //This happens when the players health reaches zero or they leave the arena.
         isAwaitingRespawn = true;
         currentHealth = 0;
