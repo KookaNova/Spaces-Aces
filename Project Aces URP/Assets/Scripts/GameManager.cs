@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     #region UI
 
-    public void FeedEvent(SpacecraftController dealer, SpacecraftController receiver, string cause){
+    public void FeedEvent(SpacecraftController dealer, SpacecraftController receiver, string cause, bool isKill){
         Debug.LogFormat("GameManager: FeedEvent(), {0} eliminated {1} with {2}", dealer.playerName, receiver.playerName, cause);
 
         var item = new FeedItem();
