@@ -30,7 +30,7 @@ public class GameUIManager : VisualElement
 
     }
 
-    private void EnableMainScreen(){
+    public void EnableMainScreen(){
         DisableScreens();
         mainScreen.style.display = DisplayStyle.Flex;
     }

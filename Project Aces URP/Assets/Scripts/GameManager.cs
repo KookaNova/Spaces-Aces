@@ -44,8 +44,8 @@ public class GameManager : MonoBehaviourPunCallbacks
             PhotonNetwork.OfflineMode = true;
             PhotonNetwork.CreateRoom(null, null);
         }
-        
-        OpenSelectMenu();
+        SpawnPlayer();
+        //OpenSelectMenu();
 
     }
 
@@ -58,8 +58,10 @@ public class GameManager : MonoBehaviourPunCallbacks
         isSelectLoaded = false;
         SceneManager.UnloadSceneAsync("Select Scene");
         uIDocument.sortingOrder = 1;
+        root.Q<GameUIManager>().EnableMainScreen();
         SpawnPlayer();
         StartGame();
+        
         
     }
 
@@ -84,7 +86,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         StartCoroutine(GameTimer());
 
         Debug.Log("Current Players: " + PhotonNetwork.PlayerList.Length);
-        UpdateScoreBoard();
 
     }
 
@@ -133,7 +134,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             string _player = (string)list[i].CustomProperties["Name"];
             string _char = (string)list[i].CustomProperties["Character"];
             string _ship = (string)list[i].CustomProperties["Ship"];
-            int _kills = (int)list[i].CustomProperties["Kills"];
+            int _kills = 0;//(int)list[i].CustomProperties["Kills"];
             int _score = (int)list[i].CustomProperties["Score"];
             int _deaths = (int)list[i].CustomProperties["Deaths"];
 
