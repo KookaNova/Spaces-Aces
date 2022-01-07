@@ -86,8 +86,12 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
             if(photonView.IsMine){
                 PlayerProfileData data = SaveData.LoadProfile();
                 playerName = data.profileName;
+                this.photonView.Owner.NickName = playerName;
             }
-            playerName = this.photonView.Owner.NickName;
+            else{
+                playerName = this.photonView.Owner.NickName;
+            }
+            
         }
         else{
             playerName = "DebugMan";
