@@ -1,8 +1,8 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Photon.Pun;
 using UnityEngine.UIElements;
-using System.Collections;
+using Photon.Pun;
 
 namespace Cox.PlayerControls{
 /// <summary> Receives inputs from either the player's controller and translates them into actions
@@ -14,6 +14,7 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
     int targetMode = 0;
     bool gunInput = false, missileInput = false;
     bool isMouse = false;
+
         
     SpacecraftController spacecraft;
     ControlInputActions _controls;
@@ -23,7 +24,7 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
 
     public override void OnEnable() {
         root = FindObjectOfType<UIDocument>().rootVisualElement;
-
+        
         cursorInput = new Vector2 (Screen.width / 2, Screen.height / 2);
         spacecraft = GetComponentInChildren<SpacecraftController>();
         _controls = new ControlInputActions();
@@ -44,8 +45,13 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
         if(thrustInput > 0){
             spacecraft.ThrustControl();
         }
-        spacecraft.TorqueControl(torqueInput, yawInput);
-        spacecraft.GunControl(gunInput);
+        if(gunInput){
+            spacecraft.GunControl(gunInput);
+        }
+        if(torqueInput != Vector2.zero || yawInput != 0){
+            spacecraft.TorqueControl(torqueInput, yawInput);    
+        }
+        
         spacecraft.RotateCamera(cursorInput, isMouse);
     }
 
@@ -65,6 +71,7 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
     }
     public void OnThrust(InputAction.CallbackContext value){
         thrustInput = value.ReadValue<float>();
+        
     }
     public void OnTorque(InputAction.CallbackContext value){
         torqueInput = value.ReadValue<Vector2>();
@@ -107,7 +114,6 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
         StopAllCoroutines();
         cursorInput += deltaInput.ReadValue<Vector2>();
         cursorInput = new Vector2(Mathf.Clamp(cursorInput.x, -120, 120), Mathf.Clamp(cursorInput.y, -70, 70));
-        //print(cursorInput);
         isMouse = true;
         StartCoroutine(ResetMouseInput());
     }
