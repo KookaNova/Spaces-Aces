@@ -644,17 +644,6 @@ public partial class @ControlInputActions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""88087199-83ec-4994-bba7-017febbded0a"",
-                    ""path"": ""<Mouse>/delta"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""CameraMouse"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""e37233f7-5ee6-4e5d-8d59-6acc1467ae2d"",
                     ""path"": ""<Gamepad>/select"",
                     ""interactions"": """",
@@ -672,6 +661,17 @@ public partial class @ControlInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Basic Controls"",
                     ""action"": ""TabMenuButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7995075b-71b6-4fc4-b714-ed553ae5cfa1"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": ""StickDeadzone(min=-1,max=1)"",
+                    ""groups"": """",
+                    ""action"": ""CameraMouse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }

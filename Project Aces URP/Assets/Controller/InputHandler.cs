@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Photon.Pun;
 using UnityEngine.UIElements;
-
+using System.Collections;
 
 namespace Cox.PlayerControls{
 /// <summary> Receives inputs from either the player's controller and translates them into actions
@@ -13,6 +13,7 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
     float thrustInput, yawInput, brakeInput;
     int targetMode = 0;
     bool gunInput = false, missileInput = false;
+    bool isMouse = false;
         
     SpacecraftController spacecraft;
     ControlInputActions _controls;
@@ -29,6 +30,7 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
         _controls.Flight.SetCallbacks(this);
         _controls.Flight.Enable();
         UnityEngine.Cursor.visible = false;
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
     }
     public override void OnDisable() {
         _controls.Flight.Disable();
@@ -44,7 +46,7 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
         }
         spacecraft.TorqueControl(torqueInput, yawInput);
         spacecraft.GunControl(gunInput);
-        spacecraft.RotateCamera(cursorInput);
+        spacecraft.RotateCamera(cursorInput, isMouse);
     }
 
     //Inputs
@@ -99,9 +101,15 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
     }
     public void OnCameraStick(InputAction.CallbackContext stickInput){
         cursorInput = stickInput.ReadValue<Vector2>();
+        isMouse = false;
     }
     public void OnCameraMouse(InputAction.CallbackContext deltaInput){
-        cursorInput = deltaInput.ReadValue<Vector2>();
+        StopAllCoroutines();
+        cursorInput += deltaInput.ReadValue<Vector2>();
+        cursorInput = new Vector2(Mathf.Clamp(cursorInput.x, -120, 120), Mathf.Clamp(cursorInput.y, -70, 70));
+        //print(cursorInput);
+        isMouse = true;
+        StartCoroutine(ResetMouseInput());
     }
 
     public void OnTargetModeAdd(InputAction.CallbackContext pressed)
@@ -125,6 +133,10 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
     {
         if(photonView.IsMine)
         spacecraft.CameraLockTarget();
+    }
+    private IEnumerator ResetMouseInput(){
+        yield return new WaitForSecondsRealtime(3);
+        cursorInput = Vector2.zero;
     }
 }
 }

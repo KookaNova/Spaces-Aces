@@ -1,16 +1,16 @@
+using System.Collections;
 using UnityEngine;
 
 namespace Cox.PlayerControls{
 public class CameraController : MonoBehaviour
 {
     public WeaponsController weaponsController;
-    private Vector2 rotationInput;
-    [SerializeField]
     public Cinemachine.CinemachineVirtualCamera[] cameras;
-    [HideInInspector]
-    public int currentCamera = 0;
-    private bool isCameraTargetLocked = false;
-    private Vector3 target;
+    [HideInInspector] public int currentCamera = 0;
+    bool isCameraTargetLocked = false;
+    bool mouseActive = false;
+    Vector2 rotationInput;
+    Vector3 target;
 
     public void Activate(){
         for(int i = 0; i < cameras.Length; i++){
@@ -19,10 +19,22 @@ public class CameraController : MonoBehaviour
         cameras[0].gameObject.SetActive(true);
     }
 
-    public void RotateCamera(Vector2 input){
-
-        rotationInput.y = input.y * 70;
-        rotationInput.x = input.x * 120;
+    public void RotateCamera(Vector2 input, bool isMouse){
+        mouseActive = isMouse;
+        
+        if(mouseActive){
+            if(input == Vector2.zero){
+                rotationInput = Vector2.zero;
+            }
+            rotationInput.y = input.y;
+            rotationInput.x = input.x;
+        }
+        else{
+            rotationInput.y = input.y * 70;
+            rotationInput.x = input.x * 120;
+        }
+        print(rotationInput);
+        
     }
 
     public void ChangeCamera(){
@@ -51,6 +63,7 @@ public class CameraController : MonoBehaviour
 
         if(rotationInput == Vector2.zero){
             gameObject.transform.localRotation = Quaternion.Slerp(gameObject.transform.localRotation, Quaternion.identity, .05f);
+            
         }
         if(gameObject.transform.localRotation.x >= 20 || gameObject.transform.localRotation.x <= -90 || gameObject.transform.localRotation.y >= 120 || gameObject.transform.localRotation.y <= -120){
                 CameraLockTarget();
@@ -59,7 +72,14 @@ public class CameraController : MonoBehaviour
         //if camera isn't locked, use controller input
         if(!isCameraTargetLocked){
             var targetRotation = Quaternion.Euler(-rotationInput.y, rotationInput.x, 0);
-            gameObject.transform.localRotation = Quaternion.Slerp(gameObject.transform.localRotation, targetRotation, .05f);
+            
+            if(mouseActive){
+                gameObject.transform.localRotation = Quaternion.Slerp(gameObject.transform.localRotation, targetRotation, .05f);
+               
+            }
+            else{
+                gameObject.transform.localRotation = Quaternion.Slerp(gameObject.transform.localRotation, targetRotation, .05f);
+            }
 
             gameObject.transform.localRotation = new Quaternion(
                 Mathf.Clamp(gameObject.transform.localRotation.x, -1f, .3f), 
