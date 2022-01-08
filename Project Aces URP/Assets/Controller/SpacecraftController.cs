@@ -214,10 +214,10 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         }
     }
 
-    public void RotateCamera(Vector2 cursorInputPosition){
+    public void RotateCamera(Vector2 cursorInputPosition, bool isMouse){
         //Tells the camera controller to rotate the camera using player input
         if(!photonView.IsMine)return;
-        cameraController.RotateCamera(cursorInputPosition);
+        cameraController.RotateCamera(cursorInputPosition, isMouse);
     }
 
     public void CameraLockTarget(){
