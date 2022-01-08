@@ -33,7 +33,6 @@ public class CameraController : MonoBehaviour
             rotationInput.y = input.y * 70;
             rotationInput.x = input.x * 120;
         }
-        print(rotationInput);
         
     }
 

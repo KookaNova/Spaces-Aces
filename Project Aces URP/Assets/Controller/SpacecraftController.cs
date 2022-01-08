@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.InputSystem;
 
 
 namespace Cox.PlayerControls{
@@ -10,6 +11,9 @@ namespace Cox.PlayerControls{
 /// Input Controller >> SpacraftController >>instantiates>> Ship Prefab with WeaponsController, HUDController, and CameraController </summary>
 public class SpacecraftController : MonoBehaviourPunCallbacks
 {
+    bool gamepadFound = false;
+    Gamepad _gp;
+
     [HideInInspector] public string playerName;
     
     private GameManager gameManager;
@@ -84,6 +88,11 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
 
         if(this.photonView.Owner != null){
             if(photonView.IsMine){
+                if(Gamepad.current != null){
+                    _gp = Gamepad.current;
+                    gamepadFound = true;
+                    }
+
                 PlayerProfileData data = SaveData.LoadProfile();
                 playerName = data.profileName;
                 this.photonView.Owner.NickName = playerName;
@@ -280,10 +289,30 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     public void ThrustControl(){
         if(!photonView.IsMine)return;
         thrust += .02f;
+        if(gamepadFound){
+            _gp.SetMotorSpeeds(thrust/3, thrust);
+            StartCoroutine(ResetMotorSpeeds(.1f));
+        }
+
+        if(currentSpeed >= maxSpeed/2){
+            //highSpeed(true);
+        }
     }
     public void BrakeControl(){
         if(!photonView.IsMine)return;
         thrust -= .02f;
+        if(gamepadFound && thrust <.65f){
+            _gp.SetMotorSpeeds(0, thrust);
+            StartCoroutine(ResetMotorSpeeds(.1f));
+        }
+        if(gamepadFound && thrust >.65f){
+            _gp.SetMotorSpeeds(thrust/2, thrust);
+            StartCoroutine(ResetMotorSpeeds(.1f));
+        }
+
+        if(currentSpeed <= maxSpeed/2){
+            //HighSpeed(false);
+        }
     }
 
     //Take vector2 and convert it to pitch, roll, and yaw. Then add that to the rigidbody as torque.
@@ -292,6 +321,10 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         var highspeedhandling = currentSpeed/maxSpeed + 1;
         Vector3 torqueForce  = new Vector3((torqueInput.y * pitch) / highspeedhandling, yawInput * yaw, (torqueInput.x * roll) / highspeedhandling);
         _rb.AddRelativeTorque(torqueForce, ForceMode.Force);
+        if(gamepadFound){
+            _gp.SetMotorSpeeds(0, (currentSpeed/maxSpeed)*.5f);
+            StartCoroutine(ResetMotorSpeeds(.1f));
+        }
     }
     #endregion
 
@@ -306,6 +339,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         if(!photonView.IsMine)return;
         if(!isAwaitingRespawn)
             weaponSystem.GunControl(gunInput, currentSpeed);
+            StartCoroutine(ResetMotorSpeeds(0.01f));
     }
 
     #endregion
@@ -314,6 +348,10 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     
     public void TakeDamage(float damage, SpacecraftController attacker, string cause){
         isShieldRecharging = false;
+        if(gamepadFound){
+            _gp.SetMotorSpeeds(.75f, 1);
+            StartCoroutine(ResetMotorSpeeds(.25f));
+        }
         if(currentShields > 0){
             currentShields -= damage;
         }
@@ -336,6 +374,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
 
     private void OnCollisionEnter(Collision collision) {
         //On collision with hazards or other players, damage the player, based partially on speed.
+        print("Collision");
         if(collision.gameObject.layer == LayerMask.NameToLayer("Crash Hazard") || collision.gameObject.layer == LayerMask.NameToLayer("Player")){
            TakeDamage(currentSpeed * 8, null, "accident");
         }
@@ -347,18 +386,31 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
 
     public void NoShield(){
         Debug.Log("Spacecraft: NoShield() called");
+        if(gamepadFound){
+            _gp.SetMotorSpeeds(0, .2f);
+            StartCoroutine(ResetMotorSpeeds(1f));
+        }
         //Do something when shields are gone
     }
 
     public void LowHealth(){
         Debug.Log("Spacecraft: LowHealth() called");
         HudController.IsLowHealth(true);
+        if(gamepadFound){
+            _gp.SetMotorSpeeds(.5f, .3f);
+            StartCoroutine(ResetMotorSpeeds(1f));
+        }
 
         //Do something different related to low health
     }
 
     public void Eliminate(SpacecraftController attacker, string cause){
         deaths++;
+
+        if(gamepadFound){
+            _gp.SetMotorSpeeds(1, 1);
+            StartCoroutine(ResetMotorSpeeds(.25f));
+        }
 
         gameManager.FeedEvent(attacker, this, cause, true);
         //This happens when the players health reaches zero or they leave the arena.
@@ -472,6 +524,11 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
        SpawnPlayer();
 
         //also teleport to spawn points using a spawn point system
+    }
+
+    public IEnumerator ResetMotorSpeeds(float time){
+        yield return new WaitForSecondsRealtime(time);
+        _gp.SetMotorSpeeds(0,0);
     }
     #endregion
 
