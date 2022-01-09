@@ -5,9 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/Main Menu.unity
-    guid: 5f22863faf0f6044392ac29a1fe35f67
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/Select Scene.unity
     guid: 5b944710028515748b276af02891ef54
@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Asteroid Mine.unity
     guid: c52018d97214b004b911350169b5e829
+  - enabled: 1
+    path: Assets/Scenes/C.Con Test.unity
+    guid: aea2ffa9b91f3544aba792d2a500f504
   m_configObjects: {}

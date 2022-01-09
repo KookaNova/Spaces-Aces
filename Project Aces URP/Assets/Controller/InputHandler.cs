@@ -57,13 +57,9 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
 
     //Inputs
     public void OnMenuButton(InputAction.CallbackContext pressed){
-        if(pressed.ReadValueAsButton())
-        Debug.Log("pressed");
         root.Q<GameUIManager>().ToggleMenu();
     }
     public void OnTabMenuButton(InputAction.CallbackContext pressed){
-        if(pressed.ReadValueAsButton())
-        Debug.Log("pressed");
         root.Q<GameUIManager>().ToggleTab();
     }
     public void OnBrake(InputAction.CallbackContext value){

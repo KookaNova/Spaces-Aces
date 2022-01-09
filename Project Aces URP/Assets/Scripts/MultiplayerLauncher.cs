@@ -5,6 +5,7 @@ using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class MultiplayerLauncher : MonoBehaviourPunCallbacks
 {
@@ -24,6 +25,8 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
     //The time it takes to start a game after StartGame is initiated.
     int countDownTime = 4;
 
+    int teamA, teamB;
+
     #endregion
 
     #region Nameplates
@@ -37,12 +40,14 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
     #endregion
 
     public GamesHandler quickplay;
+    private GamemodeData chosenMode;
 
     private GamesHandler gamesHandler;
     private RoomOptions roomOptions = new RoomOptions();
 
     #region Private Games
     private PrivateGameSettings privateGameSettings = new PrivateGameSettings();
+    
     
     #endregion
 
@@ -134,7 +139,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         gamesHandler = selectedGamesHandler;
         //Finds a random room using properties set by gamesHandler (essentially playlist). This allows different random search modes.
         //If no rooms are found, a room is created using the same properties.
-        roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable {{"MMT", gamesHandler.matchmakingType}};
+        roomOptions.CustomRoomProperties = new Hashtable {{"MMT", gamesHandler.matchmakingType}};
         roomOptions.MaxPlayers = gamesHandler.expectedMaxPlayers;
         Debug.LogFormat("Launcher: FindMatchFromPlaylist(), searching for a random room with properties {0} and max players {1}", 
             roomOptions.CustomRoomProperties, gamesHandler.expectedMaxPlayers);
@@ -168,12 +173,15 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         //The local player is labeled the master of the room.
         Player masterPlayer = PhotonNetwork.LocalPlayer;
         gameStatusLabel.text = "Waiting for players...";
-
+        teamA = 0;
+        teamB = 0;
         //When player count reaches max, start the game.
         if(PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers){
             StartCoroutine(StartingCountdown());
         }
-        
+        PhotonNetwork.SetPlayerCustomProperties(new Hashtable() {{"Team", "A"}});
+        quickplay.SelectRandomLevel();
+        chosenMode = quickplay.gamemodeSettings;
     }
 
     #endregion
@@ -188,13 +196,17 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         levelText = (string)roomOptions.CustomRoomProperties["Level"];
         gamemodeText = (string)roomOptions.CustomRoomProperties["Gamemode"];
         isPublicText = roomOptions.IsVisible.ToString();
+
+        
     }
 
     public void LeaveRoom(){
         StopAllCoroutines();
         if(PhotonNetwork.InRoom){
             PhotonNetwork.LeaveRoom(true);
+            PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable(){{"Team", null}});
         }
+        
         
         Debug.Log("Launcher: OnLeaveRoom() called by PUN. Client exits the room.");
         
@@ -210,6 +222,15 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
             StartCoroutine(StartingCountdown());
         }
         Debug.LogFormat("Launcher: OnPlayerEnteredRoom(), Player {0} entered room.", newPlayer);
+        //Assign Team
+        if(teamA >= teamB){
+            newPlayer.SetCustomProperties(new Hashtable() {{"Team","B"}});
+        }
+        if(teamA < teamB){
+            newPlayer.SetCustomProperties(new Hashtable() {{"Team","A"}});
+        }
+        
+
         UpdatePlayerList();
     }
 
@@ -219,8 +240,30 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
             StopAllCoroutines();
             gameStatusLabel.text = "Waiting for players...";
         }
+        CountTeams();
         Debug.LogFormat("Launcher: OnPlayerEnteredRoom(), Player {0} left room.", leftPlayer);
         UpdatePlayerList();
+    }
+
+    private void CountTeams(){
+        teamA = 0;
+        teamB = 0;
+
+        for(int i = 0; i < PhotonNetwork.PlayerList.Length; i++){
+            if((string)PhotonNetwork.PlayerList[i].CustomProperties["Team"] == "A"){
+                teamA++;
+            }
+            if((string)PhotonNetwork.PlayerList[i].CustomProperties["Team"] == "B"){
+                teamB++;
+            }
+        }
+        Debug.Log(teamA + "/" + teamB);
+    }
+
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    {
+        CountTeams();
+        
     }
 
     #endregion
@@ -229,7 +272,6 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
 
     public void ChangePrivateSettings(string levelName){
         privateGameSettings.nameOfLevel = levelName;
-
     }
 
     public void ChangePrivateSettings(GamemodeData gamemode){
@@ -320,12 +362,13 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         if(timer <= 0){
             gameStatusLabel.text = "Prepare for takeoff.";
         }
-        //Selects the level from the playlist
-        gamesHandler.SelectRandomLevel();
 
         Debug.LogFormat("Loading {0} players into level: {1}...", PhotonNetwork.CurrentRoom.PlayerCount, gamesHandler.gamemodeSettings.levelName);
         // #Critical: Load the Room Level.
-        if(PhotonNetwork.IsMasterClient) PhotonNetwork.LoadLevel(gamesHandler.gamemodeSettings.levelName);
+        if(PhotonNetwork.IsMasterClient){
+            FindObjectOfType<SceneController>().chosenGamemode = gamesHandler.gamemodeSettings;
+            PhotonNetwork.LoadLevel(gamesHandler.gamemodeSettings.levelName);
+        } 
     }
 
     public IEnumerator StartingCountdownPrivate(){

@@ -7,9 +7,9 @@ public class GamemodeData : ScriptableObject
     public string gamemodeName = "Name of Gamemode";
     public bool EliminationPoints = false;
     public bool isTeams = true;
-
-    public int ScoreValue;
-    public int MaxScore;
-    public int Time;
+    public int playerCount;
+    public int scoreValue;
+    public int maxScore;
+    public int timeLimit;
     
 }

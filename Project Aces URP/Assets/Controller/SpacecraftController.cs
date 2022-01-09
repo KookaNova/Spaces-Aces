@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.InputSystem;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 
 namespace Cox.PlayerControls{
@@ -14,7 +15,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     bool gamepadFound = false;
     Gamepad _gp;
 
-    [HideInInspector] public string playerName;
+    [HideInInspector] public string playerName, teamName;
     
     private GameManager gameManager;
 
@@ -62,10 +63,10 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     #endregion
 
     #region Multiplayer Variables
-    private ExitGames.Client.Photon.Hashtable customProperties;
-    private int kills = 0;
-    private int deaths = 0;
-    private int score = 0;
+    ExitGames.Client.Photon.Hashtable customProperties;
+    int kills = 0;
+    int deaths = 0;
+    int score = 0;
 
     #endregion
 
@@ -118,7 +119,13 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         chosenShip = playerObject.chosenShip;
 
         //Find respawn points. Once teams are figured out, this needs to find specific team spawn points.
-        respawnPoints = FindObjectOfType<GameManager>().teamASpawnpoints;
+        if((string)PhotonNetwork.LocalPlayer.CustomProperties["Team"] == "A"){
+            respawnPoints = FindObjectOfType<GameManager>().teamASpawnpoints;
+        }
+        else{
+            respawnPoints = FindObjectOfType<GameManager>().teamBSpawnpoints;
+        }
+        
         //Instantiates the chosen ship and parents it under the controller. Then gets important info from the ship.
         ship = Instantiate(chosenShip.shipPrefab, transform.position, transform.rotation);
         ship.transform.SetParent(this.gameObject.transform);
@@ -189,8 +196,13 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
 
     }
 
+    public void AddScore(int addedScore){
+        score += addedScore;
+        ApplyCustomData();
+    }
+
     private void ApplyCustomData(){
-        customProperties = new ExitGames.Client.Photon.Hashtable(){
+        customProperties = new Hashtable(){
             {"Name", playerName},
             {"Character", chosenCharacter.name},
             {"Ship", chosenShip.name},
@@ -199,7 +211,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
             {"Deaths", deaths},
         };
         PhotonNetwork.SetPlayerCustomProperties(customProperties);
-        gameManager.UpdateScoreBoard();
+        
     }
 
     public void MenuButton(){
@@ -412,7 +424,14 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
             StartCoroutine(ResetMotorSpeeds(.25f));
         }
 
-        gameManager.FeedEvent(attacker, this, cause, true);
+        if(attacker == null){
+            gameManager.FeedEvent(this, this, cause, true);
+        }
+        else{
+            gameManager.FeedEvent(attacker, this, cause, true);
+            attacker.TargetDestroyed(true);
+        }
+        
         //This happens when the players health reaches zero or they leave the arena.
         isAwaitingRespawn = true;
         currentHealth = 0;
@@ -436,22 +455,25 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
 
     }
 
-    public  void TargetDestroyed(){
+    public  void TargetDestroyed(bool isKill){
+        Debug.Log("Target Destroyed!");
+        if(isKill){
+            kills++;
+            ApplyCustomData();
+        }
 
     }
 
     public void SpawnPlayer(){
+        //Find a random spawn point to respawn at
+        int randInt = Random.Range(0, respawnPoints.Length - 1);
+        this.gameObject.transform.position = respawnPoints[randInt].position;
+        this.gameObject.transform.rotation = respawnPoints[randInt].rotation;
         //Set health back to max and no longer awaiting respawn
         currentHealth = maxHealth;
         currentShields = maxShield;
         isAwaitingRespawn = false;
         HudController.IsLowHealth(false);
-        
-
-        //Find a random spawn point to respawn at
-        int randInt = Random.Range(0, respawnPoints.Length - 1);
-        gameObject.transform.position = respawnPoints[randInt].position;
-        gameObject.transform.rotation = respawnPoints[randInt].rotation;
 
         //Set Ship Active. Ship is now completely respawned.
         ship.SetActive(true);
@@ -522,8 +544,6 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     public IEnumerator RespawnTimer(){
         yield return new WaitForSecondsRealtime(respawnTime);
        SpawnPlayer();
-
-        //also teleport to spawn points using a spawn point system
     }
 
     public IEnumerator ResetMotorSpeeds(float time){

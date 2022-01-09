@@ -262,7 +262,6 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         Debug.DrawRay(origin, dir, Color.red);
         if(!Physics.SphereCast(origin, 10, dir, out hit, 3500, ~layermask)){
             lockIndicator.SetActive(false);
-            Debug.LogFormat("WeaponsSystem: PositionIndicators(), target {0} not visible. Indicator is inactive.", currentTargetSelection[currentTarget].name);
             return;
         }
         else if(hit.rigidbody == null){

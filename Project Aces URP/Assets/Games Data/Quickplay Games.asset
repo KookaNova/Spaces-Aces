@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   matchmakingType: Quickplay
   expectedMaxPlayers: 1
-  gamemodeSettings: {fileID: 11400000, guid: 179f959c91b24b143912aed3fcc1d2c0, type: 2}
+  gamemodeSettings: {fileID: 11400000, guid: b0f6d5493fac71b458aa055e7ea7316e, type: 2}
   levelOptions:
-  - {fileID: 11400000, guid: 179f959c91b24b143912aed3fcc1d2c0, type: 2}
+  - {fileID: 11400000, guid: b0f6d5493fac71b458aa055e7ea7316e, type: 2}
