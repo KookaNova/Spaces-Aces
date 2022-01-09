@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class FillPlayerData : MonoBehaviour
 {
@@ -69,7 +70,7 @@ public class FillPlayerData : MonoBehaviour
     }
 
     public void SetCustomData(string name, int level, float nameHue, int nameArt, int emblemPrim, int emblemBack, float emblemPrimHue, float emblemBackHue){
-        ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable(){
+        Hashtable properties = new ExitGames.Client.Photon.Hashtable(){
             {"Name", name},
             {"Level", level},
             {"Name Hue", nameHue},
