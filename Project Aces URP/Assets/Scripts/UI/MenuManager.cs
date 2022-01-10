@@ -20,10 +20,9 @@ public class MenuManager : VisualElement
     VisualElement m_Profile;
     VisualElement m_Credits;
     VisualElement m_Nameplate;
+    VisualElement m_PostGame;
 
     Label l_MenuName;
-
-
          
     #endregion
 
@@ -31,11 +30,12 @@ public class MenuManager : VisualElement
     public new class UxmlTraits : VisualElement.UxmlTraits{ }
 
     public MenuManager(){
+        this.RegisterCallback<GeometryChangedEvent>(OnGeometryChange);
         sceneController = SceneController.FindObjectOfType<SceneController>();
         multiplayerLauncher = MultiplayerLauncher.FindObjectOfType<MultiplayerLauncher>();
         menuHelper = MenuHelper.FindObjectOfType<MenuHelper>();
-        this.RegisterCallback<GeometryChangedEvent>(OnGeometryChange);
-
+        
+        
         
     }
 
@@ -54,9 +54,11 @@ public class MenuManager : VisualElement
         m_Friends = this.Q("Friends");
         m_Profile = this.Q("Profile");
         m_Credits = this.Q("Credits");
+        m_PostGame = this.Q("PostGame");
         
 
         l_MenuName = this.Q<Label>("MenuName");
+       
 
         //Click Events
         m_Title?.RegisterCallback<ClickEvent>(ev => TitleClicked()); //animation class
@@ -77,7 +79,6 @@ public class MenuManager : VisualElement
         m_MatchSearch?.Q("CancelSearch")?.RegisterCallback<ClickEvent>(ev => multiplayerLauncher.LeaveRoom());
 
 
-
         //Transition End Events
         m_Title?.RegisterCallback<TransitionEndEvent>(ev => EnableHome());
 
@@ -86,7 +87,7 @@ public class MenuManager : VisualElement
     private void TitleClicked(){
         m_Title.Q("Art").AddToClassList("opacityOut");
         m_Home.AddToClassList("offsetLeft");
-        this.Q("GameInfo").AddToClassList("offsetRight");
+        //this.Q("GameInfo").AddToClassList("offsetRight");
         m_MenuSelector.AddToClassList("offsetLeft");
         m_Nameplate.AddToClassList("offsetRight");
 
@@ -110,6 +111,7 @@ public class MenuManager : VisualElement
         m_Friends.style.display = DisplayStyle.None;
         m_Credits.style.display = DisplayStyle.None;
         m_Profile.style.display = DisplayStyle.None;
+        m_PostGame.style.display = DisplayStyle.None;
 
         l_MenuName.style.display = DisplayStyle.None;
     }
@@ -182,5 +184,11 @@ public class MenuManager : VisualElement
     public void DisableMatchSearch(){
         m_MatchSearch.style.display = DisplayStyle.None;
         
+    }
+
+    public void EnablePostGame(){
+        DisableAllScreens();
+        m_PostGame.style.display = DisplayStyle.Flex;
+
     }
 }

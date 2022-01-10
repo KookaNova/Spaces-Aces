@@ -18,5 +18,5 @@ MonoBehaviour:
   isTeams: 1
   playerCount: 1
   scoreValue: 1
-  maxScore: 25
+  maxScore: 5
   timeLimit: 600
