@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     int teamAScore, teamBScore;
     int timeOut = 45, startCount = 10;
     bool gameReady = false, gameStarted = false, gameOver = false;
+    SceneController sceneController;
 
 
     //UI
@@ -35,7 +36,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     #region GameStart
 
     private void Start() {
-        var sceneController = FindObjectOfType<SceneController>();
+        sceneController = FindObjectOfType<SceneController>();
         if(sceneController != null){
             currentGamemode = FindObjectOfType<SceneController>().chosenGamemode;
         }
@@ -74,6 +75,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         SceneManager.UnloadSceneAsync("Select Scene");
         uIDocument.sortingOrder = 1;
         root.Q<GameUIManager>().EnableMainScreen();
+        SpawnPlayer();
         
         
     }
@@ -83,7 +85,8 @@ public class GameManager : MonoBehaviourPunCallbacks
             Debug.LogError("GameManager: SpawnPlayer(), playerPrefab is null. Place a prefab in the inspector.", this);
             return;
         }
-
+        if(!gameStarted)return;
+        if(isSelectLoaded)return;
 
         // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
         if((string)PhotonNetwork.LocalPlayer.CustomProperties["Team"] == "A"){
@@ -138,9 +141,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 
 
     private void StartGame(){
+        gameStarted = true;
         StartCoroutine(GameTimer());
         SpawnPlayer();
-        gameStarted = true;
         
 
         Debug.Log("Current Players: " + PhotonNetwork.PlayerList.Length);
@@ -149,25 +152,27 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private void GameOver(){
         gameOver = true;
+        StartCoroutine(GoToPostGame());
         Debug.Log("GameOver() Called! Game has ended!");
 
         string winningTeam = null;
         if(teamAScore > teamBScore){
             winningTeam = "A";
         }
-        else{
+        else if(teamAScore < teamBScore){
             winningTeam = "B";
         }
-
+        else{
+            winningTeam = "Draw";
+            Debug.Log("Draw.");
+            return;
+        }
         if((string)PhotonNetwork.LocalPlayer.CustomProperties["Team"] == winningTeam){
             Debug.Log("Victory!");
         }
         else{
             Debug.Log("Defeat.");
         }
-
-
-        
 
     }
 
@@ -361,6 +366,10 @@ public class GameManager : MonoBehaviourPunCallbacks
 
 
     private IEnumerator GameTimer(){
+        if(gameOver){
+            root.Q<Label>("GameTimer").text = "Game Over.";
+            yield break;
+        }
         int minutes = Mathf.CeilToInt(gameTimer /60);
         int seconds = gameTimer % 60;
 
@@ -375,6 +384,14 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
 
         StartCoroutine(GameTimer());
+    }
+
+    private IEnumerator GoToPostGame(){
+        yield return new WaitForSecondsRealtime(5);
+        PhotonNetwork.AutomaticallySyncScene = true;
+        PhotonNetwork.LoadLevel("Home");
+        
+
     }
 
     

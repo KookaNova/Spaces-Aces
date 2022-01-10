@@ -3,7 +3,6 @@ using UnityEngine.UIElements;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
-using System.Collections.Generic;
 using System;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
@@ -11,7 +10,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
 {
     //The multiplayer launcher should be in the main menu scene, and most functions accessible by pressing buttons.
     //This client's version number. Users are separated from each other by gameVersion (which allows breaking changes).
-    string gameVersion = "0.23";
+    string gameVersion = "0.25";
 
     
     #region UI Fields
@@ -50,7 +49,6 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
     
     
     #endregion
-
     private void Awake() {
         //This makes sure we can use PhotonNetwork.LoadLevel() on the master client and all clients in the same room sync their level automatically.
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -67,12 +65,19 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         gameStatusLabel = root.Q<Label>("GameStatus");
 
         versionLabel.text = gameVersion;
-        serverLabel.text = "Offline";
+        if(PhotonNetwork.IsConnected){
+            serverLabel.text = PhotonNetwork.CloudRegion.ToString();
+        }
+        else{
+            serverLabel.text = "Offline";
+        }
+        if(PhotonNetwork.InRoom){
+            StartCoroutine(PostGameCheck());
+        }
+        
 
     }
 
-    public void ReturnToMainMenu(){
-    }
     #region Connecting to Server
 
     public void ConnectToServer(){
@@ -416,12 +421,16 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         // #Critical: Load the Room Level.
         PhotonNetwork.LoadLevel(gamemodeData.levelName);
     }
+    private IEnumerator PostGameCheck(){
+        yield return new WaitForEndOfFrame();
+        if(PhotonNetwork.InRoom){
+            menuManager.EnablePostGame();
+        }
+    }
 
 
 
     #endregion
-
-
 
 }
 /// <summary> Settings used to create private games. </summary>

@@ -216,7 +216,7 @@ GameObject:
   - component: {fileID: 165059704}
   - component: {fileID: 165059703}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: KillSphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -398,7 +398,7 @@ GameObject:
   - component: {fileID: 368581992}
   - component: {fileID: 368581991}
   m_Layer: 0
-  m_Name: Sphere.2
+  m_Name: DeathSphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -568,7 +568,7 @@ GameObject:
   - component: {fileID: 421940625}
   - component: {fileID: 421940624}
   m_Layer: 0
-  m_Name: Sphere.1
+  m_Name: PointSphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -660,7 +660,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 421940623}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 109.86079, y: 53.23198, z: 266.5}
+  m_LocalPosition: {x: 106.1, y: 53.23198, z: 266.5}
   m_LocalScale: {x: 17.917, y: 17.917, z: 17.917}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1674,15 +1674,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5939025870752121161, guid: 44d8d8c813daed04a9915b28c9711f59, type: 3}
       propertyPath: m_LocalScale.x
-      value: 13456.336
+      value: 10040.722
       objectReference: {fileID: 0}
     - target: {fileID: 5939025870752121161, guid: 44d8d8c813daed04a9915b28c9711f59, type: 3}
       propertyPath: m_LocalScale.y
-      value: 13456.336
+      value: 10040.722
       objectReference: {fileID: 0}
     - target: {fileID: 5939025870752121161, guid: 44d8d8c813daed04a9915b28c9711f59, type: 3}
       propertyPath: m_LocalScale.z
-      value: 13456.336
+      value: 10040.722
       objectReference: {fileID: 0}
     - target: {fileID: 5939025870752121161, guid: 44d8d8c813daed04a9915b28c9711f59, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1726,7 +1726,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6422265270688635891, guid: 44d8d8c813daed04a9915b28c9711f59, type: 3}
       propertyPath: m_Name
-      value: flippedIcoSphere (1)
+      value: Barrier
       objectReference: {fileID: 0}
     - target: {fileID: 6422265270688635891, guid: 44d8d8c813daed04a9915b28c9711f59, type: 3}
       propertyPath: m_IsActive

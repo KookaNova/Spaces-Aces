@@ -334,3 +334,22 @@
     border-top-width: 1px;
     border-bottom-width: 1px;
 }
+
+.panelClear {
+    margin-left: 1%;
+    margin-right: 1%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-left-color: rgba(255, 255, 255, 255);
+    border-right-color: rgba(255, 255, 255, 255);
+    border-top-color: rgba(255, 255, 255, 255);
+    border-bottom-color: rgba(255, 255, 255, 255);
+    padding-left: 1%;
+    padding-right: 1%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}

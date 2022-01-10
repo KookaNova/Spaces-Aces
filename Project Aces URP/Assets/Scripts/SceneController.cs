@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class SceneController : MonoBehaviour
 {
@@ -11,11 +12,10 @@ public class SceneController : MonoBehaviour
 
 
     void Awake() {
-
+        
         if(instance == null){
             instance = this;
             Debug.Log("SceneController: Awake(), instance set to " + this);
-            DontDestroyOnLoad(gameObject);
         }
         else if(instance != this){
             Debug.Log("SceneController: Awake(), instance already set. Destroying " + this);
