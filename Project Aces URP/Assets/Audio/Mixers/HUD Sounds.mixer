@@ -6,8 +6,8 @@ AudioMixerController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Hud Mixer
-  m_OutputGroup: {fileID: 0}
+  m_Name: HUD Sounds
+  m_OutputGroup: {fileID: 4506196534765735694, guid: 977fdd28f5619694bab22ee0b0292424, type: 2}
   m_MasterGroup: {fileID: 24300002}
   m_Snapshots:
   - {fileID: 24500006}
