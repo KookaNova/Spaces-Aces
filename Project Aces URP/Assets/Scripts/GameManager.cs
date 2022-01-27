@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     [Tooltip("The amount of time in seconds that the match will last.")]
     [SerializeField] private int gameTimer = 600;
+    [SerializeField] bool debugMode = false;
 
     int teamAScore, teamBScore;
     int timeOut = 45, startCount = 10;

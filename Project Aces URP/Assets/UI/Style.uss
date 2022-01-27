@@ -81,6 +81,10 @@
     padding-top: 1%;
     padding-bottom: 1%;
     transform-origin: top;
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
 }
 
 .launchButton {
@@ -344,10 +348,10 @@
     border-right-width: 2px;
     border-top-width: 2px;
     border-bottom-width: 2px;
-    border-left-color: rgba(255, 255, 255, 255);
-    border-right-color: rgba(255, 255, 255, 255);
-    border-top-color: rgba(255, 255, 255, 255);
-    border-bottom-color: rgba(255, 255, 255, 255);
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
     padding-left: 1%;
     padding-right: 1%;
     padding-top: 1%;

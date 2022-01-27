@@ -356,7 +356,7 @@ Transform:
   m_GameObject: {fileID: 811196013837957695}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 583361983202680094}
@@ -383,7 +383,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 811196013837957695}
   serializedVersion: 2
-  m_Mass: 5
+  m_Mass: 15
   m_Drag: 1
   m_AngularDrag: 1
   m_UseGravity: 0
@@ -1511,7 +1511,7 @@ MonoBehaviour:
   m_Lens:
     FieldOfView: 55
     OrthographicSize: 5
-    NearClipPlane: 0.25
+    NearClipPlane: 0.1
     FarClipPlane: 15000
     Dutch: 0
     ModeOverride: 0

@@ -1,0 +1,37 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Style.uss?fileID=7433441132597879392&amp;guid=5f5cd455162d302479a25627e01f7028&amp;type=3#Style" />
+    <SettingsManager class="screen panel">
+        <ui:VisualElement name="TopBar" style="flex-direction: row; justify-content: center; height: 5%; display: none;">
+            <ui:Button text="Audio" display-tooltip-when-elided="true" name="Audio" class="panelButton topButtons" />
+            <ui:Button text="Gameplay" display-tooltip-when-elided="true" name="Gameplay" class="panelButton topButtons" />
+            <ui:Button text="Graphics" display-tooltip-when-elided="true" name="Graphics" class="panelButton topButtons" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Main" style="width: 100%; height: 100%; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 1%; padding-right: 1%; padding-top: 1%; padding-bottom: 1%; align-items: center;">
+            <ui:VisualElement name="Settings" style="height: 100%; width: 50%; align-items: center;">
+                <ui:VisualElement name="Graphics" style="width: 50%; height: 100%;">
+                    <ui:VisualElement name="Label">
+                        <ui:Label text="Graphics" display-tooltip-when-elided="true" class="midLabel" style="-unity-text-align: upper-center;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement style="height: auto; flex-direction: column; justify-content: center; margin-left: 2%; margin-right: 2%; margin-top: 2%; margin-bottom: 2%;">
+                        <ui:Slider picking-mode="Ignore" label="Brightness" value="50" high-value="100" name="Brightness" class="baseLabel" />
+                        <ui:DropdownField label="Resolution" index="0" choices="1920x1080,1600x900,1280x720,1024x768,854×480,640x360" name="Resolution" class="baseLabel" />
+                        <ui:DropdownField label="Display Mode" index="0" choices="Fullscreen, Fullscreen (Windowed), Windowed" name="DisplayMode" class="baseLabel" />
+                        <ui:DropdownField label="Quality" index="0" choices="Ultra,High,Medium,Low" name="Quality" class="baseLabel" />
+                        <ui:DropdownField label="Anti-Aliasing" index="0" choices="Fast (FXAA), Fancy (SMAA)" name="AA" class="baseLabel" />
+                        <ui:DropdownField label="Textures" index="0" choices="Full, Half, Quarter" name="Texture" class="baseLabel" />
+                        <ui:Toggle label="Realtime Reflections" name="RealtimeReflections" value="false" tabindex="0" focusable="true" usage-hints="None" class="baseLabel" style="justify-content: flex-end; flex-direction: row; align-items: center; white-space: normal; -unity-text-align: upper-left;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Audio">
+                        <ui:Label text="Audio" display-tooltip-when-elided="true" class="midLabel" style="-unity-text-align: upper-center;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement>
+                        <ui:Slider picking-mode="Ignore" label="Dialogue" value="100" high-value="100" name="Dialogue" class="baseLabel" />
+                        <ui:Slider picking-mode="Ignore" label="Sound" value="100" high-value="100" name="Sound" class="baseLabel" />
+                        <ui:Slider picking-mode="Ignore" label="Music" value="100" high-value="100" name="Music" class="baseLabel" />
+                        <ui:Slider picking-mode="Ignore" label="Master" value="100" high-value="100" name="Master" class="baseLabel" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </SettingsManager>
+</ui:UXML>

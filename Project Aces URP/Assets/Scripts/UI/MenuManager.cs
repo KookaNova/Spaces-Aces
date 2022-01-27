@@ -1,3 +1,4 @@
+using System;
 using UnityEngine.UIElements;
 
 public class MenuManager : VisualElement
@@ -21,6 +22,7 @@ public class MenuManager : VisualElement
     VisualElement m_Credits;
     VisualElement m_Nameplate;
     VisualElement m_PostGame;
+    VisualElement m_Settings;
 
     Label l_MenuName;
          
@@ -55,6 +57,7 @@ public class MenuManager : VisualElement
         m_Profile = this.Q("Profile");
         m_Credits = this.Q("Credits");
         m_PostGame = this.Q("PostGame");
+        m_Settings = this.Q("Settings");
         
 
         l_MenuName = this.Q<Label>("MenuName");
@@ -71,6 +74,7 @@ public class MenuManager : VisualElement
 
         m_MenuSelector?.Q("b_Home")?.RegisterCallback<ClickEvent>(ev => EnableHome());
         m_MenuSelector?.Q("b_Friends")?.RegisterCallback<ClickEvent>(ev => EnableFriends());
+        m_MenuSelector?.Q("b_Settings")?.RegisterCallback<ClickEvent>(ev => EnableSettings());
         m_Nameplate.RegisterCallback<ClickEvent>(ev => EnableProfile());
         //m_Exit?.RegisterCallback<ClickEvent>(ev => sceneController.ExitGame());
 
@@ -84,6 +88,7 @@ public class MenuManager : VisualElement
 
         UnregisterCallback<GeometryChangedEvent>(OnGeometryChange);
     }
+
     private void TitleClicked(){
         m_Title.Q("Art").AddToClassList("opacityOut");
         m_Home.AddToClassList("offsetLeft");
@@ -112,6 +117,7 @@ public class MenuManager : VisualElement
         m_Credits.style.display = DisplayStyle.None;
         m_Profile.style.display = DisplayStyle.None;
         m_PostGame.style.display = DisplayStyle.None;
+        m_Settings.style.display = DisplayStyle.None;
 
         l_MenuName.style.display = DisplayStyle.None;
     }
@@ -159,6 +165,15 @@ public class MenuManager : VisualElement
         m_Credits.style.display = DisplayStyle.Flex;
         m_ReturnMain.style.display = DisplayStyle.Flex;
 
+    }
+
+    private void EnableSettings(){
+        DisableAllScreens();
+        m_MenuSelector.RemoveFromClassList("offsetLeft");
+        m_MenuSelector.style.display = DisplayStyle.Flex;
+        m_Nameplate.style.display = DisplayStyle.Flex;
+
+        m_Settings.style.display = DisplayStyle.Flex;
     }
     
 
