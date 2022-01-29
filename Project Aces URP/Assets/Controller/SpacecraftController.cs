@@ -548,6 +548,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
 
     public IEnumerator ResetMotorSpeeds(float time){
         yield return new WaitForSecondsRealtime(time);
+        if(gamepadFound)
         _gp.SetMotorSpeeds(0,0);
     }
     #endregion
