@@ -8,18 +8,26 @@
 }
 
 .panel {
-    background-color: rgb(34, 36, 51);
+    background-color: rgba(29, 30, 34, 0.61);
     width: 100%;
     height: 100%;
     transition-duration: 0.3s;
     transition-delay: 0s;
     translate: 0 0;
+    border-left-color: rgba(255, 255, 255, 255);
+    border-right-color: rgba(255, 255, 255, 255);
+    border-top-color: rgba(255, 255, 255, 255);
+    border-bottom-color: rgba(255, 255, 255, 255);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
 }
 
 .panelButton {
     top: auto;
     color: rgb(221, 249, 244);
-    font-size: 24px;
+    font-size: 100%;
     -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/BAHNSCHRIFT.TTF?fileID=12800000&guid=b8a3fef9f615d4b458db3dcec0da4da1&type=3#BAHNSCHRIFT');
     -unity-font-definition: none;
     -unity-text-align: middle-left;
@@ -34,15 +42,10 @@
     border-right-color: rgb(221, 249, 244);
     border-top-color: rgb(221, 249, 244);
     border-bottom-color: rgb(221, 249, 244);
-    height: auto;
     margin-left: 0;
     margin-right: 5px;
     margin-top: 10px;
     margin-bottom: 0;
-    padding-left: 40px;
-    padding-right: 150px;
-    padding-top: 20px;
-    padding-bottom: 20px;
     -unity-font-style: normal;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
@@ -50,6 +53,9 @@
     border-bottom-right-radius: 0;
     align-items: flex-start;
     background-color: rgba(0, 0, 0, 0);
+    padding-left: 10%;
+    padding-top: 2%;
+    padding-bottom: 2%;
 }
 
 .panelButton:hover {
@@ -126,7 +132,7 @@
     border-right-color: rgb(221, 249, 244);
     border-top-color: rgb(221, 249, 244);
     border-bottom-color: rgb(221, 249, 244);
-    font-size: 30px;
+    font-size: 100%;
     transition-duration: 0.2s;
     color: rgb(229, 229, 229);
     -unity-font: none;
@@ -150,14 +156,19 @@
     -unity-font-definition: none;
     font-size: 24px;
     color: rgb(214, 214, 214);
+    flex-grow: 0.04;
+    flex-wrap: wrap;
+    -unity-text-align: upper-left;
+    flex-shrink: 5;
 }
 
 .midLabel {
     -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/BAHNSCHRIFT.TTF?fileID=12800000&guid=b8a3fef9f615d4b458db3dcec0da4da1&type=3#BAHNSCHRIFT');
     -unity-font-definition: none;
-    font-size: 45px;
+    font-size: 150%;
     color: rgb(214, 214, 214);
     -unity-text-align: upper-center;
+    flex-basis: auto;
 }
 
 .strongLabel {
@@ -271,32 +282,31 @@
 
 .p_Nameplate {
     background-color: rgba(0, 0, 0, 0);
-    -unity-text-align: middle-left;
     justify-content: space-between;
     align-items: stretch;
     flex-direction: row;
-    height: 100%;
-    width: 100%;
     background-image: url('project://database/Assets/Sprites/Nameplates/Plate.jpg?fileID=2800000&guid=751b8b63d33878b408bca91b027fdf8b&type=3#Plate');
-    -unity-background-scale-mode: scale-and-crop;
-    flex-shrink: 0;
+    -unity-background-scale-mode: stretch-to-fill;
+    flex-shrink: 1;
+    flex-grow: 0;
+    overflow: hidden;
 }
 
 .p_Name {
     -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/nasalization-rg.otf?fileID=12800000&guid=2f3a78fadadb162489e989f949893a3d&type=3#nasalization-rg');
     -unity-font-definition: none;
-    font-size: 24px;
+    font-size: 100%;
     -unity-text-align: middle-left;
     white-space: nowrap;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.62);
     color: rgb(255, 255, 255);
+    overflow: visible;
 }
 
 .p_Emblem {
     background-image: url('project://database/Assets/Sprites/Alphas/Blast.png?fileID=21300000&guid=a07eec4cb3aa0b843a3e071d2bd7bfb7&type=3#Blast');
     background-color: rgba(0, 0, 0, 0);
     -unity-background-scale-mode: scale-to-fit;
-    height: 100%;
     width: auto;
     flex-shrink: 1;
     -unity-background-image-tint-color: rgb(0, 10, 255);
@@ -310,6 +320,7 @@
     padding-right: 8%;
     padding-top: 8%;
     padding-bottom: 8%;
+    flex-grow: 1;
 }
 
 .p_Level {
@@ -317,13 +328,16 @@
     -unity-font-definition: url('project://database/Assets/TextMesh%20Pro/Fonts/BAHNSCHRIFT%20SDF.asset?fileID=11400000&guid=bb11bb5e493f74248883e976094fed42&type=2#BAHNSCHRIFT SDF');
     color: rgb(244, 255, 0);
     text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.55);
+    font-size: 100%;
 }
 
 .profileIcon {
-    height: 100%;
-    width: 40%;
     transition-duration: 0.5s;
     overflow: hidden;
+    flex-grow: 0;
+    min-height: 50px;
+    min-width: 150px;
+    width: 53%;
 }
 
 .profileIcon:hover {
@@ -356,4 +370,45 @@
     padding-right: 1%;
     padding-top: 1%;
     padding-bottom: 1%;
+}
+
+.unity-base-popup-field__input {
+    color: rgba(250, 250, 250, 255);
+    background-color: rgba(99, 147, 185, 0);
+    border-left-color: rgba(196, 196, 196, 255);
+    border-right-color: rgba(196, 196, 196, 255);
+    border-top-color: rgba(196, 196, 196, 255);
+    border-bottom-color: rgba(196, 196, 196, 255);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    margin-left: 20%;
+}
+
+.unity-base-field:hover {
+    color: rgb(223, 188, 85);
+    background-color: rgba(102, 150, 250, 0.09);
+    transition-duration: 0.1s;
+}
+
+.unity-base-popup-field__arrow {
+    border-left-color: rgb(180, 180, 180);
+    border-right-color: rgb(180, 180, 180);
+    border-top-color: rgb(180, 180, 180);
+    border-bottom-color: rgb(180, 180, 180);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    -unity-background-image-tint-color: rgba(115, 115, 115, 255);
+    background-color: rgba(154, 154, 154, 255);
 }
