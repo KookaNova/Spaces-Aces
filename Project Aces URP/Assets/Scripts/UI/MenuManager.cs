@@ -8,6 +8,7 @@ public class MenuManager : VisualElement
     MultiplayerLauncher multiplayerLauncher;
     MenuHelper menuHelper;
 
+
     #region Screens
     VisualElement m_Title;
     VisualElement m_TopBar;
@@ -88,6 +89,7 @@ public class MenuManager : VisualElement
 
         UnregisterCallback<GeometryChangedEvent>(OnGeometryChange);
     }
+
 
     private void TitleClicked(){
         m_Title.Q("Art").AddToClassList("opacityOut");

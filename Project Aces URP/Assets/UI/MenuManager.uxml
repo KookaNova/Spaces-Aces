@@ -13,8 +13,8 @@
                     <ui:Button text="FRIENDS" display-tooltip-when-elided="true" name="b_Friends" enable-rich-text="false" class="panelButton topButtons" />
                     <ui:Button text="SETTINGS" display-tooltip-when-elided="true" name="b_Settings" enable-rich-text="false" class="panelButton topButtons" />
                 </ui:VisualElement>
-                <ui:VisualElement style="width: 26%; flex-direction: row; justify-content: flex-end; height: 100%; align-items: stretch;">
-                    <ProfileIcon name="Nameplate" class="profileIcon" style="width: 100%; display: none;" />
+                <ui:VisualElement style="flex-direction: row; justify-content: flex-end; align-items: stretch; flex-grow: 1;">
+                    <ProfileIcon name="Nameplate" class="profileIcon" style="display: none; flex-shrink: 1; flex-wrap: nowrap; justify-content: flex-start; flex-direction: column;" />
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="CenterScreen" class="screen">
@@ -111,7 +111,7 @@
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:Instance template="Options" name="Settings" style="display: none;" />
+                <ui:Instance template="Options" name="Settings" style="display: none; margin-left: 2%; margin-right: 2%; margin-top: 2%; margin-bottom: 2%; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;" />
             </ui:VisualElement>
             <ui:VisualElement name="Bottom" style="width: 100%; height: auto; flex-direction: row; justify-content: space-between; flex-shrink: 0; display: flex;">
                 <ui:VisualElement style="justify-content: flex-end; width: 33%;">
@@ -122,7 +122,7 @@
                         <ui:Button text="STORY" display-tooltip-when-elided="true" name="Story" class="panelButton sideButtons" />
                         <ui:Button text="EXIT" display-tooltip-when-elided="true" name="Exit" class="panelButton sideButtons" />
                     </ui:VisualElement>
-                    <ui:Button text="RETURN" display-tooltip-when-elided="true" name="Return" class="actionButton" style="display: none; margin-right: 229px;" />
+                    <ui:Button text="RETURN" display-tooltip-when-elided="true" name="Return" class="actionButton" style="display: none; margin-right: 63%;" />
                 </ui:VisualElement>
                 <ui:VisualElement style="justify-content: flex-end; align-items: center; width: 33%;">
                     <ui:VisualElement name="MatchSearch" style="justify-content: flex-end; width: auto; display: none;">
