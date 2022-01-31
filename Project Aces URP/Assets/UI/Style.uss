@@ -122,6 +122,20 @@
     cursor: url('project://database/Assets/Sprites/Fighter%20Icon.png?fileID=2800000&guid=31bbcc9c2962e634c85ff712f9aef01a&type=3#Fighter Icon');
 }
 
+.launchButton:hover:focus {
+    background-color: rgb(195, 195, 195);
+    -unity-background-image-tint-color: rgba(0, 255, 54, 0.69);
+    scale: 1.03 1.03;
+    cursor: url('project://database/Assets/Sprites/Fighter%20Icon.png?fileID=2800000&guid=31bbcc9c2962e634c85ff712f9aef01a&type=3#Fighter Icon');
+}
+
+.launchButton:focus {
+    background-color: rgb(195, 195, 195);
+    -unity-background-image-tint-color: rgba(0, 255, 54, 0.69);
+    scale: 1.03 1.03;
+    cursor: url('project://database/Assets/Sprites/Fighter%20Icon.png?fileID=2800000&guid=31bbcc9c2962e634c85ff712f9aef01a&type=3#Fighter Icon');
+}
+
 .actionButton {
     border-left-width: 2px;
     border-right-width: 2px;
@@ -151,6 +165,18 @@
     color: rgb(48, 48, 48);
 }
 
+.actionButton:focus {
+    background-color: rgb(223, 188, 85);
+    scale: 1.01 1.01;
+    translate: 0 0;
+    transform-origin: center;
+    border-left-color: rgb(29, 29, 29);
+    border-right-color: rgb(29, 29, 29);
+    border-top-color: rgb(29, 29, 29);
+    border-bottom-color: rgb(29, 29, 29);
+    color: rgb(48, 48, 48);
+}
+
 .baseLabel {
     -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/BAHNSCHRIFT.TTF?fileID=12800000&guid=b8a3fef9f615d4b458db3dcec0da4da1&type=3#BAHNSCHRIFT');
     -unity-font-definition: none;
@@ -160,6 +186,16 @@
     flex-wrap: wrap;
     -unity-text-align: upper-left;
     flex-shrink: 5;
+}
+
+.panelButton:focus {
+    -unity-background-image-tint-color: rgba(121, 121, 123, 0);
+    translate: 0 0;
+    scale: 1.03 1.03;
+    rotate: 0;
+    color: rgb(37, 62, 95);
+    background-color: rgb(145, 247, 249);
+    -unity-font-style: normal;
 }
 
 .midLabel {
@@ -239,6 +275,10 @@
 }
 
 .pictureButton:hover {
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+}
+
+.pictureButton:focus {
     -unity-background-image-tint-color: rgb(255, 255, 255);
 }
 
@@ -341,6 +381,19 @@
 }
 
 .profileIcon:hover {
+    scale: 1.03 1.03;
+    transform-origin: center;
+    border-left-color: rgb(255, 227, 0);
+    border-right-color: rgb(255, 227, 0);
+    border-top-color: rgb(255, 227, 0);
+    border-bottom-color: rgb(255, 227, 0);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+}
+
+.profileIcon:focus {
     scale: 1.03 1.03;
     transform-origin: center;
     border-left-color: rgb(255, 227, 0);
