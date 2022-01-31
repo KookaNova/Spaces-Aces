@@ -9,8 +9,10 @@ public class CharacterHandler : ScriptableObject
     [TextArea( 2, 50 )]
     public string bio = "Character bio...";
     public Texture2D portrait, bodyArt, nameArt;
-    [Tooltip("Abilities are ordered 0 = Primary, 1 = Secondary, and 2 = Ace")]
+    [Tooltip("Abilities are ordered:\n0 = Primary\n1 = Secondary\n2 = Ace")]
     public List<AbilityHandler> abilities;
+    [Tooltip("0 = Start Match\n1 = Primary\n2 = Secondary\n3 = Ace\n4 = EnemyBeingTargeted\n5 = MissileTypeFired\n6 = ThisBeingTargeted\n7 = MissileIncoming\n8 = EnemyEliminated\n9 = ShieldsDown\n10 = LowHealth\n11 = SelfEliminated\n12 = Respawn")]
+    public List<DialogueObject> voiceLines;
 
     //Base passive modifiers. Additional modifiers are added through the passive ability
     [Header("Passive Modifiers")]
