@@ -14,7 +14,7 @@ public class TeleportAbility : AbilityHandler
         }
         if(!canUse)yield break;
         canUse = false;
-
+        player.VoiceLine(1);
         //Plays startup effect or animation if added to the script
         Instantiate(startUpParticle, player.transform);
         yield return new WaitForSecondsRealtime(startUpTime);
