@@ -64,18 +64,18 @@
     margin-right: 2%;
     margin-top: 2%;
     margin-bottom: 2%;
-    border-left-width: 10px;
-    border-right-width: 10px;
-    border-top-width: 10px;
-    border-bottom-width: 10px;
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
     border-top-left-radius: 50px;
     border-bottom-left-radius: 50px;
     border-top-right-radius: 50px;
     border-bottom-right-radius: 50px;
-    padding-left: 2%;
-    padding-right: 2%;
-    padding-top: 2%;
-    padding-bottom: 2%;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 5%;
+    padding-bottom: 5%;
 }
 
 .gradientClear {
@@ -179,6 +179,29 @@
     color: rgb(37, 62, 95);
 }
 
+.menuButton:focus {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-left: 4px;
+    margin-right: 4px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    background-color: rgb(223, 188, 85);
+    -unity-font-definition: url('project://database/Assets/TextMesh%20Pro/Fonts/BAHNSCHRIFT%20SDF.asset?fileID=11400000&guid=bb11bb5e493f74248883e976094fed42&type=2#BAHNSCHRIFT SDF');
+    font-size: 24px;
+    border-top-left-radius: 19px;
+    border-bottom-left-radius: 19px;
+    border-top-right-radius: 19px;
+    border-bottom-right-radius: 19px;
+    border-left-color: rgba(255, 255, 255, 0);
+    border-right-color: rgba(255, 255, 255, 0);
+    border-top-color: rgba(255, 255, 255, 0);
+    border-bottom-color: rgba(255, 255, 255, 0);
+    color: rgb(37, 62, 95);
+}
+
 .enemy {
     border-left-color: rgb(185, 108, 121);
     border-right-color: rgb(185, 108, 121);
@@ -208,49 +231,24 @@
     padding-top: 12px;
     padding-bottom: 30px;
     margin-bottom: 10px;
+    overflow: hidden;
 }
 
 .portrait {
-    margin-left: 3px;
-    margin-right: 3px;
-    margin-top: 3px;
-    margin-bottom: -29px;
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    transition-duration: 0.1s;
-    -unity-background-image-tint-color: rgb(130, 131, 178);
-    width: 125px;
-    height: 145px;
-    background-image: url('project://database/Assets/Sprites/Characters/Portraits/Default%20Portrait.png?fileID=2800000&guid=c6bb7b281ae46d347a418fea54a52fbc&type=3#Default Portrait');
-    align-items: center;
+    -unity-background-image-tint-color: rgb(80, 86, 120);
+    -unity-background-scale-mode: stretch-to-fill;
 }
 
 .portrait:hover {
-    margin-left: 3px;
-    margin-right: 3px;
-    margin-top: 3px;
-    margin-bottom: -29px;
-    padding-left: 65px;
-    padding-right: 65px;
-    padding-top: 65px;
-    padding-bottom: 65px;
-    -unity-background-image-tint-color: rgb(255, 255, 255);
-    scale: 1.01 1.01;
+    transition-duration: 0.3s;
+    scale: 1.02 1.02;
+    -unity-background-image-tint-color: rgba(255, 255, 255, 255);
 }
 
 .portrait:focus {
-    margin-left: 3px;
-    margin-right: 3px;
-    margin-top: 3px;
-    margin-bottom: -29px;
-    padding-left: 65px;
-    padding-right: 65px;
-    padding-top: 65px;
-    padding-bottom: 65px;
+    transition-duration: 0.3s;
+    scale: 1.02 1.02;
     -unity-background-image-tint-color: rgb(255, 255, 255);
-    scale: 1.05 1.05;
 }
 
 .cardItem {

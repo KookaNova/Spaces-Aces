@@ -9,8 +9,12 @@ public class ProfileIcon : VisualElement
     public string playerName = "newPlayer";
     public int level = -5;
 
-    public new class UxmlFactory : UxmlFactory<ProfileIcon, UxmlTraits> { }
+    public new class UxmlFactory : UxmlFactory<ProfileIcon, UxmlTraits>{ }
     public new class UxmlTraits : VisualElement.UxmlTraits{ }
+
+    public Clickable clickable{ get; set; }
+    public event Action clicked;
+
 
     public ProfileIcon(){
         //create new image element

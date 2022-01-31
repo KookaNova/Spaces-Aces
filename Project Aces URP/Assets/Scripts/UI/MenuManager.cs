@@ -65,8 +65,8 @@ public class MenuManager : VisualElement
        
 
         //Click Events
-        m_Title?.RegisterCallback<ClickEvent>(ev => TitleClicked()); //animation class
-        m_Title?.RegisterCallback<ClickEvent>(ev => m_Title.Q("Start").style.visibility = Visibility.Hidden); //animation class
+        m_Title?.RegisterCallback<ClickEvent>(ev => TitleClicked());
+        m_Title?.RegisterCallback<ClickEvent>(ev => m_Title.Q("Start").style.visibility = Visibility.Hidden);
 
         //Home Clicks
         m_ReturnMain?.RegisterCallback<ClickEvent>(ev => EnableHome());
@@ -83,13 +83,26 @@ public class MenuManager : VisualElement
         m_Multiplayer?.Q("Quickplay")?.RegisterCallback<ClickEvent>(ev => multiplayerLauncher.FindMatchFromPlaylist(multiplayerLauncher.quickplay));
         m_MatchSearch?.Q("CancelSearch")?.RegisterCallback<ClickEvent>(ev => multiplayerLauncher.LeaveRoom());
 
-
-        //Transition End Events
+        //Submit Events
+        m_Title?.RegisterCallback<NavigationSubmitEvent>(ev => TitleClicked());
+        m_Title?.RegisterCallback<NavigationSubmitEvent>(ev => m_Title.Q("Start").style.visibility = Visibility.Hidden);
+        m_ReturnMain?.RegisterCallback<NavigationSubmitEvent>(ev => EnableHome());
+        m_Home?.Q("Multiplayer")?.RegisterCallback<NavigationSubmitEvent>(ev => multiplayerLauncher.ConnectToServer());
+        m_Home?.Q("Credits")?.RegisterCallback<NavigationSubmitEvent>(ev => EnableCredits());
+        m_MenuSelector?.Q("b_Home")?.RegisterCallback<NavigationSubmitEvent>(ev => EnableHome());
+        m_MenuSelector?.Q("b_Friends")?.RegisterCallback<NavigationSubmitEvent>(ev => EnableFriends());
+        m_MenuSelector?.Q("b_Settings")?.RegisterCallback<NavigationSubmitEvent>(ev => EnableSettings());
+        m_Nameplate.RegisterCallback<NavigationSubmitEvent>(ev => EnableProfile());
+        //m_Exit?.RegisterCallback<ClickEvent>(ev => sceneController.ExitGame());
+        m_Multiplayer?.Q("Quickplay")?.RegisterCallback<NavigationSubmitEvent>(ev => multiplayerLauncher.FindMatchFromPlaylist(multiplayerLauncher.quickplay));
+        m_MatchSearch?.Q("CancelSearch")?.RegisterCallback<NavigationSubmitEvent>(ev => multiplayerLauncher.LeaveRoom());
+        
+        //Transition End Events-------------------------------------------
         m_Title?.RegisterCallback<TransitionEndEvent>(ev => EnableHome());
+
 
         UnregisterCallback<GeometryChangedEvent>(OnGeometryChange);
     }
-
 
     private void TitleClicked(){
         m_Title.Q("Art").AddToClassList("opacityOut");
