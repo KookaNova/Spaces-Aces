@@ -13,6 +13,19 @@ public class CharacterHandler : ScriptableObject
     public List<AbilityHandler> abilities;
     [Tooltip("0 = Start Match\n1 = Primary\n2 = Secondary\n3 = Ace\n4 = EnemyBeingTargeted\n5 = MissileTypeFired\n6 = ThisBeingTargeted\n7 = MissileIncoming\n8 = EnemyEliminated\n9 = ShieldsDown\n10 = LowHealth\n11 = SelfEliminated\n12 = Respawn")]
     public List<DialogueObject> voiceLines;
+    //0 = Start Match
+    //1= Primary
+    //2= Secondary
+    //3 = Ace
+    //4 = EnemyBeingTargeted
+    //5 = MissileTypeFired
+    //6 = ThisBeingTargeted
+    //7 = MissileIncoming
+    //8 = EnemyEliminated
+    //9 = ShieldsDown
+    //10 = LowHealth
+    //11 = SelfEliminated
+    //12 = Respawn
 
     //Base passive modifiers. Additional modifiers are added through the passive ability
     [Header("Passive Modifiers")]

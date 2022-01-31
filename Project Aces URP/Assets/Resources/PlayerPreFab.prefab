@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 702583517967998089}
   - component: {fileID: 702583517967998092}
   - component: {fileID: 2105643000379996664}
+  - component: {fileID: 735269863312145232}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -47,6 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerName: 
+  teamName: 
   playerObject: {fileID: 11400000, guid: 797f0036c81719d489acc9411a475a78, type: 2}
   menuPrefab: {fileID: 4869130168119835939, guid: 7e57d672f120f6f438850a00051d5005, type: 3}
   explosionObject: {fileID: 9128587892432602950, guid: 8fd703d50be5b704588cc7b5baa1832e, type: 3}
@@ -71,6 +73,8 @@ MonoBehaviour:
   currentShields: 0
   currentHealth: 0
   thrust: 0
+  localVoice: {fileID: -5531333252429107267, guid: 977fdd28f5619694bab22ee0b0292424, type: 2}
+  externalVoice: {fileID: -4841119582935898376, guid: 977fdd28f5619694bab22ee0b0292424, type: 2}
 --- !u!114 &2105643000379996664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,53 +166,145 @@ MonoBehaviour:
     m_ActionName: Flight/CameraTargetLock[/DualShock4GamepadHID/leftStickPress,/Keyboard/x]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 91be01a6-80e0-4b62-ad30-8bc732524083
+    m_ActionId: 64d68f33-742e-4614-8393-e7082a7f3c40
+    m_ActionName: Flight/CameraMouse[/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8b0d834a-1333-40e4-aeac-c612e6a31944
+    m_ActionName: Flight/TabMenuButton[/DualShock4GamepadHID/select,/Keyboard/tab]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 77502021-84fb-4983-a9bb-c32097be0f68
     m_ActionName: UI/Navigate[/DualShock4GamepadHID/leftStick/up,/DualShock4GamepadHID/rightStick/up,/DualShock4GamepadHID/leftStick/down,/DualShock4GamepadHID/rightStick/down,/DualShock4GamepadHID/leftStick/left,/DualShock4GamepadHID/rightStick/left,/DualShock4GamepadHID/leftStick/right,/DualShock4GamepadHID/rightStick/right,/DualShock4GamepadHID/dpad,/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: c7725986-1015-47a3-9b77-968659df9115
+    m_ActionId: 57c067c2-594d-4124-b476-123175960047
     m_ActionName: UI/Submit[/Keyboard/enter,/DualShock4GamepadHID/buttonSouth]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 95339349-bf50-4a82-bfc7-8a091f4868b3
+    m_ActionId: 9529195c-c32c-4740-b8d2-58f010d2f8e9
     m_ActionName: UI/Cancel[/Keyboard/escape,/DualShock4GamepadHID/buttonEast]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: b3f68b04-4141-4492-897c-28a7c0b8699e
-    m_ActionName: UI/Point[/Mouse/position,/Pen/position]
+    m_ActionId: 94d1a55f-cbf7-49fd-9b63-fea105d4d14d
+    m_ActionName: UI/Point[/Mouse/position]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: a55dc20c-f11a-4f1d-816b-e078f6a868cf
-    m_ActionName: UI/Click[/Mouse/leftButton,/Pen/tip,/DualShock4GamepadHID/buttonSouth]
+    m_ActionId: 45b257a1-fda3-48d7-bd36-c34cdecbc39d
+    m_ActionName: UI/Click[/Mouse/leftButton,/DualShock4GamepadHID/buttonSouth]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: aa55a057-d81b-4234-8d15-fdca928ab5d9
+    m_ActionId: 7e3865c4-e222-4ffc-8edb-113a3f0e615b
     m_ActionName: UI/ScrollWheel[/Mouse/scroll]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 63fb6804-afb2-4dc9-bbc6-ed2a9157636f
+    m_ActionId: e247d9c5-e263-45a4-adf8-a1476e875a7c
     m_ActionName: UI/MiddleClick[/Mouse/middleButton]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 38242aee-0b41-46bb-a911-92c8c382d9d2
-    m_ActionName: UI/RightClick[/Mouse/rightButton,/DualShock4GamepadHID/buttonEast]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 6bb62b04-73fa-402c-b803-baa993f01c93
-    m_ActionName: UI/TrackedDevicePosition
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 60d42dc7-3d3a-4c93-8d8f-797eb7629819
-    m_ActionName: UI/TrackedDeviceOrientation
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 64d68f33-742e-4614-8393-e7082a7f3c40
-    m_ActionName: Flight/CameraMouse[/Mouse/delta]
+    m_ActionId: ea001dc9-c479-46dd-9a5f-2481636b8212
+    m_ActionName: UI/RightClick[/Mouse/rightButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Basic Controls
   m_DefaultActionMap: Flight
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!82 &735269863312145232
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 702583517967998088}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 826520624677685751, guid: 977fdd28f5619694bab22ee0b0292424, type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &702583518125578460
 GameObject:
   m_ObjectHideFlags: 0
@@ -304,7 +400,7 @@ GameObject:
   - component: {fileID: 702583518136526229}
   - component: {fileID: 702583518136526227}
   m_Layer: 9
-  m_Name: MM CAm
+  m_Name: MM Cam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

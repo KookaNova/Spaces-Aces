@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.InputSystem;
+using UnityEngine.Audio;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 
@@ -63,7 +64,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     #endregion
 
     #region Multiplayer Variables
-    ExitGames.Client.Photon.Hashtable customProperties;
+    Hashtable customProperties;
     int kills = 0;
     int deaths = 0;
     int score = 0;
@@ -83,9 +84,15 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     //Points are stored and retrieved from GameManager
     private Transform[] respawnPoints;
 
+    //Audio
+    private AudioSource playerAudio;
+    [SerializeField] private AudioMixerGroup localVoice, externalVoice;
+
     #region setup
     public override void OnEnable(){
         gameManager = FindObjectOfType<GameManager>();
+        playerAudio = GetComponent<AudioSource>();
+        
 
         if(this.photonView.Owner != null){
             if(photonView.IsMine){
@@ -97,9 +104,11 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
                 PlayerProfileData data = SaveData.LoadProfile();
                 playerName = data.profileName;
                 this.photonView.Owner.NickName = playerName;
+                playerAudio.outputAudioMixerGroup = localVoice;
             }
             else{
                 playerName = this.photonView.Owner.NickName;
+                playerAudio.outputAudioMixerGroup = externalVoice;
             }
             
         }
@@ -194,6 +203,17 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
 
         ApplyCustomData();
 
+        VoiceLine(0);
+
+    }
+    /// <summary>
+    ///0=Start Match | 1=Primary | 2=Secondary | 3=Ace | 4=EnemyBeingTargeted,
+    ///5=MissileTypeFired | 6=ThisBeingTargeted | 7=MissileIncoming | 8=EnemyEliminated, 
+    ///9=ShieldsDown | 10=LowHealth | 11=SelfEliminated | 12=Respawn
+    /// </summary>
+    private void VoiceLine(int index){
+        playerAudio.clip = chosenCharacter.voiceLines[index].audio;
+        playerAudio.Play();
     }
 
     public void AddScore(int addedScore){
@@ -346,6 +366,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         if(!photonView.IsMine)return;
         if(!isAwaitingRespawn)
             weaponSystem.MissileControl(currentSpeed);
+            VoiceLine(5);
     }
     public void GunControl(bool gunInput){
         if(!photonView.IsMine)return;
@@ -402,6 +423,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
             _gp.SetMotorSpeeds(0, .2f);
             StartCoroutine(ResetMotorSpeeds(1f));
         }
+        VoiceLine(9);
         //Do something when shields are gone
     }
 
@@ -412,13 +434,14 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
             _gp.SetMotorSpeeds(.5f, .3f);
             StartCoroutine(ResetMotorSpeeds(1f));
         }
+        VoiceLine(10);
 
         //Do something different related to low health
     }
 
     public void Eliminate(SpacecraftController attacker, string cause){
         deaths++;
-
+        VoiceLine(11);
         if(gamepadFound){
             _gp.SetMotorSpeeds(1, 1);
             StartCoroutine(ResetMotorSpeeds(.25f));
@@ -461,6 +484,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
             kills++;
             ApplyCustomData();
         }
+        VoiceLine(8);
 
     }
 
@@ -480,6 +504,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         weaponSystem.gameObject.SetActive(true);
         cameraController.gameObject.SetActive(true);
         HudController.gameObject.SetActive(true);
+        VoiceLine(12);
     }
     #endregion
 
@@ -506,16 +531,19 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     public void PrimaryAbility(){
         if(primaryAbility.canUse){
             StartCoroutine(primaryAbility.Activate());
+            VoiceLine(1);
         }
     }
     public void SecondaryAbility(){
         if(secondaryAbility.canUse){
             StartCoroutine(secondaryAbility.Activate());
+            VoiceLine(2);
             
         }
     }
     public void AceAbility(){
         Debug.Log("Spacecraft: AceAbility() called");
+        VoiceLine(3);
         //Ace Ability
     }
     //Handles ability cooldown
