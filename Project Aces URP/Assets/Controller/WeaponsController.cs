@@ -53,6 +53,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     [HideInInspector] public float gunModifier = 0, missileModifier = 0;
     private int missilesAvailable;
     private float lockOnModifier, lockOnDefault = 0.01f;
+    bool missileRecentlyFired = false;
 
     public bool missileLocked = false;
     private bool canFire = true, isTargetVisible = false, canLaunchMissile = true;
@@ -287,6 +288,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             if(lockIndicator.transform.position == targetScreenPosition){
                 missileLocked = true;
                 lockOnModifier = 5000;
+                owner.VoiceLine(4);
             }
             else{
                 missileLocked = false;
@@ -436,13 +438,20 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             UpdateHUD();
         }
         StartCoroutine(MissileReload());
-
+        if(!missileRecentlyFired){
+            owner.VoiceLine(5);
+            missileRecentlyFired = true;
+        }
+        
         yield return new WaitForSeconds(.5f);
         currentMis++;
         if(currentMis > missilePosition.Length - 1){
             currentMis = 0;
         }
         canLaunchMissile = true;
+        yield return new WaitForSeconds(2);
+        missileRecentlyFired = false;
+        
     }
     #endregion
 }

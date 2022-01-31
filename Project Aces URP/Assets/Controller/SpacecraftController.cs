@@ -211,7 +211,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     ///5=MissileTypeFired | 6=ThisBeingTargeted | 7=MissileIncoming | 8=EnemyEliminated, 
     ///9=ShieldsDown | 10=LowHealth | 11=SelfEliminated | 12=Respawn
     /// </summary>
-    private void VoiceLine(int index){
+    public void VoiceLine(int index){
         playerAudio.clip = chosenCharacter.voiceLines[index].audio;
         playerAudio.Play();
         gameManager.Subtitle(chosenCharacter.voiceLines[index]);
@@ -367,7 +367,6 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         if(!photonView.IsMine)return;
         if(!isAwaitingRespawn)
             weaponSystem.MissileControl(currentSpeed);
-            VoiceLine(5);
     }
     public void GunControl(bool gunInput){
         if(!photonView.IsMine)return;
@@ -532,19 +531,16 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     public void PrimaryAbility(){
         if(primaryAbility.canUse){
             StartCoroutine(primaryAbility.Activate());
-            VoiceLine(1);
         }
     }
     public void SecondaryAbility(){
         if(secondaryAbility.canUse){
             StartCoroutine(secondaryAbility.Activate());
-            VoiceLine(2);
             
         }
     }
     public void AceAbility(){
         Debug.Log("Spacecraft: AceAbility() called");
-        VoiceLine(3);
         //Ace Ability
     }
     //Handles ability cooldown

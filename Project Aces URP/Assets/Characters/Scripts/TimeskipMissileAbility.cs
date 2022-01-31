@@ -60,6 +60,7 @@ public class TimeskipMissileAbility : AbilityHandler
         Debug.Log("Timeskip Missile: Skip!");
         
         player.CoolDownAbility(cooldownTime, this);
+        player.VoiceLine(2);
         
 
     }
