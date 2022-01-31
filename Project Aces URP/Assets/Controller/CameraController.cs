@@ -9,8 +9,13 @@ public class CameraController : MonoBehaviour
     [HideInInspector] public int currentCamera = 0;
     bool isCameraTargetLocked = false;
     bool mouseActive = false;
+    bool waitingRespawn = false;
+    GameObject followTarget;
     Vector2 rotationInput;
     Vector3 target;
+    
+    
+    
 
     public void Activate(){
         for(int i = 0; i < cameras.Length; i++){
@@ -58,8 +63,16 @@ public class CameraController : MonoBehaviour
             }
     }
 
-    private void LateUpdate(){
+    public void FollowTarget(bool isCamFollowTarget, GameObject target){
+        waitingRespawn = followTarget;
+        followTarget = target;
+        if(!waitingRespawn){
+            followTarget = null;
+        }
 
+    }
+
+    private void LateUpdate(){
         if(rotationInput == Vector2.zero){
             gameObject.transform.localRotation = Quaternion.Slerp(gameObject.transform.localRotation, Quaternion.identity, .05f);
             
@@ -111,6 +124,13 @@ public class CameraController : MonoBehaviour
                 Mathf.Clamp(gameObject.transform.localRotation.w, -1, 1));
 
         }
+        if(waitingRespawn && followTarget != null){
+            var toTarget = followTarget.transform.position - gameObject.transform.position;
+            var targetRotation = Quaternion.LookRotation(toTarget, weaponsController.gameObject.transform.up);
+
+            gameObject.transform.rotation = Quaternion.Slerp(gameObject.transform.rotation, targetRotation, .05f);
+        }
+        
     }
 }
 }
