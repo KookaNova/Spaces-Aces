@@ -8,11 +8,10 @@
 
 .score {
     -unity-font-definition: none;
-    font-size: 45px;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-top: 3px;
+    padding-bottom: 3px;
     -unity-text-align: middle-center;
     border-left-width: 2px;
     border-right-width: 2px;
@@ -28,6 +27,11 @@
     border-bottom-right-radius: 11px;
     -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/nasalization-rg.otf?fileID=12800000&guid=2f3a78fadadb162489e989f949893a3d&type=3#nasalization-rg');
     color: rgb(221, 249, 244);
+    align-items: stretch;
+    font-size: 222%;
+    height: 100%;
+    width: 39%;
+    white-space: nowrap;
 }
 
 .divider {
@@ -35,14 +39,6 @@
     border-right-width: 2px;
     border-top-width: 2px;
     border-bottom-width: 2px;
-    margin-left: 25px;
-    margin-right: 25px;
-    margin-top: 25px;
-    margin-bottom: 25px;
-    padding-left: 23px;
-    padding-right: 23px;
-    padding-top: 23px;
-    padding-bottom: 23px;
     background-color: rgb(255, 255, 255);
     border-left-color: rgb(255, 255, 255);
     border-right-color: rgb(255, 255, 255);
@@ -52,6 +48,10 @@
     border-bottom-left-radius: 6px;
     border-top-right-radius: 6px;
     border-bottom-right-radius: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .container {
@@ -242,7 +242,7 @@
 .portrait:hover {
     transition-duration: 0.3s;
     scale: 1.02 1.02;
-    -unity-background-image-tint-color: rgba(255, 255, 255, 255);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
 }
 
 .portrait:focus {
@@ -271,4 +271,16 @@
     width: 124px;
     height: 140px;
     -unity-background-scale-mode: scale-to-fit;
+}
+
+.subtitle {
+    -unity-text-align: lower-center;
+    -unity-font-definition: url('project://database/Assets/TextMesh%20Pro/Fonts/BAHNSCHRIFT%20SDF.asset?fileID=11400000&guid=bb11bb5e493f74248883e976094fed42&type=2#BAHNSCHRIFT SDF');
+    justify-content: flex-end;
+    flex-direction: column;
+    flex-grow: 1;
+    font-size: 24px;
+    align-items: stretch;
+    color: rgba(231, 231, 231, 255);
+    transition-duration: 0.1s;
 }

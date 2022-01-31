@@ -214,6 +214,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     private void VoiceLine(int index){
         playerAudio.clip = chosenCharacter.voiceLines[index].audio;
         playerAudio.Play();
+        gameManager.Subtitle(chosenCharacter.voiceLines[index]);
     }
 
     public void AddScore(int addedScore){
