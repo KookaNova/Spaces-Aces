@@ -289,10 +289,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1030639885, guid: e28d6cfa145953b4085add11806be973, type: 3}
-      propertyPath: m_FirstSelected
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 8680276962706481194, guid: e28d6cfa145953b4085add11806be973, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -3775,8 +3771,8 @@ MonoBehaviour:
   m_ScrollWheelAction: {fileID: -3440096462258400427, guid: 347900b9b4ef3a347814ccc3141c89ca, type: 3}
   m_TrackedDevicePositionAction: {fileID: 4754684134866288074, guid: 7034fcd5845e59c4e909d451b0b931ed, type: 3}
   m_TrackedDeviceOrientationAction: {fileID: 1025543830046995696, guid: 7034fcd5845e59c4e909d451b0b931ed, type: 3}
-  m_DeselectOnBackgroundClick: 1
-  m_PointerBehavior: 0
+  m_DeselectOnBackgroundClick: 0
+  m_PointerBehavior: 1
 --- !u!1 &1794127495
 GameObject:
   m_ObjectHideFlags: 0
