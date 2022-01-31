@@ -439,7 +439,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         //Do something different related to low health
     }
 
-    public void Eliminate(SpacecraftController attacker, string cause){
+    public async void Eliminate(SpacecraftController attacker, string cause){
         deaths++;
         VoiceLine(11);
         if(gamepadFound){
@@ -453,6 +453,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         else{
             gameManager.FeedEvent(attacker, this, cause, true);
             attacker.TargetDestroyed(true);
+            cameraController.FollowTarget(true, attacker.gameObject);
         }
         
         //This happens when the players health reaches zero or they leave the arena.
@@ -490,6 +491,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
 
     public void SpawnPlayer(){
         //Find a random spawn point to respawn at
+        cameraController.FollowTarget(false, null);
         int randInt = Random.Range(0, respawnPoints.Length - 1);
         this.gameObject.transform.position = respawnPoints[randInt].position;
         this.gameObject.transform.rotation = respawnPoints[randInt].rotation;
