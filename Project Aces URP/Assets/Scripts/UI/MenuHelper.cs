@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 public class MenuHelper : MonoBehaviour
 {
     public ProfileHandler profileHandler;
+    bool fresh = false;
 
     #region UI Fields
     VisualElement root;
@@ -17,6 +18,12 @@ public class MenuHelper : MonoBehaviour
     {
         root = this.GetComponent<UIDocument>().rootVisualElement;
         menuManager = root.Q<MenuManager>();
+
+        if(!fresh){
+            fresh = true;
+            EditPreferences.LoadSettings();
+            
+        }
 
         //open title screen
     }

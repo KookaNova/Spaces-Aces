@@ -8,21 +8,26 @@ public class SettingsManager : VisualElement
 {
     public new class UxmlFactory : UxmlFactory<SettingsManager, UxmlTraits> { }
     public new class UxmlTraits : VisualElement.UxmlTraits{ }
+    
 
     //Graphics
-    Slider brightness;
 
-    DropdownField
+    public DropdownField
         displayMode,
         resolution,
         quality,
         textureRes,
         antiAliasing,
         shadowQuality;
+    public Toggle 
+        realtimeReflections,
+        betterParticles,
+        vSync;
 
-    Button apply;
+
+    public Button apply;
     //Audio
-    Slider
+    public Slider
         master,
         music,
         sound,
@@ -35,15 +40,15 @@ public class SettingsManager : VisualElement
 
     private void OnGeometryChange(GeometryChangedEvent evt)
     {
-        //set
-        brightness = this.Q<Slider>("Brightness");
-        
         //graphics controls
         displayMode = this.Q<DropdownField>("DisplayMode");
         resolution = this.Q<DropdownField>("Resolution");
         quality = this.Q<DropdownField>("Quality");
         textureRes = this.Q<DropdownField>("Texture");
         antiAliasing = this.Q<DropdownField>("AA");
+        realtimeReflections = this.Q<Toggle>("RealtimeReflections");
+        betterParticles = this.Q<Toggle>("BetterParticles");
+        vSync = this.Q<Toggle>("VSync");
 
         apply = this.Q<Button>("Apply");
 
@@ -55,23 +60,14 @@ public class SettingsManager : VisualElement
         dialogue = this.Q<Slider>("Dialogue");
 
         //inputs
-        brightness.RegisterCallback<ClickEvent>(ev => UpdateGraphics());
-
-
-        displayMode.RegisterCallback<ClickEvent>(ev => EditPreferences.displayMode = displayMode.index);
-        resolution.RegisterCallback<ClickEvent>(ev => EditPreferences.resolution = resolution.index);
-        quality.RegisterCallback<ClickEvent>(ev => EditPreferences.quality = quality.index);
-        textureRes.RegisterCallback<ClickEvent>(ev => EditPreferences.textureRes = textureRes.index);
-        antiAliasing.RegisterCallback<ClickEvent>(ev => EditPreferences.aa = antiAliasing.index);
-
-        master.RegisterCallback<ClickEvent>(ev => UpdateAudio());
+        master.RegisterCallback<ChangeEvent<float>>(ev => UpdateAudio());
         music.RegisterCallback<ClickEvent>(ev => UpdateAudio());
         sound.RegisterCallback<ClickEvent>(ev => UpdateAudio());
         environment.RegisterCallback<ClickEvent>(ev => UpdateAudio());
         dialogue.RegisterCallback<ClickEvent>(ev => UpdateAudio());
 
         apply.RegisterCallback<ClickEvent>(ev => ApplyChanges());
-        UnregisterCallback<GeometryChangedEvent>(OnGeometryChange);
+
         
     }
 
@@ -83,11 +79,11 @@ public class SettingsManager : VisualElement
         EditPreferences.dialogue = dialogue.value;
 
         EditPreferences.UpdateAudioSettings();
+        EditPreferences.SaveSettings();
         
     }
 
     private void UpdateGraphics(){
-        EditPreferences.brightness = brightness.value;
 
         EditPreferences.UpdateGraphicsSettings();
     }
@@ -98,7 +94,15 @@ public class SettingsManager : VisualElement
         EditPreferences.quality = quality.index;
         EditPreferences.textureRes = textureRes.index;
         EditPreferences.aa = antiAliasing.index;
+        EditPreferences.usingRealtimeReflections = realtimeReflections.value;
 
         EditPreferences.UpdateGraphicsSettings();
+        EditPreferences.SaveSettings();
+
+    }
+    public void LoadDefaults(){
+
+        Debug.Log("LOADING HOMIE");
+
     }
 }

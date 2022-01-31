@@ -9,10 +9,8 @@ public class SceneController : MonoBehaviour
     public GamemodeData chosenGamemode;
     
     string defaultScene = "Home";
-
-
+    
     void Awake() {
-        
         if(instance == null){
             instance = this;
             Debug.Log("SceneController: Awake(), instance set to " + this);
