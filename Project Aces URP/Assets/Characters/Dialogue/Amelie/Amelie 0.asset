@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3f536fce4349a64783f158d7c69be5d, type: 3}
   m_Name: Amelie 0
   m_EditorClassIdentifier: 
-  audio: {fileID: 0}
+  audio: {fileID: 8300000, guid: b7d968bb10b0e0a49acc4e6cc4358aec, type: 3}
   subtitle: I'm ready for action!

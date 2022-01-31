@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
 
     //UI
-    VisualElement root, feed, tabScreen;
+    VisualElement root, feed, subtitle, tabScreen;
     [SerializeField] UIDocument uIDocument;
 
 
@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         
         root = uIDocument.rootVisualElement;
         feed = root.Q("EventFeed");
+        subtitle = root.Q("Subtitle");
         tabScreen = root.Q("TabScreen");
         gameTimer = currentGamemode.timeLimit;
         
@@ -342,6 +343,13 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     }
 
+    public void Subtitle(DialogueObject dialogueObject){
+        var sub = new Subtitle();
+        subtitle.Add(sub);
+        sub.SetData(dialogueObject.subtitle);
+        StartCoroutine(sub.Timer());
+
+    }
     #endregion
 
     #region Scoring
