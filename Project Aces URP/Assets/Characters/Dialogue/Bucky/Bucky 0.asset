@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3f536fce4349a64783f158d7c69be5d, type: 3}
   m_Name: Bucky 0
   m_EditorClassIdentifier: 
-  voiceLine: {fileID: 0}
+  audio: {fileID: 0}
   subtitle: I've been looking for another chance to shine.
