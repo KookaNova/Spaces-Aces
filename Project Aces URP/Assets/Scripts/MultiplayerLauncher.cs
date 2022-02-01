@@ -42,7 +42,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
     private GamemodeData chosenMode;
 
     private GamesHandler gamesHandler;
-    private RoomOptions roomOptions = new RoomOptions();
+    Hashtable customProperties;
 
     #region Private Games
     private PrivateGameSettings privateGameSettings = new PrivateGameSettings();
@@ -130,8 +130,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
 
         //UI
         var m = root.Q("MessageContainer");
-        //menuManager.EnableSearchOverlay(false);
-        //m.style.display = DisplayStyle.Flex;
+        m.style.display = DisplayStyle.Flex;
         connectMessageLabel.text = cause.ToString();
         connectingLabel.text = ("Disconnected");
         serverLabel.text = "Offline";
@@ -144,34 +143,36 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         gamesHandler = selectedGamesHandler;
         //Finds a random room using properties set by gamesHandler (essentially playlist). This allows different random search modes.
         //If no rooms are found, a room is created using the same properties.
-        roomOptions.CustomRoomProperties = new Hashtable {{"MMT", gamesHandler.matchmakingType}};
-        roomOptions.MaxPlayers = gamesHandler.expectedMaxPlayers;
-        Debug.LogFormat("Launcher: FindMatchFromPlaylist(), searching for a random room with properties {0} and max players {1}", 
-            roomOptions.CustomRoomProperties, gamesHandler.expectedMaxPlayers);
-        PhotonNetwork.JoinRandomRoom(roomOptions.CustomRoomProperties, roomOptions.MaxPlayers);
+        customProperties = new Hashtable {{"m", "a"}};
+        //roomOptions.MaxPlayers = gamesHandler.expectedMaxPlayers;
 
-        //UI
+        PhotonNetwork.JoinRandomRoom();
+        Debug.LogFormat("Launcher: FindMatchFromPlaylist(), searching for a random room with properties {0} and max players {1}", 
+            customProperties, gamesHandler.expectedMaxPlayers);
+        //ui
         menuManager.EnableMatchSearch();
         menuManager.EnableHome();
-        gameStatusLabel.text = "Searching for a match...";
+        gameStatusLabel.text = "Searching for a match...";  
+        
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        Debug.LogFormat("Launcher: OnJoinRandomFailed(), No random room available with properties {0} and max players {1}, creating new room", 
-        roomOptions.CustomRoomProperties, roomOptions.MaxPlayers);
+        Debug.LogFormat("OnJoinRandomFailed(): reason {0}, message{1}", returnCode, message);
+        /*Debug.LogFormat("Launcher: OnJoinRandomFailed(), No random room available with properties {0} and max players {1}, creating new room", 
+        customProperties, gamesHandler.expectedMaxPlayers);*/
         //We make a room using the same roomOptions from the random search.
-        PhotonNetwork.CreateRoom(null, roomOptions, null, null);
+        RoomOptions ro = new RoomOptions();
+        //ro.CustomRoomProperties = customProperties;
+        ro.MaxPlayers = gamesHandler.expectedMaxPlayers;
+        PhotonNetwork.CreateRoom(null, ro, null, null);
 
 
         //RoomOptions contain CustomRoomProperties that we make, properties of it's own like MaxPlayers that we can change, and properties that display in lobby.
     }
 
-    public override void OnCreateRoomFailed(short returnCode, string message)
-    {
-       
-        Debug.LogErrorFormat("Room creation failed with error code {0} and error message {1}", returnCode, message);
-        
+    public override void OnCreateRoomFailed(short returnCode, string message){
+        Debug.LogErrorFormat("Room creation failed with error code {0} and error message {1}", returnCode, message); 
     }
 
     public override void OnCreatedRoom(){
@@ -187,6 +188,9 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         PhotonNetwork.SetPlayerCustomProperties(new Hashtable() {{"Team", "A"}});
         quickplay.SelectRandomLevel();
         chosenMode = quickplay.gamemodeSettings;
+
+        Debug.LogFormat("Created new room with properties {0} and max players {1}", 
+        PhotonNetwork.CurrentRoom.CustomProperties, gamesHandler.expectedMaxPlayers);
     }
 
     #endregion
@@ -197,10 +201,11 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         CreatePlayerList();
 
         hostText = PhotonNetwork.MasterClient.ToString();
-        maxPlayerText = roomOptions.MaxPlayers.ToString();
-        levelText = (string)roomOptions.CustomRoomProperties["Level"];
-        gamemodeText = (string)roomOptions.CustomRoomProperties["Gamemode"];
-        isPublicText = roomOptions.IsVisible.ToString();
+        maxPlayerText = PhotonNetwork.CurrentRoom.MaxPlayers.ToString();
+        levelText = (string)PhotonNetwork.CurrentRoom.CustomProperties["Level"];
+        gamemodeText = (string)PhotonNetwork.CurrentRoom.CustomProperties["Gamemode"];
+        isPublicText = PhotonNetwork.CurrentRoom.IsVisible.ToString();
+        Debug.Log("Players: " + PhotonNetwork.CurrentRoom.PlayerCount);
 
         
     }
@@ -209,7 +214,6 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         StopAllCoroutines();
         if(PhotonNetwork.InRoom){
             PhotonNetwork.LeaveRoom(true);
-            PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable(){{"Team", null}});
         }
         
         
@@ -219,6 +223,10 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         //UI
         menuManager.DisableMatchSearch();
         
+    }
+    public override void OnLeftRoom()
+    {
+        PhotonNetwork.SetPlayerCustomProperties(new Hashtable(){{"Team", null}});
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer){
@@ -234,6 +242,8 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         if(teamA < teamB){
             newPlayer.SetCustomProperties(new Hashtable() {{"Team","A"}});
         }
+
+        Debug.Log("Players: " + PhotonNetwork.CurrentRoom.PlayerCount);
         
 
         UpdatePlayerList();
@@ -297,6 +307,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
 
     public void CreateRoomWithPrivateSettings(){
         //We take our private games settings and fill them into a custom room
+        RoomOptions roomOptions = new RoomOptions();
         roomOptions.MaxPlayers = privateGameSettings.maxPlayers;
         roomOptions.IsVisible = privateGameSettings.isVisible;
 

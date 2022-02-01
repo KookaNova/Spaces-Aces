@@ -71,8 +71,6 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         lockIndicator = l;
         lockIndicator.SetActive(false);
         
-
-
         FindTargets();
     }
     public override void OnPlayerEnteredRoom(Player newPlayer) {
@@ -100,6 +98,9 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         allTargetList.Clear();
         var targets = GameObject.FindObjectsOfType<TargetableObject>();
         for (int i = 0; i < targets.Length; i++){
+            if(targets[i] == null){
+                FindTargets();
+            }
             if(targets[i] != this.GetComponentInParent<TargetableObject>()){
                 allTargetList.Add(targets[i]);
             }
@@ -180,12 +181,12 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             //if cast hits nothing, or the hit doesn't have a rigidbody, remove indicators
             if(!Physics.SphereCast(origin, 10, dir, out hit, 15000, ~layermask)){
                 activeIndicators[i].SetActive(false); 
-                Debug.LogFormat("WeaponsSystem: PositionIndicators(), target {0} not visible. Indicator is inactive.", currentTargetSelection[i].nameOfTarget);
+                //Debug.LogFormat("WeaponsSystem: PositionIndicators(), target {0} not visible. Indicator is inactive.", currentTargetSelection[i].nameOfTarget);
                 continue;
             }
             if(hit.rigidbody == null){
                 activeIndicators[i].SetActive(false); 
-                Debug.LogFormat("WeaponsSystem: PositionIndicators(), No rigidbody found on target {0}. Indicator is inactive.", currentTargetSelection[i].name);
+                //Debug.LogFormat("WeaponsSystem: PositionIndicators(), No rigidbody found on target {0}. Indicator is inactive.", currentTargetSelection[i].name);
                 continue;
             }
             
@@ -283,12 +284,12 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             Vector3 slowMove = Vector3.MoveTowards(lockIndicator.transform.position, targetScreenPosition, (lockOnEfficiency * lockOnModifier) * Time.deltaTime);
             lockIndicator.transform.position = slowMove;
 
-            
-            
+            if(lockIndicator.transform.position == targetScreenPosition && !missileLocked){
+                owner.VoiceLine(4);
+            }
             if(lockIndicator.transform.position == targetScreenPosition){
                 missileLocked = true;
                 lockOnModifier = 5000;
-                owner.VoiceLine(4);
             }
             else{
                 missileLocked = false;

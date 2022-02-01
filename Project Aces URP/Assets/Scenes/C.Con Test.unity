@@ -1565,14 +1565,14 @@ MonoBehaviour:
   m_MoveRepeatRate: 0.1
   m_XRTrackingOrigin: {fileID: 0}
   m_ActionsAsset: {fileID: -944628639613478452, guid: 7034fcd5845e59c4e909d451b0b931ed, type: 3}
-  m_PointAction: {fileID: -6220046763798767714, guid: 7034fcd5845e59c4e909d451b0b931ed, type: 3}
-  m_MoveAction: {fileID: -984401108543330365, guid: 7034fcd5845e59c4e909d451b0b931ed, type: 3}
-  m_SubmitAction: {fileID: -7162162293386129256, guid: 7034fcd5845e59c4e909d451b0b931ed, type: 3}
-  m_CancelAction: {fileID: 4776110533333100342, guid: 7034fcd5845e59c4e909d451b0b931ed, type: 3}
-  m_LeftClickAction: {fileID: 369409519047797184, guid: 7034fcd5845e59c4e909d451b0b931ed, type: 3}
-  m_MiddleClickAction: {fileID: 884195304635603875, guid: 7034fcd5845e59c4e909d451b0b931ed, type: 3}
-  m_RightClickAction: {fileID: -1604223093672475732, guid: 7034fcd5845e59c4e909d451b0b931ed, type: 3}
-  m_ScrollWheelAction: {fileID: 8468861474953130510, guid: 7034fcd5845e59c4e909d451b0b931ed, type: 3}
+  m_PointAction: {fileID: 4565804991732332477, guid: 7034fcd5845e59c4e909d451b0b931ed, type: 3}
+  m_MoveAction: {fileID: 6654320823579729563, guid: 7034fcd5845e59c4e909d451b0b931ed, type: 3}
+  m_SubmitAction: {fileID: -1184615470504762698, guid: 7034fcd5845e59c4e909d451b0b931ed, type: 3}
+  m_CancelAction: {fileID: 8238485640075018367, guid: 7034fcd5845e59c4e909d451b0b931ed, type: 3}
+  m_LeftClickAction: {fileID: 7738730741157142114, guid: 7034fcd5845e59c4e909d451b0b931ed, type: 3}
+  m_MiddleClickAction: {fileID: 8479965359123516623, guid: 7034fcd5845e59c4e909d451b0b931ed, type: 3}
+  m_RightClickAction: {fileID: -5304277153570304242, guid: 7034fcd5845e59c4e909d451b0b931ed, type: 3}
+  m_ScrollWheelAction: {fileID: -4476263428181757964, guid: 7034fcd5845e59c4e909d451b0b931ed, type: 3}
   m_TrackedDevicePositionAction: {fileID: -415396274475569813, guid: 7034fcd5845e59c4e909d451b0b931ed, type: 3}
   m_TrackedDeviceOrientationAction: {fileID: -4110030609544589237, guid: 7034fcd5845e59c4e909d451b0b931ed, type: 3}
   m_DeselectOnBackgroundClick: 1
