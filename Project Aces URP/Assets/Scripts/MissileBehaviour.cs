@@ -5,7 +5,7 @@ using Photon.Pun;
 namespace Cox.PlayerControls{
 
 [RequireComponent(typeof(Rigidbody), typeof(Collider))]
-public class MissileBehaviour : MonoBehaviour
+public class MissileBehaviour : MonoBehaviourPun
 {
     public int destroyTime = 10;
     public float missileSpeed = 800, turningLimit = 20, missProbability = 2, currentSpeed, damageOutput = 1000;
@@ -40,11 +40,9 @@ public class MissileBehaviour : MonoBehaviour
         Debug.DrawLine(gameObject.transform.position, gameObject.transform.position + (gameObject.transform.forward * 2500), Color.red);
         RaycastHit hit;
         
-        if(target != null)
-        {
+        if(target != null){
             if(startCasting == true){
                 if(Physics.SphereCast(gameObject.transform.position, missProbability, gameObject.transform.forward, out hit, 5000, ~layer)){
-                    
                     if(hit.rigidbody == null || hit.rigidbody.gameObject != target){
                         target = null;
                         missileMissed = true;
@@ -94,7 +92,7 @@ public class MissileBehaviour : MonoBehaviour
             obj.gameObject.GetComponentInParent<SpacecraftController>().TakeDamage(damageOutput, owner, "missile");
         }
         trail.transform.parent = null;
-        PhotonNetwork.Destroy(gameObject);
+        if(photonView.IsMine) PhotonNetwork.Destroy(gameObject);
     }
 
 

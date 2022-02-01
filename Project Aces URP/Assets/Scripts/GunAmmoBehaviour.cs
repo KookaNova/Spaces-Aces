@@ -3,7 +3,7 @@ using UnityEngine;
 using Photon.Pun;
 
 namespace Cox.PlayerControls{
-public class GunAmmoBehaviour : MonoBehaviour
+public class GunAmmoBehaviour : MonoBehaviourPun
 {
     [HideInInspector] public SpacecraftController owner = null;
 
@@ -28,7 +28,7 @@ public class GunAmmoBehaviour : MonoBehaviour
         if(obj.gameObject.GetComponentInParent<SpacecraftController>()){
             obj.gameObject.GetComponentInParent<SpacecraftController>().TakeDamage(damageOutput, owner, "gun");
         }
-        PhotonNetwork.Destroy(this.gameObject);
+        if(photonView.IsMine) PhotonNetwork.Destroy(this.gameObject);
     }
 
     private IEnumerator StartUp(){

@@ -72,7 +72,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         uIDocument.sortingOrder = -1;
         isSelectLoaded = true;
     }
-     public void CloseSelectMenu(){
+    
+    public void CloseSelectMenu(){
         isSelectLoaded = false;
         SceneManager.UnloadSceneAsync("Select Scene");
         uIDocument.sortingOrder = 1;
@@ -94,12 +95,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         if((string)PhotonNetwork.LocalPlayer.CustomProperties["Team"] == "A"){
             int spawnPoint = Random.Range(0, teamASpawnpoints.Length - 1);
             var p = PhotonNetwork.Instantiate(this.playerPrefab.name, teamASpawnpoints[spawnPoint].position, Quaternion.identity, 0);
-            Debug.LogFormat("GameManager: SpawnPlayer(), Spawned player {0}", p);
+            Debug.LogFormat("GameManager: SpawnPlayer(), Spawned player {0} at {1}.", p, spawnPoint);
         }
         else{
             int spawnPoint = Random.Range(0, teamBSpawnpoints.Length - 1);
             var p = PhotonNetwork.Instantiate(this.playerPrefab.name, teamBSpawnpoints[spawnPoint].position, Quaternion.identity, 0);
-            Debug.LogFormat("GameManager: SpawnPlayer(), Spawned player {0}", p);
+            Debug.LogFormat("GameManager: SpawnPlayer(), Spawned player {0} at {1}.", p, spawnPoint);
         }
         
         
@@ -112,7 +113,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         if(timeOut <= 0){
             CancelGame();
         }
-        if(PhotonNetwork.PlayerList.Length == currentGamemode.playerCount){
+        if(PhotonNetwork.PlayerList.Length >= currentGamemode.playerCount){
             StartCoroutine(StartCountDown());
             root.Q<Label>("GameTimer").text = startCount.ToString();
         }
@@ -212,7 +213,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
-        UpdateScoreBoard();
+        UpdateScoreBoard(targetPlayer);
     }
     #endregion
 
@@ -296,51 +297,38 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     #endregion
 
-    public void UpdateScoreBoard(){
+    public void UpdateScoreBoard(Player targetPlayer){
         if(gameOver)return;
-        var list = PhotonNetwork.PlayerList;
+        //var list = PhotonNetwork.PlayerList;
 
         tabScreen.Q("Friendly").Clear();
 
-        for(int i = 0; i < list.Length; i++){
+        string _player = (string)targetPlayer.CustomProperties["Name"];
+        string _char = "?";
+        string _ship = "?";
             
-            string _player = (string)list[i].CustomProperties["Name"];
-            string _char = "?";
-            string _ship = "?";
-            
-            int _kills = 0;
-            int _score = 0;
-            int _deaths = 0;
+        int _kills = 0;
+        int _score = 0;
+        int _deaths = 0;
 
-            if(gameStarted){
-                _char = (string)list[i].CustomProperties["Character"];
-                _ship = (string)list[i].CustomProperties["Ship"];
-                _kills = (int)list[i].CustomProperties["Kills"];
-                _score = (int)list[i].CustomProperties["Score"];
-                _deaths = (int)list[i].CustomProperties["Deaths"];
-            }
-
-            var card = new ScoreBoardCard();
-            if((string)list[i].CustomProperties["Team"] == (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"]){
-                tabScreen.Q("Friendly").Add(card);
-            }
-            else{
-                tabScreen.Q("Enemy").Add(card);
-            }
-            
-            card.SetData(true, _player, _char, _ship, _kills, _score, _deaths);
-
-            if((string)PhotonNetwork.LocalPlayer.CustomProperties["Team"] == "A"){
-                root.Q<Label>("FriendScore").text = teamAScore.ToString("0#");
-                root.Q<Label>("EnemyScore").text = teamBScore.ToString("0#");
-            }
-            else{
-                root.Q<Label>("FriendScore").text = teamBScore.ToString("0#");
-                root.Q<Label>("EnemyScore").text = teamAScore.ToString("0#");
-            }
-            
+        var card = new ScoreBoardCard();
+        if((string)targetPlayer.CustomProperties["Team"] == (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"]){
+            tabScreen.Q("Friendly").Add(card);
         }
+        else{
+            tabScreen.Q("Enemy").Add(card);
+        }
+            
+        card.SetData(true, _player, _char, _ship, _kills, _score, _deaths);
 
+        if((string)PhotonNetwork.LocalPlayer.CustomProperties["Team"] == "A"){
+            root.Q<Label>("FriendScore").text = teamAScore.ToString("0#");
+            root.Q<Label>("EnemyScore").text = teamBScore.ToString("0#");
+        }
+        else{
+            root.Q<Label>("FriendScore").text = teamBScore.ToString("0#");
+            root.Q<Label>("EnemyScore").text = teamAScore.ToString("0#");
+        }
     }
 
     public void Subtitle(DialogueObject dialogueObject){
@@ -348,7 +336,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         subtitle.Add(sub);
         sub.SetData(dialogueObject.subtitle);
         StartCoroutine(sub.Timer());
-
     }
     #endregion
 
@@ -361,13 +348,10 @@ public class GameManager : MonoBehaviourPunCallbacks
         if((string)dealer.photonView.Owner.CustomProperties["Team"] == "B"){
             teamBScore += currentGamemode.scoreValue;
         }
-        
         dealer.AddScore(currentGamemode.scoreValue);
-
         if(teamAScore >= currentGamemode.maxScore || teamBScore >= currentGamemode.maxScore){
             GameOver();
         }
-
     }
 
     #endregion

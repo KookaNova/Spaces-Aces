@@ -117,7 +117,6 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         }
        
         isAwaitingRespawn = true;
-        menuPrefab.SetActive(false);
         if(playerObject == null){
             Debug.LogError("SpacecraftController: OnEnable(), critical playerObject not set in the inspector.");
             return;
@@ -167,40 +166,42 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
             currentHealth = maxHealth;
             currentShields = maxShield;
 
-        }
-
-        //Find the character abilities and give them info about the local player. Them apply the abilities to the player.
-        for (int i = 0; i < chosenCharacter.abilities.Count; i++){
-            if(chosenCharacter.abilities[i] == null){
-                Debug.LogWarningFormat("{0} is missing an ability in slot {1}. This may cause errors.", chosenCharacter.name, i);
-            }
-            else{
-                chosenCharacter.abilities[i].player = this;
-            }
+            //Find the character abilities and give them info about the local player. Them apply the abilities to the player.
+            for (int i = 0; i < chosenCharacter.abilities.Count; i++){
+                if(chosenCharacter.abilities[i] == null){
+                    Debug.LogWarningFormat("{0} is missing an ability in slot {1}. This may cause errors.", chosenCharacter.name, i);
+                }
+                else{
+                    chosenCharacter.abilities[i].player = this;
+                }
             
-        }
-        if(chosenCharacter.abilities[0] != null){
-            primaryAbility = chosenCharacter.abilities[0];
-            primaryAbility.canUse = true;
-            primaryAbility.isActive = false;
-            primaryAbility.isUpdating = false;
-        }
-        if(chosenCharacter.abilities[1] != null){
-            secondaryAbility = chosenCharacter.abilities[1];
-            secondaryAbility.canUse = true;
-            secondaryAbility.isActive = false;
-            secondaryAbility.isUpdating = false;
-        }
-        if(chosenCharacter.abilities[2] != null){
-            aceAbility = chosenCharacter.abilities[2];
-            aceAbility.canUse = false;
-            aceAbility.isActive = false;
-            aceAbility.isUpdating = false;
-        }
+            }
+            if(chosenCharacter.abilities[0] != null){
+                primaryAbility = chosenCharacter.abilities[0];
+                primaryAbility.canUse = true;
+                primaryAbility.isActive = false;
+                primaryAbility.isUpdating = false;
+            }
+            if(chosenCharacter.abilities[1] != null){
+                secondaryAbility = chosenCharacter.abilities[1];
+                secondaryAbility.canUse = true;
+                secondaryAbility.isActive = false;
+                secondaryAbility.isUpdating = false;
+            }
+            if(chosenCharacter.abilities[2] != null){
+                aceAbility = chosenCharacter.abilities[2];
+                aceAbility.canUse = false;
+                aceAbility.isActive = false;
+                aceAbility.isUpdating = false;
+            }
 
         isAwaitingRespawn = false;
         HudController.IsLowHealth(false);
 
+
+        }
+
+        
         ApplyCustomData();
 
         VoiceLine(0);
@@ -269,10 +270,12 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     }
     public void ChangeTargetMode(int input){
         //Tells the WeaponsController which team to target.
+        if(photonView.IsMine)
         weaponSystem.ChangeTargetMode(input);
     }
     public void CycleTargets(){
         //Tells the WeaponsController to cycle the current missile target.
+        if(photonView.IsMine)
         weaponSystem.CycleMainTarget();
     }
     #endregion
@@ -439,7 +442,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         //Do something different related to low health
     }
 
-    public async void Eliminate(SpacecraftController attacker, string cause){
+    public void Eliminate(SpacecraftController attacker, string cause){
         deaths++;
         VoiceLine(11);
         if(gamepadFound){
@@ -484,8 +487,9 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         if(isKill){
             kills++;
             ApplyCustomData();
+            VoiceLine(8);
         }
-        VoiceLine(8);
+        
 
     }
 
@@ -493,8 +497,8 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         //Find a random spawn point to respawn at
         cameraController.FollowTarget(false, null);
         int randInt = Random.Range(0, respawnPoints.Length - 1);
-        this.gameObject.transform.position = respawnPoints[randInt].position;
-        this.gameObject.transform.rotation = respawnPoints[randInt].rotation;
+        ship.transform.position = respawnPoints[randInt].position;
+        ship.transform.rotation = respawnPoints[randInt].rotation;
         //Set health back to max and no longer awaiting respawn
         currentHealth = maxHealth;
         currentShields = maxShield;
@@ -531,17 +535,20 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         
     }
     public void PrimaryAbility(){
+        if(photonView.IsMine)
         if(primaryAbility.canUse){
             StartCoroutine(primaryAbility.Activate());
         }
     }
     public void SecondaryAbility(){
+        if(photonView.IsMine)
         if(secondaryAbility.canUse){
             StartCoroutine(secondaryAbility.Activate());
             
         }
     }
     public void AceAbility(){
+        if(photonView.IsMine)
         Debug.Log("Spacecraft: AceAbility() called");
         //Ace Ability
     }
