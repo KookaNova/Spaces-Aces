@@ -236,7 +236,11 @@
 
 .portrait {
     -unity-background-image-tint-color: rgb(80, 86, 120);
-    -unity-background-scale-mode: stretch-to-fill;
+    -unity-background-scale-mode: scale-to-fit;
+    max-height: 100%;
+    max-width: 100%;
+    min-width: 25%;
+    min-height: 17%;
 }
 
 .portrait:hover {
@@ -281,6 +285,6 @@
     flex-grow: 1;
     font-size: 24px;
     align-items: stretch;
-    color: rgba(231, 231, 231, 255);
+    color: rgb(231, 231, 231);
     transition-duration: 0.1s;
 }
