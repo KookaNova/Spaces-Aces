@@ -46,6 +46,7 @@ public class SelectScreenBehaviour : MonoBehaviour
         root?.Q("Tri-Speeder")?.RegisterCallback<ClickEvent>(ev => DisplayShipData(allShips[0]));
         root?.Q("Angelfish")?.RegisterCallback<ClickEvent>(ev => DisplayShipData(allShips[1]));
         root?.Q("Furnace")?.RegisterCallback<ClickEvent>(ev => DisplayShipData(allShips[2]));
+        root?.Q("Falcon")?.RegisterCallback<ClickEvent>(ev => DisplayShipData(allShips[3]));
 
         root?.Q("CharConfirm")?.RegisterCallback<ClickEvent>(ev => EnableShipSelect());
         root?.Q("ShipConfirm")?.RegisterCallback<ClickEvent>(ev => EnableOverview());
