@@ -373,6 +373,7 @@ MonoBehaviour:
   allShips:
   - {fileID: 11400000, guid: 5b4d9e73d21b79043a1ee74e4135a453, type: 2}
   - {fileID: 11400000, guid: a6546ff0b32504e4e9ab6557ed3f4b77, type: 2}
+  - {fileID: 11400000, guid: fe445cfcfbe08e5498fe5a282b12024f, type: 2}
   shipLocation: {fileID: 1055103311}
   shipBG: {fileID: 1415117845}
 --- !u!114 &452166648
