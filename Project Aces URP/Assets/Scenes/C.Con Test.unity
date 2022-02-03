@@ -787,38 +787,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ship.Furnace
       objectReference: {fileID: 0}
-    - target: {fileID: 811196013837957695, guid: 64ce66f313efc2348b51d47cddb64f5f, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2021481887488752200, guid: 64ce66f313efc2348b51d47cddb64f5f, type: 3}
-      propertyPath: gunPosition.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2242725146816120315, guid: 64ce66f313efc2348b51d47cddb64f5f, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 4.61
-      objectReference: {fileID: 0}
-    - target: {fileID: 2242725146816120315, guid: 64ce66f313efc2348b51d47cddb64f5f, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -0.69
-      objectReference: {fileID: 0}
-    - target: {fileID: 7835943774632329670, guid: 64ce66f313efc2348b51d47cddb64f5f, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8978105995572202587, guid: 64ce66f313efc2348b51d47cddb64f5f, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 192.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 8978105995572202587, guid: 64ce66f313efc2348b51d47cddb64f5f, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 399
-      objectReference: {fileID: 0}
-    - target: {fileID: 8978105995572202587, guid: 64ce66f313efc2348b51d47cddb64f5f, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 133.8
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64ce66f313efc2348b51d47cddb64f5f, type: 3}
 --- !u!1 &722907292
