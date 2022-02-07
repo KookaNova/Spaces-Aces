@@ -11,6 +11,4 @@ public class TargetableObject : MonoBehaviour
     }
     public TargetType targetTeam;
     public string nameOfTarget = "Targetable Object";
-
-    [SerializeField] bool isPlayable = true;
 }

@@ -55,7 +55,7 @@ public class AIBehaviour : MonoBehaviour
             randRot = Random.rotation;
         }
         transform.rotation = Quaternion.RotateTowards(transform.rotation, randRot, 100 * Time.deltaTime);
-        _rb.AddRelativeForce(0,0,270);
+        _rb.AddRelativeForce(0,0,400);
         
     }
 }
