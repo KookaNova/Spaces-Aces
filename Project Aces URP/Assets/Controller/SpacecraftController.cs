@@ -93,6 +93,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     public override void OnEnable(){
         gameManager = FindObjectOfType<GameManager>();
         playerAudio = GetComponent<AudioSource>();
+
         
 
         if(this.photonView.Owner != null){
@@ -138,6 +139,8 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         //Instantiates the chosen ship and parents it under the controller. Then gets important info from the ship.
         ship = Instantiate(chosenShip.shipPrefab, transform.position, transform.rotation);
         ship.transform.SetParent(this.gameObject.transform);
+        shipBehaviour = ship.GetComponent<ShipBehaviour>();
+        shipBehaviour.SetController(this);
         
 
         if(photonView == null)return;
@@ -405,14 +408,6 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         StopCoroutine(ShieldRechargeTimer());
         StartCoroutine(ShieldRechargeTimer());
 
-    }
-
-    private void OnCollisionEnter(Collision collision) {
-        //On collision with hazards or other players, damage the player, based partially on speed.
-        print("Collision");
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Crash Hazard") || collision.gameObject.layer == LayerMask.NameToLayer("Player")){
-           TakeDamage(currentSpeed * 8, null, "accident");
-        }
     }
 
     #endregion
