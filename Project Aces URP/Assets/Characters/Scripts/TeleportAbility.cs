@@ -21,7 +21,7 @@ public class TeleportAbility : AbilityHandler
 
         Debug.Log("teleport");
             
-        rb = player.gameObject.GetComponent<Rigidbody>();
+        rb = player.ship.gameObject.GetComponent<Rigidbody>();
         Vector3 moveVec = rb.transform.forward * 1500;
         rb.MovePosition(rb.transform.position + moveVec);
         Instantiate(endParticle, player.gameObject.transform);

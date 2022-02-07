@@ -79,7 +79,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         isShieldRecharging = false;
     private Rigidbody _rb;
     private ControlInputActions _controls;
-    private GameObject ship, menu;
+    public GameObject ship;
     
     //Points are stored and retrieved from GameManager
     private Transform[] respawnPoints;
@@ -143,7 +143,6 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         //If the photon view belongs to the local player...
         if(photonView.IsMine){
             //instantiate the menuPrefab, weapons, hud, and camera controllers.
-            menu = Instantiate(menuPrefab);
             weaponSystem = ship.GetComponentInChildren<WeaponsController>();
             weaponSystem.owner = this;
             
@@ -237,7 +236,6 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     }
 
     public void MenuButton(){
-        menu.SetActive(!menu.activeSelf);
     }
     #endregion
     
