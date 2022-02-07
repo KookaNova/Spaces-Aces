@@ -9,7 +9,8 @@ public class TargetableObject : MonoBehaviour
         TeamB,
         Global
     }
-
     public TargetType targetTeam;
     public string nameOfTarget = "Targetable Object";
+
+    [SerializeField] bool isPlayable = true;
 }
