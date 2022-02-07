@@ -80,6 +80,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     private Rigidbody _rb;
     private ControlInputActions _controls;
     public GameObject ship;
+    private ShipBehaviour shipBehaviour;
     
     //Points are stored and retrieved from GameManager
     private Transform[] respawnPoints;

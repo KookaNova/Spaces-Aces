@@ -207,7 +207,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             var screen = Camera.main.WorldToScreenPoint(currentTargetSelection[i].transform.position);
             screen.z = (overlayHud.transform.position - Camera.main.transform.position).magnitude;
             var targetScreenPosition = Camera.main.ScreenToWorldPoint(screen);
-            activeIndicators[i].transform.position = targetScreenPosition;
+            activeIndicators[i].transform.position = Vector3.MoveTowards(activeIndicators[i].transform.position, targetScreenPosition, 35 * Time.deltaTime);
 
             if(i == currentTarget){
                 activeIndicators[i].GetComponent<Animator>().StopPlayback();
@@ -273,7 +273,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         else if(hit.rigidbody.gameObject == currentTargetSelection[currentTarget].gameObject){
             
             lockIndicator.SetActive(true);
-            lockOnModifier += lockOnDefault * Time.deltaTime;
+            lockOnModifier += lockOnDefault * Time.fixedDeltaTime;
 
             
 
@@ -281,7 +281,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             screen.z = (overlayHud.transform.position - Camera.main.transform.position).magnitude;
             var targetScreenPosition = Camera.main.ScreenToWorldPoint(screen);
 
-            Vector3 slowMove = Vector3.MoveTowards(lockIndicator.transform.position, targetScreenPosition, (lockOnEfficiency * lockOnModifier) * Time.deltaTime);
+            Vector3 slowMove = Vector3.MoveTowards(lockIndicator.transform.position, targetScreenPosition, (lockOnEfficiency * lockOnModifier) * .1f * Time.fixedDeltaTime);
             lockIndicator.transform.position = slowMove;
 
             if(lockIndicator.transform.position == targetScreenPosition && !missileLocked){
@@ -368,7 +368,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         var screen = Camera.main.WorldToScreenPoint(hitPoint);
         screen.z = (overlayHud.transform.position - Camera.main.transform.position).magnitude;
         var position = Camera.main.ScreenToWorldPoint(screen);
-        distanceReticle.transform.position = position;
+        distanceReticle.transform.position = Vector3.Slerp(distanceReticle.transform.position, position, 15 * Time.fixedDeltaTime);
 
 
         for(int i = 0; i < gunPosition.Length; i++){
