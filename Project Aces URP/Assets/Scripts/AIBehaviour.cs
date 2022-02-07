@@ -51,11 +51,11 @@ public class AIBehaviour : MonoBehaviour
 
     private void FixedUpdate() {
         Debug.DrawRay(transform.position, Vector3.forward, Color.yellow);
-        if(Physics.Raycast(transform.position, Vector3.forward, 500)){
+        if(Physics.Raycast(transform.position, Vector3.forward, 1000)){
             randRot = Random.rotation;
         }
         transform.rotation = Quaternion.RotateTowards(transform.rotation, randRot, 100 * Time.deltaTime);
-        _rb.AddRelativeForce(0,0,400);
+        _rb.AddRelativeForce(0,0,400, ForceMode.Acceleration);
         
     }
 }
