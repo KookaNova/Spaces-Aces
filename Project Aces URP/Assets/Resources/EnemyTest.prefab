@@ -661,7 +661,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1506166131199359529, guid: b6abd7506ce2af1478b51af83dad878d, type: 3}
-    - {fileID: 7813265675878342119, guid: b6abd7506ce2af1478b51af83dad878d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b6abd7506ce2af1478b51af83dad878d, type: 3}
 --- !u!114 &3277092133237730457 stripped
 MonoBehaviour:
@@ -721,7 +720,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetTeam: 1
   nameOfTarget: Marv
-  isPlayable: 1
 --- !u!114 &5495865338937719718
 MonoBehaviour:
   m_ObjectHideFlags: 0

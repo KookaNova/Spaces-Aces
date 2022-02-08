@@ -1446,6 +1446,7 @@ GameObject:
   - component: {fileID: 6575455816699185229}
   - component: {fileID: 3773235272956261887}
   - component: {fileID: 8207525965431280603}
+  - component: {fileID: -1372057579392029509}
   m_Layer: 0
   m_Name: Ship.Angelfish
   m_TagString: Untagged
@@ -1537,6 +1538,18 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 0
   m_TeleportEnabled: 1
   m_TeleportIfDistanceGreaterThan: 3
+--- !u!114 &-1372057579392029509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3471604245177547285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c7f9b5f8c091b64da4f02045a2e160b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3594617486501231253
 GameObject:
   m_ObjectHideFlags: 0

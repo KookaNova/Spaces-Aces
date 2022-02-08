@@ -9,16 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d898b05395136e46b1595b7242377ee, type: 3}
-  m_Name: Timeskip Missile
+  m_Script: {fileID: 11500000, guid: de443812a18291e4b96350ac8357467f, type: 3}
+  m_Name: Spacetime Deletion
   m_EditorClassIdentifier: 
-  abilityName: Timeskip Missile
-  icon: {fileID: 21300000, guid: 7ef7d2d6449f4124e918c806a6a20878, type: 3}
-  cooldownTime: 10
-  startUpTime: 0
+  abilityName: Spacetime Deletion
+  icon: {fileID: 0}
+  cooldownTime: 3
+  startUpTime: 0.2
   startUpEffect: {fileID: 0}
-  endEffect: {fileID: 7007054171437604170, guid: 334acb49b0bae5b46ad1f8b6ff8f647f, type: 3}
-  canUse: 1
+  endEffect: {fileID: 0}
+  canUse: 0
   isActive: 0
   isUpdating: 0
   playerInfo: {fileID: 0}
