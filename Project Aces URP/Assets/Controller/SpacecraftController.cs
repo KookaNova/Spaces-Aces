@@ -137,10 +137,13 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
         }
         
         //Instantiates the chosen ship and parents it under the controller. Then gets important info from the ship.
-        ship = Instantiate(chosenShip.shipPrefab, transform.position, transform.rotation);
-        ship.transform.SetParent(this.gameObject.transform);
-        shipBehaviour = ship.GetComponent<ShipBehaviour>();
-        shipBehaviour.SetController(this);
+        if(photonView.IsMine){
+            ship = PhotonNetwork.Instantiate(chosenShip.shipPrefab.name, transform.position, transform.rotation);
+            ship.transform.SetParent(this.gameObject.transform);
+            shipBehaviour = ship.GetComponent<ShipBehaviour>();
+            shipBehaviour.SetController(this);
+        }
+        
         
 
         if(photonView == null)return;
