@@ -59,14 +59,16 @@ public class SettingsManager : VisualElement
         environment = this.Q<Slider>("Environment");
         dialogue = this.Q<Slider>("Dialogue");
 
+        //master.RegisterCallback<NavigationSubmitEvent>(ev => master.);
+
         //inputs
         master.RegisterCallback<ChangeEvent<float>>(ev => UpdateAudio());
-        music.RegisterCallback<ClickEvent>(ev => UpdateAudio());
-        sound.RegisterCallback<ClickEvent>(ev => UpdateAudio());
-        environment.RegisterCallback<ClickEvent>(ev => UpdateAudio());
-        dialogue.RegisterCallback<ClickEvent>(ev => UpdateAudio());
-
+        music.RegisterCallback<ChangeEvent<float>>(ev => UpdateAudio());
+        sound.RegisterCallback<ChangeEvent<float>>(ev => UpdateAudio());
+        environment.RegisterCallback<ChangeEvent<float>>(ev => UpdateAudio());
+        dialogue.RegisterCallback<ChangeEvent<float>>(ev => UpdateAudio());
         apply.RegisterCallback<ClickEvent>(ev => ApplyChanges());
+        apply.RegisterCallback<NavigationSubmitEvent>(ev => ApplyChanges());
 
         
     }
@@ -79,7 +81,6 @@ public class SettingsManager : VisualElement
         EditPreferences.dialogue = dialogue.value;
 
         EditPreferences.UpdateAudioSettings();
-        EditPreferences.SaveSettings();
         
     }
 

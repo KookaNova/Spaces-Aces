@@ -137,11 +137,12 @@ static class EditPreferences
         usingRealtimeReflections = PlayerPrefs.GetInt("RealtimeReflections") == 1;
         usingBetterParticles = PlayerPrefs.GetInt("BetterParticles") == 1;
         usingVSync = PlayerPrefs.GetInt("VSync") == 1;
-        master = PlayerPrefs.GetFloat("Master");
-        music = PlayerPrefs.GetFloat("Music");
-        sound = PlayerPrefs.GetFloat("Sound");
-        environment = PlayerPrefs.GetFloat("Environment");
-        dialogue = PlayerPrefs.GetFloat("Dialogue");
+        
+        master = PlayerPrefs.GetFloat("v_Master");
+        music = PlayerPrefs.GetFloat("v_Music");
+        sound = PlayerPrefs.GetFloat("v_Sound");
+        environment = PlayerPrefs.GetFloat("v_Environment");
+        dialogue = PlayerPrefs.GetFloat("v_Dialogue");
 
         UpdateAudioSettings();
         UpdateGraphicsSettings();
@@ -158,11 +159,11 @@ static class EditPreferences
         PlayerPrefs.SetInt("BetterParticles", usingBetterParticles? 1:0);
         PlayerPrefs.SetInt("VSync", usingVSync? 1:0);
 
-        PlayerPrefs.SetFloat("Master", master);
-        PlayerPrefs.SetFloat("Music", music);
-        PlayerPrefs.SetFloat("Sound", sound);
-        PlayerPrefs.SetFloat("Environment", environment);
-        PlayerPrefs.SetFloat("Dialogue", dialogue);
+        PlayerPrefs.SetFloat("v_Master", master);
+        PlayerPrefs.SetFloat("v_Music", music);
+        PlayerPrefs.SetFloat("v_Sound", sound);
+        PlayerPrefs.SetFloat("v_Environment", environment);
+        PlayerPrefs.SetFloat("v_Dialogue", dialogue);
         PlayerPrefs.Save();
     }
 }
