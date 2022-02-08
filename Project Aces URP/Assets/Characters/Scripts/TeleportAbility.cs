@@ -7,25 +7,25 @@ public class TeleportAbility : AbilityHandler
 
     //On Activate() we teleport the character forward and start a cooldown.
     public override IEnumerator Activate(){
-        if(player == null) {
+        if(playerInfo == null) {
             //Checks if player info was received.
             Debug.LogError("Teleport: Activate(), player is null. Something went wrong in either SpacecraftController or AbilityHandler");
             yield break;
         }
         if(!canUse)yield break;
         canUse = false;
-        player.VoiceLine(1);
+        playerInfo.VoiceLine(1);
         //Plays startup effect or animation if added to the script
-        Instantiate(startUpParticle, player.transform);
+        var fx = Instantiate(startUpEffect, playerInfo.ship.transform);
         yield return new WaitForSecondsRealtime(startUpTime);
 
         Debug.Log("teleport");
             
-        rb = player.ship.gameObject.GetComponent<Rigidbody>();
+        rb = playerInfo.ship.gameObject.GetComponent<Rigidbody>();
         Vector3 moveVec = rb.transform.forward * 1500;
         rb.MovePosition(rb.transform.position + moveVec);
-        Instantiate(endParticle, player.gameObject.transform);
-        player.CoolDownAbility(cooldownTime, this);
+        Instantiate(endEffect, playerInfo.ship.transform);
+        playerInfo.CoolDownAbility(cooldownTime, this);
 
     }
     

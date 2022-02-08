@@ -175,7 +175,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
                     Debug.LogWarningFormat("{0} is missing an ability in slot {1}. This may cause errors.", chosenCharacter.name, i);
                 }
                 else{
-                    chosenCharacter.abilities[i].player = this;
+                    chosenCharacter.abilities[i].playerInfo = this;
                 }
             
             }
@@ -326,7 +326,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     //Take inputs and convert them to speed in FixedUpdate()
     public void ThrustControl(){
         if(!photonView.IsMine)return;
-        thrust += .02f;
+        thrust += .01f;
         if(gamepadFound){
             _gp.SetMotorSpeeds(thrust/3, thrust);
             StartCoroutine(ResetMotorSpeeds(.1f));
@@ -338,7 +338,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     }
     public void BrakeControl(){
         if(!photonView.IsMine)return;
-        thrust -= .02f;
+        thrust -= .01f;
         if(gamepadFound && thrust <.65f){
             _gp.SetMotorSpeeds(0, thrust);
             StartCoroutine(ResetMotorSpeeds(.1f));

@@ -13,12 +13,12 @@ public abstract class AbilityHandler : ScriptableObject
     public string abilityName;
     public Sprite icon;
     public float cooldownTime = 3f, startUpTime = .2f;
-    public ParticleSystem startUpParticle, endParticle;
+    public GameObject startUpEffect, endEffect;
 
     public bool canUse = true;
 
     [HideInInspector] public bool isActive = false, isUpdating = false;
-    [HideInInspector] public SpacecraftController player; //used to retreive gameplay data from player.
+    [HideInInspector] public SpacecraftController playerInfo; //used to retreive gameplay data from player.
 
     #region Virtual Functions
     ///<summary> Call with StartCoroutine(Activate()). Abilities override this function to perform a specific action on a button press. </summary>
