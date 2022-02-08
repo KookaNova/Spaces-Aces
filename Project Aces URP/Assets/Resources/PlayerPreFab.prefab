@@ -73,6 +73,7 @@ MonoBehaviour:
   currentShields: 0
   currentHealth: 0
   thrust: 0
+  ship: {fileID: 0}
   localVoice: {fileID: -5531333252429107267, guid: 977fdd28f5619694bab22ee0b0292424, type: 2}
   externalVoice: {fileID: -4841119582935898376, guid: 977fdd28f5619694bab22ee0b0292424, type: 2}
 --- !u!114 &2105643000379996664

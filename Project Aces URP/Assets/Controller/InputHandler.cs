@@ -38,7 +38,7 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
     }
     //Update, Sends input data for rigidbody, camera rotation, and gun use.
     private void FixedUpdate() {
-        if(photonView.IsMine)
+        if(!photonView.IsMine)return;
         if(brakeInput > 0){
             spacecraft.BrakeControl();
         }

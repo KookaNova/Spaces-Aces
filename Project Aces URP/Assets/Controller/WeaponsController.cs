@@ -161,6 +161,9 @@ public class WeaponsController : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < activeIndicators.Count; i++){
             //Is the object active and on camera? If not, skip drawing the indicators.
+            if(currentTargetSelection[i].gameObject == null){
+                FindTargets();
+            }
             if(currentTargetSelection[i].gameObject.activeInHierarchy == false || !currentTargetSelection[i].GetComponentInChildren<MeshRenderer>().isVisible){
                 activeIndicators[i].SetActive(false);
                 continue;
