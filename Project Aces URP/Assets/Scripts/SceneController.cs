@@ -11,6 +11,7 @@ public class SceneController : MonoBehaviour
     string defaultScene = "Home";
     
     void Awake() {
+        
         if(instance == null){
             instance = this;
             Debug.Log("SceneController: Awake(), instance set to " + this);
