@@ -370,6 +370,9 @@ MonoBehaviour:
   allCharacters:
   - {fileID: 11400000, guid: 5e0146bfea2a90e4088f2de10ca4483e, type: 2}
   - {fileID: 11400000, guid: 7aa7d2ce072965545a03b2f48bee7679, type: 2}
+  - {fileID: 11400000, guid: fdc786a89cdba014d9f52c3f0232d66a, type: 2}
+  - {fileID: 11400000, guid: 202fb545754b3af4897aefccba4e5b0e, type: 2}
+  - {fileID: 11400000, guid: 5a2da50620215964faa45a030cea1ccd, type: 2}
   allShips:
   - {fileID: 11400000, guid: 5b4d9e73d21b79043a1ee74e4135a453, type: 2}
   - {fileID: 11400000, guid: a6546ff0b32504e4e9ab6557ed3f4b77, type: 2}

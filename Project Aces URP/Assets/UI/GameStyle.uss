@@ -235,7 +235,7 @@
 }
 
 .portrait {
-    -unity-background-image-tint-color: rgb(80, 86, 120);
+    -unity-background-image-tint-color: rgb(191, 194, 214);
     -unity-background-scale-mode: scale-to-fit;
     max-height: 100%;
     max-width: 100%;

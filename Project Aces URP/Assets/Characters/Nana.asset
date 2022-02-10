@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89f8967145362934d811129b02edaa32, type: 3}
+  m_Name: Nana
+  m_EditorClassIdentifier: 
+  characterName: Nana
+  bio: From an planet in never ending winter, Nana has the ability to sap thermal
+    energy from an area, causing the area to become frigid, and herself to become
+    warm. With that in mind, she's known for giving very warm hugs.
+  portrait: {fileID: 2800000, guid: d546ba7ae0e3f44488e7c2c9d0af9e04, type: 3}
+  bodyArt: {fileID: 2800000, guid: 494094a553575664da36b2d8ee74d595, type: 3}
+  nameArt: {fileID: 0}
+  abilities: []
+  voiceLines: []
+  health: 100
+  shield: 0
+  shieldRechargeRate: 0
+  acceleration: -10
+  minSpeed: 0
+  maxSpeed: -50
+  roll: 0
+  pitch: 0
+  yaw: 0
+  gunDamage: 0
+  missileDamage: 0
+  missileReload: 0
+  lockOnEfficiency: 0

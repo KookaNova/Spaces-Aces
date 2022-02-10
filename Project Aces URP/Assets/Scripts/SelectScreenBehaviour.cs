@@ -25,7 +25,7 @@ public class SelectScreenBehaviour : MonoBehaviour
     private GameObject shipModel;
     private GameObject instancedShip = null;
 
-    private void Awake(){
+    private async void Awake(){
         root = GetComponent<UIDocument>().rootVisualElement;
         nameArt = root.Q("Name");
         bodyArt = root.Q("BodyArt");
@@ -33,14 +33,22 @@ public class SelectScreenBehaviour : MonoBehaviour
 
         EnableCharacterSelect();
 
+        for(int i = 0; i < allCharacters.Count; i++){
+            var button = root?.Q(i.ToString());
+            button.style.backgroundImage = allCharacters[i].portrait;
+        }
+
         root.RegisterCallback<GeometryChangedEvent>(OnGeometryChanged);
     }
 
     private void OnGeometryChanged(GeometryChangedEvent evt)
     {
         //Characters in order
-        root?.Q("Amelie")?.RegisterCallback<ClickEvent>(ev => DisplayCharacterData(allCharacters[0]));
-        root?.Q("Bucky")?.RegisterCallback<ClickEvent>(ev => DisplayCharacterData(allCharacters[1]));
+        root?.Q("0")?.RegisterCallback<ClickEvent>(ev => DisplayCharacterData(allCharacters[0]));
+        root?.Q("1")?.RegisterCallback<ClickEvent>(ev => DisplayCharacterData(allCharacters[1]));
+        root?.Q("2")?.RegisterCallback<ClickEvent>(ev => DisplayCharacterData(allCharacters[2]));
+        root?.Q("3")?.RegisterCallback<ClickEvent>(ev => DisplayCharacterData(allCharacters[3]));
+        root?.Q("4")?.RegisterCallback<ClickEvent>(ev => DisplayCharacterData(allCharacters[4]));
 
         //Ships in order
         root?.Q("Tri-Speeder")?.RegisterCallback<ClickEvent>(ev => DisplayShipData(allShips[0]));
