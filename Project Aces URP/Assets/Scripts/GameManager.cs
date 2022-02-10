@@ -72,6 +72,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         uIDocument.sortingOrder = -1;
         isSelectLoaded = true;
     }
+
+    public void AllPlayersFindTargets(){
+        var players = FindObjectsOfType<WeaponsController>();
+        for(int i = 0; i < players.Length; i++){
+            players[i].FindTargets();
+        }
+    }
     
     public void CloseSelectMenu(){
         isSelectLoaded = false;

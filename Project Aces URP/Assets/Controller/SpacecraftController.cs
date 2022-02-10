@@ -169,6 +169,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
             weaponSystem.EnableWeapons();
             HudController.Activate();
             cameraController.Activate();
+            gameManager.AllPlayersFindTargets();
             currentHealth = maxHealth;
             currentShields = maxShield;
 
@@ -249,7 +250,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     #region targeting and camera
     public void CameraChange(){
         //Change which camera is being used and tell the hud controller which variant of the HUD to display.
-        if(photonView.IsMine)
+        if(!photonView.IsMine)return;
         cameraController.ChangeCamera();
         if(cameraController.currentCamera == 0){
             HudController.ThirdPersonHudSetInactive();

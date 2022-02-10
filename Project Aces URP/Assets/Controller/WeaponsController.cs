@@ -70,11 +70,8 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         var l = Instantiate(lockIndicator, parent: overlayHud.transform);
         lockIndicator = l;
         lockIndicator.SetActive(false);
-        
-        FindTargets();
-    }
-    public override void OnPlayerEnteredRoom(Player newPlayer) {
-        FindTargets();
+        this.photonView.RPC("FindTargets", RpcTarget.All, null);
+        //FindTargets();
     }
     private void UpdateHUD(){
         for(int i = 0; i < missileCountText.Count; i++){
@@ -94,7 +91,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         }
     }
     
-    private void FindTargets(){
+    public void FindTargets(){
         allTargetList.Clear();
         var targets = GameObject.FindObjectsOfType<TargetableObject>();
         for (int i = 0; i < targets.Length; i++){
