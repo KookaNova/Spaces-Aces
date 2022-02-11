@@ -7,6 +7,7 @@ public class AIBehaviour : MonoBehaviour
 {
     public GameObject explosionObject;  
     public bool isAwaitingRespawn;
+    public float speed = 100;
     private Quaternion randRot = new Quaternion(0,0,0,0);
     private Rigidbody _rb;
 
@@ -55,7 +56,7 @@ public class AIBehaviour : MonoBehaviour
             randRot = Random.rotation;
         }
         transform.rotation = Quaternion.RotateTowards(transform.rotation, randRot, 100 * Time.deltaTime);
-        _rb.AddRelativeForce(0,0,400, ForceMode.Acceleration);
+        _rb.AddRelativeForce(0,0,speed, ForceMode.Acceleration);
         
     }
 }

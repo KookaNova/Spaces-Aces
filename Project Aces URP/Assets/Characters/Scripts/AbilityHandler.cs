@@ -11,6 +11,8 @@ public abstract class AbilityHandler : ScriptableObject
 {
     //custom ability settings
     public string abilityName;
+    [TextArea]
+    public string abilityDescription;
     public Sprite icon;
     public float cooldownTime = 3f, startUpTime = .2f;
     public GameObject startUpEffect, endEffect;
