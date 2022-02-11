@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Nana
   m_EditorClassIdentifier: 
   characterName: Nana
-  bio: From an planet in never ending winter, Nana has the ability to sap thermal
+  bio: From a planet in never ending winter, Nana has the ability to sap thermal
     energy from an area, causing the area to become frigid, and herself to become
     warm. With that in mind, she's known for giving very warm hugs.
   portrait: {fileID: 2800000, guid: d546ba7ae0e3f44488e7c2c9d0af9e04, type: 3}
