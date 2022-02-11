@@ -10,7 +10,7 @@ public class MissileBehaviour : MonoBehaviourPun
     public int destroyTime = 10;
     public float missileSpeed = 800, turningLimit = 20, missProbability = 2, currentSpeed, damageOutput = 1000;
 
-    [SerializeField]private GameObject explosion;
+    public GameObject explosion;
     [HideInInspector]public SpacecraftController owner = null;
     [HideInInspector]public GameObject target = null;
     [HideInInspector]public Rigidbody rb;
@@ -87,10 +87,14 @@ public class MissileBehaviour : MonoBehaviourPun
 
     private void OnCollisionEnter(Collision obj)
     {
-        Instantiate(explosion, transform.position, Quaternion.identity);
         if(obj.gameObject.GetComponentInParent<SpacecraftController>()){
             obj.gameObject.GetComponentInParent<SpacecraftController>().TakeDamage(damageOutput, owner, "missile");
         }
+        EndUse();
+    }
+
+    public void EndUse(){
+        Instantiate(explosion, transform.position, Quaternion.identity);
         trail.transform.parent = null;
         if(photonView.IsMine) PhotonNetwork.Destroy(gameObject);
     }

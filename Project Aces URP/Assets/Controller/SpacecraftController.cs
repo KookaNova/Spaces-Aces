@@ -91,6 +91,8 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
 
     #region setup
     public override void OnEnable(){
+        if(playerObject == null)return;
+
         gameManager = FindObjectOfType<GameManager>();
         playerAudio = GetComponent<AudioSource>();
 
@@ -220,6 +222,7 @@ public class SpacecraftController : MonoBehaviourPunCallbacks
     ///9=ShieldsDown | 10=LowHealth | 11=SelfEliminated | 12=Respawn
     /// </summary>
     public void VoiceLine(int index){
+        if(playerObject == null)return;
         playerAudio.clip = chosenCharacter.voiceLines[index].audio;
         playerAudio.Play();
         gameManager.Subtitle(chosenCharacter.voiceLines[index]);

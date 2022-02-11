@@ -22,10 +22,10 @@ MonoBehaviour:
   cameraController: {fileID: 0}
   maxHealth: 600
   maxShield: 1000
-  shieldRechargeRate: 100
+  shieldRechargeRate: 10
   acceleration: 30
-  minSpeed: 75
-  maxSpeed: 450
+  minSpeed: 15
+  maxSpeed: 300
   roll: 45
   pitch: 50
   yaw: 25

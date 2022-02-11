@@ -14,6 +14,9 @@ public class TimeskipMissileAbility : AbilityHandler
             Debug.LogError("Teleport: Activate(), player is null. Something went wrong in either SpacecraftController or AbilityHandler");
             yield break;
         }
+        if(missile = null){
+            isActive = false;
+        }
         if(!canUse){
             yield break;
         }
@@ -42,6 +45,7 @@ public class TimeskipMissileAbility : AbilityHandler
     private void ActiveAction(){
         canUse = false;
         isActive = false;
+        isUpdating = true;
         if(missile == null){
             return;
         }
@@ -69,10 +73,12 @@ public class TimeskipMissileAbility : AbilityHandler
         if(missile == null){
             isActive = false;
             canUse = false;
+            isUpdating = false;
         }
         if(missile.missileMissed){
             isActive = false;
             canUse = false;
+            isUpdating = false;
             playerInfo.CoolDownAbility(cooldownTime, this);
         }
 
