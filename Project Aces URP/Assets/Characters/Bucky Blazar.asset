@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89f8967145362934d811129b02edaa32, type: 3}
+  m_Name: Bucky Blazar
+  m_EditorClassIdentifier: 
+  characterName: Bucky Blazar
+  bio: "Bucky Blazar is renowned for his charming smile and heroic personality. Having
+    masterfully crafted his brand, Bucky is a household name in many families, as
+    the young celebrate his real and fictional adventures watching \u201CThe Escapades
+    of Bucky Blazar and Team Nebulon\u201D and playing with action figures. Quality
+    of figures ranges from cheap plastic with poor paint jobs to expensive but really
+    cool metal figures.\r"
+  portrait: {fileID: 2800000, guid: 6c7854df2f154414982795a12d3495d7, type: 3}
+  bodyArt: {fileID: 2800000, guid: eada8db83bd02234a83b314fd64c627b, type: 3}
+  nameArt: {fileID: 2800000, guid: 380cbc4e1dcd98545afd9c9827ad3f47, type: 3}
+  abilities:
+  - {fileID: 11400000, guid: c900157cc7ca95a4a9523db6e30e2d35, type: 2}
+  - {fileID: 11400000, guid: f2cea10384c121646b07a57806b35d10, type: 2}
+  - {fileID: 11400000, guid: c900157cc7ca95a4a9523db6e30e2d35, type: 2}
+  voiceLines:
+  - {fileID: 11400000, guid: d510143377d4a6b4bbb4729e64c9ee26, type: 2}
+  - {fileID: 11400000, guid: 3cd45d67f0e616147bf23526f9a4aa69, type: 2}
+  - {fileID: 11400000, guid: adf0d161f5e0f6345adeabdaab9f097e, type: 2}
+  - {fileID: 11400000, guid: 55662a518625f094990bf92800a8c296, type: 2}
+  - {fileID: 11400000, guid: 46b1ba71bf747e340bdd3b80780314f9, type: 2}
+  - {fileID: 11400000, guid: c7ed8839873141f44b8d4f71e9371575, type: 2}
+  - {fileID: 11400000, guid: 1b5e6bb1cd29ede46ae60a8908938ecf, type: 2}
+  - {fileID: 11400000, guid: 71ef2038ee212524080d37ec1923fac9, type: 2}
+  - {fileID: 11400000, guid: c09cf8dc614c5d54f8dc6f7c8143db84, type: 2}
+  - {fileID: 11400000, guid: 9885a302beb2ac54fa5448189ce54dc1, type: 2}
+  - {fileID: 11400000, guid: cef2056c8bf2a3041840bbe6eabe2b3e, type: 2}
+  - {fileID: 11400000, guid: b5cce77220603a7479b4251865459c53, type: 2}
+  - {fileID: 11400000, guid: e497d956b1d4e5e408a8a3a913eb3225, type: 2}
+  health: 10
+  shield: 100
+  shieldRechargeRate: 75
+  acceleration: -5
+  minSpeed: 15
+  maxSpeed: 100
+  roll: -2
+  pitch: -4
+  yaw: -2
+  gunDamage: 100
+  missileDamage: 0
+  missileReload: 0
+  lockOnEfficiency: -1

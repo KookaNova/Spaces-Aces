@@ -42,6 +42,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -52,7 +53,7 @@ TextureImporter:
     serializedVersion: 2
     filterMode: 1
     aniso: 2
-    mipBias: -100
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 0
@@ -65,7 +66,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
-  spriteBorder: {x: 33, y: 22, z: 33, w: 25}
+  spriteBorder: {x: 104, y: 77, z: 104, w: 76}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -160,7 +161,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: e27a671fd83426da0800000000000000
-      internalID: -5953121480509839570
+      internalID: 7009528761853358754
       vertices: []
       indices: 
       edges: []
@@ -181,7 +182,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: a2ec8d78b8c2268c0800000000000000
-      internalID: -4007591740615111126
+      internalID: -3348433595203337279
       vertices: []
       indices: 
       edges: []
@@ -196,6 +197,9 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      HUDRange_0: 7009528761853358754
+      HUDRange_1: -3348433595203337279
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

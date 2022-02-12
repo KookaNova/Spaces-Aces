@@ -1,0 +1,28 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Style.uss?fileID=7433441132597879392&amp;guid=5f5cd455162d302479a25627e01f7028&amp;type=3#Style" />
+    <SettingsManager class="screen panel" style="align-items: stretch; flex-wrap: nowrap; flex-direction: column; justify-content: flex-start; overflow: visible; flex-grow: 1;">
+        <ui:VisualElement name="Settings" style="align-items: stretch; justify-content: flex-start; flex-wrap: wrap; flex-grow: 1; flex-direction: row; max-height: 90%; width: 100%;">
+            <ui:VisualElement name="Graphics" style="flex-direction: column; justify-content: flex-start; flex-wrap: nowrap; align-items: stretch; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; flex-basis: auto; flex-shrink: 1; overflow: hidden; min-width: 50%; min-height: 50%; max-height: 100%; max-width: 100%;">
+                <ui:Label text="Graphics" display-tooltip-when-elided="true" class="midLabel" style="-unity-text-align: upper-center;" />
+                <ui:DropdownField label="Display Mode" index="0" choices="Fullscreen,Fullscreen (Windowed),Maximized Window,Windowed" name="DisplayMode" focusable="true" tooltip="Display Mode" tabindex="0" usage-hints="None" class="baseLabel" style="height: 47px; overflow: hidden;" />
+                <ui:DropdownField label="Resolution" index="1" choices="2560x1440,1920x1080,1600x900,1366x768,1280x720,720×480" name="Resolution" focusable="true" tabindex="0" class="baseLabel settingsControl" />
+                <ui:DropdownField label="Quality" index="2" choices="Low, Medium, High" name="Quality" focusable="true" tabindex="0" class="baseLabel settingsControl" />
+                <ui:DropdownField label="Textures" index="0" choices="Full,Half,Quarter, Tiny" name="Texture" focusable="true" tabindex="0" class="baseLabel settingsControl" />
+                <ui:DropdownField label="Anti-Aliasing" index="2" choices="None, 2x, 4x" name="AA" focusable="true" tabindex="0" class="baseLabel settingsControl" />
+                <ui:DropdownField label="Shadows" index="3" choices="Low, Medium, High,Very High" name="ShadowRes" focusable="true" tabindex="0" class="baseLabel settingsControl" />
+                <ui:Toggle label="Realtime Reflections" name="RealtimeReflections" value="true" tabindex="0" focusable="true" usage-hints="None" class="baseLabel settingsControl" style="justify-content: flex-end; flex-direction: row; align-items: center; white-space: normal; -unity-text-align: upper-left; display: flex;" />
+                <ui:Toggle label="Better Particles" name="BetterParticles" value="true" tabindex="0" focusable="true" usage-hints="None" class="baseLabel settingsControl" style="justify-content: flex-end; flex-direction: row; align-items: center; white-space: normal; -unity-text-align: upper-left; display: flex;" />
+                <ui:Toggle label="V-Sync" name="VSync" value="false" tabindex="0" focusable="true" usage-hints="None" class="baseLabel settingsControl" style="justify-content: flex-end; flex-direction: row; align-items: center; white-space: normal; -unity-text-align: upper-left; display: flex;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Audio" style="flex-wrap: nowrap; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; flex-grow: 0; flex-shrink: 1; overflow: hidden; min-width: 50%; max-height: 100%; min-height: 50%; max-width: 100%;">
+                <ui:Label text="Audio" display-tooltip-when-elided="true" class="midLabel" style="-unity-text-align: upper-center;" />
+                <ui:Slider label="Master" high-value="20" name="Master" low-value="-80" direction="Horizontal" focusable="true" usage-hints="None" class="baseLabel settingsControl" />
+                <ui:Slider picking-mode="Ignore" label="Music" value="0" high-value="20" name="Music" low-value="-80" focusable="true" class="baseLabel settingsControl" />
+                <ui:Slider picking-mode="Ignore" label="Sound" value="0" high-value="20" name="Sound" low-value="-80" focusable="true" class="baseLabel settingsControl" style="height: 64px;" />
+                <ui:Slider picking-mode="Ignore" label="Environment" value="0" high-value="20" name="Environment" low-value="-80" focusable="true" class="baseLabel settingsControl" />
+                <ui:Slider picking-mode="Ignore" label="Dialogue" value="0" high-value="20" name="Dialogue" low-value="-80" focusable="true" class="baseLabel settingsControl" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:Button text="APPLY CHANGES" display-tooltip-when-elided="true" name="Apply" tooltip="Apply All Changes" class="actionButton" style="border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; flex-shrink: 1; overflow: visible; align-items: stretch; height: 10%;" />
+    </SettingsManager>
+</ui:UXML>

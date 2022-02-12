@@ -2,23 +2,41 @@
 using UnityEngine;
 using Photon.Pun;
 
-public class GunAmmoBehaviour : MonoBehaviour
+namespace Cox.PlayerControls{
+public class GunAmmoBehaviour : MonoBehaviourPun
 {
-    public float destroyTime = 6;
+    [HideInInspector] public SpacecraftController owner = null;
+
+    [SerializeField] private float destroyTime = 6, colliderDelay = .1f;
+    public float damageOutput = 223;
     public GameObject impactObj;
 
+    private Collider thisCollider;
+
     private void Awake() {
-        StartCoroutine(DestroyCounter());
+        thisCollider = GetComponent<Collider>();
+        thisCollider.enabled = false;
+        StartCoroutine(StartUp());
     }
 
-    public void OnCollisionEnter(Collision other) {
-        var a = Instantiate(impactObj);
-        a.transform.position = transform.position;
-        PhotonNetwork.Destroy(this.gameObject);
+    public void OnCollisionEnter(Collision obj) {
+        if(impactObj != null){
+            var impact = Instantiate(impactObj);
+            impact.transform.position = transform.position;
+        }
+        
+        if(obj.gameObject.GetComponentInParent<SpacecraftController>()){
+            obj.gameObject.GetComponentInParent<SpacecraftController>().TakeDamage(damageOutput, owner, "gun");
+        }
+        if(photonView.IsMine) PhotonNetwork.Destroy(this.gameObject);
     }
 
-    private IEnumerator DestroyCounter(){
+    private IEnumerator StartUp(){
+        yield return new WaitForSeconds(colliderDelay);
+        thisCollider.enabled = true;
+
         yield return new WaitForSeconds(destroyTime);
         PhotonNetwork.Destroy(this.gameObject);
     }
+}
 }

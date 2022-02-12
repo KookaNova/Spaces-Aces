@@ -9,7 +9,6 @@ public class TargetableObject : MonoBehaviour
         TeamB,
         Global
     }
-
     public TargetType targetTeam;
     public string nameOfTarget = "Targetable Object";
 }
