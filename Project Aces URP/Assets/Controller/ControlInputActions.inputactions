@@ -193,28 +193,6 @@
                 },
                 {
                     "name": "",
-                    "id": "de0a9a32-9db3-44a2-97e1-868296276cd6",
-                    "path": "<Gamepad>/leftShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Basic Controls",
-                    "action": "Brake",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "362ec941-f4b8-490e-8724-5db39dcf73af",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Basic Controls",
-                    "action": "Brake",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "c8b779b3-ad93-4231-ad1c-c14165025dd6",
                     "path": "<Gamepad>/start",
                     "interactions": "",
@@ -391,8 +369,19 @@
                 },
                 {
                     "name": "",
-                    "id": "2b6cfe15-38b0-4cca-944a-8c69c06a7a5f",
-                    "path": "<Gamepad>/dpad/down",
+                    "id": "18c98103-b8c3-4826-aa8e-8bcd73e80f38",
+                    "path": "<Keyboard>/j",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Gun Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1f4d13d2-4e18-4aec-bf19-7df86d21581b",
+                    "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -458,7 +447,7 @@
                 {
                     "name": "",
                     "id": "08a21d43-6bae-486f-b319-381eb408864f",
-                    "path": "<Gamepad>/dpad/up",
+                    "path": "<Gamepad>/dpad/down",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -490,6 +479,28 @@
                 },
                 {
                     "name": "",
+                    "id": "465e8cd5-789d-4ac0-b4e8-49643bac8052",
+                    "path": "<Keyboard>/k",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MissileButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ced08862-bff6-428e-8c80-cc7c0f7ee4bf",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MissileButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "89f395f1-8c0d-485c-ab2a-02e43613c4e4",
                     "path": "<Keyboard>/1",
                     "interactions": "",
@@ -503,6 +514,17 @@
                     "name": "",
                     "id": "1d9e94c8-e688-474a-9fb1-9c1e5ae455bd",
                     "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Primary Ability",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ebaa35c7-5699-45ce-8745-f49be04fb138",
+                    "path": "<Keyboard>/u",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -534,6 +556,17 @@
                 },
                 {
                     "name": "",
+                    "id": "70b66195-bce0-4f73-be36-e59b82292ec1",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Secondary Ability",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "39436436-6d52-447f-94ec-b6e144152dd6",
                     "path": "<Keyboard>/3",
                     "interactions": "",
@@ -544,37 +577,26 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "Button With One Modifier",
-                    "id": "2d035d27-a511-409d-8f59-1ccc7789a77a",
-                    "path": "ButtonWithOneModifier",
+                    "name": "",
+                    "id": "8dd6f200-87a2-416d-8b60-7aba571bc09b",
+                    "path": "<Keyboard>/o",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Ace Ability",
-                    "isComposite": true,
+                    "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "modifier",
-                    "id": "40d218b7-faaa-44cb-bf74-e4827b01e05e",
-                    "path": "<Gamepad>/buttonWest",
+                    "name": "",
+                    "id": "5afafd3b-a4ff-4265-9d0b-ff57b348fda4",
+                    "path": "<Gamepad>/dpad/up",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Ace Ability",
                     "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "button",
-                    "id": "79d6947c-9108-46fb-8716-1a8f54ab183b",
-                    "path": "<Gamepad>/buttonNorth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Ace Ability",
-                    "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
@@ -586,6 +608,61 @@
                     "action": "CameraStick",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "2D Vector",
+                    "id": "961fbe13-d2c0-4795-bdee-dda4fa7afa9f",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CameraStick",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "d512a958-6bec-4e07-a7d6-8a08b7be9494",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CameraStick",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "8ea6a5c8-2608-4cad-94c3-ec128430566f",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CameraStick",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "6498c923-b370-4813-94c8-bfa2d0678b59",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CameraStick",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "6d3f5189-41f9-46af-86e8-061d3bb5bb3e",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CameraStick",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
@@ -644,12 +721,45 @@
                 },
                 {
                     "name": "",
+                    "id": "471a08c8-be9c-487b-aade-6f6bcf2b35b5",
+                    "path": "<DualShockGamepad>/touchpadButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TabMenuButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "7995075b-71b6-4fc4-b714-ed553ae5cfa1",
                     "path": "<Mouse>/delta",
                     "interactions": "",
                     "processors": "StickDeadzone(min=-1,max=1)",
                     "groups": "",
                     "action": "CameraMouse",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "de0a9a32-9db3-44a2-97e1-868296276cd6",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Basic Controls",
+                    "action": "Brake",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "362ec941-f4b8-490e-8724-5db39dcf73af",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Basic Controls",
+                    "action": "Brake",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
