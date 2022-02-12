@@ -1,0 +1,64 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/GameStyle.uss?fileID=7433441132597879392&amp;guid=427ebf016c89ab8408178a645774230f&amp;type=3#GameStyle" />
+    <GameUIManager style="width: 100%; height: 100%;">
+        <ui:VisualElement name="StartScreen" class="container" style="height: 100%; display: none; justify-content: flex-end; align-items: center;">
+            <ui:VisualElement name="Buttons" style="width: 275px;">
+                <ui:Button text="Continue" display-tooltip-when-elided="true" class="menuButton" />
+                <ui:Button text="Reselect" display-tooltip-when-elided="true" class="menuButton" />
+                <ui:Button text="Settings" display-tooltip-when-elided="true" class="menuButton" />
+                <ui:Button text="Leave" display-tooltip-when-elided="true" class="menuButton" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="TabScreen" class="container" style="height: 100%; display: none; justify-content: space-between; overflow: hidden; align-items: center;">
+            <ui:VisualElement name="Friendly" style="justify-content: center; align-items: center; width: 100%; height: 50%; display: flex; flex-direction: row;" />
+            <ui:VisualElement name="Mode" class="panel">
+                <ui:Label text="Deathmatch" display-tooltip-when-elided="true" name="Gamemode" class="nas1" style="font-size: 50px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Enemy" style="justify-content: center; align-items: center; width: 100%; height: 50%; flex-direction: row;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="MainScreen" style="width: 100%; height: 100%; justify-content: space-between; display: none;">
+            <ui:VisualElement name="Top" style="align-items: flex-start; flex-direction: row; justify-content: space-between; overflow: visible; flex-shrink: 0; flex-basis: auto; height: 15%;">
+                <ui:VisualElement name="Left" style="width: 33%;" />
+                <ui:VisualElement name="Center" style="overflow: visible; align-items: center; justify-content: flex-start; flex-wrap: nowrap; flex-grow: 1; height: 100%;">
+                    <ui:VisualElement name="ScoreBoard" style="flex-direction: column; flex-grow: 1;">
+                        <ui:VisualElement style="flex-direction: row; -unity-background-scale-mode: scale-to-fit; align-items: center; justify-content: center;">
+                            <ui:Label text="00" name="FriendScore" class="score friendly" style="border-right-width: 15px; border-top-left-radius: 19px; border-bottom-left-radius: 19px;" />
+                            <ui:VisualElement name="Favor" class="divider" style="margin-left: 9px; margin-right: 9px; margin-top: 9px; margin-bottom: 9px;" />
+                            <ui:Label text="00" display-tooltip-when-elided="true" name="EnemyScore" class="score enemy" style="border-left-width: 15px; border-top-right-radius: 19px; border-bottom-right-radius: 19px;" />
+                        </ui:VisualElement>
+                        <ui:Label text="12:34" display-tooltip-when-elided="true" name="GameTimer" class="bans1" style="align-items: stretch; font-size: 15%; -unity-text-align: upper-center;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="Right" style="overflow: visible; height: 100%; width: 33%; flex-direction: row-reverse; justify-content: flex-end; align-items: flex-start;">
+                    <ui:VisualElement name="EventFeed" style="width: 100%; align-items: center; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="Center" style="width: 100%; height: 100%; justify-content: space-between; flex-direction: row; flex-grow: 1;">
+                <ui:VisualElement name="Left" style="justify-content: flex-end;">
+                    <ui:VisualElement name="ChatBox" style="flex-direction: column-reverse;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="Bottom" style="flex-direction: row; justify-content: space-between; margin-bottom: 2%; margin-right: 2%; margin-left: 2%; height: 20%; flex-grow: 1;">
+                <ui:VisualElement name="Left" style="justify-content: flex-end; width: 33%; height: 100%; flex-direction: column; align-items: flex-start;">
+                    <ui:VisualElement name="Radar" style="align-items: flex-start; flex-wrap: nowrap; flex-shrink: 1; overflow: visible; flex-direction: column; justify-content: flex-end; flex-grow: 1;">
+                        <ui:Label text="Targeting: Team A" display-tooltip-when-elided="true" name="TargetingMode" class="bans1" style="font-size: 12px; flex-shrink: 1; flex-grow: 0; display: flex;" />
+                        <ui:VisualElement name="BG" style="background-image: url(&apos;project://database/Assets/Sprites/Mini%20Map.png?fileID=21300000&amp;guid=d5f047f3d0edddf43aa2e4d2d0bc4f78&amp;type=3#Mini Map&apos;); -unity-background-scale-mode: scale-to-fit; justify-content: flex-start; align-items: flex-end; height: 100%; flex-direction: row; flex-grow: 1; width: 49%;">
+                            <ui:VisualElement name="Icons" style="background-image: url(&apos;project://database/Assets/Textures/MM.renderTexture?fileID=8400000&amp;guid=3904751facc9b3047bfbf77cd46df22b&amp;type=2#MM&apos;); justify-content: flex-end; align-items: flex-start; flex-shrink: 1; -unity-background-scale-mode: scale-to-fit; flex-direction: column; flex-grow: 1; height: 100%;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="Middle" style="justify-content: flex-end; width: 33%; height: 100%;">
+                    <ui:VisualElement name="Subtitle" style="justify-content: flex-end; flex-direction: column; flex-grow: 1;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Right" style="justify-content: flex-end; align-items: flex-end; flex-direction: row; width: 33%; height: 100%;">
+                    <ui:VisualElement name="Character" style="align-items: flex-end; justify-content: flex-end; flex-grow: 1; height: 100%; flex-wrap: nowrap; flex-direction: row;">
+                        <ui:VisualElement name="Portrait" style="-unity-background-scale-mode: scale-to-fit; overflow: visible; background-image: url(&apos;project://database/Assets/Sprites/Alphas/Hex-Filled.png?fileID=2800000&amp;guid=80aefa2905cbfcc4ba632c95769593ca&amp;type=3#Hex-Filled&apos;); height: 100%; flex-grow: 0.2; flex-basis: 100%; flex-direction: row;">
+                            <ui:VisualElement name="PrimAbility" style="background-image: url(&apos;project://database/Assets/Sprites/Circle.png?fileID=21300000&amp;guid=dd5c7eebb8b5ef14086e667ef1950c55&amp;type=3#Circle&apos;); -unity-background-scale-mode: scale-to-fit; -unity-background-image-tint-color: rgb(191, 191, 191); flex-grow: 1; left: -46%; top: -68px;" />
+                            <ui:VisualElement name="SecAbility" style="background-image: url(&apos;project://database/Assets/Sprites/Circle.png?fileID=21300000&amp;guid=dd5c7eebb8b5ef14086e667ef1950c55&amp;type=3#Circle&apos;); -unity-background-scale-mode: scale-to-fit; -unity-background-image-tint-color: rgb(191, 191, 191); flex-grow: 1; left: -50%; top: -68%;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </GameUIManager>
+</ui:UXML>

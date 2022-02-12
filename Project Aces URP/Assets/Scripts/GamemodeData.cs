@@ -5,7 +5,11 @@ public class GamemodeData : ScriptableObject
 {
     public string levelName = "Name of Scene";
     public string gamemodeName = "Name of Gamemode";
-    public byte maxPlayers = 6;
-    public string[] teamNames;
+    public bool EliminationPoints = false;
+    public bool isTeams = true;
+    public int playerCount;
+    public int scoreValue;
+    public int maxScore;
+    public int timeLimit;
     
 }

@@ -25,16 +25,16 @@ TextureImporter:
   streamingMipmapsPriority: 0
   vTOnly: 0
   grayScaleToAlpha: 0
-  generateCubemap: 6
+  generateCubemap: 5
   cubemapConvolution: 0
   seamlessCubemap: 0
   textureFormat: 1
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
+    filterMode: 1
     aniso: 2
-    mipBias: -100
+    mipBias: 0
     wrapU: 0
     wrapV: 0
     wrapW: 0
@@ -129,7 +129,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
