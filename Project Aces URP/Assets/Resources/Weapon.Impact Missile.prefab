@@ -381,6 +381,8 @@ MonoBehaviour:
   owner: {fileID: 0}
   target: {fileID: 0}
   rb: {fileID: 0}
+  trail: {fileID: 0}
+  isEmitting: 1
   missileHit: 0
   missileMissed: 0
 --- !u!54 &6228669630684057789
