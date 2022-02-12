@@ -25,7 +25,7 @@ public class SelectScreenBehaviour : MonoBehaviour
     private GameObject shipModel;
     private GameObject instancedShip = null;
 
-    private async void Awake(){
+    private void Awake(){
         root = GetComponent<UIDocument>().rootVisualElement;
         nameArt = root.Q("Name");
         bodyArt = root.Q("BodyArt");

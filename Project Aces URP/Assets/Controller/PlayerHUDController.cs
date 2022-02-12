@@ -164,6 +164,9 @@ public class PlayerHUDController : MonoBehaviour
 
     public void SetPlayerIcons(){
         root.Q("Portrait").style.backgroundImage = chosenCharacter.portrait;
+        root.Q("PrimAbility").style.backgroundImage = chosenCharacter.abilities[0].icon;
+        root.Q("SecAbility").style.backgroundImage = chosenCharacter.abilities[1].icon;
+        root.Q("AceAbility").style.backgroundImage = chosenCharacter.abilities[2].icon;
 
     }
 
