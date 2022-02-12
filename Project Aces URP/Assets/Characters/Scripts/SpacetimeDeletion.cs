@@ -17,6 +17,7 @@ public class SpacetimeDeletion : AbilityHandler
         }
         if(isActive){
             ActiveAction();
+            yield break;
         }
         if(!canUse)yield break;
         
@@ -25,7 +26,7 @@ public class SpacetimeDeletion : AbilityHandler
         GameObject m =  PhotonNetwork.Instantiate(weapons.missileType.gameObject.name, weapons.missilePosition[weapons.currentMis].position, weapons.missilePosition[weapons.currentMis].rotation);
         missile = m.GetComponent<MissileBehaviour>();
         missile.owner = playerInfo;
-        missile.currentSpeed = playerInfo.GetComponent<SpacecraftController>().currentSpeed + 200;
+        missile.currentSpeed = playerInfo.GetComponent<SpacecraftController>().currentSpeed + 400;
         missile.explosion = deletionOrb.gameObject;
         if(weapons.missileLocked){
             missile.target = weapons.currentTargetSelection[weapons.currentTarget].gameObject;

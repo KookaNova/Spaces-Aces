@@ -16,7 +16,8 @@ public class MissileBehaviour : MonoBehaviourPun
     [HideInInspector]public Rigidbody rb;
     private Collider _col;
     private bool startCasting = false;
-    private TrailRenderer trail;
+    public TrailRenderer trail;
+    public bool isEmitting = true;
 
     [HideInInspector]public bool missileHit = false, missileMissed = false;
 
@@ -82,6 +83,9 @@ public class MissileBehaviour : MonoBehaviourPun
 
     private void FixedUpdate() {
         rb.AddRelativeForce(0,0,currentSpeed + missileSpeed, ForceMode.Acceleration);
+        if(isEmitting){
+            trail.emitting = true;
+        }
     }
 
 
