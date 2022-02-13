@@ -49,7 +49,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
 
     #region Hidden Fields
     public List<TargetableObject> allTargetList, currentTargetSelection;
-    [HideInInspector] public int currentMis = 0, currentTarget = 0;
+    [HideInInspector] public int currentGunIndex = 0, currentMis = 0, currentTarget = 0;
     [HideInInspector] public float gunModifier = 0, missileModifier = 0;
     private int missilesAvailable;
     private float lockOnModifier, lockOnDefault = 0.01f;
@@ -207,7 +207,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             var screen = Camera.main.WorldToScreenPoint(currentTargetSelection[i].transform.position);
             screen.z = (overlayHud.transform.position - Camera.main.transform.position).magnitude;
             var targetScreenPosition = Camera.main.ScreenToWorldPoint(screen);
-            activeIndicators[i].transform.position = Vector3.MoveTowards(activeIndicators[i].transform.position, targetScreenPosition, 35 * Time.deltaTime);
+            activeIndicators[i].transform.position = targetScreenPosition;
 
             if(i == currentTarget){
                 activeIndicators[i].GetComponent<Animator>().StopPlayback();
@@ -281,7 +281,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             screen.z = (overlayHud.transform.position - Camera.main.transform.position).magnitude;
             var targetScreenPosition = Camera.main.ScreenToWorldPoint(screen);
 
-            Vector3 slowMove = Vector3.MoveTowards(lockIndicator.transform.position, targetScreenPosition, (lockOnEfficiency * lockOnModifier) * .1f * Time.fixedDeltaTime);
+            Vector3 slowMove = Vector3.MoveTowards(lockIndicator.transform.position, targetScreenPosition, (lockOnEfficiency * lockOnModifier) * .25f * Time.fixedDeltaTime);
             lockIndicator.transform.position = slowMove;
 
             if(lockIndicator.transform.position == targetScreenPosition && !missileLocked){
@@ -315,7 +315,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
                currentTarget = 0;
             }
            
-            if(!currentTargetSelection[i].GetComponentInChildren<MeshRenderer>().isVisible || !currentTargetSelection[currentTarget].gameObject.activeInHierarchy){
+            if(!currentTargetSelection[currentTarget].gameObject.activeInHierarchy || !currentTargetSelection[i].GetComponentInChildren<MeshRenderer>().isVisible){
                 Debug.Log("target not visible, incrementing");
                 if(i == currentTargetSelection.Count - 1){
                     currentTarget = -1;
@@ -392,17 +392,20 @@ public class WeaponsController : MonoBehaviourPunCallbacks
 
     private IEnumerator FireGun(bool gunIsFiring, float currentSpeed){
         canFire = false;
+        
         while(gunIsFiring){
-            for(int i = 0; i < gunPosition.Length; i++){
-                var g = PhotonNetwork.Instantiate(ammoType.name, gunPosition[i].position, gunPosition[i].rotation);
-                gunCannonAudio.Play();
-                g.GetComponent<Rigidbody>().velocity = gunPosition[i].transform.forward * gunSpeed;
-                var behaviour = g.GetComponent<GunAmmoBehaviour>();
-                behaviour.damageOutput += gunModifier;
-                behaviour.owner = owner;
-                yield return new WaitForSeconds(fireRate);
-            }
+            var g = PhotonNetwork.Instantiate(ammoType.name, gunPosition[currentGunIndex].position, gunPosition[currentGunIndex].rotation);
+            gunCannonAudio.Play();
+            g.GetComponent<Rigidbody>().velocity = gunPosition[currentGunIndex].transform.forward * gunSpeed;
+            var behaviour = g.GetComponent<GunAmmoBehaviour>();
+            behaviour.damageOutput += gunModifier;
+            behaviour.owner = owner;
+            yield return new WaitForSeconds(fireRate);
             gunIsFiring = false;
+            currentGunIndex++;
+            if(currentGunIndex >= gunPosition.Length){
+                currentGunIndex = 0;
+            }
         }
         canFire = true;
     }
