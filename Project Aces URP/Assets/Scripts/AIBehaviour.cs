@@ -6,9 +6,9 @@ using UnityEngine;
 public class AIBehaviour : MonoBehaviour
 {
     public GameObject explosionObject;  
-    public bool isAwaitingRespawn;
+    public bool isAwaitingRespawn, isRotating = false;
     public float speed = 100;
-    private Quaternion randRot = new Quaternion(0,0,0,0);
+    private Vector3 randRot = Vector3.zero;
     private Rigidbody _rb;
 
     public enum DecisionStates{
@@ -21,9 +21,13 @@ public class AIBehaviour : MonoBehaviour
     }
 
     private IEnumerator DecisionTime(){
-        float randTime = Random.Range(2,15);
+        float randTime = Random.Range(2,10);
         yield return new WaitForSeconds(randTime);
-        randRot = Random.rotation;
+        randRot = new Vector3(Random.Range(-30f,30), Random.Range(-30f,30), Random.Range(-30f,30));
+        isRotating = true;
+        float actionTime = Random.Range(1f,6f);
+        yield return new WaitForSeconds(actionTime);
+        isRotating = false;
         StartCoroutine(DecisionTime());
         
     }
@@ -51,12 +55,20 @@ public class AIBehaviour : MonoBehaviour
     }
 
     private void FixedUpdate() {
-        Debug.DrawRay(transform.position, Vector3.forward, Color.yellow);
-        if(Physics.Raycast(transform.position, Vector3.forward, 1000)){
-            randRot = Random.rotation;
+        RaycastHit hit;
+        Ray ray = new Ray(transform.position + (transform.forward * 25), transform.forward);
+        //Debug.DrawRay(transform.position + (transform.forward * 25), transform.forward * 700, Color.green, 0);
+        if(Physics.Raycast(ray, 700, ~100, queryTriggerInteraction: QueryTriggerInteraction.Collide)){
+            //print("hit");
+            var rot = Quaternion.identity;
+            _rb.AddRelativeTorque(-90,0,0, ForceMode.Force);
         }
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, randRot, 100 * Time.deltaTime);
+        //transform.rotation = Quaternion.RotateTowards(transform.rotation, randRot, 100 * Time.deltaTime);
         _rb.AddRelativeForce(0,0,speed, ForceMode.Acceleration);
+        if(isRotating){
+            _rb.AddRelativeTorque(randRot, ForceMode.Force);
+        }
+        
         
     }
 }

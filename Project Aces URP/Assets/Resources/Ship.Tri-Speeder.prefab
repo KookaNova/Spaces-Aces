@@ -212,10 +212,10 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 210
   DopplerLevel: 0
-  MinDistance: 1.2322297
-  MaxDistance: 2.0216548
+  MinDistance: 3.24
+  MaxDistance: 3.240001
   Pan2D: 0
-  rolloffMode: 2
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -701,6 +701,7 @@ MonoBehaviour:
   missileCannonAudio: {fileID: 0}
   allTargetList: []
   currentTargetSelection: []
+  currentGunIndex: 0
   currentMis: 0
   currentTarget: 0
   gunModifier: 0

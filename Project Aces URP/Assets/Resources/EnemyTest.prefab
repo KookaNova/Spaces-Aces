@@ -661,6 +661,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1506166131199359529, guid: b6abd7506ce2af1478b51af83dad878d, type: 3}
+    - {fileID: 738894169032128237, guid: b6abd7506ce2af1478b51af83dad878d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b6abd7506ce2af1478b51af83dad878d, type: 3}
 --- !u!114 &3277092133237730457 stripped
 MonoBehaviour:
@@ -734,4 +735,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosionObject: {fileID: 9128587892432602950, guid: e59c9a8b5999cdb4ab01f2f08b1d25b3, type: 3}
   isAwaitingRespawn: 0
+  isRotating: 0
   speed: 250

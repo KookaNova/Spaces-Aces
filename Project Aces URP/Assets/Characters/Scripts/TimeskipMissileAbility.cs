@@ -53,7 +53,7 @@ public class TimeskipMissileAbility : AbilityHandler
         }
 
         if(missile.target != null){
-            missile.gameObject.transform.LookAt(missile.target.transform.position + (missile.target.transform.forward), Vector3.up);
+            missile.gameObject.transform.LookAt(missile.target.transform.position /*+ (missile.target.transform.forward)*/, Vector3.up);
             
         }
         missile.missProbability -= 1.5f;

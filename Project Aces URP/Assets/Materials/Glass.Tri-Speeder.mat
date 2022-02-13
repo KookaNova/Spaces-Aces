@@ -88,8 +88,9 @@ Material:
     m_Floats:
     - Refraction: 0
     - Scratch_Strength: 0.01
-    - Scratch_Tile: 4
+    - Scratch_Tile: 6
     - Smoothness: 0.75
+    - Tile_Blend: 0
     - Transparency: 1
     - _AlphaClip: 0
     - _Blend: 0
