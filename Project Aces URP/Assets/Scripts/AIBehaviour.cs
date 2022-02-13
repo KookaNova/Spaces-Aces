@@ -21,7 +21,7 @@ public class AIBehaviour : MonoBehaviour
     }
 
     private IEnumerator DecisionTime(){
-        float randTime = Random.Range(2,10);
+        float randTime = Random.Range(1f,3);
         yield return new WaitForSeconds(randTime);
         randRot = new Vector3(Random.Range(-30f,30), Random.Range(-30f,30), Random.Range(-30f,30));
         isRotating = true;
@@ -61,7 +61,7 @@ public class AIBehaviour : MonoBehaviour
         if(Physics.Raycast(ray, 700, ~100, queryTriggerInteraction: QueryTriggerInteraction.Collide)){
             //print("hit");
             var rot = Quaternion.identity;
-            _rb.AddRelativeTorque(-90,0,0, ForceMode.Force);
+            _rb.AddRelativeTorque(-120,0,0, ForceMode.Force);
         }
         //transform.rotation = Quaternion.RotateTowards(transform.rotation, randRot, 100 * Time.deltaTime);
         _rb.AddRelativeForce(0,0,speed, ForceMode.Acceleration);
