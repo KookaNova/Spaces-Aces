@@ -8,22 +8,24 @@ namespace Cox.PlayerControls{
     /// Creates input from context as if it were another player. This should act entirely an another player in the game, 
     /// just with inputs coming from this script instead of Input Handler.
     ///</summary>
-    public class ArtificialInputHandler : SpacecraftController
+    public class ArtificialPlayerController : SpacecraftController
     {
-        public override void Activate(){
+        bool isMaster = false;
+
+        protected override void Activate(){
             isAwaitingRespawn = true;
+            isMaster = true;
             playerAudio.outputAudioMixerGroup = externalVoice;
             if(chosenCharacter == null){
                 var characterOptions = Resources.FindObjectsOfTypeAll<CharacterHandler>();
                 int index = Random.Range(0, characterOptions.Length);
                 chosenCharacter = characterOptions[index];
-                Debug.Log("Ai chose character " + chosenCharacter.name);
             }
             if(chosenShip == null){
                 var shipOptions = Resources.FindObjectsOfTypeAll<ShipHandler>();
                 int index = Random.Range(0, shipOptions.Length);
                 chosenShip = shipOptions[index];
-                Debug.Log("Ai chose ship " + chosenShip.name);
+                Debug.LogFormat("Ai chose character {0} and ship {1}.", chosenCharacter, chosenShip);
             }
             playerName = chosenCharacter.name;
 
@@ -36,21 +38,30 @@ namespace Cox.PlayerControls{
             }
         
             //Instantiates the chosen ship and parents it under the controller. Then gets important info from the ship.
-            if(PhotonNetwork.IsMasterClient){
-                ship = PhotonNetwork.Instantiate(chosenShip.shipPrefab.name, transform.position, transform.rotation);
-                ship.transform.SetParent(this.gameObject.transform);
+            if(isMaster){
+                ship = PhotonNetwork.Instantiate(chosenShip.shipPrefab.name, this.transform.position, this.transform.rotation);
+                ship.transform.SetParent(this.transform);
                 shipBehaviour = ship.GetComponent<ShipBehaviour>();
                 shipBehaviour.SetController(this);
                 explosionObject = chosenShip.explosion;
                 //instantiate the weapons, hud, and camera controllers.
+                targetableObject = ship.GetComponent<TargetableObject>();
+                gameManager.allTargets.Add(targetableObject);
                 weaponSystem = ship.GetComponentInChildren<WeaponsController>();
                 weaponSystem.owner = this;
                 _rb = ship.GetComponent<Rigidbody>();
+                var targetable = ship.GetComponent<TargetableObject>();
+                targetable.nameOfTarget = playerName;
+                if(team == "A"){
+                    targetable.targetTeam = TargetableObject.TargetType.TeamA;
+                }
+                else{
+                    targetable.targetTeam = TargetableObject.TargetType.TeamB;
+                }
 
                 //Activate systems after the passive modifiers are applied
                 PassiveAbility();
                 weaponSystem.EnableWeapons();
-                gameManager.AllPlayersFindTargets();
                 currentHealth = maxHealth;
                 currentShields = maxShield;
 
@@ -86,5 +97,42 @@ namespace Cox.PlayerControls{
                 VoiceLine(0);
             }
         }
+        protected override void FixedUpdate(){
+        //#Critical: If player is not local, return.
+        if(photonView == null)return;
+        if(!isMaster)return;
+
+        //keep abilities updated and active if needed, even if the player is eliminated.
+        if(primaryAbility.isUpdating){
+            primaryAbility.OnUpdate();
+        }
+        if(secondaryAbility.isUpdating){
+            secondaryAbility.OnUpdate();
+        }
+        if(aceAbility.isUpdating){
+            aceAbility.OnUpdate();
+        }
+
+        //#Critical: if player is waiting to respawn, return.
+        if(isAwaitingRespawn){
+            return;
+        }
+
+        //if shield is recharging, increment shield by recharge rate. If shields are maxed, stop recharging.
+        if(isShieldRecharging){
+            currentShields = Mathf.MoveTowards(currentShields, maxShield, shieldRechargeRate * Time.deltaTime);
+            if(currentShields >= maxShield){
+                currentShields = maxShield;
+                isShieldRecharging = false;
+            }
+        }
+        
+        //Calculates speed based on current thrust and clamps speed.
+        thrust = Mathf.Clamp01(thrust);
+        var speed = thrust * maxSpeed;
+        currentSpeed = Mathf.Lerp(currentSpeed, speed, (acceleration * Time.fixedDeltaTime)/45);
+        currentSpeed = Mathf.Clamp(currentSpeed, minSpeed, maxSpeed);
+        _rb.AddRelativeForce(0,0,currentSpeed, ForceMode.Acceleration);
+    }
     }
 }

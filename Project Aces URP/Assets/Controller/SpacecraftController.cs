@@ -27,6 +27,7 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
     protected GameObject explosionObject; 
     protected Rigidbody _rb;
     protected ShipBehaviour shipBehaviour;
+    public TargetableObject targetableObject;
     protected AudioSource playerAudio;
     protected AudioMixerGroup localVoice, externalVoice;
     [HideInInspector] public GameObject ship;
@@ -71,7 +72,7 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
         playerAudio = GetComponent<AudioSource>();
         Activate();
     }
-    public virtual void Activate(){}
+    protected virtual void Activate(){}
     /// <summary>
     ///0=Start Match | 1=Primary | 2=Secondary | 3=Ace | 4=EnemyBeingTargeted
     ///5=MissileTypeFired | 6=ThisBeingTargeted | 7=MissileIncoming | 8=EnemyEliminated
@@ -83,7 +84,7 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
         playerAudio.Play();
         gameManager.Subtitle(chosenCharacter.voiceLines[index]);
     }
-    public virtual void Deactivate(){
+    protected virtual void Deactivate(){
         //player controller overrides this
         isAwaitingRespawn = true;
         currentHealth = 0;
@@ -122,10 +123,10 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
     #endregion
     
     
-    private void FixedUpdate(){
+    protected virtual void FixedUpdate(){
         //#Critical: If player is not local, return.
         if(photonView == null)return;
-        if(PhotonNetwork.IsMasterClient)return;
+        if(!photonView.IsMine)return;
 
         //keep abilities updated and active if needed, even if the player is eliminated.
         if(primaryAbility.isUpdating){

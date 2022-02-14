@@ -19,8 +19,24 @@ MonoBehaviour:
   portrait: {fileID: 2800000, guid: d546ba7ae0e3f44488e7c2c9d0af9e04, type: 3}
   bodyArt: {fileID: 2800000, guid: 494094a553575664da36b2d8ee74d595, type: 3}
   nameArt: {fileID: 0}
-  abilities: []
-  voiceLines: []
+  abilities:
+  - {fileID: 11400000, guid: 71ff263362e089a44b919e0cdc2284c2, type: 2}
+  - {fileID: 11400000, guid: c900157cc7ca95a4a9523db6e30e2d35, type: 2}
+  - {fileID: 11400000, guid: f2cea10384c121646b07a57806b35d10, type: 2}
+  voiceLines:
+  - {fileID: 11400000, guid: 4588276b5380bc249a9412333b14dc76, type: 2}
+  - {fileID: 11400000, guid: 8bad9a8e40f3cac4abce21523753fb10, type: 2}
+  - {fileID: 11400000, guid: ae670b466e7f38d48b7757cbd3c95332, type: 2}
+  - {fileID: 11400000, guid: bf4c597a18f6d8e428e72bfd157d8f3c, type: 2}
+  - {fileID: 11400000, guid: f2c977d3a7e407b409be4473d6a7eec4, type: 2}
+  - {fileID: 11400000, guid: 4659f0b566b527e4fb434da4e196436c, type: 2}
+  - {fileID: 11400000, guid: aa2d64e302d97ad41b237b835d4b72ea, type: 2}
+  - {fileID: 11400000, guid: a9b399e6900864c4583af83a96f42d5f, type: 2}
+  - {fileID: 11400000, guid: 28a11decf100f9a41b270e39a7930875, type: 2}
+  - {fileID: 11400000, guid: 3201b4ae18cb4674d8c8e605a7210697, type: 2}
+  - {fileID: 11400000, guid: f0376ae7bbffc334c93fb1ca9685ecf1, type: 2}
+  - {fileID: 11400000, guid: 5a679a76f80a6404d87c7e714d6b2523, type: 2}
+  - {fileID: 11400000, guid: b58462ab209c5d24ea1384e4cc835d23, type: 2}
   health: 100
   shield: 0
   shieldRechargeRate: 0

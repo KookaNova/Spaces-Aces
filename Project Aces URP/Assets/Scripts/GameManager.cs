@@ -6,33 +6,37 @@ using UnityEngine.UIElements;
 using System.Collections;
 using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
-    [SerializeField] private GameObject playerPrefab;
-    [SerializeField] private GameObject debugPlayer;
-    public static GameManager Instance;
-    public GamemodeData currentGamemode;
-    public Transform[] teamASpawnpoints, teamBSpawnpoints;
-    public bool isSelectLoaded = false;
+    public static GameManager Instance; //used to keep data persistant if necessary
 
-    [Tooltip("The amount of time in seconds that the match will last.")]
-    [SerializeField] private int gameTimer = 600;
-    [SerializeField] bool debugMode = false;
+    [SerializeField] GameObject playerPrefab; //#CRITICAL: this is the player
+    [SerializeField] GameObject aiPrefab; //required if bots are used in place of players
+    public GamemodeData currentGamemode; //#CRITICAL: the rules for the game. Set before the game starts by the scene manager
+    public Transform[] teamASpawnpoints, teamBSpawnpoints; //#CRITICAL: required for spawning players.
+    [SerializeField] int aiPlayerCount = 0;
 
+    [HideInInspector] public bool isSelectLoaded = false; //prevents player from spawning before making a character selection
+    SceneController sceneController; //used for loading the current gamemode, and allowing a player to return to the menu at any given time.
+    private Scene mainScene;
+
+    public List<TargetableObject> allTargets;
+    
+
+    //gamemode related fields
+    int gameTimer = 600;
     int teamAScore, teamBScore;
-    int timeOut = 45, startCount = 10;
+    int timeOut = 45, startCount = 3;
     bool gameReady = false, gameStarted = false, gameOver = false;
-    SceneController sceneController;
-
-
+    
+    
     //UI
     VisualElement root, feed, subtitle, tabScreen;
     [SerializeField] UIDocument uIDocument;
 
-
-
-    private Scene mainScene;
+    
 
     #region GameStart
 
@@ -47,11 +51,14 @@ public class GameManager : MonoBehaviourPunCallbacks
         subtitle = root.Q("Subtitle");
         tabScreen = root.Q("TabScreen");
         gameTimer = currentGamemode.timeLimit;
-        
-        
 
         Instance = this; 
         mainScene = SceneManager.GetActiveScene();
+        var possibleTargets = FindObjectsOfType<TargetableObject>();
+        for(int i = 0; i < possibleTargets.Length; i++){
+            allTargets.Add(possibleTargets[i]);
+        }
+        
         if(!PhotonNetwork.IsConnected){
             //allows us to play in a level even when we're offline. We switch to offline mode and create an offline room.
             PhotonNetwork.OfflineMode = true;
@@ -73,12 +80,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         isSelectLoaded = true;
     }
 
-    public void AllPlayersFindTargets(){
-        var players = FindObjectsOfType<WeaponsController>();
-        for(int i = 0; i < players.Length; i++){
-            players[i].FindTargets();
-        }
-    }
+    
     
     public void CloseSelectMenu(){
         isSelectLoaded = false;
@@ -96,16 +98,17 @@ public class GameManager : MonoBehaviourPunCallbacks
             return;
         }
         if(!gameStarted)return;
+
         if(isSelectLoaded)return;
 
         // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
         if((string)PhotonNetwork.LocalPlayer.CustomProperties["Team"] == "A"){
-            int spawnPoint = Random.Range(0, teamASpawnpoints.Length - 1);
+            int spawnPoint = Random.Range(0, teamASpawnpoints.Length);
             var p = PhotonNetwork.Instantiate(this.playerPrefab.name, teamASpawnpoints[spawnPoint].position, Quaternion.identity, 0);
             Debug.LogFormat("GameManager: SpawnPlayer(), Spawned player {0} at {1}.", p, spawnPoint);
         }
         else{
-            int spawnPoint = Random.Range(0, teamBSpawnpoints.Length - 1);
+            int spawnPoint = Random.Range(0, teamBSpawnpoints.Length);
             var p = PhotonNetwork.Instantiate(this.playerPrefab.name, teamBSpawnpoints[spawnPoint].position, Quaternion.identity, 0);
             Debug.LogFormat("GameManager: SpawnPlayer(), Spawned player {0} at {1}.", p, spawnPoint);
         }
@@ -128,7 +131,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             StartCoroutine(StartCheck());
             
         }
-
     }
 
     private IEnumerator StartCountDown(){
@@ -149,15 +151,19 @@ public class GameManager : MonoBehaviourPunCallbacks
         Debug.Log("CancelGame() Called! Not enough players!");
     }
 
-
     private void StartGame(){
         gameStarted = true;
         StartCoroutine(GameTimer());
         SpawnPlayer();
-        
 
+        if(aiPrefab != null){
+            int spawnPoint = Random.Range(0, teamBSpawnpoints.Length);
+            for(int i = 0; i < aiPlayerCount; i++){
+                var p = PhotonNetwork.Instantiate(this.aiPrefab.name, teamASpawnpoints[spawnPoint].position, Quaternion.identity, 0);
+                Debug.LogFormat("GameManager: SpawnPlayer(), Spawned player {0} at {1}.", p, spawnPoint);
+            }
+        }
         Debug.Log("Current Players: " + PhotonNetwork.PlayerList.Length);
-
     }
 
     private void GameOver(){
@@ -218,8 +224,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
 
     }
-    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
-    {
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps){
         UpdateScoreBoard(targetPlayer);
     }
     #endregion
@@ -253,9 +258,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         else{
             Score(dealer);
         }
-
-
-
     }
     public void FeedEvent(SpacecraftController dealer, string receiver, string cause, bool isKill){
         
@@ -278,9 +280,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         else{
             Score(dealer);
         }
-
-
-
     }
     public void FeedEvent(SpacecraftController dealer, string cause, bool isKill){
         
@@ -298,9 +297,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         else{
             Score(dealer);
         }
-
-
-
     }
     #endregion
 
@@ -389,7 +385,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     private IEnumerator GoToPostGame(){
         yield return new WaitForSecondsRealtime(5);
         PhotonNetwork.AutomaticallySyncScene = true;
-        PhotonNetwork.LoadLevel("Home");
+        PhotonNetwork.LoadLevel(mainScene.name);
         
 
     }

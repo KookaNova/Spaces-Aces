@@ -2,8 +2,6 @@ using System.Collections;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.InputSystem;
-using UnityEngine.Audio;
-using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 
 namespace Cox.PlayerControls{
@@ -19,7 +17,7 @@ namespace Cox.PlayerControls{
         bool gamepadFound = false; Gamepad _gp; //Used to check if we can set vibrations to the gamepad.
         
         #region Setup
-        public override void Activate(){
+        protected override void Activate(){
             if(this.photonView.Owner != null){
                 if(photonView.IsMine){
                     //Check for gamepad
@@ -70,21 +68,24 @@ namespace Cox.PlayerControls{
                 shipBehaviour.SetController(this);
                 explosionObject = chosenShip.explosion;
                 _rb = ship.GetComponent<Rigidbody>();
+                targetableObject = ship.GetComponent<TargetableObject>();
+                targetableObject.nameOfTarget = playerName;
+                gameManager.allTargets.Add(targetableObject);
 
                 //instantiate the weapons, hud, and camera controllers.
+                weaponSystem = ship.GetComponentInChildren<WeaponsController>();
+                weaponSystem.owner = this;
                 HudController = ship.GetComponentInChildren<PlayerHUDController>();
                 HudController.currentCraft = this;
                 cameraController = ship.GetComponentInChildren<CameraController>();
                 cameraController.weaponsController = weaponSystem;
-                weaponSystem = ship.GetComponentInChildren<WeaponsController>();
-                weaponSystem.owner = this;
-
+                
+                
                 //Activate systems after the passive modifiers are applied
                 PassiveAbility();
                 weaponSystem.EnableWeapons();
                 HudController.Activate();
                 cameraController.Activate();
-                gameManager.AllPlayersFindTargets();
                 currentHealth = maxHealth;
                 currentShields = maxShield;
 
@@ -117,7 +118,7 @@ namespace Cox.PlayerControls{
                 }
                 isAwaitingRespawn = false;
             }
-            
+
             ApplyCustomData();
             VoiceLine(0);
         }
@@ -128,31 +129,28 @@ namespace Cox.PlayerControls{
                 StartCoroutine(ResetMotorSpeeds(time));
             }
         }
-        public override void Deactivate(){
-        isAwaitingRespawn = true;
-        currentHealth = 0;
-        currentShields = 0;
-        currentSpeed = 0;
-        primaryAbility.canUse = true;
-        secondaryAbility.canUse = true;
-        _rb.velocity = Vector3.zero;
-        _rb.angularVelocity = Vector3.zero;
-        ship.SetActive(false);
+        protected override void Deactivate(){
+            isAwaitingRespawn = true;
+            currentHealth = 0;
+            currentShields = 0;
+            currentSpeed = 0;
+            primaryAbility.canUse = true;
+            secondaryAbility.canUse = true;
+            _rb.velocity = Vector3.zero;
+            _rb.angularVelocity = Vector3.zero;
+            ship.SetActive(false);
 
-        if(previousAttacker != null){
-            cameraController.FollowTarget(true, previousAttacker.gameObject);
+            if(previousAttacker != null){
+                cameraController.FollowTarget(true, previousAttacker.gameObject);
+            }
+
+            //turn off trailer renderer
+
+            //Set controls inactive to avoid errors when inputs are made.
+            HudController.gameObject.SetActive(false);
+            cameraController.gameObject.SetActive(false);
+            weaponSystem.gameObject.SetActive(false);
         }
-
-        //turn off trailer renderer
-
-        //Set controls inactive to avoid errors when inputs are made.
-        HudController.gameObject.SetActive(false);
-        cameraController.gameObject.SetActive(false);
-        weaponSystem.gameObject.SetActive(false);
-    }
-
-
-
         #endregion
 
         #region Camera
