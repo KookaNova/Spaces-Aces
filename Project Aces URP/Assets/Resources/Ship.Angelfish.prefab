@@ -844,6 +844,7 @@ MonoBehaviour:
   missileCannonAudio: {fileID: 0}
   allTargetList: []
   currentTargetSelection: []
+  currentGunIndex: 0
   currentMis: 0
   currentTarget: 0
   gunModifier: 0

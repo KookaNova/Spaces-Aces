@@ -20,6 +20,7 @@ public class PlayerHUDController : MonoBehaviour
     [SerializeField] private List<UnityEngine.UI.Image> speedBar, thrustBar, healthBar, shieldBar;
     [SerializeField] private List<Text> speedText, healthText, shieldText;
     [HideInInspector] public SpacecraftController currentCraft;
+    
 
     //values to display in UI.
     private float currentSpeed, maxSpeed, thrustInput, currentHealth, maxHealth, currentShields, maxShields;
@@ -128,6 +129,14 @@ public class PlayerHUDController : MonoBehaviour
             }
             healthBar[i].fillAmount = barfill;
         }
+
+        var healthPercentage = (maxHealth - currentHealth)/maxHealth;
+        if(healthPercentage <= .25f){
+            lowHealthIndicator.SetActive(true);
+        }
+        else{
+            lowHealthIndicator.SetActive(false);
+        }
         
     }
     private void FillShieldData(){
@@ -154,10 +163,6 @@ public class PlayerHUDController : MonoBehaviour
             shieldBar[i].fillAmount = barfill;
         }
         
-    }
-
-    public void IsLowHealth(bool Active){
-        lowHealthIndicator.SetActive(Active);
     }
 
     #region UITK

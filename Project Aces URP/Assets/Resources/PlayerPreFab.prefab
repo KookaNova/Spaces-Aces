@@ -44,18 +44,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 702583517967998088}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce798c9375589aa459018553392505aa, type: 3}
+  m_Script: {fileID: 11500000, guid: 41b6f266085bfdd4c9d8161f3d4fee5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chosenCharacter: {fileID: 0}
+  chosenShip: {fileID: 0}
   playerName: 
   teamName: 
-  playerObject: {fileID: 11400000, guid: 797f0036c81719d489acc9411a475a78, type: 2}
-  menuPrefab: {fileID: 4869130168119835939, guid: 7e57d672f120f6f438850a00051d5005, type: 3}
-  explosionObject: {fileID: 9128587892432602950, guid: 8fd703d50be5b704588cc7b5baa1832e, type: 3}
-  gunAmmoObject: {fileID: 4155647956408176716, guid: 5a3f45eeaedaf44489399eba23b11ac8, type: 3}
-  missileObject: {fileID: 6200246160423643314, guid: fbe558d5ded7c6444990f035946dd5e0, type: 3}
-  chosenCharacter: {fileID: 11400000, guid: 5e0146bfea2a90e4088f2de10ca4483e, type: 2}
-  chosenShip: {fileID: 11400000, guid: 5b4d9e73d21b79043a1ee74e4135a453, type: 2}
+  ship: {fileID: 0}
   weaponSystem: {fileID: 0}
   maxHealth: 0
   maxShield: 0
@@ -73,9 +69,7 @@ MonoBehaviour:
   currentShields: 0
   currentHealth: 0
   thrust: 0
-  ship: {fileID: 0}
-  localVoice: {fileID: -5531333252429107267, guid: 977fdd28f5619694bab22ee0b0292424, type: 2}
-  externalVoice: {fileID: -4841119582935898376, guid: 977fdd28f5619694bab22ee0b0292424, type: 2}
+  playerObject: {fileID: 11400000, guid: 797f0036c81719d489acc9411a475a78, type: 2}
 --- !u!114 &2105643000379996664
 MonoBehaviour:
   m_ObjectHideFlags: 0
