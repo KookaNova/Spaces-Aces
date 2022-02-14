@@ -16,8 +16,9 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         TeamB,
         Global
     }
-    [HideInInspector] public SpacecraftController owner = null;
+    GameManager gameManager;
 
+    [HideInInspector] public SpacecraftController owner = null;
     [HideInInspector] public TargetingMode targMode = TargetingMode.TeamA;
     [SerializeField] private Canvas worldHud, overlayHud;
     [SerializeField] private Image aimReticle, distanceReticle;
@@ -48,7 +49,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     #endregion
 
     #region Hidden Fields
-    public List<TargetableObject> allTargetList, currentTargetSelection;
+    public List<TargetableObject> currentTargetSelection;
     [HideInInspector] public int currentGunIndex = 0, currentMis = 0, currentTarget = 0;
     [HideInInspector] public float gunModifier = 0, missileModifier = 0;
     private int missilesAvailable;
@@ -62,6 +63,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
 
     #region enable
     public void EnableWeapons() {
+        gameManager = FindObjectOfType<GameManager>();
         currentTarget = 0;
         lockOnModifier = lockOnDefault;
         overlayHud.transform.SetParent(null);
@@ -70,8 +72,6 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         var l = Instantiate(lockIndicator, parent: overlayHud.transform);
         lockIndicator = l;
         lockIndicator.SetActive(false);
-        this.photonView.RPC("FindTargets", RpcTarget.All, null);
-        //FindTargets();
     }
     private void UpdateHUD(){
         for(int i = 0; i < missileCountText.Count; i++){
@@ -92,17 +92,17 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     }
     
     public void FindTargets(){
-        allTargetList.Clear();
-        var targets = GameObject.FindObjectsOfType<TargetableObject>();
-        for (int i = 0; i < targets.Length; i++){
-            if(targets[i] == null){
+        for (int i = 0; i < gameManager.allTargets.Count; i++){
+            if(gameManager.allTargets[i] == null){
                 FindTargets();
             }
-            if(targets[i] != this.GetComponentInParent<TargetableObject>()){
-                allTargetList.Add(targets[i]);
+            if(gameManager.allTargets[i] != this.GetComponentInParent<TargetableObject>()){
+                gameManager.allTargets.Add(gameManager.allTargets[i]);
             }
         }
-        allTargetList.TrimExcess();
+        gameManager.allTargets.TrimExcess();
+
+        Debug.Log(gameManager.allTargets.Count);
         GenerateIndicators();
     }
     public void ChangeTargetMode(int input){
@@ -122,17 +122,21 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     
     }
     private void CleanTargetSelection(){
-        if(allTargetList.Count > 0)
         currentTargetSelection.Clear();
-        for (int i = 0; i < allTargetList.Count; i++){
-            if(allTargetList[i].targetTeam.ToString() == targMode.ToString()){
-                currentTargetSelection.Add(allTargetList[i]);
+        for (int i = 0; i < gameManager.allTargets.Count; i++){
+            if(gameManager.allTargets[i].targetTeam.ToString() == targMode.ToString()){
+                if(gameManager.allTargets[i] == owner.targetableObject){
+                    continue;
+                }
+                currentTargetSelection.Add(gameManager.allTargets[i]);
             }
         }
         GenerateIndicators();
     }
 
     private void GenerateIndicators(){
+        Debug.Log("Generating Indicators");
+        if(photonView.IsMine);
         //destroy old indicators when mode is changed
         for(int i = 0; i < activeIndicators.Count; i++){
             Destroy(activeIndicators[i]);
@@ -268,7 +272,6 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         }
         else if(hit.rigidbody == null){
             CycleMainTarget();
-            Debug.LogFormat("WeaponsSystem: LockPosition(), No rigidbody found on target {0}. Indicator is inactive.", currentTargetSelection[currentTarget].name);
         }
         else if(hit.rigidbody.gameObject == currentTargetSelection[currentTarget].gameObject){
             

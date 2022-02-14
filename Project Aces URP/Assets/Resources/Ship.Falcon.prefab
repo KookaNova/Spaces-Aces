@@ -573,7 +573,6 @@ MonoBehaviour:
   - {fileID: 187610299306609108}
   gunCannonAudio: {fileID: 2021481887488752201}
   missileCannonAudio: {fileID: 0}
-  allTargetList: []
   currentTargetSelection: []
   currentGunIndex: 0
   currentMis: 0

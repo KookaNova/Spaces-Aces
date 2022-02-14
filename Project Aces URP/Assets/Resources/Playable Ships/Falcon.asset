@@ -20,6 +20,7 @@ MonoBehaviour:
   displayShip: {fileID: 676247703242460443, guid: 7511e7ff766381c428c71cef34561e5d, type: 3}
   weaponsController: {fileID: 0}
   cameraController: {fileID: 0}
+  explosion: {fileID: 9128587892432602950, guid: e59c9a8b5999cdb4ab01f2f08b1d25b3, type: 3}
   maxHealth: 150
   maxShield: 750
   shieldRechargeRate: 400
