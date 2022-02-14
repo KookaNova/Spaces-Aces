@@ -16,7 +16,7 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
     bool isMouse = false;
 
         
-    SpacecraftController spacecraft;
+    PlayerController spacecraft;
     ControlInputActions _controls;
     Vector2 torqueInput, cursorInput;
 
@@ -24,9 +24,8 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
 
     public override void OnEnable() {
         root = FindObjectOfType<UIDocument>().rootVisualElement;
-        
         cursorInput = new Vector2 (Screen.width / 2, Screen.height / 2);
-        spacecraft = GetComponentInChildren<SpacecraftController>();
+        spacecraft = GetComponentInChildren<PlayerController>();
         _controls = new ControlInputActions();
         _controls.Flight.SetCallbacks(this);
         _controls.Flight.Enable();

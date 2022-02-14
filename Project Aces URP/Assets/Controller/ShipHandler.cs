@@ -17,6 +17,7 @@ public class ShipHandler : ScriptableObject
     public WeaponsController weaponsController;
     [HideInInspector]
     public CameraController cameraController;
+    public GameObject explosion;
 
     [Header("Ship Stats")]
     public float maxHealth = 700;
