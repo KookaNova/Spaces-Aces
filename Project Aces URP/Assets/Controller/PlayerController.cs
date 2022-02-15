@@ -130,12 +130,14 @@ namespace Cox.PlayerControls{
             cameraController.ChangeCamera();
             if(cameraController.currentCamera == 0){
                 HudController.ThirdPersonHudSetInactive();
+                HudController.OverlaySetActive(true);
             }
             if(cameraController.currentCamera == 1){
                 HudController.FirstPersonHudSetInactive();
+                HudController.OverlaySetActive(true);
             }
             if(cameraController.currentCamera > 1){
-                HudController.HudSetInactive();
+                HudController.OverlaySetActive(false);
             }
 
         }
@@ -246,12 +248,13 @@ namespace Cox.PlayerControls{
         //turn off trailer renderer
 
         //Set controls inactive to avoid errors when inputs are made.
-        //HudController.gameObject.SetActive(false);
+        HudController.OverlaySetActive(false);
         cameraController.gameObject.SetActive(false);
         weaponSystem.gameObject.SetActive(false);
     }
 
     public override void Reactivate(){
+        HudController.OverlaySetActive(true);
         cameraController.FollowTarget(false, null);
         cameraController.gameObject.SetActive(true);
         //HudController.gameObject.SetActive(true);
