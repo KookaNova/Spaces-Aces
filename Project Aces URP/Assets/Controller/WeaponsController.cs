@@ -10,6 +10,9 @@ namespace Cox.PlayerControls{
 /// and attack enemies with missiles and guns. </summary>
 public class WeaponsController : MonoBehaviourPunCallbacks
 {
+
+    //code for finding the next target needs work. Consider adding a variable for it that's more consistent.
+
     #region Serialized Fields
     public enum TargetingMode{
         TeamA,
@@ -22,8 +25,9 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     [HideInInspector] public TargetingMode targMode = TargetingMode.TeamA;
     [SerializeField] private Canvas worldHud, overlayHud;
     [SerializeField] private Image aimReticle, distanceReticle;
-    [SerializeField] private GameObject objectIndicator, lockIndicator;
-    [SerializeField] private List<GameObject> activeIndicators;
+    [SerializeField] private GameObject lockIndicator;
+    [SerializeField] private ObjectIndicator objectIndicator;
+    [SerializeField] private List<ObjectIndicator> activeIndicators;
     [SerializeField] private Camera fovCam;
     #endregion
 
@@ -71,7 +75,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
 
         var l = Instantiate(lockIndicator, parent: overlayHud.transform);
         lockIndicator = l;
-        lockIndicator.SetActive(false);
+        lockIndicator.gameObject.SetActive(false);
 
         //Spawns the player targeting the enemy
         if(owner.targetableObject.targetTeam == TargetableObject.TargetType.TeamA){
@@ -107,7 +111,8 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         for (int i = 0; i < gameManager.allTargets.Count; i++){
             if(gameManager.allTargets[i] == null){
                 gameManager.allTargets.RemoveAt(i);
-                FindTargets();
+                
+                continue;
             }
             if(gameManager.allTargets[i] != this.GetComponentInParent<TargetableObject>()){
                 gameManager.allTargets.Add(gameManager.allTargets[i]);
@@ -147,10 +152,10 @@ public class WeaponsController : MonoBehaviourPunCallbacks
 
     private void GenerateIndicators(){
         Debug.Log("Generating Indicators");
-        if(photonView.IsMine);
+        if(!photonView.IsMine)return;
         //destroy old indicators when mode is changed
         for(int i = 0; i < activeIndicators.Count; i++){
-            Destroy(activeIndicators[i]);
+            Destroy(activeIndicators[i].gameObject);
         }
         activeIndicators.Clear();
         activeIndicators.TrimExcess();
@@ -160,7 +165,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             var a = Instantiate(objectIndicator, overlayHud.transform);
             activeIndicators.Add(a);
             a.name = "Target_Indicator." + i;
-            a.SetActive(false);
+            a.gameObject.SetActive(false);
             a.GetComponent<Animator>().StopPlayback();
         }
         currentTargetSelection.TrimExcess(); 
@@ -177,7 +182,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
                 FindTargets();
             }
             if(currentTargetSelection[i].gameObject.activeInHierarchy == false || !currentTargetSelection[i].GetComponentInChildren<MeshRenderer>().isVisible){
-                activeIndicators[i].SetActive(false);
+                activeIndicators[i].gameObject.SetActive(false);
                 continue;
             }
             
@@ -195,25 +200,33 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             
             //if cast hits nothing, or the hit doesn't have a rigidbody, remove indicators
             if(!Physics.SphereCast(origin, 10, dir, out hit, 15000, ~layermask)){
-                activeIndicators[i].SetActive(false); 
+                activeIndicators[i].gameObject.SetActive(false); 
                 //Debug.LogFormat("WeaponsSystem: PositionIndicators(), target {0} not visible. Indicator is inactive.", currentTargetSelection[i].nameOfTarget);
                 continue;
             }
             if(hit.rigidbody == null){
-                activeIndicators[i].SetActive(false); 
+                activeIndicators[i].gameObject.SetActive(false); 
                 //Debug.LogFormat("WeaponsSystem: PositionIndicators(), No rigidbody found on target {0}. Indicator is inactive.", currentTargetSelection[i].name);
                 continue;
             }
             
             //if object is not obstructed, activate indicators
             if(hit.rigidbody.gameObject == currentTargetSelection[i].gameObject){
-                activeIndicators[i].SetActive(true);
+                activeIndicators[i].gameObject.SetActive(true);
                 if(currentTarget == -1){
-                currentTarget = i;
+                    currentTarget = i;
+                    if((i+1) < currentTargetSelection.Count){
+                        activeIndicators[currentTarget].next.gameObject.SetActive(false);
+                        activeIndicators[i+1].next.gameObject.SetActive(true);
+                    }
+                    else{
+                        activeIndicators[currentTarget].next.gameObject.SetActive(false);
+                        activeIndicators[0].next.gameObject.SetActive(true);
+                    }
                 }  
             }
             else{
-                activeIndicators[i].SetActive(false);
+                activeIndicators[i].gameObject.SetActive(false);
                 continue;
             }
             
@@ -230,13 +243,18 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             if(i != currentTarget){
                 activeIndicators[i].GetComponent<Animator>().StartPlayback();
             }
-
-            //Write text for name and distance
-            Text[] dataText = activeIndicators[i].GetComponentsInChildren<Text>();
             //Displays name
-            dataText[0].text = currentTargetSelection[i].GetComponent<TargetableObject>().nameOfTarget;
+            activeIndicators[i].playerName.text = currentTargetSelection[i].GetComponent<TargetableObject>().nameOfTarget;
             //Displays distance
-            dataText[1].text = (Vector3.Distance(transform.position, currentTargetSelection[i].transform.position)).ToString();
+            activeIndicators[i].distance.text = (Vector3.Distance(transform.position, currentTargetSelection[i].transform.position)).ToString();
+            activeIndicators[i].next.gameObject.SetActive(false);
+            if((currentTarget + 1) < currentTargetSelection.Count){
+                activeIndicators[currentTarget+1].next.gameObject.SetActive(true);
+            }
+            else{
+                activeIndicators[0].next.gameObject.SetActive(true);
+            }
+            
         }
         
     }
@@ -265,7 +283,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
 
             lockOnModifier = lockOnDefault;
             lockIndicator.transform.position = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, (overlayHud.transform.position - Camera.main.transform.position).magnitude));
-            lockIndicator.SetActive(false);
+            lockIndicator.gameObject.SetActive(false);
             missileLocked = false;
             //Debug.Log("Target not in FOV");
             return;
@@ -278,7 +296,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         Vector3 dir = currentTargetSelection[currentTarget].gameObject.transform.position - origin;
         Debug.DrawRay(origin, dir, Color.red);
         if(!Physics.SphereCast(origin, 10, dir, out hit, 3500, ~layermask)){
-            lockIndicator.SetActive(false);
+            lockIndicator.gameObject.SetActive(false);
             return;
         }
         else if(hit.rigidbody == null){
@@ -286,7 +304,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         }
         else if(hit.rigidbody.gameObject == currentTargetSelection[currentTarget].gameObject){
             
-            lockIndicator.SetActive(true);
+            lockIndicator.gameObject.SetActive(true);
             lockOnModifier += lockOnDefault * Time.fixedDeltaTime;
 
             
@@ -319,7 +337,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
 
         lockOnModifier = lockOnDefault;
         lockIndicator.transform.position = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, (overlayHud.transform.position - Camera.main.transform.position).magnitude));
-        lockIndicator.SetActive(false);
+        lockIndicator.gameObject.SetActive(false);
         missileLocked = false;
 
         for(int i = 0; i < currentTargetSelection.Count; i++){
@@ -341,6 +359,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             int layermask = 1 << 14;
             Vector3 origin = gameObject.transform.position + (transform.forward * 15);
             Vector3 dir = currentTargetSelection[currentTarget].gameObject.transform.position - origin;
+            activeIndicators[currentTarget].next.gameObject.SetActive(false);
             
             Debug.DrawRay(origin, dir, Color.white);
 

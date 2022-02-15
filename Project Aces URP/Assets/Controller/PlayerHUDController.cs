@@ -29,7 +29,7 @@ public class PlayerHUDController : MonoBehaviour
     //values to display in UI.
     private float currentSpeed, maxSpeed, thrustInput, currentHealth, maxHealth, currentShields, maxShields;
 
-    public async void Activate(){
+    public void Activate(){
 
         root = FindObjectOfType<UIDocument>().rootVisualElement;
 
@@ -65,9 +65,8 @@ public class PlayerHUDController : MonoBehaviour
         OverlayHUD.SetActive(true);
         root.Q("Radar").style.display = DisplayStyle.None;
     }
-    public void HudSetInactive(){
-        firstPersonHUD.SetActive(false);
-        OverlayHUD.SetActive(false);
+    public void OverlaySetActive(bool state){
+        OverlayHUD.SetActive(state);
     }
 
     private void LateUpdate() {
