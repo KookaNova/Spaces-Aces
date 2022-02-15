@@ -16,10 +16,12 @@ public class PlayerHUDController : MonoBehaviour
 
     //UI displayed for ship UI.
     [Header("Ship UI")]
-    [SerializeField] private GameObject lowHealthIndicator;
-    [SerializeField] private List<UnityEngine.UI.Image> speedBar, thrustBar, healthBar, shieldBar;
+    public GameObject lowHealthIndicator;
+    [SerializeField] private List<UnityEngine.UI.Image> speedBar, thrustBar, healthBar, shieldBar, gunCharge;
     [SerializeField] private List<Text> speedText, healthText, shieldText;
-    [HideInInspector] public SpacecraftController currentCraft;
+    [SerializeField] private List<Text> textTargetMode, missileCountText;
+    [SerializeField] private List<Text> textPosition, textRotation;
+    [HideInInspector] public SpacecraftController owner;
     
 
     //values to display in UI.
@@ -29,22 +31,23 @@ public class PlayerHUDController : MonoBehaviour
 
         root = FindObjectOfType<UIDocument>().rootVisualElement;
 
-        if(currentCraft == null){
+        if(owner == null){
             Debug.LogError("PlayerHUDController: Activate(), currentCraft is null, script can't function");
             return;
         }
         firstPersonHUD.SetActive(true); OverlayHUD.SetActive(true);
         OverlayHUD.GetComponent<Canvas>().worldCamera = Camera.main;
-        chosenCharacter = currentCraft.chosenCharacter;
+        lowHealthIndicator.SetActive(false);
+        chosenCharacter = owner.chosenCharacter;
 
         if(chosenCharacter == null){
             Debug.LogWarning("PlayerHUDController: OnEnable(), currentCraft is null, can't fill Spacecraft info");
             return;
         }
         
-        maxSpeed = currentCraft.maxSpeed;
-        maxHealth = currentCraft.maxHealth;
-        maxShields = currentCraft.maxShield;
+        maxSpeed = owner.maxSpeed;
+        maxHealth = owner.maxHealth;
+        maxShields = owner.maxShield;
 
         SetPlayerIcons();
     }
@@ -63,21 +66,71 @@ public class PlayerHUDController : MonoBehaviour
     }
 
     private void LateUpdate() {
-        if(currentCraft == null){
+        if(owner == null){
             gameObject.SetActive(false);
             return;
         }
-        currentSpeed = currentCraft.currentSpeed;
-        currentHealth = currentCraft.currentHealth;
-        currentShields = currentCraft.currentShields;
-        thrustInput = currentCraft.thrust;
+        currentSpeed = owner.currentSpeed;
+        currentHealth = owner.currentHealth;
+        currentShields = owner.currentShields;
+        thrustInput = owner.thrust;
 
-        root.Q<Label>("TargetingMode").text = "Targeting:" + currentCraft.weaponSystem.targMode.ToString();
+        
 
         FillSpeedData();
         FillThrustData();
         FillHealthData();
         FillShieldData();
+        UpdateText();
+    }
+    public void UpdateText(){
+        var weapons = owner.weaponSystem;
+
+        for(int i = 0; i < textTargetMode.Count; i++){
+            switch(weapons.targMode){
+                case WeaponsController.TargetingMode.TeamA:
+                    if(owner.teamName == "A"){
+                        textTargetMode[i].text = ("Targeting Allies");
+                        root.Q<Label>("TargetingMode").text = "Targeting Allies";
+                    }
+                    else{
+                        textTargetMode[i].text = ("Targeting Enemies");
+                        root.Q<Label>("TargetingMode").text = "Targeting Enemies";
+                    }
+                    break;
+                case WeaponsController.TargetingMode.TeamB:
+                    if(owner.teamName == "A"){
+                        textTargetMode[i].text = ("Targeting Enemies");
+                        root.Q<Label>("TargetingMode").text = "Targeting Enemies";
+                    }
+                    else{
+                        textTargetMode[i].text = ("Targeting Allies");
+                        root.Q<Label>("TargetingMode").text = "Targeting Allies";
+                    }
+                    break;
+                case WeaponsController.TargetingMode.Global:
+                        textTargetMode[i].text = ("Targeting " + weapons.targMode.ToString());
+                        root.Q<Label>("TargetingMode").text = "Targeting:" + weapons.targMode.ToString();
+                    break;
+
+            } 
+        }
+
+        for(int i = 0; i < missileCountText.Count; i++){
+            missileCountText[i].text = "(" + weapons.missilesAvailable.ToString("0") + ")";
+        }
+
+        for(int i = 0; i < textPosition.Count; i++){
+            textPosition[i].text = owner.shipPosition.ToString("0000");
+        }
+
+        for(int i = 0; i < textRotation.Count; i++){
+            textRotation[i].text = owner.shipRotation.ToString("000");
+        }
+        for(int i = 0; i < gunCharge.Count; i++){
+            gunCharge[i].fillAmount = weapons.gunCharge;
+        }
+
     }
 
     private void FillSpeedData(){
@@ -88,7 +141,7 @@ public class PlayerHUDController : MonoBehaviour
                 Debug.LogError("HudController: Speed Text list is larger than the amount of objects in the list. This will cause errors with HUD. Remove unused elements.");
                 return;
             }
-            speedText[i].text = currentSpeed.ToString("#####");
+            speedText[i].text = "(" + currentSpeed.ToString("#000") + ")";
         }
         for(int i = 0; i < speedBar.Count; i++){
             if(speedBar[i] == null){
@@ -115,10 +168,10 @@ public class PlayerHUDController : MonoBehaviour
                 return;
             }
             if(currentHealth > 0){
-                healthText[i].text = currentHealth.ToString("#####");
+                healthText[i].text = "(" + currentHealth.ToString("####") + ")";
             }
             else{
-                healthText[i].text = "0";
+                healthText[i].text = "(0)";
             }
             
         }
@@ -127,15 +180,12 @@ public class PlayerHUDController : MonoBehaviour
                 Debug.LogError("HudController: Health Bar list is larger than the amount of objects in the list. This will cause errors with HUD. Remove unused elements.");
                 return;
             }
-            healthBar[i].fillAmount = barfill;
-        }
-
-        var healthPercentage = (maxHealth - currentHealth)/maxHealth;
-        if(healthPercentage <= .25f){
-            lowHealthIndicator.SetActive(true);
-        }
-        else{
-            lowHealthIndicator.SetActive(false);
+            if(currentHealth > 0){
+                healthBar[i].fillAmount = barfill;
+            }
+            else{
+                healthBar[i].fillAmount = 0;
+            }
         }
         
     }
@@ -148,10 +198,10 @@ public class PlayerHUDController : MonoBehaviour
                 return;
             }
             if(currentShields > 0){
-                shieldText[i].text = currentShields.ToString("#####");
+                shieldText[i].text = "(" + currentShields.ToString("#####") + ")";
             }
             else{
-                shieldText[i].text = "NO SHIELDS!";
+                shieldText[i].text = "(NO SHIELDS!)";
             }
             
         }

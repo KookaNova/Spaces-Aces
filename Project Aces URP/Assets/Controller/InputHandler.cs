@@ -16,7 +16,7 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
     bool isMouse = false;
 
         
-    PlayerController spacecraft;
+    PlayerController player;
     ControlInputActions _controls;
     Vector2 torqueInput, cursorInput;
 
@@ -25,7 +25,7 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
     public override void OnEnable() {
         root = FindObjectOfType<UIDocument>().rootVisualElement;
         cursorInput = new Vector2 (Screen.width / 2, Screen.height / 2);
-        spacecraft = GetComponentInChildren<PlayerController>();
+        player = GetComponentInChildren<PlayerController>();
         _controls = new ControlInputActions();
         _controls.Flight.SetCallbacks(this);
         _controls.Flight.Enable();
@@ -39,19 +39,19 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
     private void FixedUpdate() {
         if(!photonView.IsMine)return;
         if(brakeInput > 0){
-            spacecraft.BrakeControl();
+            player.BrakeControl();
         }
         if(thrustInput > 0){
-            spacecraft.ThrustControl();
+            player.ThrustControl();
         }
         if(gunInput){
-            spacecraft.GunControl(gunInput);
+            player.GunControl(gunInput);
         }
         if(torqueInput != Vector2.zero || yawInput != 0){
-            spacecraft.TorqueControl(torqueInput, yawInput);    
+            player.TorqueControl(torqueInput, yawInput);    
         }
         
-        spacecraft.RotateCamera(cursorInput, isMouse);
+        player.RotateCamera(cursorInput, isMouse);
     }
 
     //Inputs
@@ -78,28 +78,28 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
         gunInput = pressed.ReadValueAsButton();
     }
     public void OnCameraChange(InputAction.CallbackContext context){
-        spacecraft.CameraChange();
+        player.CameraChange();
     }
     public void OnCycleTargets(InputAction.CallbackContext pressed){
         if(pressed.ReadValueAsButton()){
-            spacecraft.CycleTargets();
+            player.CycleTargets();
         }
         
     }
     public void OnMissileButton(InputAction.CallbackContext pressed){
-        spacecraft.MissileLaunch();
+        player.MissileLaunch();
     }
     public void OnPrimaryAbility(InputAction.CallbackContext pressed){
         if(pressed.ReadValueAsButton())
-        spacecraft.PrimaryAbility();
+        player.PrimaryAbility();
     }
     public void OnSecondaryAbility(InputAction.CallbackContext pressed){
         if(pressed.ReadValueAsButton())
-        spacecraft.SecondaryAbility();
+        player.SecondaryAbility();
     }
     public void OnAceAbility(InputAction.CallbackContext pressed){
         if(pressed.ReadValueAsButton())
-        spacecraft.AceAbility();
+        player.AceAbility();
     }
     public void OnCameraStick(InputAction.CallbackContext stickInput){
         cursorInput = stickInput.ReadValue<Vector2>();
@@ -118,7 +118,7 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
         if(photonView.IsMine)
         if(pressed.ReadValueAsButton())targetMode += 1;
         if(targetMode > 2)targetMode = 0;
-        spacecraft.ChangeTargetMode(targetMode);
+        player.ChangeTargetMode(targetMode);
     }
 
     public void OnTargetModeSub(InputAction.CallbackContext pressed)
@@ -127,13 +127,13 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
         if(pressed.ReadValueAsButton())targetMode -= 1;
         if(targetMode > 2)targetMode = 0;
         if(targetMode < 0)targetMode = 2;
-        spacecraft.ChangeTargetMode(targetMode);
+        player.ChangeTargetMode(targetMode);
     }
 
     public void OnCameraTargetLock(InputAction.CallbackContext context)
     {
         if(photonView.IsMine)
-        spacecraft.CameraLockTarget();
+        player.CameraLockTarget();
     }
     private IEnumerator ResetMouseInput(){
         yield return new WaitForSecondsRealtime(3);

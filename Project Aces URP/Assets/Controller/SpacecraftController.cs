@@ -52,11 +52,11 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
     [HideInInspector] public float currentSpeed, currentShields, currentHealth, thrust = 0;
     protected float respawnTime = 5;
     protected bool isAwaitingRespawn = false, isShieldRecharging = false;
+    public Vector3 shipPosition, shipRotation;
     
     //For Multiplayer.
     protected SpacecraftController previousAttacker;
     protected Hashtable customProperties;
-    protected string team = "A";
     private int kills = 0;
     private int deaths = 0;
     private int score = 0;
@@ -127,6 +127,8 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
         //#Critical: If player is not local, return.
         if(photonView == null)return;
         if(!photonView.IsMine)return;
+        shipPosition = _rb.transform.position;
+        shipRotation = _rb.transform.rotation.eulerAngles;
 
         //keep abilities updated and active if needed, even if the player is eliminated.
         if(primaryAbility.isUpdating){
@@ -168,6 +170,11 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
         SetRumble(.75f, 1, .25f);
 
         if(currentShields > 0){
+            if(damage >= currentShields){
+                float diff = damage - currentShields;
+                currentShields -= damage;
+                currentHealth -= diff/2;
+            }
             currentShields -= damage;
         }
         else{
@@ -177,8 +184,10 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
         if(currentHealth < 0){
             Eliminate(attacker, cause);
         }
-        var healthPercentage = (maxHealth - currentHealth)/maxHealth;
+        float difference = maxHealth - currentHealth;
+        float healthPercentage = 1 - (difference/maxHealth);
         if(healthPercentage <= .25f){
+            print(healthPercentage);
             LowHealth();
         }
         //Stops the previous attempt to recharge shields and then retries;
@@ -191,14 +200,14 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
 
     #region Player Health States
 
-    public void NoShield(){
+    public virtual void NoShield(){
         Debug.Log("Spacecraft: NoShield() called");
         SetRumble(0, .2f, 1f);
         VoiceLine(9);
         //Do something when shields are gone
     }
 
-    public void LowHealth(){
+    public virtual void LowHealth(){
         Debug.Log("Spacecraft: LowHealth() called");
         SetRumble(.5f,.3f,1);
         VoiceLine(10);
@@ -209,10 +218,10 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
     /// When a player's health reaches zero or they exit the arena boundaries, this function is called. The variable "attacker" can be null.
     /// </summary>
     public void Eliminate(SpacecraftController attacker, string cause){
+        Instantiate(explosionObject, _rb.transform.position, _rb.transform.rotation);
         deaths++;
         VoiceLine(11);
         SetRumble(1,1,.25f);
-        Instantiate(explosionObject, gameObject.transform);
         previousAttacker = attacker;
 
         if(attacker != null){

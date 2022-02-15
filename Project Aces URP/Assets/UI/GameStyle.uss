@@ -28,9 +28,9 @@
     -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/nasalization-rg.otf?fileID=12800000&guid=2f3a78fadadb162489e989f949893a3d&type=3#nasalization-rg');
     color: rgb(221, 249, 244);
     align-items: stretch;
-    font-size: 222%;
+    font-size: 350%;
     height: 100%;
-    width: 39%;
+    width: 40%;
     white-space: nowrap;
 }
 

@@ -34,9 +34,6 @@ public class SpacetimeDeletionBehaviour : MonoBehaviourPun
             }
             
         }
-        else if(player.gameObject.GetComponentInParent<AIBehaviour>()){
-                player.gameObject.GetComponentInParent<AIBehaviour>().speed = 0;
-        }
     }
     private void OnTriggerExit(Collider player) {
         if(!isExpanding){
@@ -46,9 +43,6 @@ public class SpacetimeDeletionBehaviour : MonoBehaviourPun
                    Debug.Log("Delete this");
                    thisPlayer.TakeDamage(99999999, owner, "Deleted");
                }
-            }
-            else if(player.gameObject.GetComponentInParent<AIBehaviour>()){
-                player.gameObject.GetComponentInParent<AIBehaviour>().Eliminate();
             }
         }
     }

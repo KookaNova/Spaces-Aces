@@ -23,7 +23,6 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     [SerializeField] private Canvas worldHud, overlayHud;
     [SerializeField] private Image aimReticle, distanceReticle;
     [SerializeField] private GameObject objectIndicator, lockIndicator;
-    [SerializeField] private List<TMPro.TextMeshProUGUI> textTargetMode, missileCountText;
     [SerializeField] private List<GameObject> activeIndicators;
     [SerializeField] private Camera fovCam;
     #endregion
@@ -33,7 +32,8 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject ammoType;
     [SerializeField] private float fireRate = 0.1f,
         gunSpeed = 1000,
-        gunRange = 3000;
+        gunRange = 3000,
+        chargeLossSpeed = .01f;
 
     [SerializeField] private Transform[] gunPosition;
 
@@ -51,12 +51,12 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     #region Hidden Fields
     public List<TargetableObject> currentTargetSelection;
     [HideInInspector] public int currentGunIndex = 0, currentMis = 0, currentTarget = 0;
-    [HideInInspector] public float gunModifier = 0, missileModifier = 0;
-    private int missilesAvailable;
+    [HideInInspector] public float gunModifier = 0, missileModifier = 0, gunCharge = 0f;
+    [HideInInspector] public int missilesAvailable;
     private float lockOnModifier, lockOnDefault = 0.01f;
     bool missileRecentlyFired = false;
 
-    public bool missileLocked = false;
+    public bool missileLocked = false, gunOvercharged = false;
     private bool canFire = true, isTargetVisible = false, canLaunchMissile = true;
 
     #endregion
@@ -72,28 +72,41 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         var l = Instantiate(lockIndicator, parent: overlayHud.transform);
         lockIndicator = l;
         lockIndicator.SetActive(false);
-    }
-    private void UpdateHUD(){
-        for(int i = 0; i < missileCountText.Count; i++){
-            missileCountText[i].text = missilesAvailable.ToString();
+
+        //Spawns the player targeting the enemy
+        if(owner.targetableObject.targetTeam == TargetableObject.TargetType.TeamA){
+            targMode = TargetingMode.TeamB;
+        }
+        else{
+            targMode = TargetingMode.TeamA;
         }
     }
     
     #endregion
 
     #region targeting
-    private void LateUpdate()
-    {
+    private void LateUpdate(){
         if(photonView.IsMine){
-        PositionIndicators();
-        LockPosition();
-        AimGun();
+            PositionIndicators();
+            LockPosition();
+            AimGun();
+        }
+    }
+
+    private void FixedUpdate(){
+        if(gunCharge > 0){
+            gunCharge -= 0.0015f;
+            Debug.Log("gunCharge = " + gunCharge);
+        }
+        if(gunCharge <= 0){
+            gunOvercharged = false;
         }
     }
     
     public void FindTargets(){
         for (int i = 0; i < gameManager.allTargets.Count; i++){
             if(gameManager.allTargets[i] == null){
+                gameManager.allTargets.RemoveAt(i);
                 FindTargets();
             }
             if(gameManager.allTargets[i] != this.GetComponentInParent<TargetableObject>()){
@@ -115,9 +128,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         if(input == 2){
             targMode = TargetingMode.Global;
         }
-        for(int i = 0; i < textTargetMode.Count; i++){
-            textTargetMode[i].text = ("Targeting " + targMode.ToString());
-        }
+        
         CleanTargetSelection();
     
     }
@@ -364,7 +375,6 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     private void AimGun(){
         //aim gun position towards reticle
         Ray ray = new Ray(aimReticle.transform.position, aimReticle.transform.forward);
-
         var hitPoint = ray.GetPoint(gunRange);
         //var p = Camera.main.WorldToScreenPoint(hitPoint);
 
@@ -380,8 +390,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     }
 
     public void GunControl(bool gunInput, float currentSpeed){
-        
-        if(canFire == true && gunInput == true){
+        if(canFire && gunInput && !gunOvercharged){
             StartCoroutine(FireGun(gunInput, currentSpeed));
         }
     }
@@ -398,12 +407,17 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         
         while(gunIsFiring){
             var g = PhotonNetwork.Instantiate(ammoType.name, gunPosition[currentGunIndex].position, gunPosition[currentGunIndex].rotation);
+            gunCharge += chargeLossSpeed;
+            float inv = (0.001f + gunCharge)/5;
+            if(gunCharge >= 1f){
+                gunOvercharged = true;
+            }
             gunCannonAudio.Play();
             g.GetComponent<Rigidbody>().velocity = gunPosition[currentGunIndex].transform.forward * gunSpeed;
             var behaviour = g.GetComponent<GunAmmoBehaviour>();
             behaviour.damageOutput += gunModifier;
             behaviour.owner = owner;
-            yield return new WaitForSeconds(fireRate);
+            yield return new WaitForSeconds(fireRate + inv);
             gunIsFiring = false;
             currentGunIndex++;
             if(currentGunIndex >= gunPosition.Length){
@@ -417,7 +431,6 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         canLaunchMissile = false;
         yield return new WaitForSeconds(missileReload);
         missilesAvailable ++;
-        UpdateHUD();
         canLaunchMissile = true;
 
     }
@@ -434,7 +447,6 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             behaviour.target = currentTargetSelection[currentTarget].gameObject;
             behaviour.damageOutput += missileModifier;
             missilesAvailable--;
-            UpdateHUD();
         }
         else{
             var m = PhotonNetwork.Instantiate(missileType.gameObject.name, missilePosition[currentMis].position, missilePosition[currentMis].rotation);
@@ -442,7 +454,6 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             behaviour.currentSpeed = currentSpeed;
             behaviour.damageOutput += missileModifier;
             missilesAvailable--;
-            UpdateHUD();
         }
         StartCoroutine(MissileReload());
         if(!missileRecentlyFired){
