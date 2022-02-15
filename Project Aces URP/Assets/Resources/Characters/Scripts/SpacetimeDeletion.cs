@@ -8,25 +8,26 @@ public class SpacetimeDeletion : AbilityHandler
 {
     [SerializeField] private SpacetimeDeletionBehaviour deletionOrb;
     private MissileBehaviour missile;
-    public override IEnumerator Activate()
+
+    public override IEnumerator Activate(SpacecraftController owner)
     {
-        if(playerInfo == null) {
+        if(owner == null) {
             //Checks if player info was received.
             Debug.LogError("Teleport: Activate(), player is null. Something went wrong in either SpacecraftController or AbilityHandler");
             yield break;
         }
         if(isActive){
-            ActiveAction();
+            ActiveAction(owner);
             yield break;
         }
         if(!canUse)yield break;
         
 
-        var weapons = playerInfo.weaponSystem;
+        var weapons = owner.weaponSystem;
         GameObject m =  PhotonNetwork.Instantiate(weapons.missileType.gameObject.name, weapons.missilePosition[weapons.currentMis].position, weapons.missilePosition[weapons.currentMis].rotation);
         missile = m.GetComponent<MissileBehaviour>();
-        missile.owner = playerInfo;
-        missile.currentSpeed = playerInfo.GetComponent<SpacecraftController>().currentSpeed + 400;
+        missile.owner = owner;
+        missile.currentSpeed = owner.GetComponent<SpacecraftController>().currentSpeed + 400;
         missile.explosion = deletionOrb.gameObject;
         if(weapons.missileLocked){
             missile.target = weapons.currentTargetSelection[weapons.currentTarget].gameObject;
@@ -50,21 +51,21 @@ public class SpacetimeDeletion : AbilityHandler
 
     }
 
-    public void ActiveAction(){
+    public void ActiveAction(SpacecraftController owner){
         missile.EndUse();
         canUse = false;
         isActive = false;
         isUpdating = false;
-        playerInfo.CoolDownAbility(cooldownTime, this);
+        owner.CoolDownAbility(cooldownTime, this);
 
     }
 
-     public override void OnUpdate(){
+     public override void OnUpdate(SpacecraftController owner){
         if(missile == null){
             isActive = false;
             canUse = false;
             isUpdating = false;
-            playerInfo.CoolDownAbility(cooldownTime, this);
+            owner.CoolDownAbility(cooldownTime, this);
         }
 
     }

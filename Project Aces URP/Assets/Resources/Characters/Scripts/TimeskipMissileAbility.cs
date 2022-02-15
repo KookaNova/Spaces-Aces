@@ -8,8 +8,9 @@ public class TimeskipMissileAbility : AbilityHandler
     private MissileBehaviour missile = null;
 
     //On Activate() we create a missile and it tracks the target.
-    public override IEnumerator Activate(){
-        if(playerInfo == null) {
+
+    public override IEnumerator Activate(SpacecraftController owner){
+        if(owner == null) {
             //Checks if player info was received.
             Debug.LogError("Teleport: Activate(), player is null. Something went wrong in either SpacecraftController or AbilityHandler");
             yield break;
@@ -21,18 +22,18 @@ public class TimeskipMissileAbility : AbilityHandler
             yield break;
         }
         if(isActive){
-            ActiveAction();
+            ActiveAction(owner);
             yield break;
         }
         else{
             Debug.Log("Timeskip Missile: Launch");
-            var weapons = playerInfo.weaponSystem;
+            var weapons = owner.weaponSystem;
 
             //launches missile
             GameObject m =  PhotonNetwork.Instantiate(weapons.missileType.gameObject.name, weapons.missilePosition[weapons.currentMis].position, weapons.missilePosition[weapons.currentMis].rotation);
             missile = m.GetComponent<MissileBehaviour>();
-            missile.owner = playerInfo;
-            missile.currentSpeed = playerInfo.GetComponent<SpacecraftController>().currentSpeed;
+            missile.owner = owner;
+            missile.currentSpeed = owner.GetComponent<SpacecraftController>().currentSpeed;
             
             if(weapons.missileLocked){
                 missile.target = weapons.currentTargetSelection[weapons.currentTarget].gameObject;
@@ -43,12 +44,12 @@ public class TimeskipMissileAbility : AbilityHandler
         }
     } 
 
-    private void ActiveAction(){
+    private void ActiveAction(SpacecraftController owner){
         canUse = false;
         isActive = false;
         missile.trail.emitting = false;
         if(missile == null){
-            playerInfo.CoolDownAbility(cooldownTime, this);
+            owner.CoolDownAbility(cooldownTime, this);
             return;
         }
 
@@ -66,19 +67,19 @@ public class TimeskipMissileAbility : AbilityHandler
         missile.gameObject.GetComponentInChildren<TrailRenderer>().widthMultiplier *= 5;
         Debug.Log("Timeskip Missile: Skip!");
         
-        playerInfo.CoolDownAbility(cooldownTime, this);
-        playerInfo.VoiceLine(2);
+        owner.CoolDownAbility(cooldownTime, this);
+        owner.VoiceLine(2);
         missile.isEmitting = true;
 
     }
     
 
-    public override void OnUpdate(){
+    public override void OnUpdate(SpacecraftController owner){
         if(missile == null){
             isActive = false;
             canUse = false;
             isUpdating = false;
-            playerInfo.CoolDownAbility(cooldownTime, this);
+            owner.CoolDownAbility(cooldownTime, this);
         }
 
     }
