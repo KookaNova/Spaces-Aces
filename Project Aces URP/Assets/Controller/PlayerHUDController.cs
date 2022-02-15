@@ -22,12 +22,14 @@ public class PlayerHUDController : MonoBehaviour
     [SerializeField] private List<Text> textTargetMode, missileCountText;
     [SerializeField] private List<Text> textPosition, textRotation;
     [HideInInspector] public SpacecraftController owner;
+
+    private Color gunChargeColor;
     
 
     //values to display in UI.
     private float currentSpeed, maxSpeed, thrustInput, currentHealth, maxHealth, currentShields, maxShields;
 
-    public void Activate(){
+    public async void Activate(){
 
         root = FindObjectOfType<UIDocument>().rootVisualElement;
 
@@ -49,20 +51,23 @@ public class PlayerHUDController : MonoBehaviour
         maxHealth = owner.maxHealth;
         maxShields = owner.maxShield;
 
+        gunChargeColor = gunCharge[0].color;
+
         SetPlayerIcons();
     }
     public void FirstPersonHudSetInactive(){
         firstPersonHUD.SetActive(false);
         OverlayHUD.SetActive(true);
-        root.Q("Radar").style.display.Equals(DisplayStyle.None);
+        root.Q("Radar").style.display = DisplayStyle.Flex;
     }
     public void ThirdPersonHudSetInactive(){
         firstPersonHUD.SetActive(true);
         OverlayHUD.SetActive(true);
-        root.Q("Radar").style.display.Equals(DisplayStyle.Flex);
+        root.Q("Radar").style.display = DisplayStyle.None;
     }
     public void HudSetInactive(){
         firstPersonHUD.SetActive(false);
+        OverlayHUD.SetActive(false);
     }
 
     private void LateUpdate() {
@@ -81,9 +86,9 @@ public class PlayerHUDController : MonoBehaviour
         FillThrustData();
         FillHealthData();
         FillShieldData();
-        UpdateText();
+        FillWeaponsData();
     }
-    public void UpdateText(){
+    public void FillWeaponsData(){
         var weapons = owner.weaponSystem;
 
         for(int i = 0; i < textTargetMode.Count; i++){
@@ -129,8 +134,8 @@ public class PlayerHUDController : MonoBehaviour
         }
         for(int i = 0; i < gunCharge.Count; i++){
             gunCharge[i].fillAmount = weapons.gunCharge;
+            gunCharge[i].color = new Color(gunChargeColor.r + weapons.gunCharge, gunChargeColor.g, gunChargeColor.b, gunChargeColor.a);
         }
-
     }
 
     private void FillSpeedData(){

@@ -90,14 +90,6 @@ namespace Cox.PlayerControls{
                 currentShields = maxShield;
 
                 //Find the character abilities and give them info about the local player. Them apply the abilities to the player.
-                for (int i = 0; i < chosenCharacter.abilities.Count; i++){
-                    if(chosenCharacter.abilities[i] != null){
-                        chosenCharacter.abilities[i].playerInfo = this;
-                    }
-                    else{
-                        Debug.LogWarningFormat("{0} is missing an ability in slot {1}. This may cause errors.", chosenCharacter.name, i);
-                    }
-                }
                 if(chosenCharacter.abilities[0] != null){
                     primaryAbility = chosenCharacter.abilities[0];
                     primaryAbility.canUse = true;

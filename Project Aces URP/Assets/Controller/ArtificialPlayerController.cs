@@ -75,14 +75,6 @@ namespace Cox.PlayerControls{
                 currentShields = maxShield;
 
                 //Find the character abilities and give them info about the local player. Them apply the abilities to the player.
-                for (int i = 0; i < chosenCharacter.abilities.Count; i++){
-                    if(chosenCharacter.abilities[i] == null){
-                        Debug.LogWarningFormat("{0} is missing an ability in slot {1}. This may cause errors.", chosenCharacter.name, i);
-                    }
-                    else{
-                        chosenCharacter.abilities[i].playerInfo = this;
-                    }
-                }
                 if(chosenCharacter.abilities[0] != null){
                     primaryAbility = chosenCharacter.abilities[0];
                     primaryAbility.canUse = true;
@@ -114,13 +106,13 @@ namespace Cox.PlayerControls{
 
         //keep abilities updated and active if needed, even if the player is eliminated.
         if(primaryAbility.isUpdating){
-            primaryAbility.OnUpdate();
+            primaryAbility.OnUpdate(this);
         }
         if(secondaryAbility.isUpdating){
-            secondaryAbility.OnUpdate();
+            secondaryAbility.OnUpdate(this);
         }
         if(aceAbility.isUpdating){
-            aceAbility.OnUpdate();
+            aceAbility.OnUpdate(this);
         }
          //#Critical: if player is waiting to respawn, return.
         if(isAwaitingRespawn){

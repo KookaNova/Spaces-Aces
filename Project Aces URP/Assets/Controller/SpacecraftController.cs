@@ -23,7 +23,7 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
     #endregion
     
     #region Fields from character and ship choice
-    protected AbilityHandler primaryAbility, secondaryAbility, aceAbility; //Obtained from character selection
+    [HideInInspector] public AbilityHandler primaryAbility, secondaryAbility, aceAbility; //Obtained from character selection
     protected GameObject explosionObject; 
     protected Rigidbody _rb;
     protected ShipBehaviour shipBehaviour;
@@ -132,13 +132,13 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
 
         //keep abilities updated and active if needed, even if the player is eliminated.
         if(primaryAbility.isUpdating){
-            primaryAbility.OnUpdate();
+            primaryAbility.OnUpdate(this);
         }
         if(secondaryAbility.isUpdating){
-            secondaryAbility.OnUpdate();
+            secondaryAbility.OnUpdate(this);
         }
         if(aceAbility.isUpdating){
-            aceAbility.OnUpdate();
+            aceAbility.OnUpdate(this);
         }
 
         //#Critical: if player is waiting to respawn, return.
@@ -294,13 +294,13 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
     public void PrimaryAbility(){
         if(photonView.IsMine)
         if(primaryAbility.canUse){
-            StartCoroutine(primaryAbility.Activate());
+            StartCoroutine(primaryAbility.Activate(this));
         }
     }
     public void SecondaryAbility(){
         if(photonView.IsMine)
         if(secondaryAbility.canUse){
-            StartCoroutine(secondaryAbility.Activate());
+            StartCoroutine(secondaryAbility.Activate(this));
             
         }
     }

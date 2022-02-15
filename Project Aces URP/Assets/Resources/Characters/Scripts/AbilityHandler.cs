@@ -20,18 +20,18 @@ public abstract class AbilityHandler : ScriptableObject
     public bool canUse = true;
 
     [HideInInspector] public bool isActive = false, isUpdating = false;
-    [HideInInspector] public SpacecraftController playerInfo; //used to retreive gameplay data from player.
 
     #region Virtual Functions
     ///<summary> Call with StartCoroutine(Activate()). Abilities override this function to perform a specific action on a button press. </summary>
-    public virtual IEnumerator Activate(){
+
+    public virtual IEnumerator Activate(SpacecraftController owner){
         Debug.Log("AbilityHandler: Activate(), nothing to activate.");
         yield break;
     }
 
     ///<summary> Call in Update(), FixedUpdate(), or LateUpdate(). Should be called with the check "if(isUpdating)" or "while(isUpdating)."
     /// Abilities override the function and perform a specific function on Update() when called correctly. </summary>
-    public virtual void OnUpdate() {
+    public virtual void OnUpdate(SpacecraftController owner) {
         Debug.Log("AbilityHandler: OnUpdate(), nothing to update.");
     }
 
