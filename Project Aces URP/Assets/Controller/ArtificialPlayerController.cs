@@ -10,11 +10,20 @@ namespace Cox.PlayerControls{
     ///</summary>
     public class ArtificialPlayerController : SpacecraftController
     {
+
+        public enum AiStates{
+            freeFlight
+        }
+
+        AiStates aiStates = AiStates.freeFlight;
+
+        Vector3 rot = Vector3.zero;
         bool isMaster = false;
+        bool isRotating = false;
 
         protected override void Activate(){
             isAwaitingRespawn = true;
-            isMaster = true;
+            isMaster = PhotonNetwork.IsMasterClient;
             playerAudio.outputAudioMixerGroup = externalVoice;
             if(chosenCharacter == null){
                 var characterOptions = Resources.FindObjectsOfTypeAll<CharacterHandler>();
@@ -30,7 +39,7 @@ namespace Cox.PlayerControls{
             playerName = chosenCharacter.name;
 
             //Find respawn points. Once teams are figured out, this needs to find specific team spawn points.
-            if(team == "A"){
+            if(teamName == "A"){
                 respawnPoints = FindObjectOfType<GameManager>().teamASpawnpoints;
             }
             else{
@@ -52,7 +61,7 @@ namespace Cox.PlayerControls{
                 _rb = ship.GetComponent<Rigidbody>();
                 var targetable = ship.GetComponent<TargetableObject>();
                 targetable.nameOfTarget = playerName;
-                if(team == "A"){
+                if(teamName == "A"){
                     targetable.targetTeam = TargetableObject.TargetType.TeamA;
                 }
                 else{
@@ -95,6 +104,7 @@ namespace Cox.PlayerControls{
                 isAwaitingRespawn = false;
                 ApplyCustomData();
                 VoiceLine(0);
+                StartCoroutine(DecisionTime());
             }
         }
         protected override void FixedUpdate(){
@@ -112,8 +122,7 @@ namespace Cox.PlayerControls{
         if(aceAbility.isUpdating){
             aceAbility.OnUpdate();
         }
-
-        //#Critical: if player is waiting to respawn, return.
+         //#Critical: if player is waiting to respawn, return.
         if(isAwaitingRespawn){
             return;
         }
@@ -126,13 +135,34 @@ namespace Cox.PlayerControls{
                 isShieldRecharging = false;
             }
         }
+        //AI States have an effect
+        switch (aiStates){
+            case AiStates.freeFlight:
+                //Calculates speed based on current thrust and clamps speed.
+                thrust = 1;
+                break;
+        }
         
-        //Calculates speed based on current thrust and clamps speed.
-        thrust = Mathf.Clamp01(thrust);
         var speed = thrust * maxSpeed;
         currentSpeed = Mathf.Lerp(currentSpeed, speed, (acceleration * Time.fixedDeltaTime)/45);
         currentSpeed = Mathf.Clamp(currentSpeed, minSpeed, maxSpeed);
         _rb.AddRelativeForce(0,0,currentSpeed, ForceMode.Acceleration);
+
+        if(isRotating){
+            _rb.AddRelativeTorque(rot, ForceMode.Force);
+        }
     }
+
+    private IEnumerator DecisionTime(){
+        float randTime = Random.Range(1f,3);
+        yield return new WaitForSeconds(randTime);
+        rot = new Vector3(Random.Range(-30f,30), Random.Range(-30f,30), Random.Range(-30f,30));
+        isRotating = true;
+        float actionTime = Random.Range(1f,6f);
+        yield return new WaitForSeconds(actionTime);
+        isRotating = false;
+        StartCoroutine(DecisionTime());
+        
     }
+}
 }

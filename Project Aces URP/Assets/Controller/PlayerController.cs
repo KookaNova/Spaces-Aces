@@ -53,8 +53,8 @@ namespace Cox.PlayerControls{
 
             
             //Find respawn points. Once teams are figured out, this needs to find specific team spawn points.
-            team = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
-            if(team == "A"){
+            teamName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
+            if(teamName == "A"){
                 respawnPoints = FindObjectOfType<GameManager>().teamASpawnpoints;
             }
             else{
@@ -76,7 +76,7 @@ namespace Cox.PlayerControls{
                 weaponSystem = ship.GetComponentInChildren<WeaponsController>();
                 weaponSystem.owner = this;
                 HudController = ship.GetComponentInChildren<PlayerHUDController>();
-                HudController.currentCraft = this;
+                HudController.owner = this;
                 cameraController = ship.GetComponentInChildren<CameraController>();
                 cameraController.weaponsController = weaponSystem;
                 
@@ -128,28 +128,6 @@ namespace Cox.PlayerControls{
                 _gp.SetMotorSpeeds(chaotic, smooth);
                 StartCoroutine(ResetMotorSpeeds(time));
             }
-        }
-        protected override void Deactivate(){
-            isAwaitingRespawn = true;
-            currentHealth = 0;
-            currentShields = 0;
-            currentSpeed = 0;
-            primaryAbility.canUse = true;
-            secondaryAbility.canUse = true;
-            _rb.velocity = Vector3.zero;
-            _rb.angularVelocity = Vector3.zero;
-            ship.SetActive(false);
-
-            if(previousAttacker != null){
-                cameraController.FollowTarget(true, previousAttacker.gameObject);
-            }
-
-            //turn off trailer renderer
-
-            //Set controls inactive to avoid errors when inputs are made.
-            HudController.gameObject.SetActive(false);
-            cameraController.gameObject.SetActive(false);
-            weaponSystem.gameObject.SetActive(false);
         }
         #endregion
 
@@ -251,10 +229,41 @@ namespace Cox.PlayerControls{
     }
     #endregion
 
+    public override void LowHealth(){
+        Debug.Log("Spacecraft: LowHealth() called");
+        HudController.lowHealthIndicator.SetActive(true);
+        SetRumble(.5f,.3f,1);
+        VoiceLine(10);
+        //Do something related to low health
+    }
+    protected override void Deactivate(){
+        currentHealth = 0;
+        currentShields = 0;
+        currentSpeed = 0;
+        isAwaitingRespawn = true;
+        primaryAbility.canUse = true;
+        secondaryAbility.canUse = true;
+        _rb.velocity = Vector3.zero;
+        _rb.angularVelocity = Vector3.zero;
+        ship.SetActive(false);
+
+        if(previousAttacker != null){
+            cameraController.FollowTarget(true, previousAttacker.gameObject);
+        }
+
+        //turn off trailer renderer
+
+        //Set controls inactive to avoid errors when inputs are made.
+        //HudController.gameObject.SetActive(false);
+        cameraController.gameObject.SetActive(false);
+        weaponSystem.gameObject.SetActive(false);
+    }
+
     public override void Reactivate(){
         cameraController.FollowTarget(false, null);
         cameraController.gameObject.SetActive(true);
-        HudController.gameObject.SetActive(true);
+        //HudController.gameObject.SetActive(true);
+        HudController.lowHealthIndicator.SetActive(false);
     }
 
     #region IEnumerators

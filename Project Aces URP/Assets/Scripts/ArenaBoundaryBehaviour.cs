@@ -7,9 +7,5 @@ public class ArenaBoundaryBehaviour : MonoBehaviour
             obj.GetComponentInParent<Cox.PlayerControls.SpacecraftController>().Eliminate(null, "Unstoppable Force");
             return;
         }
-        if(obj.GetComponentInParent<AIBehaviour>()){
-            obj.GetComponentInParent<AIBehaviour>().Eliminate();
-            return;
-        }
     }
 }

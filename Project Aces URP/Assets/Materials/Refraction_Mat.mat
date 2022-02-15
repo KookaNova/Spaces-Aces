@@ -36,6 +36,14 @@ Material:
         m_Texture: {fileID: 2800000, guid: a0b0adb75cf64c746af433dc6b084753, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - Scratch_Base_Color:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Scratch_Normal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -64,11 +72,25 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - Refraction: 0.068
     - Scratch_Strength: 0
+    - Scratch_Tile: 4
     - Smoothness: 0
+    - Tile_Blend: 0
     - Transparency: 1
     - _AlphaClip: 0
     - _Blend: 0
@@ -82,6 +104,7 @@ Material:
     - _GlossyReflections: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
+    - _QueueControl: 1
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Smoothness: 0.5
@@ -92,6 +115,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
+    - Scratch_Color: {r: 1, g: 1, b: 1, a: 0}
     - Specular_Color: {r: 1, g: 0.2584905, b: 0.2584905, a: 1}
     - Tint: {r: 1, g: 0.22075468, b: 0.22075468, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}

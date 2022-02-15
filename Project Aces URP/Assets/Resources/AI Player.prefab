@@ -50,6 +50,7 @@ MonoBehaviour:
   chosenShip: {fileID: 0}
   playerName: 
   teamName: 
+  targetableObject: {fileID: 0}
   ship: {fileID: 0}
   weaponSystem: {fileID: 0}
   maxHealth: 0
@@ -68,6 +69,8 @@ MonoBehaviour:
   currentShields: 0
   currentHealth: 0
   thrust: 0
+  shipPosition: {x: 0, y: 0, z: 0}
+  shipRotation: {x: 0, y: 0, z: 0}
 --- !u!114 &1728291015493747262
 MonoBehaviour:
   m_ObjectHideFlags: 0
