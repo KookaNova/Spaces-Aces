@@ -160,27 +160,30 @@ public class GameManager : MonoBehaviourPunCallbacks
         StartCoroutine(GameTimer());
         SpawnPlayer();
 
-        if(aiPrefab != null){
-            for(int i = 0; i < aiPlayerCount; i++){
-                if(playersA <= playersB){
-                    playersA++;
-                    int spawnPoint = Random.Range(0, teamASpawnpoints.Length);
-                    var p = PhotonNetwork.Instantiate(this.aiPrefab.name, teamASpawnpoints[spawnPoint].position, Quaternion.identity, 0);
-                    var controller = p.GetComponent<SpacecraftController>();
-                    controller.teamName = "A";
-                    controller.photonView.Owner.SetCustomProperties(new Hashtable(){{"Team", "A"}});
-                }
-                else{
-                    playersB++;
-                    int spawnPoint = Random.Range(0, teamBSpawnpoints.Length);
-                    var p = PhotonNetwork.Instantiate(this.aiPrefab.name, teamBSpawnpoints[spawnPoint].position, Quaternion.identity, 0);
-                    var controller = p.GetComponent<SpacecraftController>();
-                    controller.teamName = "B";
-                    controller.photonView.Owner.SetCustomProperties(new Hashtable(){{"Team", "B"}});
+        if(PhotonNetwork.IsMasterClient){
+            if(aiPrefab != null){
+                for(int i = 0; i < aiPlayerCount; i++){
+                    if(playersA <= playersB){
+                        playersA++;
+                        int spawnPoint = Random.Range(0, teamASpawnpoints.Length);
+                        var p = PhotonNetwork.Instantiate(this.aiPrefab.name, teamASpawnpoints[spawnPoint].position, Quaternion.identity, 0);
+                        var controller = p.GetComponent<SpacecraftController>();
+                        controller.teamName = "A";
+                        controller.photonView.Owner.SetCustomProperties(new Hashtable(){{"Team", "A"}});
+                    }
+                    else{
+                        playersB++;
+                        int spawnPoint = Random.Range(0, teamBSpawnpoints.Length);
+                        var p = PhotonNetwork.Instantiate(this.aiPrefab.name, teamBSpawnpoints[spawnPoint].position, Quaternion.identity, 0);
+                        var controller = p.GetComponent<SpacecraftController>();
+                        controller.teamName = "B";
+                        controller.photonView.Owner.SetCustomProperties(new Hashtable(){{"Team", "B"}});
 
+                    }
                 }
             }
         }
+        
         Debug.Log("Current Players: " + PhotonNetwork.PlayerList.Length);
     }
 
@@ -343,6 +346,36 @@ public class GameManager : MonoBehaviourPunCallbacks
         card.SetData(true, _player, _char, _ship, _kills, _score, _deaths);
 
         if((string)PhotonNetwork.LocalPlayer.CustomProperties["Team"] == "A"){
+            root.Q<Label>("FriendScore").text = teamAScore.ToString("0#");
+            root.Q<Label>("EnemyScore").text = teamBScore.ToString("0#");
+        }
+        else{
+            root.Q<Label>("FriendScore").text = teamBScore.ToString("0#");
+            root.Q<Label>("EnemyScore").text = teamAScore.ToString("0#");
+        }
+    }
+    public void UpdateAIScoreBoard(SpacecraftController controller){
+        if(gameOver)return;
+        //var list = PhotonNetwork.PlayerList;
+        string _player = (string)controller.customProperties["Name"];
+        string _char = "?";
+        string _ship = "?";
+            
+        int _kills = 0;
+        int _score = 0;
+        int _deaths = 0;
+
+        var card = new ScoreBoardCard();
+        if((string)controller.customProperties["Team"] == (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"]){
+            tabScreen.Q("Friendly").Add(card);
+        }
+        else{
+            tabScreen.Q("Enemy").Add(card);
+        }
+            
+        card.SetData(true, _player, _char, _ship, _kills, _score, _deaths);
+
+        if((string)controller.customProperties["Team"] == "A"){
             root.Q<Label>("FriendScore").text = teamAScore.ToString("0#");
             root.Q<Label>("EnemyScore").text = teamBScore.ToString("0#");
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace Cox.PlayerControls{
     /// <summary> 
@@ -107,6 +108,17 @@ namespace Cox.PlayerControls{
                 StartCoroutine(DecisionTime());
             }
         }
+        public override void ApplyCustomData(){
+        customProperties = new Hashtable(){
+            {"Name", playerName},
+            {"Character", chosenCharacter.name},
+            {"Ship", chosenShip.name},
+            {"Score", score},
+            {"Kills", kills},
+            {"Deaths", deaths},
+        };
+        gameManager.UpdateAIScoreBoard(this);
+    }
         protected override void FixedUpdate(){
         //#Critical: If player is not local, return.
         if(photonView == null)return;
