@@ -6,6 +6,8 @@ using Cox.PlayerControls;
 public class ShipBehaviour : MonoBehaviour
 {
     SpacecraftController sc;
+    public AudioSource collisionSound, gearsTurning, gearsResolving;
+    public bool isTurning;
 
     public void SetController(SpacecraftController newController){
         sc = newController;
@@ -14,9 +16,32 @@ public class ShipBehaviour : MonoBehaviour
     private void OnCollisionEnter(Collision collision) {
         //On collision with hazards or other players, damage the player, based partially on speed.
         if(sc == null)return;
+        
         if(collision.gameObject.layer == LayerMask.NameToLayer("Crash Hazard") || collision.gameObject.layer == LayerMask.NameToLayer("Player")){
            sc.TakeDamage(sc.currentSpeed * 8, null, "accident");
         }
+        float ran = Random.Range(.8f, 1.2f);
+        collisionSound.pitch = ran;
+        collisionSound.Play();
+    }
+
+    private void Update() {
+        if(isTurning){
+            if(!gearsTurning.isPlaying){
+                gearsTurning.Play();
+            }
+        }
+        else{
+            ResolveGearsTurning();
+        }
+    }
+
+    public void ResolveGearsTurning(){
+        isTurning = false;
+        gearsTurning.Stop();
+        float ran = Random.Range(.8f, 1.2f);
+        gearsResolving.pitch = ran;
+        gearsResolving.Play();
     }
     
 }

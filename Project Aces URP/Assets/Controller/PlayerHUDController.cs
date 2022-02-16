@@ -51,7 +51,10 @@ public class PlayerHUDController : MonoBehaviour
         maxHealth = owner.maxHealth;
         maxShields = owner.maxShield;
 
-        gunChargeColor = gunCharge[0].color;
+        if(gunCharge.Count > 0){
+            gunChargeColor = gunCharge[0].color;
+        }
+        
 
         SetPlayerIcons();
     }

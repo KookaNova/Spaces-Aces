@@ -198,13 +198,16 @@ namespace Cox.PlayerControls{
     //Take vector2 and convert it to pitch, roll, and yaw. Then add that to the rigidbody as torque.
     public void TorqueControl(Vector2 torqueInput, float yawInput){
         if(!photonView.IsMine)return;
+        
+        if(torqueInput == Vector2.zero){
+            shipBehaviour.ResolveGearsTurning();
+        }
+        else{
+            shipBehaviour.isTurning = true;
+        }
         var highspeedhandling = currentSpeed/maxSpeed + 1;
         Vector3 torqueForce  = new Vector3((torqueInput.y * pitch) / highspeedhandling, yawInput * yaw, (torqueInput.x * roll) / highspeedhandling);
         _rb.AddRelativeTorque(torqueForce, ForceMode.Force);
-        if(gamepadFound){
-            _gp.SetMotorSpeeds(0, (currentSpeed/maxSpeed)*.5f);
-            StartCoroutine(ResetMotorSpeeds(.1f));
-        }
     }
     #endregion
     #region Weapon Inputs

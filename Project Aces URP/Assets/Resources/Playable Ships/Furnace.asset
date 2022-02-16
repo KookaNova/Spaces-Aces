@@ -25,8 +25,8 @@ MonoBehaviour:
   maxShield: 1200
   shieldRechargeRate: 75
   acceleration: 15
-  minSpeed: 25
-  maxSpeed: 650
-  roll: 30
-  pitch: 37
-  yaw: 26
+  minSpeed: 150
+  maxSpeed: 845
+  roll: 40
+  pitch: 80
+  yaw: 25
