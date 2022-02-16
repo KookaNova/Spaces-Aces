@@ -56,10 +56,10 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
     
     //For Multiplayer.
     protected SpacecraftController previousAttacker;
-    protected Hashtable customProperties;
-    private int kills = 0;
-    private int deaths = 0;
-    private int score = 0;
+    public Hashtable customProperties;
+    protected int kills = 0;
+    protected int deaths = 0;
+    protected int score = 0;
 
     #endregion
     #endregion
@@ -106,7 +106,7 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
         ApplyCustomData();
     }
 
-    public void ApplyCustomData(){
+    public virtual void ApplyCustomData(){
         customProperties = new Hashtable(){
             {"Name", playerName},
             {"Character", chosenCharacter.name},
