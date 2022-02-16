@@ -12,14 +12,19 @@ namespace Cox.PlayerControls{
     {
 
         public enum AiStates{
-            freeFlight
+            FreeFlight,
+            Follow
         }
 
-        AiStates aiStates = AiStates.freeFlight;
+        AiStates aiStates = AiStates.FreeFlight;
 
+        Vector3 toTarget = Vector3.zero;
         Vector3 rot = Vector3.zero;
         bool isMaster = false;
         bool isRotating = false;
+        float rotationLimit;
+
+        private TargetableObject closestTarget;
 
         protected override void Activate(){
             isAwaitingRespawn = true;
@@ -63,9 +68,11 @@ namespace Cox.PlayerControls{
                 targetable.nameOfTarget = playerName;
                 if(teamName == "A"){
                     targetable.targetTeam = TargetableObject.TargetType.TeamA;
+                    weaponSystem.targMode = WeaponsController.TargetingMode.TeamB;
                 }
                 else{
                     targetable.targetTeam = TargetableObject.TargetType.TeamB;
+                    weaponSystem.targMode = WeaponsController.TargetingMode.TeamA;
                 }
 
                 //Activate systems after the passive modifiers are applied
@@ -73,6 +80,7 @@ namespace Cox.PlayerControls{
                 weaponSystem.EnableWeapons();
                 currentHealth = maxHealth;
                 currentShields = maxShield;
+                rotationLimit = (roll+pitch)/2;
 
                 //Find the character abilities and give them info about the local player. Them apply the abilities to the player.
                 if(chosenCharacter.abilities[0] != null){
@@ -104,6 +112,35 @@ namespace Cox.PlayerControls{
         if(photonView == null)return;
         if(!isMaster)return;
 
+        aiStates = AiStates.Follow;
+        var enemies = new List<TargetableObject>();
+        for(int i = 0; i < gameManager.allTargets.Count; i++){
+            if(gameManager.allTargets[i].targetTeam != targetableObject.targetTeam){
+                if(enemies.Count <= i){
+                    enemies.Add(gameManager.allTargets[i]);
+                }
+                else{
+                    enemies[i] = gameManager.allTargets[i];
+                    
+                }
+            }
+            
+        }
+        weaponSystem.currentTargetSelection = enemies;
+
+        for(int i = 0; i < enemies.Count; i++){
+            if(closestTarget == null){
+                closestTarget = enemies[i];
+                weaponSystem.currentTarget = i;
+            }
+            if(closestTarget != null){
+                aiStates = AiStates.Follow;
+                weaponSystem.currentTarget = i;
+            }
+            
+        }
+        
+
         //keep abilities updated and active if needed, even if the player is eliminated.
         if(primaryAbility.isUpdating){
             primaryAbility.OnUpdate(this);
@@ -119,6 +156,8 @@ namespace Cox.PlayerControls{
             return;
         }
 
+        
+
         //if shield is recharging, increment shield by recharge rate. If shields are maxed, stop recharging.
         if(isShieldRecharging){
             currentShields = Mathf.MoveTowards(currentShields, maxShield, shieldRechargeRate * Time.deltaTime);
@@ -129,9 +168,46 @@ namespace Cox.PlayerControls{
         }
         //AI States have an effect
         switch (aiStates){
-            case AiStates.freeFlight:
+            case AiStates.FreeFlight:
                 //Calculates speed based on current thrust and clamps speed.
                 thrust = 1;
+                rot = Vector3.Slerp(_rb.transform.forward, toTarget, rotationLimit/40 * Time.fixedDeltaTime);
+                break;
+            case AiStates.Follow:
+                if(closestTarget == null){
+                    Debug.LogWarning("AI Target null");
+                }
+                else{
+                    if(isRotating){
+                        toTarget = closestTarget.gameObject.transform.position - _rb.position;
+                        rot = Vector3.Slerp(_rb.transform.forward, toTarget, rotationLimit/40 * Time.fixedDeltaTime);
+                        Debug.Log(this.name + rot);
+                        if(Vector3.Distance(_rb.transform.position, closestTarget.transform.position) < 500){
+                            thrust = 0;
+                            if(rot.x < 3 && rot.y < 3 && rot.x > -3 && rot.y > -3){
+                                weaponSystem.GunControl(true, currentSpeed);
+                            }
+                            else{
+                                weaponSystem.GunControl(false, currentSpeed);
+                            }
+                        }
+                        else{
+                            thrust = .85f;
+                            weaponSystem.GunControl(false, currentSpeed);
+                        }
+                        
+                        if(Vector3.Distance(_rb.transform.position, closestTarget.transform.position) < 3500){
+                            if(rot.x < 25 && rot.y < 25 && rot.x > -25 && rot.y > -25){
+                                weaponSystem.missileLocked = true;
+                                weaponSystem.MissileControl(currentSpeed);
+                            }
+                            else{
+                                weaponSystem.missileLocked = false;
+                            }
+
+                        }
+                    }
+                }
                 break;
         }
         
@@ -140,21 +216,38 @@ namespace Cox.PlayerControls{
         currentSpeed = Mathf.Clamp(currentSpeed, minSpeed, maxSpeed);
         _rb.AddRelativeForce(0,0,currentSpeed, ForceMode.Acceleration);
 
-        if(isRotating){
-            _rb.AddRelativeTorque(rot, ForceMode.Force);
-        }
+        _rb.MoveRotation(Quaternion.LookRotation(rot));
     }
 
     private IEnumerator DecisionTime(){
         float randTime = Random.Range(1f,3);
         yield return new WaitForSeconds(randTime);
-        rot = new Vector3(Random.Range(-30f,30), Random.Range(-30f,30), Random.Range(-30f,30));
-        isRotating = true;
-        float actionTime = Random.Range(1f,6f);
-        yield return new WaitForSeconds(actionTime);
-        isRotating = false;
-        StartCoroutine(DecisionTime());
+        toTarget = new Vector3(Random.Range(-360f,360f), Random.Range(-360f,360f), Random.Range(-360f,360f));
+        if(aiStates == AiStates.FreeFlight){
+            StartCoroutine(DecisionTime());
+        }
+        if(aiStates == AiStates.Follow){
+            StartCoroutine(BreakTime());
+        }
         
+        
+    }
+
+    private IEnumerator BreakTime(){
+        StopCoroutine(DecisionTime());
+        float randTime = Random.Range(2,7);
+        yield return new WaitForSeconds(randTime);
+        isRotating = false;
+        float ra = Random.Range(0f,5);
+        yield return new WaitForSeconds(ra);
+        isRotating = true;
+        
+        if(aiStates == AiStates.FreeFlight){
+            StartCoroutine(DecisionTime());
+        }
+        if(aiStates == AiStates.Follow){
+            StartCoroutine(BreakTime());
+        }
     }
 }
 }

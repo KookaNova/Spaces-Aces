@@ -69,7 +69,7 @@ public class MissileBehaviour : MonoBehaviourPun
             }
             
             var toTarget = target.transform.position - rb.position;
-            var targetRotation = Vector3.RotateTowards(rb.transform.forward, toTarget, turningLimit, 1080);
+            var targetRotation = Vector3.RotateTowards(rb.transform.forward, toTarget, turningLimit * Time.fixedDeltaTime, 1080);
             //var step = turningLimit * Time.fixedDeltaTime;
 
             //_rb.rotation = targetRotation;

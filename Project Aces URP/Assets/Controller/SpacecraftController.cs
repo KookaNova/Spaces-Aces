@@ -94,6 +94,7 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
         secondaryAbility.canUse = true;
         _rb.velocity = Vector3.zero;
         _rb.angularVelocity = Vector3.zero;
+        weaponSystem.gameObject.SetActive(false);
         ship.SetActive(false);
 
         //turn off trailer renderer
@@ -167,7 +168,7 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
     public void TakeDamage(float damage, SpacecraftController attacker, string cause){
         isShieldRecharging = false;
         
-        SetRumble(.75f, 1, .25f);
+        SetRumble(.75f, 1, .5f);
 
         if(currentShields > 0){
             if(damage >= currentShields){
@@ -187,7 +188,6 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
         float difference = maxHealth - currentHealth;
         float healthPercentage = 1 - (difference/maxHealth);
         if(healthPercentage <= .25f){
-            print(healthPercentage);
             LowHealth();
         }
         //Stops the previous attempt to recharge shields and then retries;

@@ -50,6 +50,9 @@ MonoBehaviour:
   chosenShip: {fileID: 0}
   playerName: 
   teamName: 
+  primaryAbility: {fileID: 0}
+  secondaryAbility: {fileID: 0}
+  aceAbility: {fileID: 0}
   targetableObject: {fileID: 0}
   ship: {fileID: 0}
   weaponSystem: {fileID: 0}

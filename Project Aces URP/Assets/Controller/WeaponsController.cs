@@ -359,7 +359,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             int layermask = 1 << 14;
             Vector3 origin = gameObject.transform.position + (transform.forward * 15);
             Vector3 dir = currentTargetSelection[currentTarget].gameObject.transform.position - origin;
-            activeIndicators[currentTarget].next.gameObject.SetActive(false);
+            //activeIndicators[currentTarget].next.gameObject.SetActive(false);
             
             Debug.DrawRay(origin, dir, Color.white);
 
