@@ -52,6 +52,7 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
     [HideInInspector] public float currentSpeed, currentShields, currentHealth, thrust = 0;
     protected float respawnTime = 5;
     protected bool isAwaitingRespawn = false, isShieldRecharging = false;
+    public bool missileTracking = false, missileChasing = false;
     public Vector3 shipPosition, shipRotation;
     
     //For Multiplayer.
@@ -146,7 +147,6 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
         if(isAwaitingRespawn){
             return;
         }
-
         //if shield is recharging, increment shield by recharge rate. If shields are maxed, stop recharging.
         if(isShieldRecharging){
             currentShields = Mathf.MoveTowards(currentShields, maxShield, shieldRechargeRate * Time.deltaTime);
@@ -193,6 +193,9 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
         //Stops the previous attempt to recharge shields and then retries;
         StopCoroutine(ShieldRechargeTimer());
         StartCoroutine(ShieldRechargeTimer());
+        StopCoroutine(DamageTimer());
+        StartCoroutine(DamageTimer());
+        
 
     }
 
@@ -320,21 +323,21 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
     //Delay used when abilities have startup time.
     
     //Delay used when abilities need to cool down.
-    public IEnumerator CooldownTimer(float cooldown, AbilityHandler ability){
+    private IEnumerator CooldownTimer(float cooldown, AbilityHandler ability){
         yield return new WaitForSecondsRealtime(cooldown);
         ability.canUse = true;
         ability.isActive = false;
     }
-    
-    public IEnumerator ShieldRechargeTimer(){
+    private IEnumerator ShieldRechargeTimer(){
         yield return new WaitForSecondsRealtime(8);
         isShieldRecharging = true;
-
     }
-
-    public IEnumerator RespawnTimer(){
+    private IEnumerator RespawnTimer(){
         yield return new WaitForSecondsRealtime(respawnTime);
        SpawnPlayer();
+    }
+    protected virtual IEnumerator DamageTimer(){
+        yield return new WaitForSecondsRealtime(1);
     }
     #endregion
     #endregion

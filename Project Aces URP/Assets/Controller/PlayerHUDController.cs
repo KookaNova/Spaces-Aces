@@ -11,12 +11,10 @@ public class PlayerHUDController : MonoBehaviour
     VisualElement root;
 
     //UI displayed for character items like abilities and portraits.
-    [Header("Character UI")]
     private CharacterHandler chosenCharacter;
 
     //UI displayed for ship UI.
-    [Header("Ship UI")]
-    public GameObject lowHealthIndicator;
+    [SerializeField] private List<GameObject> lowHealthIndicator, caution, warning, missileAlert, damageAlert;
     [SerializeField] private List<UnityEngine.UI.Image> speedBar, thrustBar, healthBar, shieldBar, gunCharge;
     [SerializeField] private List<Text> speedText, healthText, shieldText;
     [SerializeField] private List<Text> textTargetMode, missileCountText;
@@ -39,7 +37,23 @@ public class PlayerHUDController : MonoBehaviour
         }
         firstPersonHUD.SetActive(true); OverlayHUD.SetActive(true);
         OverlayHUD.GetComponent<Canvas>().worldCamera = Camera.main;
-        lowHealthIndicator.SetActive(false);
+
+        for(int i = 0; i < lowHealthIndicator.Count; i++){
+            lowHealthIndicator[i].SetActive(false);
+        }
+        for(int i = 0; i < caution.Count; i++){
+            caution[i].SetActive(false);
+        }
+        for(int i = 0; i < warning.Count; i++){
+            warning[i].SetActive(false);
+        }
+        for(int i = 0; i < missileAlert.Count; i++){
+            missileAlert[i].SetActive(false);
+        }
+        for(int i = 0; i < damageAlert.Count; i++){
+            damageAlert[i].SetActive(false);
+        }
+
         chosenCharacter = owner.chosenCharacter;
 
         if(chosenCharacter == null){
@@ -58,6 +72,7 @@ public class PlayerHUDController : MonoBehaviour
 
         SetPlayerIcons();
     }
+    #region Camera
     public void FirstPersonHudSetInactive(){
         firstPersonHUD.SetActive(false);
         OverlayHUD.SetActive(true);
@@ -71,6 +86,7 @@ public class PlayerHUDController : MonoBehaviour
     public void OverlaySetActive(bool state){
         OverlayHUD.SetActive(state);
     }
+    #endregion
 
     private void LateUpdate() {
         if(owner == null){
@@ -90,7 +106,37 @@ public class PlayerHUDController : MonoBehaviour
         FillShieldData();
         FillWeaponsData();
     }
-    public void FillWeaponsData(){
+
+    #region Alerts
+        public void HealthAlertActive(bool state){
+            for(int i = 0; i < lowHealthIndicator.Count; i++){
+                lowHealthIndicator[i].SetActive(state);
+            }
+        }
+        public void CautionAlertActive(bool state){
+            for(int i = 0; i < caution.Count; i++){
+                caution[i].SetActive(state);
+            }
+        }
+        public void WarningAlertActive(bool state){
+            for(int i = 0; i < warning.Count; i++){
+                warning[i].SetActive(state);
+            }
+        }
+        public void MissileAlertActive(bool state){
+            for(int i = 0; i < missileAlert.Count; i++){
+                missileAlert[i].SetActive(state);
+            }
+        }
+        public void DamageAlertActive(bool state){
+            for(int i = 0; i < damageAlert.Count; i++){
+                damageAlert[i].SetActive(state);
+            }
+        }
+    #endregion
+
+    #region Data Fill
+    private void FillWeaponsData(){
         var weapons = owner.weaponSystem;
 
         for(int i = 0; i < textTargetMode.Count; i++){
@@ -222,9 +268,11 @@ public class PlayerHUDController : MonoBehaviour
         
     }
 
+    #endregion
+
     #region UITK
 
-    public void SetPlayerIcons(){
+    private void SetPlayerIcons(){
         root.Q("Portrait").style.backgroundImage = chosenCharacter.portrait;
         root.Q("PrimAbility").style.backgroundImage = chosenCharacter.abilities[0].icon;
         root.Q("SecAbility").style.backgroundImage = chosenCharacter.abilities[1].icon;

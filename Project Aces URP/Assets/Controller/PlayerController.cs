@@ -123,6 +123,49 @@ namespace Cox.PlayerControls{
         }
         #endregion
 
+        protected override void FixedUpdate(){
+            //#Critical: If player is not local, return.
+            if(photonView == null)return;
+            if(!photonView.IsMine)return;
+            shipPosition = _rb.transform.position;
+            shipRotation = _rb.transform.rotation.eulerAngles;
+
+            //keep abilities updated and active if needed, even if the player is eliminated.
+            if(primaryAbility.isUpdating){
+                primaryAbility.OnUpdate(this);
+            }
+            if(secondaryAbility.isUpdating){
+                secondaryAbility.OnUpdate(this);
+            }
+            if(aceAbility.isUpdating){
+                aceAbility.OnUpdate(this);
+            }
+
+            HudController.MissileAlertActive(missileChasing);
+            HudController.WarningAlertActive(missileChasing);
+            HudController.CautionAlertActive(missileTracking);
+
+            //#Critical: if player is waiting to respawn, return.
+            if(isAwaitingRespawn){
+                return;
+            }
+            //if shield is recharging, increment shield by recharge rate. If shields are maxed, stop recharging.
+            if(isShieldRecharging){
+                currentShields = Mathf.MoveTowards(currentShields, maxShield, shieldRechargeRate * Time.deltaTime);
+                if(currentShields >= maxShield){
+                    currentShields = maxShield;
+                    isShieldRecharging = false;
+                }
+            }
+        
+            //Calculates speed based on current thrust and clamps speed.
+            thrust = Mathf.Clamp01(thrust);
+            var speed = thrust * maxSpeed;
+            currentSpeed = Mathf.Lerp(currentSpeed, speed, (acceleration * Time.fixedDeltaTime)/45);
+            currentSpeed = Mathf.Clamp(currentSpeed, minSpeed, maxSpeed);
+            _rb.AddRelativeForce(0,0,currentSpeed, ForceMode.Acceleration);
+        }
+
         #region Camera
         public void CameraChange(){
         //Change which camera is being used and tell the hud controller which variant of the HUD to display.
@@ -228,7 +271,7 @@ namespace Cox.PlayerControls{
 
     public override void LowHealth(){
         Debug.Log("Spacecraft: LowHealth() called");
-        HudController.lowHealthIndicator.SetActive(true);
+        HudController.HealthAlertActive(true);
         SetRumble(.5f,.3f,1);
         VoiceLine(10);
         //Do something related to low health
@@ -252,6 +295,7 @@ namespace Cox.PlayerControls{
 
         //Set controls inactive to avoid errors when inputs are made.
         HudController.OverlaySetActive(false);
+
         cameraController.gameObject.SetActive(false);
         weaponSystem.gameObject.SetActive(false);
     }
@@ -260,8 +304,12 @@ namespace Cox.PlayerControls{
         HudController.OverlaySetActive(true);
         cameraController.FollowTarget(false, null);
         cameraController.gameObject.SetActive(true);
-        //HudController.gameObject.SetActive(true);
-        HudController.lowHealthIndicator.SetActive(false);
+
+        HudController.HealthAlertActive(false);
+        HudController.CautionAlertActive(false);
+        HudController.WarningAlertActive(false);
+        HudController.MissileAlertActive(false);
+        HudController.DamageAlertActive(false);
     }
 
     #region IEnumerators
@@ -269,6 +317,12 @@ namespace Cox.PlayerControls{
     public IEnumerator ResetMotorSpeeds(float time){
         yield return new WaitForSecondsRealtime(time);
         _gp.SetMotorSpeeds(0,0);
+    }
+
+    protected override IEnumerator DamageTimer(){
+        HudController.DamageAlertActive(true);
+        yield return new WaitForSecondsRealtime(3);
+        HudController.DamageAlertActive(false);
     }
 
     #endregion

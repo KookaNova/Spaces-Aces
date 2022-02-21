@@ -19,6 +19,8 @@ public class MissileBehaviour : MonoBehaviourPun
     public TrailRenderer trail;
     public bool isEmitting = true;
 
+    private SpacecraftController sc;
+
     [HideInInspector]public bool missileHit = false, missileMissed = false;
 
     private void Awake()
@@ -42,11 +44,17 @@ public class MissileBehaviour : MonoBehaviourPun
         RaycastHit hit;
         
         if(target != null){
+            if(target.GetComponentInParent<SpacecraftController>()){
+               sc = target.GetComponentInParent<SpacecraftController>();
+               sc.missileChasing = true;
+            }
             if(startCasting == true){
                 if(Physics.SphereCast(gameObject.transform.position, missProbability, gameObject.transform.forward, out hit, 5000, ~layer)){
                     if(hit.rigidbody == null || hit.rigidbody.gameObject != target){
                         target = null;
                         missileMissed = true;
+                        sc.missileChasing = false;
+                        
                         Debug.Log("MissileBehaviour: Spherecast obstructed. Missile missed.");
                         if(hit.rigidbody == null){
                             Debug.Log("Missile: Did not hit a RigidBody");
@@ -62,6 +70,7 @@ public class MissileBehaviour : MonoBehaviourPun
                 else{
                     target = null;
                     missileMissed = true;
+                    sc.missileChasing = false;
 
                     Debug.Log("MissileBehaviour: Spherecast missed the target. Missile missed. No hit.");
                     return;
@@ -93,6 +102,9 @@ public class MissileBehaviour : MonoBehaviourPun
     {
         if(obj.gameObject.GetComponentInParent<SpacecraftController>()){
             obj.gameObject.GetComponentInParent<SpacecraftController>().TakeDamage(damageOutput, owner, "missile");
+            if(sc != null){
+                sc.missileChasing = false;
+            }
         }
         EndUse();
     }
