@@ -183,7 +183,7 @@ namespace Cox.PlayerControls{
             case AiStates.FreeFlight:
                 //Calculates speed based on current thrust and clamps speed.
                 thrust = 1;
-                rot = Vector3.Slerp(_rb.transform.forward, toTarget, rotationLimit/40 * Time.fixedDeltaTime);
+                rot = Vector3.Slerp(_rb.transform.forward, toTarget, rotationLimit/60 * Time.fixedDeltaTime);
                 break;
             case AiStates.Follow:
                 if(closestTarget == null){
