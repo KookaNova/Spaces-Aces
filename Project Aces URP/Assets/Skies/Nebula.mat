@@ -80,7 +80,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Tex:
-        m_Texture: {fileID: 8900000, guid: ae18f055774f6ef47bcf4b6c979569df, type: 3}
+        m_Texture: {fileID: 8900000, guid: c8060f636ef3f594d82a135337d4dae6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture2DAsset_50E5DC6E_Out_0:
@@ -101,7 +101,7 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _Exposure: 1
+    - _Exposure: 0.48
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
