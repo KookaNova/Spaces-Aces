@@ -166,8 +166,9 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
 
     #region Damage
     public void TakeDamage(float damage, SpacecraftController attacker, string cause){
+        PlayerDamage();
         isShieldRecharging = false;
-        
+
         SetRumble(.75f, 1, .5f);
 
         if(currentShields > 0){
@@ -193,11 +194,11 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
         //Stops the previous attempt to recharge shields and then retries;
         StopCoroutine(ShieldRechargeTimer());
         StartCoroutine(ShieldRechargeTimer());
-        StopCoroutine(DamageTimer());
-        StartCoroutine(DamageTimer());
         
 
     }
+
+    protected virtual void PlayerDamage(){}
 
     #endregion
 
@@ -241,9 +242,13 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
         Deactivate();
     }
 
-    
+    public virtual void TargetHit(){
+        Debug.Log("Target Hit!");
 
-    public void TargetDestroyed(bool isKill){
+
+    }
+
+    public virtual void TargetDestroyed(bool isKill){
         Debug.Log("Target Destroyed!");
         if(isKill){
             kills++;
@@ -329,15 +334,12 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
         ability.isActive = false;
     }
     private IEnumerator ShieldRechargeTimer(){
-        yield return new WaitForSecondsRealtime(8);
+        yield return new WaitForSecondsRealtime(5);
         isShieldRecharging = true;
     }
     private IEnumerator RespawnTimer(){
         yield return new WaitForSecondsRealtime(respawnTime);
        SpawnPlayer();
-    }
-    protected virtual IEnumerator DamageTimer(){
-        yield return new WaitForSecondsRealtime(1);
     }
     #endregion
     #endregion

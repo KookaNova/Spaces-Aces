@@ -232,7 +232,7 @@ namespace Cox.PlayerControls{
     }
 
     private IEnumerator DecisionTime(){
-        float randTime = Random.Range(1f,3);
+        float randTime = Random.Range(1f,5);
         yield return new WaitForSeconds(randTime);
         toTarget = new Vector3(Random.Range(-360f,360f), Random.Range(-360f,360f), Random.Range(-360f,360f));
         if(aiStates == AiStates.FreeFlight){
@@ -250,7 +250,7 @@ namespace Cox.PlayerControls{
         float randTime = Random.Range(2,7);
         yield return new WaitForSeconds(randTime);
         isRotating = false;
-        float ra = Random.Range(0f,5);
+        float ra = Random.Range(2,9);
         yield return new WaitForSeconds(ra);
         isRotating = true;
         

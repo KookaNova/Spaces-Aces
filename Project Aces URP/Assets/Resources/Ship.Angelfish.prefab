@@ -3369,6 +3369,10 @@ MonoBehaviour:
   - {fileID: 191202506543418610}
   damageAlert:
   - {fileID: 3567225952125563803}
+  hitAlert:
+  - {fileID: 2462376214150029623}
+  eliminatedAlert:
+  - {fileID: 7665184962392791020}
   speedBar:
   - {fileID: 5706423921224239986}
   - {fileID: 3532756813553850225}
@@ -4295,6 +4299,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2462376214150029623 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1348270095819854912, guid: 0f66f4ac530c89f429cb422763e1ddd3, type: 3}
+  m_PrefabInstance: {fileID: 3502140921331807607}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2674637745664685605 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1550401861073666898, guid: 0f66f4ac530c89f429cb422763e1ddd3, type: 3}
@@ -4411,6 +4420,11 @@ MonoBehaviour:
 --- !u!1 &7651696085824218472 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6533126088830996511, guid: 0f66f4ac530c89f429cb422763e1ddd3, type: 3}
+  m_PrefabInstance: {fileID: 3502140921331807607}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7665184962392791020 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6555604436075537051, guid: 0f66f4ac530c89f429cb422763e1ddd3, type: 3}
   m_PrefabInstance: {fileID: 3502140921331807607}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &8591749606850334324 stripped

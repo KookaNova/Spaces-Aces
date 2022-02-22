@@ -273,7 +273,7 @@ MonoBehaviour:
   owner: {fileID: 0}
   destroyTime: 6
   colliderDelay: 0.03
-  damageOutput: 223
+  damageOutput: 200
   impactObj: {fileID: 2304293104747472803, guid: b2f8998162847fb45942e4f23f067da5, type: 3}
 --- !u!114 &-533556547705747495
 MonoBehaviour:
