@@ -27,6 +27,7 @@ public class GunAmmoBehaviour : MonoBehaviourPun
         
         if(obj.gameObject.GetComponentInParent<SpacecraftController>()){
             obj.gameObject.GetComponentInParent<SpacecraftController>().TakeDamage(damageOutput, owner, "gun");
+            owner.TargetHit();
         }
         if(photonView.IsMine) PhotonNetwork.Destroy(this.gameObject);
     }

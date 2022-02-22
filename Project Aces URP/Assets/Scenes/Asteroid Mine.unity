@@ -3511,6 +3511,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2021481887488752200, guid: b6abd7506ce2af1478b51af83dad878d, type: 3}
+      propertyPath: fireRate
+      value: 0.048
+      objectReference: {fileID: 0}
+    - target: {fileID: 2021481887488752200, guid: b6abd7506ce2af1478b51af83dad878d, type: 3}
+      propertyPath: gunRange
+      value: 750
+      objectReference: {fileID: 0}
     - target: {fileID: 3370389664431084051, guid: b6abd7506ce2af1478b51af83dad878d, type: 3}
       propertyPath: m_IsActive
       value: 0

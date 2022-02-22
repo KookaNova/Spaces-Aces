@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,7 +15,7 @@ public class PlayerHUDController : MonoBehaviour
     private CharacterHandler chosenCharacter;
 
     //UI displayed for ship UI.
-    [SerializeField] private List<GameObject> lowHealthIndicator, caution, warning, missileAlert, damageAlert;
+    [SerializeField] private List<GameObject> lowHealthIndicator, caution, warning, missileAlert, damageAlert, hitAlert, eliminatedAlert;
     [SerializeField] private List<UnityEngine.UI.Image> speedBar, thrustBar, healthBar, shieldBar, gunCharge;
     [SerializeField] private List<Text> speedText, healthText, shieldText;
     [SerializeField] private List<Text> textTargetMode, missileCountText;
@@ -52,6 +53,12 @@ public class PlayerHUDController : MonoBehaviour
         }
         for(int i = 0; i < damageAlert.Count; i++){
             damageAlert[i].SetActive(false);
+        }
+        for(int i = 0; i < hitAlert.Count; i++){
+            hitAlert[i].SetActive(false);
+        }
+        for(int i = 0; i < eliminatedAlert.Count; i++){
+            eliminatedAlert[i].SetActive(false);
         }
 
         chosenCharacter = owner.chosenCharacter;
@@ -131,6 +138,26 @@ public class PlayerHUDController : MonoBehaviour
         public void DamageAlertActive(bool state){
             for(int i = 0; i < damageAlert.Count; i++){
                 damageAlert[i].SetActive(state);
+            }
+            if(state){
+                StartCoroutine(DamageAlertTimer());
+            }
+        }
+        public void HitAlertActive(bool state){
+            for(int i = 0; i < hitAlert.Count; i++){
+                hitAlert[i].SetActive(state);
+            }
+            if(state){
+                StartCoroutine(HitTimer());
+            }
+        }
+        public void EliminatedAlertActive(bool state){
+            HitAlertActive(false);
+            for(int i = 0; i < eliminatedAlert.Count; i++){
+                eliminatedAlert[i].SetActive(state);
+            }
+            if(state){
+                StartCoroutine(EliminatedTimer());
             }
         }
     #endregion
@@ -280,6 +307,26 @@ public class PlayerHUDController : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region IEnumerators
+    private IEnumerator DamageAlertTimer(){
+        yield return new WaitForSecondsRealtime(2);
+        DamageAlertActive(false);
+
+
+    }
+    private IEnumerator HitTimer(){
+        yield return new WaitForSecondsRealtime(1.5f);
+        HitAlertActive(false);
+        
+
+    }
+    private IEnumerator EliminatedTimer(){
+        yield return new WaitForSecondsRealtime(1.5f);
+        EliminatedAlertActive(false);
+
+    }
     #endregion
 }
 }

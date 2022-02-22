@@ -269,6 +269,27 @@ namespace Cox.PlayerControls{
     }
     #endregion
 
+    protected override void PlayerDamage(){
+        HudController.DamageAlertActive(true);
+    }
+
+    public override void TargetHit(){
+        Debug.Log("Target Hit!");
+        HudController.HitAlertActive(true);
+
+    }
+
+    public override void TargetDestroyed(bool isKill){
+        Debug.Log("Target Destroyed!");
+        HudController.EliminatedAlertActive(true);
+        if(isKill){
+            kills++;
+            ApplyCustomData();
+            VoiceLine(8);
+        }
+
+    }
+
     public override void LowHealth(){
         Debug.Log("Spacecraft: LowHealth() called");
         HudController.HealthAlertActive(true);
@@ -317,12 +338,6 @@ namespace Cox.PlayerControls{
     public IEnumerator ResetMotorSpeeds(float time){
         yield return new WaitForSecondsRealtime(time);
         _gp.SetMotorSpeeds(0,0);
-    }
-
-    protected override IEnumerator DamageTimer(){
-        HudController.DamageAlertActive(true);
-        yield return new WaitForSecondsRealtime(3);
-        HudController.DamageAlertActive(false);
     }
 
     #endregion
