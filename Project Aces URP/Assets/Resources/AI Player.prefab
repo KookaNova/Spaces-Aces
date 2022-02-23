@@ -74,6 +74,7 @@ MonoBehaviour:
   thrust: 0
   missileTracking: 0
   missileChasing: 0
+  missileClose: 0
   shipPosition: {x: 0, y: 0, z: 0}
   shipRotation: {x: 0, y: 0, z: 0}
 --- !u!114 &1728291015493747262

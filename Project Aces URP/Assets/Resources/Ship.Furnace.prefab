@@ -594,6 +594,7 @@ MonoBehaviour:
   collisionSound: {fileID: 335640573719785984}
   gearsResolving: {fileID: 7210852366940783755}
   missileWarning: {fileID: 2564501116412993470}
+  missileClose: {fileID: 0}
   isTurning: 0
 --- !u!114 &-447139115746393726
 MonoBehaviour:

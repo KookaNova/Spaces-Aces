@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Vivian Blackstar
   m_EditorClassIdentifier: 
   characterName: Vivian Blackstar
-  bio: Character bio...
+  bio: Not much is known about Blackstar's origins, but she has made quite a name
+    for herself in the galaxy as a great bounty hunter. Never one to turn down a
+    good reward (and a good hunt) she joined to arena.
   portrait: {fileID: 2800000, guid: 203e5578609cb404893fe1323f435ae4, type: 3}
   bodyArt: {fileID: 2800000, guid: 217e9849df0aecb4895fdef6e676eca9, type: 3}
   nameArt: {fileID: 0}
