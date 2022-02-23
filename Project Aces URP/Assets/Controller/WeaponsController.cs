@@ -156,6 +156,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         if(!photonView.IsMine)return;
         //destroy old indicators when mode is changed
         for(int i = 0; i < activeIndicators.Count; i++){
+            if(activeIndicators[i] == null)continue;
             Destroy(activeIndicators[i].gameObject);
         }
         activeIndicators.Clear();

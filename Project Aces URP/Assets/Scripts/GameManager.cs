@@ -20,7 +20,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     [HideInInspector] public bool isSelectLoaded = false; //prevents player from spawning before making a character selection
     SceneController sceneController; //used for loading the current gamemode, and allowing a player to return to the menu at any given time.
-    private Scene mainScene;
 
     public List<TargetableObject> allTargets;
     
@@ -53,8 +52,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         tabScreen = root.Q("TabScreen");
         gameTimer = currentGamemode.timeLimit;
 
-        Instance = this; 
-        mainScene = SceneManager.GetActiveScene();
+        Instance = this;
         var possibleTargets = FindObjectsOfType<TargetableObject>();
         for(int i = 0; i < possibleTargets.Length; i++){
             allTargets.Add(possibleTargets[i]);
@@ -476,7 +474,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     private IEnumerator GoToPostGame(){
         yield return new WaitForSecondsRealtime(5);
         PhotonNetwork.AutomaticallySyncScene = true;
-        PhotonNetwork.LoadLevel(mainScene.name);
+        PhotonNetwork.LoadLevel("Home");
         
 
     }
