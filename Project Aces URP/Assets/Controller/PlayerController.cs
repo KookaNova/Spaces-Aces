@@ -107,6 +107,7 @@ namespace Cox.PlayerControls{
                     aceAbility.canUse = false;
                     aceAbility.isActive = false;
                     aceAbility.isUpdating = false;
+                    CoolDownAbility(aceAbility.cooldownTime, aceAbility);
                 }
                 isAwaitingRespawn = false;
             }
@@ -144,6 +145,32 @@ namespace Cox.PlayerControls{
             HudController.MissileAlertActive(missileChasing);
             HudController.WarningAlertActive(missileChasing);
             HudController.CautionAlertActive(missileTracking);
+
+            if(missileChasing){
+                if(missileClose){
+                    shipBehaviour.missileWarning.Play();
+                    shipBehaviour.missileWarning.SetScheduledEndTime(AudioSettings.dspTime + 0.2f);
+                    //shipBehaviour.missileWarning.Stop();
+                    /*if(!shipBehaviour.missileClose.isPlaying){
+                        shipBehaviour.missileClose.Play();
+                    }*/
+                }
+                else{
+                    //shipBehaviour.missileClose.Stop();
+                    if(!shipBehaviour.missileWarning.isPlaying){
+                        shipBehaviour.missileWarning.Play();
+                        shipBehaviour.missileWarning.SetScheduledEndTime(AudioSettings.dspTime + 1f);
+                    }
+                }
+            }
+            else{
+                if(shipBehaviour.missileWarning.isPlaying){
+                    shipBehaviour.missileWarning.Stop();
+                }
+                /*if(shipBehaviour.missileClose.isPlaying){
+                    shipBehaviour.missileClose.Stop();
+                }*/
+            }
 
             //#Critical: if player is waiting to respawn, return.
             if(isAwaitingRespawn){
@@ -325,12 +352,16 @@ namespace Cox.PlayerControls{
         HudController.OverlaySetActive(true);
         cameraController.FollowTarget(false, null);
         cameraController.gameObject.SetActive(true);
+        weaponSystem.canFire = true;
+        weaponSystem.canLaunchMissile = true;
 
         HudController.HealthAlertActive(false);
         HudController.CautionAlertActive(false);
         HudController.WarningAlertActive(false);
         HudController.MissileAlertActive(false);
         HudController.DamageAlertActive(false);
+        HudController.HitAlertActive(false);
+        HudController.MissileAlertActive(false);
     }
 
     #region IEnumerators

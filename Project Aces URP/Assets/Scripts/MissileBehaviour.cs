@@ -54,23 +54,28 @@ public class MissileBehaviour : MonoBehaviourPun
                         target = null;
                         missileMissed = true;
                         sc.missileChasing = false;
+                        sc.missileClose = false;
                         
                         Debug.Log("MissileBehaviour: Spherecast obstructed. Missile missed.");
                         if(hit.rigidbody == null){
                             Debug.Log("Missile: Did not hit a RigidBody");
                             return;
                         }
-                        else{
-                            Debug.Log(hit.rigidbody.gameObject + " does not equal " + target.name);
-                        }
                         
                         return;
+                    }
+                    if(hit.distance < 600){
+                        sc.missileClose = true;
+                    }
+                    else{
+                        sc.missileClose = false;
                     }
                 }
                 else{
                     target = null;
                     missileMissed = true;
                     sc.missileChasing = false;
+                    sc.missileClose = false;
 
                     Debug.Log("MissileBehaviour: Spherecast missed the target. Missile missed. No hit.");
                     return;
@@ -118,7 +123,7 @@ public class MissileBehaviour : MonoBehaviourPun
 
 
     private IEnumerator WakeCollider(){
-        yield return new WaitForSeconds(.75f);
+        yield return new WaitForSeconds(.1f);
         _col.enabled = true;
         startCasting = true;
         

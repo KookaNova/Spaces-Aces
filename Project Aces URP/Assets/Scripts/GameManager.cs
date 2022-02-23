@@ -335,13 +335,22 @@ public class GameManager : MonoBehaviourPunCallbacks
         int _score = 0;
         int _deaths = 0;
 
-        var card = new ScoreBoardCard();
-        if((string)targetPlayer.CustomProperties["Team"] == (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"]){
-            tabScreen.Q("Friendly").Add(card);
+        ScoreBoardCard card = null;
+
+        if(tabScreen.Q<ScoreBoardCard>(targetPlayer.NickName) == null){
+            card = new ScoreBoardCard();
+        
+            if((string)targetPlayer.CustomProperties["Team"] == (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"]){
+                tabScreen.Q("Friendly").Add(card);
+            }
+            else{
+                tabScreen.Q("Enemy").Add(card);
+            }
         }
         else{
-            tabScreen.Q("Enemy").Add(card);
+            card = tabScreen.Q<ScoreBoardCard>(targetPlayer.NickName);
         }
+        
             
         card.SetData(true, _player, _char, _ship, _kills, _score, _deaths);
 

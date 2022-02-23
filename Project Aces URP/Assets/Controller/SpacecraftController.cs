@@ -52,7 +52,7 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
     [HideInInspector] public float currentSpeed, currentShields, currentHealth, thrust = 0;
     protected float respawnTime = 5;
     protected bool isAwaitingRespawn = false, isShieldRecharging = false;
-    public bool missileTracking = false, missileChasing = false;
+    public bool missileTracking = false, missileChasing = false, missileClose = false;
     public Vector3 shipPosition, shipRotation;
     
     //For Multiplayer.
@@ -301,19 +301,19 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
     }
     public void PrimaryAbility(){
         if(photonView.IsMine)
-        if(primaryAbility.canUse){
+        if(primaryAbility.canUse && !isAwaitingRespawn){
             StartCoroutine(primaryAbility.Activate(this));
         }
     }
     public void SecondaryAbility(){
         if(photonView.IsMine)
-        if(secondaryAbility.canUse){
+        if(secondaryAbility.canUse && !isAwaitingRespawn){
             StartCoroutine(secondaryAbility.Activate(this));
             
         }
     }
     public void AceAbility(){
-        if(photonView.IsMine)
+        if(photonView.IsMine && !isAwaitingRespawn)
         Debug.Log("Spacecraft: AceAbility() called");
         //Ace Ability
     }

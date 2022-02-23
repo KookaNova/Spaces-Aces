@@ -13,6 +13,7 @@ public class PlayerHUDController : MonoBehaviour
 
     //UI displayed for character items like abilities and portraits.
     private CharacterHandler chosenCharacter;
+    [HideInInspector] public SpacecraftController owner;
 
     //UI displayed for ship UI.
     [SerializeField] private List<GameObject> lowHealthIndicator, caution, warning, missileAlert, damageAlert, hitAlert, eliminatedAlert;
@@ -20,7 +21,6 @@ public class PlayerHUDController : MonoBehaviour
     [SerializeField] private List<Text> speedText, healthText, shieldText;
     [SerializeField] private List<Text> textTargetMode, missileCountText;
     [SerializeField] private List<Text> textPosition, textRotation;
-    [HideInInspector] public SpacecraftController owner;
 
     private Color gunChargeColor;
     
