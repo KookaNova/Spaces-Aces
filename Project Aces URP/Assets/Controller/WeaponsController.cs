@@ -61,7 +61,8 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     bool missileRecentlyFired = false;
 
     public bool missileLocked = false, gunOvercharged = false;
-    private bool canFire = true, isTargetVisible = false, canLaunchMissile = true;
+    [HideInInspector] public bool canFire = true, canLaunchMissile = true;
+    bool isTargetVisible = false;
 
     #endregion
 

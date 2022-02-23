@@ -6,7 +6,7 @@ using Cox.PlayerControls;
 public class ShipBehaviour : MonoBehaviour
 {
     SpacecraftController sc;
-    public AudioSource collisionSound, gearsTurning, gearsResolving;
+    public AudioSource collisionSound, gearsResolving, missileWarning, missileClose;
     public bool isTurning;
 
     public void SetController(SpacecraftController newController){
@@ -27,9 +27,7 @@ public class ShipBehaviour : MonoBehaviour
 
     private void Update() {
         if(isTurning){
-            if(!gearsTurning.isPlaying){
-                gearsTurning.Play();
-            }
+
         }
         else{
             ResolveGearsTurning();
@@ -38,7 +36,6 @@ public class ShipBehaviour : MonoBehaviour
 
     public void ResolveGearsTurning(){
         isTurning = false;
-        gearsTurning.Stop();
         float ran = Random.Range(.8f, 1.2f);
         gearsResolving.pitch = ran;
         gearsResolving.Play();
