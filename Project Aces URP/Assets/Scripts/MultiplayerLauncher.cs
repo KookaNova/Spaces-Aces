@@ -16,7 +16,6 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
     #region UI Fields
     VisualElement root;
     MenuManager menuManager;
-
     Label versionLabel, serverLabel, connectingLabel, connectMessageLabel, gameStatusLabel;
     //Private Games UI
     string hostText, levelText, gamemodeText, maxPlayerText, isPublicText, privateStatusText;
@@ -31,6 +30,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
     #region Nameplates
     //Important for generating nameplates and placing them
     [Header("Nameplates")]
+    ProfileHandler profile;
     [SerializeField] GameObject profilePrefab;
     //[SerializeField] Transform nameplateStartingPosition;
     //private List<GameObject> nameplates = new List<GameObject>();
@@ -40,7 +40,6 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
 
     public GamesHandler quickplay;
     private GamemodeData chosenMode;
-
     private GamesHandler gamesHandler;
     Hashtable customProperties;
 
@@ -436,8 +435,36 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         yield return new WaitForEndOfFrame();
         if(PhotonNetwork.InRoom){
             menuManager.EnablePostGame();
+            StartCoroutine(PostGameDataFill());
         }
     }
+
+    //Fill Post Game info
+    private IEnumerator PostGameDataFill(){
+        int score = 0;
+        int kills = 0;
+        int deaths = 0;
+
+        while(score < (int)PhotonNetwork.LocalPlayer.CustomProperties["Score"]){
+            score++;
+            menuManager.m_PostGame.Q<Label>("Score").text = score.ToString();
+            yield return new WaitForSecondsRealtime(0.05f);
+        }
+        while(kills < (int)PhotonNetwork.LocalPlayer.CustomProperties["Kills"]){
+            kills++;
+            menuManager.m_PostGame.Q<Label>("Kills").text = score.ToString();
+            yield return new WaitForSecondsRealtime(0.05f);
+        }
+        while(deaths < (int)PhotonNetwork.LocalPlayer.CustomProperties["Deaths"]){
+            deaths++;
+            menuManager.m_PostGame.Q<Label>("Deaths").text = score.ToString();
+            yield return new WaitForSecondsRealtime(0.05f);
+        }
+
+    }
+    /*private IEnumerator FillXP(){
+        
+    }*/
 
 
 

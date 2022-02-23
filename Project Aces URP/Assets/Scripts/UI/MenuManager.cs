@@ -1,5 +1,6 @@
 using System;
 using UnityEngine.UIElements;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class MenuManager : VisualElement
 {
@@ -22,8 +23,8 @@ public class MenuManager : VisualElement
     VisualElement m_Profile;
     VisualElement m_Credits;
     VisualElement m_Nameplate;
-    VisualElement m_PostGame;
     VisualElement m_Settings;
+    public VisualElement m_PostGame;
 
     Label l_MenuName;
          
