@@ -17,7 +17,7 @@ namespace Cox.PlayerControls{
         bool gamepadFound = false; Gamepad _gp; //Used to check if we can set vibrations to the gamepad.
         
         #region Setup
-        protected override void Activate(){
+        public override void Activate(){
             if(this.photonView.Owner != null){
                 if(photonView.IsMine){
                     //Check for gamepad

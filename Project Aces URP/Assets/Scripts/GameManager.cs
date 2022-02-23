@@ -108,12 +108,14 @@ public class GameManager : MonoBehaviourPunCallbacks
             playersA++;
             int spawnPoint = Random.Range(0, teamASpawnpoints.Length);
             var p = PhotonNetwork.Instantiate(this.playerPrefab.name, teamASpawnpoints[spawnPoint].position, Quaternion.identity, 0);
+            p.GetComponentInChildren<SpacecraftController>().Activate();
             Debug.LogFormat("GameManager: SpawnPlayer(), Spawned player {0} at {1}.", p, spawnPoint);
         }
         else{
             playersB++;
             int spawnPoint = Random.Range(0, teamBSpawnpoints.Length);
             var p = PhotonNetwork.Instantiate(this.playerPrefab.name, teamBSpawnpoints[spawnPoint].position, Quaternion.identity, 0);
+            p.GetComponentInChildren<SpacecraftController>().Activate();
             Debug.LogFormat("GameManager: SpawnPlayer(), Spawned player {0} at {1}.", p, spawnPoint);
         }
         
@@ -167,18 +169,23 @@ public class GameManager : MonoBehaviourPunCallbacks
                         playersA++;
                         int spawnPoint = Random.Range(0, teamASpawnpoints.Length);
                         var p = PhotonNetwork.Instantiate(this.aiPrefab.name, teamASpawnpoints[spawnPoint].position, Quaternion.identity, 0);
-                        var controller = p.GetComponent<SpacecraftController>();
+                        var controller = p.GetComponentInChildren<SpacecraftController>();
                         controller.teamName = "A";
-                        controller.photonView.Owner.SetCustomProperties(new Hashtable(){{"Team", "A"}});
+                        controller.name = "AI" + i.ToString();
+                        p.GetComponent<SpacecraftController>().Activate();
+                        UpdateScoreBoard(controller);
+                        
                     }
                     else{
                         playersB++;
                         int spawnPoint = Random.Range(0, teamBSpawnpoints.Length);
                         var p = PhotonNetwork.Instantiate(this.aiPrefab.name, teamBSpawnpoints[spawnPoint].position, Quaternion.identity, 0);
-                        var controller = p.GetComponent<SpacecraftController>();
+                        var controller = p.GetComponentInChildren<SpacecraftController>();
                         controller.teamName = "B";
-                        controller.photonView.Owner.SetCustomProperties(new Hashtable(){{"Team", "B"}});
-
+                        controller.name = "AI" + i.ToString();
+                        p.GetComponent<SpacecraftController>().Activate();
+                        UpdateScoreBoard(controller);
+                        
                     }
                 }
             }
@@ -323,36 +330,43 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void UpdateScoreBoard(Player targetPlayer){
         if(gameOver)return;
+        if(!gameStarted)return;
+        if(targetPlayer.CustomProperties["Kills"] == null)return;
         //var list = PhotonNetwork.PlayerList;
 
-        tabScreen.Q("Friendly").Clear();
-
-        string _player = (string)targetPlayer.CustomProperties["Name"];
-        string _char = "?";
-        string _ship = "?";
-            
-        int _kills = 0;
-        int _score = 0;
-        int _deaths = 0;
-
+        //Create Card if needed
         ScoreBoardCard card = null;
-
+        bool isFriendly = false;
         if(tabScreen.Q<ScoreBoardCard>(targetPlayer.NickName) == null){
             card = new ScoreBoardCard();
+            card.name = targetPlayer.NickName;
         
             if((string)targetPlayer.CustomProperties["Team"] == (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"]){
                 tabScreen.Q("Friendly").Add(card);
+                isFriendly = true;
             }
             else{
                 tabScreen.Q("Enemy").Add(card);
+                isFriendly = false;
             }
         }
         else{
             card = tabScreen.Q<ScoreBoardCard>(targetPlayer.NickName);
+            isFriendly = card.isFriendly;
         }
+
+        //Find data
         
-            
-        card.SetData(true, _player, _char, _ship, _kills, _score, _deaths);
+        string _player = (string)targetPlayer.CustomProperties["Name"];
+        string _char = (string)targetPlayer.CustomProperties["Character"];
+        string _ship = (string)targetPlayer.CustomProperties["Ship"];
+        int _kills = (int)targetPlayer.CustomProperties["Kills"];
+        int _score = (int)targetPlayer.CustomProperties["Score"];
+        int _deaths = (int)targetPlayer.CustomProperties["Deaths"];
+
+        var handler = Resources.Load<CharacterHandler>("Characters/" + _char);
+
+        card.SetData(isFriendly, _player, _char, _ship, _kills, _score, _deaths, handler);
 
         if((string)PhotonNetwork.LocalPlayer.CustomProperties["Team"] == "A"){
             root.Q<Label>("FriendScore").text = teamAScore.ToString("0#");
@@ -363,28 +377,45 @@ public class GameManager : MonoBehaviourPunCallbacks
             root.Q<Label>("EnemyScore").text = teamAScore.ToString("0#");
         }
     }
-    public void UpdateAIScoreBoard(SpacecraftController controller){
+    //used for AI
+    public void UpdateScoreBoard(SpacecraftController controller){
         if(gameOver)return;
+        if(!gameStarted)return;
         //var list = PhotonNetwork.PlayerList;
         string _player = (string)controller.customProperties["Name"];
-        string _char = "?";
-        string _ship = "?";
+        string _char = (string)controller.customProperties["Character"];
+        string _ship = (string)controller.customProperties["Ship"];
             
-        int _kills = 0;
-        int _score = 0;
-        int _deaths = 0;
+        int _kills = (int)controller.customProperties["Kills"];
+        int _score = (int)controller.customProperties["Score"];
+        int _deaths = (int)controller.customProperties["Deaths"];
 
-        var card = new ScoreBoardCard();
-        if((string)controller.customProperties["Team"] == (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"]){
-            tabScreen.Q("Friendly").Add(card);
+        
+        ScoreBoardCard card = null;
+        bool isFriendly = false;
+        if(tabScreen.Q<ScoreBoardCard>(controller.name) == null){
+            card = new ScoreBoardCard();
+            card.name = controller.name;
+        
+            if((string)controller.teamName == (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"]){
+                tabScreen.Q("Friendly").Add(card);
+                isFriendly = true;
+            }
+            else{
+                tabScreen.Q("Enemy").Add(card);
+                isFriendly = false;
+            }
         }
         else{
-            tabScreen.Q("Enemy").Add(card);
+            card = tabScreen.Q<ScoreBoardCard>(controller.name);
+            isFriendly = card.isFriendly;
         }
             
-        card.SetData(true, _player, _char, _ship, _kills, _score, _deaths);
+        var handler = Resources.Load<CharacterHandler>("Characters/" + _char);
+        card.SetData(isFriendly, _player, _char, _ship, _kills, _score, _deaths, handler);
 
-        if((string)controller.customProperties["Team"] == "A"){
+        //Friend or Foe score
+        if((string)controller.teamName == "A"){
             root.Q<Label>("FriendScore").text = teamAScore.ToString("0#");
             root.Q<Label>("EnemyScore").text = teamBScore.ToString("0#");
         }

@@ -10,6 +10,8 @@ public class ScoreBoardCard : VisualElement
     Label kills;
     Label score;
     Label deaths;
+
+    public bool isFriendly = false;
     
 
     public new class UxmlFactory : UxmlFactory<ScoreBoardCard, UxmlTraits> { }
@@ -70,7 +72,7 @@ public class ScoreBoardCard : VisualElement
         this.Add(stats);
     }
 
-    public void SetData(bool friendly, string _player, string _char, string _ship, int _kills, int _score, int _deaths){
+    public void SetData(bool friendly, string _player, string _char, string _ship, int _kills, int _score, int _deaths, CharacterHandler handler){
         playerName.text = _player;
         character.text = _char;
         ship.text = _ship;
@@ -78,7 +80,11 @@ public class ScoreBoardCard : VisualElement
         score.text = _score.ToString();
         deaths.text = _deaths.ToString();
 
-        if(friendly){
+        portrait.style.backgroundImage = handler.portrait;
+
+        isFriendly = friendly;
+
+        if(isFriendly){
             this.AddToClassList("friendly");
         }
         else{

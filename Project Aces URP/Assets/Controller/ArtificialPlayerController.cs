@@ -27,7 +27,7 @@ namespace Cox.PlayerControls{
 
         private TargetableObject closestTarget;
 
-        protected override void Activate(){
+        public override void Activate(){
             isAwaitingRespawn = true;
             isMaster = PhotonNetwork.IsMasterClient;
             playerAudio.outputAudioMixerGroup = externalVoice;
@@ -42,7 +42,7 @@ namespace Cox.PlayerControls{
                 chosenShip = shipOptions[index];
                 Debug.LogFormat("Ai chose character {0} and ship {1}.", chosenCharacter, chosenShip);
             }
-            playerName = chosenCharacter.name;
+            playerName = chosenCharacter.name + "(AI)";
 
             //Find respawn points. Once teams are figured out, this needs to find specific team spawn points.
             if(teamName == "A"){
@@ -110,6 +110,7 @@ namespace Cox.PlayerControls{
         }
         public override void ApplyCustomData(){
         customProperties = new Hashtable(){
+            {"Team", teamName},
             {"Name", playerName},
             {"Character", chosenCharacter.name},
             {"Ship", chosenShip.name},
@@ -117,7 +118,7 @@ namespace Cox.PlayerControls{
             {"Kills", kills},
             {"Deaths", deaths},
         };
-        gameManager.UpdateAIScoreBoard(this);
+        gameManager.UpdateScoreBoard(this);
     }
         protected override void FixedUpdate(){
         //#Critical: If player is not local, return.
@@ -188,6 +189,7 @@ namespace Cox.PlayerControls{
             case AiStates.Follow:
                 if(closestTarget == null){
                     Debug.LogWarning("AI Target null");
+                    aiStates = AiStates.FreeFlight;
                 }
                 else{
                     if(isRotating){

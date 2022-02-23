@@ -71,9 +71,8 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
     public override void OnEnable(){
         gameManager = FindObjectOfType<GameManager>();
         playerAudio = GetComponent<AudioSource>();
-        Activate();
     }
-    protected virtual void Activate(){}
+    public virtual void Activate(){}
     /// <summary>
     ///0=Start Match | 1=Primary | 2=Secondary | 3=Ace | 4=EnemyBeingTargeted
     ///5=MissileTypeFired | 6=ThisBeingTargeted | 7=MissileIncoming | 8=EnemyEliminated
