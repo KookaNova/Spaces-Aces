@@ -3338,7 +3338,7 @@ PrefabInstance:
     - target: {fileID: 7822796711424456114, guid: 68fe6926c0b53cc46a9948d8c2f6974a, type: 3}
       propertyPath: currentGamemode
       value: 
-      objectReference: {fileID: 11400000, guid: b0f6d5493fac71b458aa055e7ea7316e, type: 2}
+      objectReference: {fileID: 11400000, guid: 179f959c91b24b143912aed3fcc1d2c0, type: 2}
     - target: {fileID: 7822796711424456114, guid: 68fe6926c0b53cc46a9948d8c2f6974a, type: 3}
       propertyPath: teamASpawnpoints.Array.size
       value: 4

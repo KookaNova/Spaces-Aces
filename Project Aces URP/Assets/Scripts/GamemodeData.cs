@@ -8,6 +8,7 @@ public class GamemodeData : ScriptableObject
     public bool EliminationPoints = false;
     public bool isTeams = true;
     public int playerCount;
+    public int AIPlayers;
     public int scoreValue;
     public int maxScore;
     public int timeLimit;

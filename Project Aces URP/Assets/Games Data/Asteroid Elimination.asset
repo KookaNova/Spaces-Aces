@@ -17,6 +17,7 @@ MonoBehaviour:
   EliminationPoints: 1
   isTeams: 1
   playerCount: 1
+  AIPlayers: 5
   scoreValue: 1
-  maxScore: 1
+  maxScore: 5
   timeLimit: 600

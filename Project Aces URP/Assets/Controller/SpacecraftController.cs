@@ -61,6 +61,7 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
     protected int kills = 0;
     protected int deaths = 0;
     protected int score = 0;
+    protected int elapsedTime = 0;
 
     #endregion
     #endregion
@@ -114,6 +115,8 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
             {"Score", score},
             {"Kills", kills},
             {"Deaths", deaths},
+            {"ElapsedTime", elapsedTime},
+            {"isWin", false}
         };
         PhotonNetwork.SetPlayerCustomProperties(customProperties);
         

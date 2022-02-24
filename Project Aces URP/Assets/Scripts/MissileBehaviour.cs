@@ -107,7 +107,10 @@ public class MissileBehaviour : MonoBehaviourPun
     {
         if(obj.gameObject.GetComponentInParent<SpacecraftController>()){
             obj.gameObject.GetComponentInParent<SpacecraftController>().TakeDamage(damageOutput, owner, "missile");
-            owner.TargetHit();
+            if(owner.isActiveAndEnabled){
+                owner.TargetHit();
+            }
+            
             if(sc != null){
                 sc.missileChasing = false;
             }

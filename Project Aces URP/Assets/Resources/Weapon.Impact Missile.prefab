@@ -373,7 +373,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destroyTime: 8
   missileSpeed: 1300
-  turningLimit: 5
+  turningLimit: 8
   missProbability: 2
   currentSpeed: 0
   damageOutput: 1000

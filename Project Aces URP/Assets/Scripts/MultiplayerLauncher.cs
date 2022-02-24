@@ -54,6 +54,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
 
         //Send info to UI easily
         root = GetComponent<UIDocument>().rootVisualElement;
+        profile = FindObjectOfType<ProfileHandler>();
 
         versionLabel = root.Q<Label>("VersionNumber");
         serverLabel = root.Q<Label>("ServerName");
@@ -128,8 +129,9 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         Debug.LogWarningFormat("Launcher: OnDisconnected() was called by PUN with reason {0}", cause);
 
         //UI
-        var m = root.Q("MessageContainer");
-        m.style.display = DisplayStyle.Flex;
+        
+        var m_connectScreen = root.Q("ConnectingScreen");
+        m_connectScreen.style.display = DisplayStyle.Flex;
         connectMessageLabel.text = cause.ToString();
         connectingLabel.text = ("Disconnected");
         serverLabel.text = "Offline";
@@ -441,26 +443,81 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
 
     //Fill Post Game info
     private IEnumerator PostGameDataFill(){
-        int score = 0;
-        int kills = 0;
-        int deaths = 0;
+        profile.LoadInfo();
+        yield return new WaitForEndOfFrame();
+        
+        menuManager.m_PostGame.Q<Label>("Level").text = profile.currentLevel.ToString();
+        menuManager.m_PostGame.Q<Label>("NextLevel").text = (profile.currentLevel + 1).ToString();
 
-        while(score < (int)PhotonNetwork.LocalPlayer.CustomProperties["Score"]){
-            score++;
+        //set XP bar
+        float dec1 = profile.currentXp/profile.levelUpPoint;
+        dec1 = dec1 * 100;
+
+        menuManager.m_PostGame.Q("XPBar").style.width = new StyleLength(Length.Percent(dec1));
+
+        //display performance data
+        int score = (int)PhotonNetwork.LocalPlayer.CustomProperties["Score"];
+        int kills = (int)PhotonNetwork.LocalPlayer.CustomProperties["Kills"];
+        int deaths = (int)PhotonNetwork.LocalPlayer.CustomProperties["Deaths"];
+        int seconds = (int)PhotonNetwork.LocalPlayer.CustomProperties["ElapsedTime"];
+        bool isWin = (bool)PhotonNetwork.LocalPlayer.CustomProperties["isWin"];
+        profile.AddPerformanceData(score, kills, deaths, seconds, isWin);
+        
+        int h_score = 0;
+        int h_kills = 0;
+        int h_deaths = 0;
+        int h_seconds = 0;
+
+        while(h_score < score){
+            h_score++;
             menuManager.m_PostGame.Q<Label>("Score").text = score.ToString();
             yield return new WaitForSecondsRealtime(0.05f);
         }
-        while(kills < (int)PhotonNetwork.LocalPlayer.CustomProperties["Kills"]){
-            kills++;
+        while(h_kills < kills){
+            h_kills++;
             menuManager.m_PostGame.Q<Label>("Kills").text = score.ToString();
             yield return new WaitForSecondsRealtime(0.05f);
         }
-        while(deaths < (int)PhotonNetwork.LocalPlayer.CustomProperties["Deaths"]){
-            deaths++;
+        while(h_deaths < deaths){
+            h_deaths++;
             menuManager.m_PostGame.Q<Label>("Deaths").text = score.ToString();
             yield return new WaitForSecondsRealtime(0.05f);
         }
+        while(h_seconds < seconds){
+            h_seconds++;
+            int min = Mathf.CeilToInt(h_seconds/60);
+            int sec = h_seconds%60;
+            menuManager.m_PostGame.Q<Label>("GameTime").text = min.ToString("0") + ":" + sec.ToString("0#");
+            yield return new WaitForSecondsRealtime(0.05f);
+        }
 
+        //display Lifetime Data
+        menuManager.m_PostGame.Q<Label>("Games").text = profile.totalGames.ToString();
+        menuManager.m_PostGame.Q<Label>("Wins").text = profile.totalWins.ToString();
+        menuManager.m_PostGame.Q<Label>("TotalKills").text = profile.totalKills.ToString();
+
+        int minutes = Mathf.CeilToInt(profile.totalSeconds/60);
+        int newSec = profile.totalSeconds%60;
+        menuManager.m_PostGame.Q<Label>("TotalTime").text = minutes.ToString("0") + ":" + newSec.ToString("0#");
+
+        //experience bar
+        int newXP = seconds;
+        if(isWin){
+            newXP += 200;
+        }
+        for(int i = 0; i < score; i++){
+            newXP += 50;
+        }
+        profile.AddExp(newXP);
+
+        float dec2 = (dec1 + newXP)/profile.levelUpPoint;
+        dec2 = dec2 * 100;
+
+        Debug.Log(dec1 + "/" + dec2);
+
+        yield return new WaitForEndOfFrame();
+
+        menuManager.m_PostGame.Q("XPBar").style.width = new StyleLength(Length.Percent(dec2));
     }
     /*private IEnumerator FillXP(){
         

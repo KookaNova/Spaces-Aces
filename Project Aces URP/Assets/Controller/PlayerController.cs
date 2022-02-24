@@ -30,6 +30,8 @@ namespace Cox.PlayerControls{
                     playerName = data.profileName;
                     this.photonView.Owner.NickName = playerName;
                     playerAudio.outputAudioMixerGroup = localVoice;
+                    StartCoroutine(PlayTimer());
+
                 }
                 else{
                     //load profile data from other players into the scoreboard
@@ -369,6 +371,14 @@ namespace Cox.PlayerControls{
     public IEnumerator ResetMotorSpeeds(float time){
         yield return new WaitForSecondsRealtime(time);
         _gp.SetMotorSpeeds(0,0);
+    }
+
+    private IEnumerator PlayTimer(){
+        yield return new WaitForSecondsRealtime(1);
+        elapsedTime++;
+        
+        yield return new WaitForEndOfFrame();
+        ApplyCustomData();
     }
 
     #endregion
