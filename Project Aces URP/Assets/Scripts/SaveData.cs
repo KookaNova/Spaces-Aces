@@ -8,7 +8,7 @@ public class SaveData
         string path = Application.persistentDataPath + "/profile.ace";
         BinaryFormatter formatter = new BinaryFormatter();
         FileStream stream = new FileStream(path, FileMode.Create);
-        PlayerProfileData data = new PlayerProfileData(profile);
+        PlayerProfileData data = new PlayerProfileData(profile); //creates the data
         formatter.Serialize(stream, data);
         stream.Close();
         Debug.Log("SaveData: SaveProfile(), profile named '" + data.profileName + "' saved to " + path);

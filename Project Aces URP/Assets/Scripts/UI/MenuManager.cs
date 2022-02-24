@@ -183,7 +183,7 @@ public class MenuManager : VisualElement
 
     }
 
-    private void EnableSettings(){
+    void EnableSettings(){
         DisableAllScreens();
         m_MenuSelector.RemoveFromClassList("offsetLeft");
         m_MenuSelector.style.display = DisplayStyle.Flex;
@@ -220,6 +220,7 @@ public class MenuManager : VisualElement
     public void EnablePostGame(){
         DisableAllScreens();
         m_PostGame.style.display = DisplayStyle.Flex;
+        m_ReturnMain.style.display = DisplayStyle.Flex;
 
     }
 }

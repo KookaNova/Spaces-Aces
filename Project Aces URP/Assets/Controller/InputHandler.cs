@@ -57,6 +57,7 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
     //Inputs
     public void OnMenuButton(InputAction.CallbackContext pressed){
         root.Q<GameUIManager>().ToggleMenu();
+        UnityEngine.Cursor.lockState = CursorLockMode.Confined;
     }
     public void OnTabMenuButton(InputAction.CallbackContext pressed){
         root.Q<GameUIManager>().ToggleTab();

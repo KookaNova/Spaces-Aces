@@ -5,8 +5,9 @@ using System.Collections;
 public class ProfileHandler : MonoBehaviour
 {
     public string profileName;
-    public float  nameHue, emblemPrimaryHue, emblemBackHue;
-    public int nameArt, frameArt, emblemPrimary, emblemBackground;
+    public int totalGames, totalWins, totalScore, totalKills, totalDeaths, totalSeconds;
+    //public float  nameHue, emblemPrimaryHue, emblemBackHue;
+    //public int nameArt, frameArt, emblemPrimary, emblemBackground;
 
     public int currentXp, currentLevel, levelUpPoint;
 
@@ -20,9 +21,18 @@ public class ProfileHandler : MonoBehaviour
 
         profileName = data.profileName;
         PhotonNetwork.NickName = profileName;
-        nameHue = data.nameHue;
-        frameArt = data.frameArt;
+        //nameHue = data.nameHue;
+        //frameArt = data.frameArt;
 
+
+        totalGames = data.totalGames;
+        totalWins = data.totalWins;
+        totalScore = data.totalScore;
+        totalKills = data.totalKills;
+        totalDeaths = data.totalDeaths;
+        totalSeconds = data.totalSeconds;
+
+        levelUpPoint = data.levelUpPoint;
         currentXp = data.currentXp;
         currentLevel = data.currentLevel;
 
@@ -45,7 +55,18 @@ public class ProfileHandler : MonoBehaviour
         PhotonNetwork.NickName = profileName;
     }
 
-    public void ChangeNameColor(float hue){
+    public void AddPerformanceData(int score, int kills, int deaths, int seconds, bool isWin){
+        totalGames++;
+        totalScore += score;
+        totalKills += kills;
+        totalDeaths += deaths;
+        totalSeconds += seconds;
+        if(isWin)totalWins++;
+
+        SaveInfo();
+    }
+
+    /*public void ChangeNameColor(float hue){
         nameHue = hue;
     }
 
@@ -70,7 +91,7 @@ public class ProfileHandler : MonoBehaviour
 
     public void ChangeAvatarFrames(int choice){
         frameArt = choice;
-    }
+    }*/
 
     public void LevelUp(){
         currentLevel++;
@@ -90,12 +111,12 @@ public class ProfileHandler : MonoBehaviour
 
     public void InitializeData(){
         profileName = "New Profile";
-        nameHue = 0; 
+        /*nameHue = 0; 
         emblemPrimaryHue = 0;
         emblemBackHue = 0;
         nameArt = 0;
         emblemPrimary = 0; 
-        emblemBackground = 0;
+        emblemBackground = 0;*/
         currentXp = 0;
         currentLevel = 0;
         SaveInfo();

@@ -30,8 +30,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     int playersA = 0, playersB = 0;
     int timeOut = 45, startCount = 3;
     bool gameReady = false, gameStarted = false, gameOver = false;
-    
-    
     //UI
     VisualElement root, feed, subtitle, tabScreen;
     [SerializeField] UIDocument uIDocument;
@@ -51,6 +49,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         subtitle = root.Q("Subtitle");
         tabScreen = root.Q("TabScreen");
         gameTimer = currentGamemode.timeLimit;
+        aiPlayerCount = currentGamemode.AIPlayers;
 
         Instance = this;
         var possibleTargets = FindObjectsOfType<TargetableObject>();
@@ -163,7 +162,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         if(PhotonNetwork.IsMasterClient){
             if(aiPrefab != null){
                 for(int i = 0; i < aiPlayerCount; i++){
-                    if(playersA <= playersB){
+                    if(playersA < playersB){
                         playersA++;
                         int spawnPoint = Random.Range(0, teamASpawnpoints.Length);
                         var p = PhotonNetwork.Instantiate(this.aiPrefab.name, teamASpawnpoints[spawnPoint].position, Quaternion.identity, 0);
@@ -210,10 +209,10 @@ public class GameManager : MonoBehaviourPunCallbacks
             return;
         }
         if((string)PhotonNetwork.LocalPlayer.CustomProperties["Team"] == winningTeam){
-            Debug.Log("Victory!");
+            PhotonNetwork.SetPlayerCustomProperties(new Hashtable{{"isWin", true}});
         }
         else{
-            Debug.Log("Defeat.");
+            PhotonNetwork.SetPlayerCustomProperties(new Hashtable{{"isWin", false}});
         }
 
     }

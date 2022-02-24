@@ -22,8 +22,9 @@
                     <Style src="project://database/Assets/UI/Style.uss?fileID=7433441132597879392&amp;guid=5f5cd455162d302479a25627e01f7028&amp;type=3#Style" />
                     <ui:VisualElement name="Screen" class="screen" style="justify-content: space-between; flex-direction: row;">
                         <ui:VisualElement />
-                        <ui:VisualElement style="justify-content: space-between; align-items: stretch; flex-direction: column;">
+                        <ui:VisualElement style="justify-content: space-between; align-items: stretch; flex-direction: column; display: none;">
                             <ui:Label text="ConnectingLabel" display-tooltip-when-elided="true" name="ConnectingLabel" class="strongLabel" style="margin-top: 0; -unity-text-align: upper-center;" />
+                            <ui:Label text="ConnectMessage..." display-tooltip-when-elided="true" name="ConnectMessage" focusable="true" class="midLabel" style="margin-top: 0; -unity-text-align: upper-center; display: none;" />
                             <ui:VisualElement name="ProgressContrainer" class="progressContainer" style="height: 3%;">
                                 <ui:VisualElement name="Progress" class="progressBar" style="transition-timing-function: linear; transition-duration: 0.1s;" />
                             </ui:VisualElement>
@@ -71,7 +72,7 @@
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:Button display-tooltip-when-elided="false" name="Title" enable-rich-text="false" style="justify-content: space-around; align-items: center; height: 125%; width: 110%; background-color: rgba(188, 188, 188, 0); border-left-color: rgba(255, 255, 255, 0); border-right-color: rgba(255, 255, 255, 0); border-top-color: rgba(255, 255, 255, 0); border-bottom-color: rgba(255, 255, 255, 0); border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; overflow: visible; flex-grow: 0; flex-direction: column; top: -15%; right: 5%; display: flex;">
+                <ui:Button display-tooltip-when-elided="false" name="Title" enable-rich-text="false" style="justify-content: space-around; align-items: center; height: 125%; width: 110%; background-color: rgba(188, 188, 188, 0); border-left-color: rgba(255, 255, 255, 0); border-right-color: rgba(255, 255, 255, 0); border-top-color: rgba(255, 255, 255, 0); border-bottom-color: rgba(255, 255, 255, 0); border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; overflow: visible; flex-grow: 0; flex-direction: column; top: -15%; right: 5%; display: flex; opacity: 1;">
                     <ui:VisualElement style="justify-content: center; width: 85%; height: 85%;">
                         <ui:Button display-tooltip-when-elided="true" name="Art" enable-rich-text="false" focusable="false" style="background-image: url(&apos;project://database/Assets/Sprites/SA%20Logo%20Gradient@2x.png?fileID=21300000&amp;guid=60b129382eb881849b935cac5cf0a969&amp;type=3#SA Logo Gradient@2x&apos;); height: 56%; -unity-background-scale-mode: scale-and-crop; width: auto; flex-direction: column; align-items: center; justify-content: center; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); flex-shrink: 0; overflow: visible; margin-bottom: -5%; color: rgb(238, 238, 238); background-color: rgba(0, 0, 0, 0); transition-duration: 1s; transition-timing-function: ease-out;" />
                         <ui:Label text="Click to Start" display-tooltip-when-elided="true" name="Start" class="h1 strongLabel" style="border-left-width: 0; border-right-width: 0; border-top-width: 0; top: auto; -unity-text-align: upper-center; transition-duration: 0s;" />
@@ -83,34 +84,46 @@
                         <ui:VisualElement name="Performance" class="panelClear" style="flex-direction: column; width: 20%;">
                             <ui:Label text="Performance" display-tooltip-when-elided="true" class="midLabel" />
                             <ui:Label text="Score" display-tooltip-when-elided="true" class="baseLabel" style="padding-top: 10px; padding-bottom: 0; flex-direction: row; justify-content: flex-end; -unity-text-align: upper-left;">
-                                <ui:Label text="##" display-tooltip-when-elided="true" name="Score" class="baseLabel" style="white-space: nowrap; -unity-text-align: upper-right;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="Score" class="baseLabel" style="white-space: nowrap; -unity-text-align: upper-right;" />
                             </ui:Label>
                             <ui:Label text="Kills" display-tooltip-when-elided="true" class="baseLabel" style="padding-top: 10px; -unity-text-align: upper-left;">
-                                <ui:Label text="##" display-tooltip-when-elided="true" name="Kills" class="baseLabel" style="white-space: nowrap; -unity-text-align: upper-right;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="Kills" class="baseLabel" style="white-space: nowrap; -unity-text-align: upper-right;" />
                             </ui:Label>
                             <ui:Label text="Deaths" display-tooltip-when-elided="true" class="baseLabel" style="padding-top: 10px; -unity-text-align: upper-left;">
-                                <ui:Label text="##" display-tooltip-when-elided="true" name="Deaths" class="baseLabel" style="white-space: nowrap; -unity-text-align: upper-right;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="Deaths" class="baseLabel" style="white-space: nowrap; -unity-text-align: upper-right;" />
+                            </ui:Label>
+                            <ui:Label text="Game Time" display-tooltip-when-elided="true" class="baseLabel" style="padding-top: 10px; -unity-text-align: upper-left;">
+                                <ui:Label text="0:00" display-tooltip-when-elided="true" name="GameTime" class="baseLabel" style="white-space: nowrap; -unity-text-align: upper-right;" />
                             </ui:Label>
                         </ui:VisualElement>
                         <ui:VisualElement name="Lifetime" class="panelClear" style="flex-direction: column; width: 20%;">
                             <ui:Label text="Lifetime" display-tooltip-when-elided="true" class="midLabel" />
-                            <ui:Label text="Games" display-tooltip-when-elided="true" name="Games" class="baseLabel" style="padding-top: 10px; padding-bottom: 0;" />
-                            <ui:Label text="Wins" display-tooltip-when-elided="true" name="Wins" class="baseLabel" style="padding-top: 10px; padding-bottom: 0;" />
-                            <ui:Label text="Eliminations" display-tooltip-when-elided="true" name="Wins" class="baseLabel" style="padding-top: 10px; padding-bottom: 0;" />
+                            <ui:Label text="Games" display-tooltip-when-elided="true" class="baseLabel" style="padding-top: 10px; padding-bottom: 0;">
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="Games" class="baseLabel" style="-unity-text-align: upper-right;" />
+                            </ui:Label>
+                            <ui:Label text="Wins" display-tooltip-when-elided="true" class="baseLabel" style="padding-top: 10px; padding-bottom: 0;">
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="Wins" class="baseLabel" style="-unity-text-align: upper-right;" />
+                            </ui:Label>
+                            <ui:Label text="Eliminations" display-tooltip-when-elided="true" class="baseLabel" style="padding-top: 10px; padding-bottom: 0;">
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="TotalKills" class="baseLabel" style="-unity-text-align: upper-right;" />
+                            </ui:Label>
+                            <ui:Label text="Total Time" display-tooltip-when-elided="true" class="baseLabel" style="padding-top: 10px; padding-bottom: 0;">
+                                <ui:Label text="0:00" display-tooltip-when-elided="true" name="TotalTime" class="baseLabel" style="-unity-text-align: upper-right;" />
+                            </ui:Label>
                         </ui:VisualElement>
                         <ui:VisualElement name="Accolades" class="panelClear" style="flex-direction: column; width: 60%;">
                             <ui:Label text="Accolades" display-tooltip-when-elided="true" class="midLabel" style="flex-direction: column; -unity-text-align: upper-left;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
                     <ui:VisualElement name="Experience" style="margin-bottom: 1%; flex-direction: row; height: 10%; justify-content: center; align-items: stretch;">
-                        <ui:VisualElement name="Level" style="flex-direction: column; justify-content: center; align-items: center; background-color: rgb(23, 195, 42); margin-left: 1%; margin-right: 1%; margin-top: 1%; margin-bottom: 1%;">
-                            <ui:Label text="##" display-tooltip-when-elided="true" class="midLabel" />
+                        <ui:VisualElement style="flex-direction: column; justify-content: center; align-items: center; margin-left: 1%; margin-right: 1%; margin-top: 1%; margin-bottom: 1%;">
+                            <ui:Label text="##" display-tooltip-when-elided="true" name="Level" class="strongLabel" />
                         </ui:VisualElement>
                         <ui:VisualElement name="XPContainer" class="progressContainer" style="height: 100%; width: 90%; flex-direction: column;">
-                            <ui:VisualElement name="XPBar" class="progressBar" />
+                            <ui:VisualElement name="XPBar" class="progressBar" style="transition-duration: 2s;" />
                         </ui:VisualElement>
-                        <ui:VisualElement name="NextLevel" style="flex-direction: column; justify-content: center; margin-left: 1%; margin-right: 1%; margin-top: 1%; margin-bottom: 1%; background-color: rgb(255, 8, 188); align-items: center;">
-                            <ui:Label text="##" display-tooltip-when-elided="true" />
+                        <ui:VisualElement style="flex-direction: column; justify-content: center; margin-left: 1%; margin-right: 1%; margin-top: 1%; margin-bottom: 1%; align-items: center;">
+                            <ui:Label text="##" display-tooltip-when-elided="true" name="NextLevel" class="strongLabel" />
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
