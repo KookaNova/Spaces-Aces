@@ -371,12 +371,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ad8b4060b4821e47be12bd6667a2e70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyTime: 8
-  missileSpeed: 1300
-  turningLimit: 8
-  missProbability: 2
+  destroyTime: 10
+  missileSpeed: 1000
+  turningLimit: 15
+  missProbability: 1.5
   currentSpeed: 0
-  damageOutput: 1000
+  damageOutput: 650
   explosion: {fileID: 9128587892432602950, guid: e59c9a8b5999cdb4ab01f2f08b1d25b3, type: 3}
   owner: {fileID: 0}
   target: {fileID: 0}
@@ -394,7 +394,7 @@ Rigidbody:
   m_GameObject: {fileID: 6200246160423643314}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 3
+  m_Drag: 2
   m_AngularDrag: 1
   m_UseGravity: 0
   m_IsKinematic: 0
@@ -412,8 +412,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 5, y: 5, z: 3.9579544}
-  m_Center: {x: 0, y: 0, z: -1.9204001}
+  m_Size: {x: 7, y: 7, z: 10}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6786794137692798478
 MonoBehaviour:
   m_ObjectHideFlags: 0

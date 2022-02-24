@@ -959,7 +959,7 @@ MonoBehaviour:
   missileType: {fileID: 6200246160423643314, guid: fbe558d5ded7c6444990f035946dd5e0, type: 3}
   lockOnEfficiency: 2
   lockOnRange: 3000
-  missileReload: 13
+  missileReload: 20
   missilePosition:
   - {fileID: 7153942721901604600}
   - {fileID: 1373022555542504994}

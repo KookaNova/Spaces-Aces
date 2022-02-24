@@ -28,5 +28,5 @@ MonoBehaviour:
   minSpeed: 0
   maxSpeed: 535
   roll: 120
-  pitch: 135
-  yaw: 85
+  pitch: 120
+  yaw: 65

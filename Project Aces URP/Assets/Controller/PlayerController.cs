@@ -379,6 +379,7 @@ namespace Cox.PlayerControls{
         
         yield return new WaitForEndOfFrame();
         ApplyCustomData();
+        StartCoroutine(PlayTimer());
     }
 
     #endregion

@@ -10,7 +10,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
 {
     //The multiplayer launcher should be in the main menu scene, and most functions accessible by pressing buttons.
     //This client's version number. Users are separated from each other by gameVersion (which allows breaking changes).
-    string gameVersion = "0.25";
+    string gameVersion = "0.34";
 
     
     #region UI Fields
@@ -450,8 +450,12 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         menuManager.m_PostGame.Q<Label>("NextLevel").text = (profile.currentLevel + 1).ToString();
 
         //set XP bar
-        float dec1 = profile.currentXp/profile.levelUpPoint;
+        Debug.Log(profile.currentXp);
+        float dec1 = profile.currentXp;
+        dec1 = dec1/profile.levelUpPoint;
+        Debug.Log("dec1: " + dec1);
         dec1 = dec1 * 100;
+        Debug.Log("dec1 * 100: " + dec1);
 
         menuManager.m_PostGame.Q("XPBar").style.width = new StyleLength(Length.Percent(dec1));
 
@@ -488,7 +492,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
             int min = Mathf.CeilToInt(h_seconds/60);
             int sec = h_seconds%60;
             menuManager.m_PostGame.Q<Label>("GameTime").text = min.ToString("0") + ":" + sec.ToString("0#");
-            yield return new WaitForSecondsRealtime(0.05f);
+            yield return new WaitForSecondsRealtime(0.005f);
         }
 
         //display Lifetime Data
@@ -508,10 +512,11 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         for(int i = 0; i < score; i++){
             newXP += 50;
         }
-        profile.AddExp(newXP);
-
-        float dec2 = (dec1 + newXP)/profile.levelUpPoint;
+        float dec2 = profile.currentXp;
+        dec2 += newXP;
+        dec2 = dec2/profile.levelUpPoint;
         dec2 = dec2 * 100;
+        profile.AddExp(newXP);
 
         Debug.Log(dec1 + "/" + dec2);
 
