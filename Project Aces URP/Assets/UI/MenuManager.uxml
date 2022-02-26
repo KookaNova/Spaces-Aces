@@ -22,7 +22,7 @@
                     <Style src="project://database/Assets/UI/Style.uss?fileID=7433441132597879392&amp;guid=5f5cd455162d302479a25627e01f7028&amp;type=3#Style" />
                     <ui:VisualElement name="Screen" class="screen" style="justify-content: space-between; flex-direction: row;">
                         <ui:VisualElement />
-                        <ui:VisualElement style="justify-content: space-between; align-items: stretch; flex-direction: column; display: none;">
+                        <ui:VisualElement style="justify-content: space-between; align-items: stretch; flex-direction: column; display: flex;">
                             <ui:Label text="ConnectingLabel" display-tooltip-when-elided="true" name="ConnectingLabel" class="strongLabel" style="margin-top: 0; -unity-text-align: upper-center;" />
                             <ui:Label text="ConnectMessage..." display-tooltip-when-elided="true" name="ConnectMessage" focusable="true" class="midLabel" style="margin-top: 0; -unity-text-align: upper-center; display: none;" />
                             <ui:VisualElement name="ProgressContrainer" class="progressContainer" style="height: 3%;">

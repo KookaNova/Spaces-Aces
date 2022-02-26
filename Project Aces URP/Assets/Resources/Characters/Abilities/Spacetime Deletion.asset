@@ -15,12 +15,11 @@ MonoBehaviour:
   abilityName: Spacetime Deletion
   abilityDescription: 
   icon: {fileID: 2800000, guid: cbc6d098a599a8a4fa03616d29f673f8, type: 3}
-  cooldownTime: 100
+  cooldownTime: 10
   startUpTime: 1.5
   startUpEffect: {fileID: 0}
   endEffect: {fileID: 0}
-  canUse: 0
+  canUse: 1
   isActive: 0
   isUpdating: 0
-  playerInfo: {fileID: 0}
   deletionOrb: {fileID: 3757427752935679248, guid: 8d7ca7ff51af8d34ba70f2295231a42d, type: 3}

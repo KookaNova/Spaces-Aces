@@ -787,13 +787,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   profileName: 
-  nameHue: 0
-  emblemPrimaryHue: 0
-  emblemBackHue: 0
-  nameArt: 0
-  frameArt: 0
-  emblemPrimary: 0
-  emblemBackground: 0
+  totalGames: 0
+  totalWins: 0
+  totalScore: 0
+  totalKills: 0
+  totalDeaths: 0
+  totalSeconds: 0
   currentXp: 0
   currentLevel: 0
   levelUpPoint: 0
@@ -3400,7 +3399,7 @@ GameObject:
   - component: {fileID: 1708987119}
   - component: {fileID: 1708987118}
   m_Layer: 0
-  m_Name: Audio Source
+  m_Name: Music
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -193,10 +193,12 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private void GameOver(){
         gameOver = true;
+        root.Q("GameOver").style.display = DisplayStyle.Flex;
         StartCoroutine(GoToPostGame());
         Debug.Log("GameOver() Called! Game has ended!");
 
         string winningTeam = null;
+        
         if(teamAScore > teamBScore){
             winningTeam = "A";
         }
@@ -210,9 +212,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
         if((string)PhotonNetwork.LocalPlayer.CustomProperties["Team"] == winningTeam){
             PhotonNetwork.SetPlayerCustomProperties(new Hashtable{{"isWin", true}});
+            root.Q("Victory").style.display = DisplayStyle.Flex;
         }
         else{
             PhotonNetwork.SetPlayerCustomProperties(new Hashtable{{"isWin", false}});
+            root.Q("Defeat").style.display = DisplayStyle.Flex;
         }
 
     }
@@ -365,18 +369,10 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         card.SetData(isFriendly, _player, _char, _ship, _kills, _score, _deaths, handler);
 
-        if((string)PhotonNetwork.LocalPlayer.CustomProperties["Team"] == "A"){
-            root.Q<Label>("FriendScore").text = teamAScore.ToString("0#");
-            root.Q<Label>("EnemyScore").text = teamBScore.ToString("0#");
-        }
-        else{
-            root.Q<Label>("FriendScore").text = teamBScore.ToString("0#");
-            root.Q<Label>("EnemyScore").text = teamAScore.ToString("0#");
-        }
     }
     //used for AI
     public void UpdateScoreBoard(SpacecraftController controller){
-        if(gameOver)return;
+        //if(gameOver)return;
         if(!gameStarted)return;
         //var list = PhotonNetwork.PlayerList;
         string _player = (string)controller.customProperties["Name"];
@@ -411,15 +407,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         var handler = Resources.Load<CharacterHandler>("Characters/" + _char);
         card.SetData(isFriendly, _player, _char, _ship, _kills, _score, _deaths, handler);
 
-        //Friend or Foe score
-        if((string)controller.teamName == "A"){
-            root.Q<Label>("FriendScore").text = teamAScore.ToString("0#");
-            root.Q<Label>("EnemyScore").text = teamBScore.ToString("0#");
-        }
-        else{
-            root.Q<Label>("FriendScore").text = teamBScore.ToString("0#");
-            root.Q<Label>("EnemyScore").text = teamAScore.ToString("0#");
-        }
     }
 
     public void Subtitle(DialogueObject dialogueObject){
@@ -433,13 +420,21 @@ public class GameManager : MonoBehaviourPunCallbacks
     #region Scoring
     public void Score(SpacecraftController dealer){
         if(gameOver)return;
-        if((string)dealer.photonView.Owner.CustomProperties["Team"] == "A"){
+        if((string)dealer.teamName == "A"){
             teamAScore += currentGamemode.scoreValue;
         }
-        if((string)dealer.photonView.Owner.CustomProperties["Team"] == "B"){
+        if((string)dealer.teamName == "B"){
             teamBScore += currentGamemode.scoreValue;
         }
         dealer.AddScore(currentGamemode.scoreValue);
+        if((string)PhotonNetwork.LocalPlayer.CustomProperties["Team"] == "A"){
+            root.Q<Label>("FriendScore").text = teamAScore.ToString("0#");
+            root.Q<Label>("EnemyScore").text = teamBScore.ToString("0#");
+        }
+        else{
+            root.Q<Label>("FriendScore").text = teamBScore.ToString("0#");
+            root.Q<Label>("EnemyScore").text = teamAScore.ToString("0#");
+        }
         if(teamAScore >= currentGamemode.maxScore || teamBScore >= currentGamemode.maxScore){
             GameOver();
         }

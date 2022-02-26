@@ -437,6 +437,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         yield return new WaitForEndOfFrame();
         if(PhotonNetwork.InRoom){
             menuManager.EnablePostGame();
+            menuManager.EnableMatchSearch();
             StartCoroutine(PostGameDataFill());
         }
     }
@@ -450,12 +451,9 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         menuManager.m_PostGame.Q<Label>("NextLevel").text = (profile.currentLevel + 1).ToString();
 
         //set XP bar
-        Debug.Log(profile.currentXp);
         float dec1 = profile.currentXp;
         dec1 = dec1/profile.levelUpPoint;
-        Debug.Log("dec1: " + dec1);
         dec1 = dec1 * 100;
-        Debug.Log("dec1 * 100: " + dec1);
 
         menuManager.m_PostGame.Q("XPBar").style.width = new StyleLength(Length.Percent(dec1));
 
@@ -466,6 +464,8 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         int seconds = (int)PhotonNetwork.LocalPlayer.CustomProperties["ElapsedTime"];
         bool isWin = (bool)PhotonNetwork.LocalPlayer.CustomProperties["isWin"];
         profile.AddPerformanceData(score, kills, deaths, seconds, isWin);
+
+        Debug.Log(isWin);
         
         int h_score = 0;
         int h_kills = 0;
@@ -505,20 +505,18 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         menuManager.m_PostGame.Q<Label>("TotalTime").text = minutes.ToString("0") + ":" + newSec.ToString("0#");
 
         //experience bar
-        int newXP = seconds;
+        int newXP = seconds*3;
         if(isWin){
             newXP += 200;
         }
         for(int i = 0; i < score; i++){
-            newXP += 50;
+            newXP += 150;
         }
         float dec2 = profile.currentXp;
         dec2 += newXP;
         dec2 = dec2/profile.levelUpPoint;
         dec2 = dec2 * 100;
         profile.AddExp(newXP);
-
-        Debug.Log(dec1 + "/" + dec2);
 
         yield return new WaitForEndOfFrame();
 

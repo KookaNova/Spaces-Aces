@@ -19,5 +19,5 @@ MonoBehaviour:
   playerCount: 1
   AIPlayers: 5
   scoreValue: 1
-  maxScore: 5
+  maxScore: 15
   timeLimit: 600

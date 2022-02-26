@@ -50,7 +50,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 70
+  Priority: 187
   DopplerLevel: 0.35
   MinDistance: 759.61
   MaxDistance: 2500
@@ -373,15 +373,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destroyTime: 10
   missileSpeed: 1000
-  turningLimit: 15
-  missProbability: 1.5
+  turningLimit: 25
+  missProbability: 3
   currentSpeed: 0
   damageOutput: 650
   explosion: {fileID: 9128587892432602950, guid: e59c9a8b5999cdb4ab01f2f08b1d25b3, type: 3}
   owner: {fileID: 0}
   target: {fileID: 0}
   rb: {fileID: 0}
-  trail: {fileID: 0}
+  trail: {fileID: 3509307671147206}
   isEmitting: 1
   missileHit: 0
   missileMissed: 0
@@ -497,13 +497,13 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: a6363a45b86d7a04d9eb3f0df13e989f, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.17
+  m_Volume: 0.24
   m_Pitch: 1
   Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 154
+  Priority: 105
   DopplerLevel: 0.25
   MinDistance: 513.04
   MaxDistance: 1500

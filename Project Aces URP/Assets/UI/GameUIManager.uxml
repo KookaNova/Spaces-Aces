@@ -34,9 +34,14 @@
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="Center" style="width: 100%; height: 100%; justify-content: space-between; flex-direction: row; flex-grow: 1;">
-                <ui:VisualElement name="Left" style="justify-content: flex-end;">
+                <ui:VisualElement style="justify-content: flex-end;">
                     <ui:VisualElement name="ChatBox" style="flex-direction: column-reverse;" />
                 </ui:VisualElement>
+                <ui:VisualElement name="GameOver" style="justify-content: center; flex-direction: column; opacity: 1; background-color: rgba(12, 12, 29, 0.23); align-items: center; flex-grow: 1; display: none;">
+                    <ui:VisualElement name="Victory" style="background-image: url(&apos;project://database/Assets/Sprites/Game.Victory.png?fileID=2800000&amp;guid=08224690a63a0eb4ca3c606c86f6e56a&amp;type=3#Game.Victory&apos;); width: 1000px; height: 455px; display: none;" />
+                    <ui:VisualElement name="Defeat" style="background-image: url(&apos;project://database/Assets/Sprites/Game.Defeat.png?fileID=2800000&amp;guid=a30a96e89aca7df41ac4abb0e25cfef3&amp;type=3#Game.Defeat&apos;); width: 1000px; height: 455px; display: none;" />
+                </ui:VisualElement>
+                <ui:VisualElement style="justify-content: flex-end;" />
             </ui:VisualElement>
             <ui:VisualElement name="Bottom" style="flex-direction: row; justify-content: space-between; margin-bottom: 2%; margin-right: 2%; margin-left: 2%; height: 30%; flex-grow: 1;">
                 <ui:VisualElement name="Left" style="justify-content: flex-end; width: 33%; height: 100%; flex-direction: column; align-items: flex-start;">
