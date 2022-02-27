@@ -7,24 +7,18 @@ using System;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class MultiplayerLauncher : MonoBehaviourPunCallbacks
-{
-    //The multiplayer launcher should be in the main menu scene, and most functions accessible by pressing buttons.
+{   //The multiplayer launcher should be in the main menu scene, and most functions accessible by pressing buttons.
     //This client's version number. Users are separated from each other by gameVersion (which allows breaking changes).
-    string gameVersion = "0.34";
-
-    
+    string gameVersion = "0.36";
     #region UI Fields
     VisualElement root;
     MenuManager menuManager;
     Label versionLabel, serverLabel, connectingLabel, connectMessageLabel, gameStatusLabel;
     //Private Games UI
     string hostText, levelText, gamemodeText, maxPlayerText, isPublicText, privateStatusText;
-
     //The time it takes to start a game after StartGame is initiated.
     int countDownTime = 4;
-
     int teamA, teamB;
-
     #endregion
 
     #region Nameplates
@@ -35,7 +29,6 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
     //[SerializeField] Transform nameplateStartingPosition;
     //private List<GameObject> nameplates = new List<GameObject>();
     //private List<Player> connectedPlayers;
-
     #endregion
 
     public GamesHandler quickplay;
@@ -45,26 +38,22 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
 
     #region Private Games
     private PrivateGameSettings privateGameSettings = new PrivateGameSettings();
-    
-    
     #endregion
+
     private void Awake() {
         //This makes sure we can use PhotonNetwork.LoadLevel() on the master client and all clients in the same room sync their level automatically.
         PhotonNetwork.AutomaticallySyncScene = true;
-
         //Send info to UI easily
         root = GetComponent<UIDocument>().rootVisualElement;
         profile = FindObjectOfType<ProfileHandler>();
-
         versionLabel = root.Q<Label>("VersionNumber");
         serverLabel = root.Q<Label>("ServerName");
         menuManager = root.Q<MenuManager>();
-
         connectingLabel = root.Q<Label>("ConnectingLabel");
         connectMessageLabel = root.Q<Label>("ConnectMessage");
         gameStatusLabel = root.Q<Label>("GameStatus");
-
         versionLabel.text = gameVersion;
+
         if(PhotonNetwork.IsConnected){
             serverLabel.text = PhotonNetwork.CloudRegion.ToString();
         }
@@ -74,12 +63,9 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         if(PhotonNetwork.InRoom){
             StartCoroutine(PostGameCheck());
         }
-        
-
     }
 
     #region Connecting to Server
-
     public void ConnectToServer(){
         //#Critical: we must first and foremost connect to Photon Online Server. We check if we are connected, else we connect.
         if(PhotonNetwork.IsConnected && !PhotonNetwork.OfflineMode){
@@ -93,7 +79,6 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
             PhotonNetwork.ConnectUsingSettings();
             menuManager.EnableConnectingScreen();
             connectingLabel.text = "Connecting...";
-            
             /*var m = root.Q("MessageContainer");
             m.style.display = DisplayStyle.None;*/
         }
@@ -102,34 +87,25 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster(){
         serverLabel.text = PhotonNetwork.CloudRegion.ToString();
         var m_connectScreen = root.Q("ConnectingScreen");
-
         if(m_connectScreen.style.display == DisplayStyle.Flex){
             m_connectScreen.Q("Progress").style.width = new StyleLength(Length.Percent(100));
             m_connectScreen.Q("Progress").RegisterCallback<TransitionEndEvent>(ev => menuManager.EnableMultiplayerScreen());
-            
         }
-
     }
 
-    public override void OnRegionListReceived(RegionHandler regionHandler)
-    {
+    public override void OnRegionListReceived(RegionHandler regionHandler){
         var m_connectScreen = root.Q("ConnectingScreen");
         m_connectScreen.Q("Progress").style.width = new StyleLength(Length.Percent(25));
     }
 
-    public override void OnConnected()
-    {
+    public override void OnConnected(){
         var m_connectScreen = root.Q("ConnectingScreen");
         m_connectScreen.Q("Progress").style.width = new StyleLength(Length.Percent(75));
     }
 
-    
-
     public override void OnDisconnected(DisconnectCause cause){
         Debug.LogWarningFormat("Launcher: OnDisconnected() was called by PUN with reason {0}", cause);
-
         //UI
-        
         var m_connectScreen = root.Q("ConnectingScreen");
         m_connectScreen.style.display = DisplayStyle.Flex;
         connectMessageLabel.text = cause.ToString();
@@ -184,6 +160,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         teamB = 0;
         //When player count reaches max, start the game.
         if(PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers){
+            StopAllCoroutines();
             StartCoroutine(StartingCountdown());
         }
         PhotonNetwork.SetPlayerCustomProperties(new Hashtable() {{"Team", "A"}});
@@ -207,8 +184,10 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         gamemodeText = (string)PhotonNetwork.CurrentRoom.CustomProperties["Gamemode"];
         isPublicText = PhotonNetwork.CurrentRoom.IsVisible.ToString();
         Debug.Log("Players: " + PhotonNetwork.CurrentRoom.PlayerCount);
-
-        
+        if(PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers){
+            StopAllCoroutines();
+            StartCoroutine(StartingCountdown());
+        }
     }
 
     public void LeaveRoom(){
@@ -216,23 +195,20 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         if(PhotonNetwork.InRoom){
             PhotonNetwork.LeaveRoom(true);
         }
-        
-        
         Debug.Log("Launcher: OnLeaveRoom() called by PUN. Client exits the room.");
-        
         //nameplates.Clear();
         //UI
         menuManager.DisableMatchSearch();
-        
     }
-    public override void OnLeftRoom()
-    {
+
+    public override void OnLeftRoom(){
         PhotonNetwork.SetPlayerCustomProperties(new Hashtable(){{"Team", null}});
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer){
         //When player count reaches max, start the game.
         if(PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers){
+            StopAllCoroutines();
             StartCoroutine(StartingCountdown());
         }
         Debug.LogFormat("Launcher: OnPlayerEnteredRoom(), Player {0} entered room.", newPlayer);
@@ -245,8 +221,6 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         }
 
         Debug.Log("Players: " + PhotonNetwork.CurrentRoom.PlayerCount);
-        
-
         UpdatePlayerList();
     }
 
@@ -264,7 +238,6 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
     private void CountTeams(){
         teamA = 0;
         teamB = 0;
-
         for(int i = 0; i < PhotonNetwork.PlayerList.Length; i++){
             if((string)PhotonNetwork.PlayerList[i].CustomProperties["Team"] == "A"){
                 teamA++;
@@ -312,32 +285,26 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         roomOptions.MaxPlayers = privateGameSettings.maxPlayers;
         roomOptions.IsVisible = privateGameSettings.isVisible;
 
-        
-
         roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable{{"MMT", "Custom Game"}, {"Level", privateGameSettings.nameOfLevel}, {"Gamemode", "Attack" /*privateGameSettings.gamemodeData*/}};
         PhotonNetwork.CreateRoom(privateGameSettings.roomName, roomOptions);
 
         privateStatusText = "Waiting for host to start.";
-
         Debug.LogFormat("Launcher: CreateRoomWithPrivateSettings(), created room with name {0}, maxPlayers {1}, visibility {2}, on level {3}.", 
             privateGameSettings.roomName, roomOptions.MaxPlayers, roomOptions.IsVisible, privateGameSettings.nameOfLevel);
-
     }
 
     public void StartPrivateGame(){
+        StopAllCoroutines();
         StartCoroutine(StartingCountdownPrivate());
     }
-
     #endregion
 
     #region PlayerList
-
     private void CreatePlayerList(){
         /*var nameplate = Instantiate(profilePrefab, nameplateStartingPosition.position, Quaternion.identity , playerListUI.transform);
         nameplates.Add(nameplate);
         var newProfileData = nameplate.GetComponent<FillPlayerData>();
         newProfileData.DisplayData();*/
-
     }
 
     private void UpdatePlayerList(){
@@ -368,9 +335,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         Debug.Log("Starting Countdown...");
         gameStatusLabel.text = "Players found.";
         
-
         int timer = countDownTime;
-
         while (timer > 0){
             yield return new WaitForSecondsRealtime(1);
             timer--;
@@ -379,7 +344,6 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         if(timer <= 0){
             gameStatusLabel.text = "Prepare for takeoff.";
         }
-
         Debug.LogFormat("Loading {0} players into level: {1}...", PhotonNetwork.CurrentRoom.PlayerCount, gamesHandler.gamemodeSettings.levelName);
         // #Critical: Load the Room Level.
         if(PhotonNetwork.IsMasterClient){
@@ -392,9 +356,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         Debug.Log("Starting Countdown...");
         privateStatusText = "Start game initiated.";
         
-
         int timer = countDownTime;
-
         while (timer > 0){
             yield return new WaitForSecondsRealtime(1);
             timer--;
@@ -403,7 +365,6 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         if(timer <= 0){
             privateStatusText = "Prepare for takeoff.";
         }
-
         Debug.LogFormat("Loading {0} players into level: {1}...", PhotonNetwork.CurrentRoom.PlayerCount, privateGameSettings.nameOfLevel);
         // #Critical: Load the Room Level.
         if(PhotonNetwork.IsMasterClient) PhotonNetwork.LoadLevel(privateGameSettings.nameOfLevel);
@@ -439,6 +400,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
             menuManager.EnablePostGame();
             menuManager.EnableMatchSearch();
             StartCoroutine(PostGameDataFill());
+            StartCoroutine(PostGameSearch()); //finds new match after witnessing the post game screen
         }
     }
 
@@ -522,9 +484,25 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
 
         menuManager.m_PostGame.Q("XPBar").style.width = new StyleLength(Length.Percent(dec2));
     }
-    /*private IEnumerator FillXP(){
+    private IEnumerator PostGameSearch(){
+
+        int seconds = 10;
+        while(seconds > 0){
+            gameStatusLabel.text = "Continue game search in " + seconds;
+            yield return new WaitForSecondsRealtime(1);
+            seconds--;
+        }
+        if(PhotonNetwork.CountOfPlayers >= PhotonNetwork.CurrentRoom.MaxPlayers/2){
+            if(PhotonNetwork.IsMasterClient){
+                PhotonNetwork.CurrentRoom.IsVisible = true;
+                PhotonNetwork.CurrentRoom.IsOpen = true;
+            }
+        }
+        else{
+            FindMatchFromPlaylist(gamesHandler);
+        }
         
-    }*/
+    }
 
 
 

@@ -25,9 +25,7 @@ public class MenuManager : VisualElement
     VisualElement m_Nameplate;
     VisualElement m_Settings;
     public VisualElement m_PostGame;
-
     Label l_MenuName;
-         
     #endregion
 
     public new class UxmlFactory : UxmlFactory<MenuManager, UxmlTraits> { }
@@ -38,9 +36,6 @@ public class MenuManager : VisualElement
         sceneController = SceneController.FindObjectOfType<SceneController>();
         multiplayerLauncher = MultiplayerLauncher.FindObjectOfType<MultiplayerLauncher>();
         menuHelper = MenuHelper.FindObjectOfType<MenuHelper>();
-        
-        
-        
     }
 
     private void OnGeometryChange(GeometryChangedEvent evt)
@@ -137,7 +132,6 @@ public class MenuManager : VisualElement
 
         l_MenuName.style.display = DisplayStyle.None;
     }
-
     private void EnableProfileCreate(){
 
     }
