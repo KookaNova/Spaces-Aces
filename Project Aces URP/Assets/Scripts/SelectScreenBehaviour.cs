@@ -70,15 +70,15 @@ public class SelectScreenBehaviour : MonoBehaviour
         root?.Q("Falcon")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("ShipConfirm").Focus());
 
         root?.Q("CharConfirm")?.RegisterCallback<NavigationSubmitEvent>(ev => EnableShipSelect());
+        root?.Q("CharConfirm")?.RegisterCallback<ClickEvent>(ev => EnableShipSelect());
         root?.Q("ShipConfirm")?.RegisterCallback<NavigationSubmitEvent>(ev => EnableOverview());
-        root?.Q("ShipConfirm")?.RegisterCallback<NavigationCancelEvent>(ev => EnableCharacterSelect());
+        root?.Q("ShipConfirm")?.RegisterCallback<ClickEvent>(ev => EnableOverview());
         root?.Q("Confirm")?.RegisterCallback<NavigationSubmitEvent>(ev => UnloadSelectScreen());
-
-        root.Q("Ships").RegisterCallback<NavigationCancelEvent>(ev => EnableCharacterSelect());
+        root?.Q("Confirm")?.RegisterCallback<ClickEvent>(ev => UnloadSelectScreen());
+        root.UnregisterCallback<GeometryChangedEvent>(OnGeometryChanged);
     }
 
     private void EnableCharacterSelect(){
-        soundManager.important.Play();
         shipBG.SetActive(false);
         bodyArt.style.visibility = Visibility.Visible;
 
@@ -87,11 +87,10 @@ public class SelectScreenBehaviour : MonoBehaviour
 
         root.Q("CharConfirm").style.display = DisplayStyle.Flex;
         root.Q("ShipConfirm").style.display = DisplayStyle.None;
-        root?.Q("0").Focus();
+        root?.Q("0")?.Focus();
 
     }
     private void EnableShipSelect(){
-        soundManager.important.Play();
         shipBG.SetActive(true);
         bodyArt.style.visibility = Visibility.Hidden;
 
@@ -100,7 +99,6 @@ public class SelectScreenBehaviour : MonoBehaviour
 
         root.Q("CharConfirm").style.display = DisplayStyle.None;
         root.Q("ShipConfirm").style.display = DisplayStyle.Flex;
-
         root?.Q("Tri-Speeder")?.Focus();
 
         DisplayShipData(allShips[0]);
@@ -133,9 +131,7 @@ public class SelectScreenBehaviour : MonoBehaviour
         shipModel = ship.displayShip;
 
         bodyArt.style.visibility = Visibility.Hidden;
-
         instancedShip = Instantiate(shipModel, shipLocation.position, shipLocation.rotation, shipLocation);
-
     }
 
     public void UnloadSelectScreen(){

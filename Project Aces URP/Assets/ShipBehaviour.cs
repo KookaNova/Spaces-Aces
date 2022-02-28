@@ -6,7 +6,7 @@ using Cox.PlayerControls;
 public class ShipBehaviour : MonoBehaviour
 {
     SpacecraftController sc;
-    public AudioSource collisionSound, gearsResolving, missileWarning, missileClose;
+    public AudioSource collisionSound, gearsResolving, missileWarning, lockOn;
     public bool isTurning;
 
     public void SetController(SpacecraftController newController){

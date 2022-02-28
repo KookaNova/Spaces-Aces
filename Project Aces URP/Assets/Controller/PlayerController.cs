@@ -354,8 +354,7 @@ namespace Cox.PlayerControls{
         HudController.OverlaySetActive(true);
         cameraController.FollowTarget(false, null);
         cameraController.gameObject.SetActive(true);
-        weaponSystem.canFire = true;
-        weaponSystem.canLaunchMissile = true;
+        weaponSystem.Reset();
 
         HudController.HealthAlertActive(false);
         HudController.CautionAlertActive(false);

@@ -104,13 +104,12 @@ public class MenuManager : VisualElement
         m_MatchSearch?.Q("CancelSearch")?.RegisterCallback<NavigationSubmitEvent>(ev => multiplayerLauncher.LeaveRoom());
 
         if(isSearching){
-            this.RegisterCallback<NavigationCancelEvent>(ev => DisableMatchSearch());
+            RegisterCallback<NavigationCancelEvent>(ev => DisableMatchSearch());
         }
         
         
         //Transition End Events-------------------------------------------
         m_Title?.RegisterCallback<TransitionEndEvent>(ev => EnableHome());
-
 
         UnregisterCallback<GeometryChangedEvent>(OnGeometryChange);
     }

@@ -9,7 +9,7 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class MultiplayerLauncher : MonoBehaviourPunCallbacks
 {   //The multiplayer launcher should be in the main menu scene, and most functions accessible by pressing buttons.
     //This client's version number. Users are separated from each other by gameVersion (which allows breaking changes).
-    string gameVersion = "0.36";
+    string gameVersion = "0.42";
     #region UI Fields
     VisualElement root;
     MenuManager menuManager;

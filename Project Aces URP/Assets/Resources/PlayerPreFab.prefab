@@ -54,6 +54,7 @@ MonoBehaviour:
   primaryAbility: {fileID: 0}
   secondaryAbility: {fileID: 0}
   aceAbility: {fileID: 0}
+  shipBehaviour: {fileID: 0}
   targetableObject: {fileID: 0}
   ship: {fileID: 0}
   weaponSystem: {fileID: 0}

@@ -230,7 +230,7 @@ namespace Cox.PlayerControls{
         currentSpeed = Mathf.Clamp(currentSpeed, minSpeed, maxSpeed);
         _rb.AddRelativeForce(0,0,currentSpeed, ForceMode.Acceleration);
 
-        _rb.MoveRotation(Quaternion.LookRotation(rot));
+        _rb.MoveRotation(Quaternion.LookRotation(rot, Vector3.zero));
     }
 
     private IEnumerator DecisionTime(){

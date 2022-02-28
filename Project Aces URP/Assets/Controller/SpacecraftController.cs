@@ -26,7 +26,7 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
     [HideInInspector] public AbilityHandler primaryAbility, secondaryAbility, aceAbility; //Obtained from character selection
     protected GameObject explosionObject; 
     protected Rigidbody _rb;
-    protected ShipBehaviour shipBehaviour;
+    public ShipBehaviour shipBehaviour;
     public TargetableObject targetableObject;
     protected AudioSource playerAudio;
     protected AudioMixerGroup localVoice, externalVoice;

@@ -29,6 +29,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     [SerializeField] private ObjectIndicator objectIndicator;
     [SerializeField] private List<ObjectIndicator> activeIndicators;
     [SerializeField] private Camera fovCam;
+    private Text lockedText;
     #endregion
 
     #region Public Weapon Fields
@@ -77,6 +78,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         var l = Instantiate(lockIndicator, parent: overlayHud.transform);
         lockIndicator = l;
         lockIndicator.gameObject.SetActive(false);
+        lockedText = lockIndicator.GetComponentInChildren<Text>();
 
         //Spawns the player targeting the enemy
         if(owner.targetableObject.targetTeam == TargetableObject.TargetType.TeamA){
@@ -85,6 +87,13 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         else{
             targMode = TargetingMode.TeamA;
         }
+    }
+
+    public void Reset(){
+        gunCharge = 0;
+        missileLocked = false;
+        canLaunchMissile = true;
+        missilesAvailable = missilePosition.Length;
     }
     
     #endregion
@@ -167,6 +176,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             var a = Instantiate(objectIndicator, overlayHud.transform);
             activeIndicators.Add(a);
             a.name = "Target_Indicator." + i;
+            if(currentTargetSelection[i].targetTeam == owner.targetableObject.targetTeam) a.gameObject.GetComponent<Image>().color = Color.blue;
             a.gameObject.SetActive(false);
             a.GetComponent<Animator>().StopPlayback();
         }
@@ -264,9 +274,11 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     private void LockPosition(){
         if(currentTarget >= currentTargetSelection.Count){
             currentTarget = 0;
+            owner.shipBehaviour.lockOn.Stop();
             return;
         }
         if(currentTarget == -1){
+            owner.shipBehaviour.lockOn.Stop();
             return;
         }
         if(currentTargetSelection.Count <= 0){
@@ -286,6 +298,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             lockOnModifier = lockOnDefault;
             lockIndicator.transform.position = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, (overlayHud.transform.position - Camera.main.transform.position).magnitude));
             lockIndicator.gameObject.SetActive(false);
+            owner.shipBehaviour.lockOn.Stop();
             missileLocked = false;
             //Debug.Log("Target not in FOV");
             return;
@@ -299,6 +312,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         Debug.DrawRay(origin, dir, Color.red);
         if(!Physics.SphereCast(origin, 10, dir, out hit, 3500, ~layermask)){
             lockIndicator.gameObject.SetActive(false);
+            lockedText.text = "";
             return;
         }
         else if(hit.rigidbody == null){
@@ -308,13 +322,16 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             
             lockIndicator.gameObject.SetActive(true);
             lockOnModifier += lockOnDefault * Time.fixedDeltaTime;
+            
 
             
 
             var screen = Camera.main.WorldToScreenPoint(currentTargetSelection[currentTarget].transform.position);
             screen.z = (overlayHud.transform.position - Camera.main.transform.position).magnitude;
             var targetScreenPosition = Camera.main.ScreenToWorldPoint(screen);
-
+            if(!owner.shipBehaviour.lockOn.isPlaying){
+                owner.shipBehaviour.lockOn.Play();
+            }
             Vector3 slowMove = Vector3.MoveTowards(lockIndicator.transform.position, targetScreenPosition, (lockOnEfficiency * lockOnModifier) * .25f * Time.fixedDeltaTime);
             lockIndicator.transform.position = slowMove;
 
@@ -324,9 +341,13 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             if(lockIndicator.transform.position == targetScreenPosition){
                 missileLocked = true;
                 lockOnModifier = 5000;
+                lockedText.text = "LOCKED";
+                owner.shipBehaviour.lockOn.SetScheduledEndTime(AudioSettings.dspTime + 0.02f);
             }
             else{
                 missileLocked = false;
+                owner.shipBehaviour.lockOn.SetScheduledEndTime(AudioSettings.dspTime + 1);
+                lockedText.text = "";
             }
         }
         else{
@@ -336,7 +357,8 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     }
 
     public void CycleMainTarget(){
-
+        owner.shipBehaviour.lockOn.Stop();
+        lockedText.text = "";
         lockOnModifier = lockOnDefault;
         lockIndicator.transform.position = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, (overlayHud.transform.position - Camera.main.transform.position).magnitude));
         lockIndicator.gameObject.SetActive(false);
