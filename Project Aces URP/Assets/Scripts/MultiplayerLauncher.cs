@@ -501,13 +501,8 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         else{
             FindMatchFromPlaylist(gamesHandler);
         }
-        
     }
-
-
-
     #endregion
-
 }
 /// <summary> Settings used to create private games. </summary>
 public class PrivateGameSettings{

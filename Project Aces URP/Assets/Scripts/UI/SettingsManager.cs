@@ -34,6 +34,8 @@ public class SettingsManager : VisualElement
         environment,
         dialogue;
 
+    bool isAdjusting = false;
+
     public SettingsManager(){
         this.RegisterCallback<GeometryChangedEvent>(OnGeometryChange);
     }
@@ -60,6 +62,17 @@ public class SettingsManager : VisualElement
         dialogue = this.Q<Slider>("Dialogue");
 
         //master.RegisterCallback<NavigationSubmitEvent>(ev => master.);
+        master.RegisterCallback<NavigationSubmitEvent>(ev => master.value += 2);
+        master.RegisterCallback<NavigationCancelEvent>(ev => master.value -= 2);
+        music.RegisterCallback<NavigationSubmitEvent>(ev => music.value += 2);
+        music.RegisterCallback<NavigationCancelEvent>(ev => music.value -= 2);
+        sound.RegisterCallback<NavigationSubmitEvent>(ev => sound.value += 2);
+        sound.RegisterCallback<NavigationCancelEvent>(ev => sound.value -= 2);
+        environment.RegisterCallback<NavigationSubmitEvent>(ev => environment.value += 2);
+        environment.RegisterCallback<NavigationCancelEvent>(ev => environment.value -= 2);
+        dialogue.RegisterCallback<NavigationSubmitEvent>(ev => dialogue.value += 2);
+        dialogue.RegisterCallback<NavigationCancelEvent>(ev => dialogue.value -= 2);
+        
 
         //inputs
         master.RegisterCallback<ChangeEvent<float>>(ev => UpdateAudio());

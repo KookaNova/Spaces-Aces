@@ -18,6 +18,7 @@ public class MenuHelper : MonoBehaviour
     {
         root = this.GetComponent<UIDocument>().rootVisualElement;
         menuManager = root.Q<MenuManager>();
+        menuManager.Q("Title").Focus();
         UnityEngine.Cursor.lockState = CursorLockMode.None;
 
         if(!fresh){

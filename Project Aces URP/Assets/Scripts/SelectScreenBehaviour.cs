@@ -24,12 +24,14 @@ public class SelectScreenBehaviour : MonoBehaviour
     
     private GameObject shipModel;
     private GameObject instancedShip = null;
+    private UISoundManager soundManager;
 
     private void Awake(){
         root = GetComponent<UIDocument>().rootVisualElement;
         nameArt = root.Q("Name");
         bodyArt = root.Q("BodyArt");
         Bio = root.Q<Label>("Bio");
+        soundManager = FindObjectOfType<UISoundManager>();
 
         EnableCharacterSelect();
 
@@ -44,24 +46,39 @@ public class SelectScreenBehaviour : MonoBehaviour
     private void OnGeometryChanged(GeometryChangedEvent evt)
     {
         //Characters in order
-        root?.Q("0")?.RegisterCallback<ClickEvent>(ev => DisplayCharacterData(allCharacters[0]));
-        root?.Q("1")?.RegisterCallback<ClickEvent>(ev => DisplayCharacterData(allCharacters[1]));
-        root?.Q("2")?.RegisterCallback<ClickEvent>(ev => DisplayCharacterData(allCharacters[2]));
-        root?.Q("3")?.RegisterCallback<ClickEvent>(ev => DisplayCharacterData(allCharacters[3]));
-        root?.Q("4")?.RegisterCallback<ClickEvent>(ev => DisplayCharacterData(allCharacters[4]));
+        root?.Q("0")?.RegisterCallback<FocusInEvent>(ev => DisplayCharacterData(allCharacters[0]));
+        root?.Q("1")?.RegisterCallback<FocusInEvent>(ev => DisplayCharacterData(allCharacters[1]));
+        root?.Q("2")?.RegisterCallback<FocusInEvent>(ev => DisplayCharacterData(allCharacters[2]));
+        root?.Q("3")?.RegisterCallback<FocusInEvent>(ev => DisplayCharacterData(allCharacters[3]));
+        root?.Q("4")?.RegisterCallback<FocusInEvent>(ev => DisplayCharacterData(allCharacters[4]));
+
+        root?.Q("0")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("CharConfirm").Focus());
+        root?.Q("1")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("CharConfirm").Focus());
+        root?.Q("2")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("CharConfirm").Focus());
+        root?.Q("3")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("CharConfirm").Focus());
+        root?.Q("4")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("CharConfirm").Focus());
 
         //Ships in order
-        root?.Q("Tri-Speeder")?.RegisterCallback<ClickEvent>(ev => DisplayShipData(allShips[0]));
-        root?.Q("Angelfish")?.RegisterCallback<ClickEvent>(ev => DisplayShipData(allShips[1]));
-        root?.Q("Furnace")?.RegisterCallback<ClickEvent>(ev => DisplayShipData(allShips[2]));
-        root?.Q("Falcon")?.RegisterCallback<ClickEvent>(ev => DisplayShipData(allShips[3]));
+        root?.Q("Tri-Speeder")?.RegisterCallback<FocusInEvent>(ev => DisplayShipData(allShips[0]));
+        root?.Q("Angelfish")?.RegisterCallback<FocusInEvent>(ev => DisplayShipData(allShips[1]));
+        root?.Q("Furnace")?.RegisterCallback<FocusInEvent>(ev => DisplayShipData(allShips[2]));
+        root?.Q("Falcon")?.RegisterCallback<FocusInEvent>(ev => DisplayShipData(allShips[3]));
 
-        root?.Q("CharConfirm")?.RegisterCallback<ClickEvent>(ev => EnableShipSelect());
-        root?.Q("ShipConfirm")?.RegisterCallback<ClickEvent>(ev => EnableOverview());
-        root?.Q("Confirm")?.RegisterCallback<ClickEvent>(ev => UnloadSelectScreen());
+        root?.Q("Tri-Speeder")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("ShipConfirm").Focus());
+        root?.Q("Angelfish")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("ShipConfirm").Focus());
+        root?.Q("Furnace")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("ShipConfirm").Focus());
+        root?.Q("Falcon")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("ShipConfirm").Focus());
+
+        root?.Q("CharConfirm")?.RegisterCallback<NavigationSubmitEvent>(ev => EnableShipSelect());
+        root?.Q("ShipConfirm")?.RegisterCallback<NavigationSubmitEvent>(ev => EnableOverview());
+        root?.Q("ShipConfirm")?.RegisterCallback<NavigationCancelEvent>(ev => EnableCharacterSelect());
+        root?.Q("Confirm")?.RegisterCallback<NavigationSubmitEvent>(ev => UnloadSelectScreen());
+
+        root.Q("Ships").RegisterCallback<NavigationCancelEvent>(ev => EnableCharacterSelect());
     }
 
     private void EnableCharacterSelect(){
+        soundManager.important.Play();
         shipBG.SetActive(false);
         bodyArt.style.visibility = Visibility.Visible;
 
@@ -70,9 +87,11 @@ public class SelectScreenBehaviour : MonoBehaviour
 
         root.Q("CharConfirm").style.display = DisplayStyle.Flex;
         root.Q("ShipConfirm").style.display = DisplayStyle.None;
+        root?.Q("0").Focus();
 
     }
     private void EnableShipSelect(){
+        soundManager.important.Play();
         shipBG.SetActive(true);
         bodyArt.style.visibility = Visibility.Hidden;
 
@@ -82,6 +101,8 @@ public class SelectScreenBehaviour : MonoBehaviour
         root.Q("CharConfirm").style.display = DisplayStyle.None;
         root.Q("ShipConfirm").style.display = DisplayStyle.Flex;
 
+        root?.Q("Tri-Speeder")?.Focus();
+
         DisplayShipData(allShips[0]);
     }
     private void EnableOverview(){
@@ -90,6 +111,7 @@ public class SelectScreenBehaviour : MonoBehaviour
     }
 
     private void DisplayCharacterData(CharacterHandler newCharacter){
+        soundManager.focus.Play();
         playerObject.ChangeCharacter(newCharacter);
         character = playerObject.chosenCharacter;
 
@@ -99,6 +121,7 @@ public class SelectScreenBehaviour : MonoBehaviour
     }
 
     private void DisplayShipData(ShipHandler newShip){
+        soundManager.focus.Play();
         if(instancedShip != null){
             Destroy(instancedShip);
         }

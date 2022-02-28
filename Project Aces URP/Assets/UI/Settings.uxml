@@ -16,11 +16,11 @@
             </ui:VisualElement>
             <ui:VisualElement name="Audio" style="flex-wrap: nowrap; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; flex-grow: 0; flex-shrink: 1; overflow: hidden; min-width: 50%; max-height: 100%; min-height: 50%; max-width: 100%;">
                 <ui:Label text="Audio" display-tooltip-when-elided="true" class="midLabel" style="-unity-text-align: upper-center;" />
-                <ui:Slider label="Master" high-value="20" name="Master" low-value="-80" direction="Horizontal" focusable="true" usage-hints="None" class="baseLabel settingsControl" />
-                <ui:Slider picking-mode="Ignore" label="Music" value="0" high-value="20" name="Music" low-value="-80" focusable="true" class="baseLabel settingsControl" />
-                <ui:Slider picking-mode="Ignore" label="Sound" value="0" high-value="20" name="Sound" low-value="-80" focusable="true" class="baseLabel settingsControl" style="height: 64px;" />
-                <ui:Slider picking-mode="Ignore" label="Environment" value="0" high-value="20" name="Environment" low-value="-80" focusable="true" class="baseLabel settingsControl" />
-                <ui:Slider picking-mode="Ignore" label="Dialogue" value="0" high-value="20" name="Dialogue" low-value="-80" focusable="true" class="baseLabel settingsControl" />
+                <ui:Slider label="Master" high-value="0" name="Master" low-value="-80" direction="Horizontal" focusable="true" usage-hints="None" class="baseLabel settingsControl" style="margin-right: 5%;" />
+                <ui:Slider picking-mode="Ignore" label="Music" value="0" high-value="0" name="Music" low-value="-80" focusable="true" class="baseLabel settingsControl" style="margin-right: 5%;" />
+                <ui:Slider picking-mode="Ignore" label="Sound" value="0" high-value="0" name="Sound" low-value="-80" focusable="true" class="baseLabel settingsControl" style="height: 64px; margin-right: 5%;" />
+                <ui:Slider picking-mode="Ignore" label="Environment" value="0" high-value="0" name="Environment" low-value="-80" focusable="true" class="baseLabel settingsControl" style="margin-right: 5%;" />
+                <ui:Slider picking-mode="Ignore" label="Dialogue" value="0" high-value="0" name="Dialogue" low-value="-80" focusable="true" class="baseLabel settingsControl" style="margin-right: 5%;" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:Button text="APPLY CHANGES" display-tooltip-when-elided="true" name="Apply" tooltip="Apply All Changes" class="actionButton" style="border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; flex-shrink: 1; overflow: visible; align-items: stretch; height: 10%;" />

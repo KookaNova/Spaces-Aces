@@ -8,6 +8,7 @@ public class MenuManager : VisualElement
     SceneController sceneController;
     MultiplayerLauncher multiplayerLauncher;
     MenuHelper menuHelper;
+    UISoundManager soundManager;
 
 
     #region Screens
@@ -28,6 +29,8 @@ public class MenuManager : VisualElement
     Label l_MenuName;
     #endregion
 
+    bool isSearching;
+
     public new class UxmlFactory : UxmlFactory<MenuManager, UxmlTraits> { }
     public new class UxmlTraits : VisualElement.UxmlTraits{ }
 
@@ -36,10 +39,15 @@ public class MenuManager : VisualElement
         sceneController = SceneController.FindObjectOfType<SceneController>();
         multiplayerLauncher = MultiplayerLauncher.FindObjectOfType<MultiplayerLauncher>();
         menuHelper = MenuHelper.FindObjectOfType<MenuHelper>();
+        soundManager = UISoundManager.FindObjectOfType<UISoundManager>();
     }
 
     private void OnGeometryChange(GeometryChangedEvent evt)
     {
+        RegisterCallback<FocusInEvent>(ev => soundManager.focus.Play());
+        RegisterCallback<NavigationSubmitEvent>(ev => soundManager.submit.Play());
+        RegisterCallback<NavigationCancelEvent>(ev => soundManager.cancel.Play());
+
         //assign screens
         m_Title = this.Q("Title");
         m_TopBar = this.Q("TopBar");
@@ -58,6 +66,8 @@ public class MenuManager : VisualElement
         
 
         l_MenuName = this.Q<Label>("MenuName");
+
+        
        
 
         //Click Events
@@ -92,6 +102,11 @@ public class MenuManager : VisualElement
         //m_Exit?.RegisterCallback<ClickEvent>(ev => sceneController.ExitGame());
         m_Multiplayer?.Q("Quickplay")?.RegisterCallback<NavigationSubmitEvent>(ev => multiplayerLauncher.FindMatchFromPlaylist(multiplayerLauncher.quickplay));
         m_MatchSearch?.Q("CancelSearch")?.RegisterCallback<NavigationSubmitEvent>(ev => multiplayerLauncher.LeaveRoom());
+
+        if(isSearching){
+            this.RegisterCallback<NavigationCancelEvent>(ev => DisableMatchSearch());
+        }
+        
         
         //Transition End Events-------------------------------------------
         m_Title?.RegisterCallback<TransitionEndEvent>(ev => EnableHome());
@@ -101,6 +116,7 @@ public class MenuManager : VisualElement
     }
 
     private void TitleClicked(){
+        soundManager.important.Play();
         m_Title.Q("Art").AddToClassList("opacityOut");
         m_Home.AddToClassList("offsetLeft");
         //this.Q("GameInfo").AddToClassList("offsetRight");
@@ -131,6 +147,7 @@ public class MenuManager : VisualElement
         m_Settings.style.display = DisplayStyle.None;
 
         l_MenuName.style.display = DisplayStyle.None;
+        soundManager.submit.Play();
     }
     private void EnableProfileCreate(){
 
@@ -204,10 +221,13 @@ public class MenuManager : VisualElement
 
     public void EnableMatchSearch(){
         m_MatchSearch.style.display = DisplayStyle.Flex;
-        
+        isSearching = true;
+        soundManager.important.Play();
     }
     public void DisableMatchSearch(){
         m_MatchSearch.style.display = DisplayStyle.None;
+        isSearching = false;
+        soundManager.cancel.Play();
         
     }
 
@@ -215,6 +235,7 @@ public class MenuManager : VisualElement
         DisableAllScreens();
         m_PostGame.style.display = DisplayStyle.Flex;
         m_ReturnMain.style.display = DisplayStyle.Flex;
+        soundManager.important.Play();
 
     }
 }
