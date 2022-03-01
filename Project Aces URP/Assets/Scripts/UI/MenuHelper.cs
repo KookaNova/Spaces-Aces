@@ -36,14 +36,20 @@ public class MenuHelper : MonoBehaviour
 
         if(data == null || data.currentLevel <= 0){
             profileHandler.InitializeData();
-            //EnableProfileCreate();
-            
+            menuManager.EnableProfileCreate();
+            profileHandler.LevelUp();
             Debug.Log("MenuController: User must create a profile; activating create screen");
         }
         else{
-           // menuManager.EnableHome();
+           menuManager.EnableHome();
         }
 
+    }
+
+    public void NameUpdate(string name){
+        profileHandler.ChangeName(name);
+        
+        profileHandler.SaveInfo();
     }
 
 }

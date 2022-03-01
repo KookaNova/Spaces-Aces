@@ -79,6 +79,15 @@
                     </ui:VisualElement>
                 </ui:Button>
                 <ui:VisualElement name="Profile" class="screen" style="justify-content: center; flex-direction: row; display: none;" />
+                <ui:VisualElement name="ProfileCreate" class="screen" style="justify-content: center; flex-direction: row; display: none;">
+                    <ui:VisualElement class="panel" style="flex-grow: 1; border-left-color: rgba(255, 255, 255, 0); border-right-color: rgba(255, 255, 255, 0); border-top-color: rgba(255, 255, 255, 0); border-bottom-color: rgba(255, 255, 255, 0); border-top-left-radius: 76px; border-bottom-left-radius: 76px; border-top-right-radius: 76px; border-bottom-right-radius: 76px; align-items: center; justify-content: center;">
+                        <ui:VisualElement style="justify-content: flex-end;">
+                            <ui:Label text="Create a Username" display-tooltip-when-elided="true" style="color: rgb(229, 229, 229); font-size: 32px; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/nasalization-rg.otf?fileID=12800000&amp;guid=2f3a78fadadb162489e989f949893a3d&amp;type=3#nasalization-rg&apos;); -unity-font-definition: none;" />
+                            <ui:TextField picking-mode="Ignore" value="Default101" text="New Name..." multiline="false" max-length="20" password="false" is-delayed="true" name="NameInput" style="margin-left: 12px; margin-right: 12px; margin-top: 12px; margin-bottom: 12px; font-size: 28px; color: rgb(48, 48, 48); -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/BAHNSCHRIFT.TTF?fileID=12800000&amp;guid=b8a3fef9f615d4b458db3dcec0da4da1&amp;type=3#BAHNSCHRIFT&apos;);" />
+                            <ui:Button text="Confirm" display-tooltip-when-elided="true" name="ConfirmName" enable-rich-text="true" style="height: 31px; font-size: 26px;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
                 <ui:VisualElement name="PostGame" class="screen" style="justify-content: space-between; flex-direction: column; display: none;">
                     <ui:VisualElement name="Stats" style="height: 80%; flex-direction: row; justify-content: center;">
                         <ui:VisualElement name="Performance" class="panelClear" style="flex-direction: column; width: 20%;">

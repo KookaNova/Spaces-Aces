@@ -25,6 +25,7 @@ public class MenuManager : VisualElement
     VisualElement m_Credits;
     VisualElement m_Nameplate;
     VisualElement m_Settings;
+    VisualElement m_ProfileCreate;
     public VisualElement m_PostGame;
     Label l_MenuName;
     #endregion
@@ -63,12 +64,15 @@ public class MenuManager : VisualElement
         m_Credits = this.Q("Credits");
         m_PostGame = this.Q("PostGame");
         m_Settings = this.Q("Settings");
+        m_ProfileCreate = this.Q("ProfileCreate");
         
 
         l_MenuName = this.Q<Label>("MenuName");
 
         
-       
+        m_ProfileCreate.Q<TextField>("NameInput")?.RegisterCallback<InputEvent>(ev => menuHelper.NameUpdate(m_ProfileCreate.Q<TextField>("NameInput").value));
+        m_ProfileCreate.Q<Button>("ConfirmName")?.RegisterCallback<ClickEvent>(ev => EnableHome());
+        m_ProfileCreate.Q<Button>("ConfirmName")?.RegisterCallback<NavigationSubmitEvent>(ev => EnableHome());
 
         //Click Events
         m_Title?.RegisterCallback<ClickEvent>(ev => TitleClicked());
@@ -83,7 +87,7 @@ public class MenuManager : VisualElement
         m_MenuSelector?.Q("b_Friends")?.RegisterCallback<ClickEvent>(ev => EnableFriends());
         m_MenuSelector?.Q("b_Settings")?.RegisterCallback<ClickEvent>(ev => EnableSettings());
         m_Nameplate.RegisterCallback<ClickEvent>(ev => EnableProfile());
-        //m_Exit?.RegisterCallback<ClickEvent>(ev => sceneController.ExitGame());
+        m_Home.Q("Exit")?.RegisterCallback<ClickEvent>(ev => sceneController.ExitGame());
 
         //Multiplayer Clicks
         m_Multiplayer?.Q("Quickplay")?.RegisterCallback<ClickEvent>(ev => multiplayerLauncher.FindMatchFromPlaylist(multiplayerLauncher.quickplay));
@@ -99,7 +103,7 @@ public class MenuManager : VisualElement
         m_MenuSelector?.Q("b_Friends")?.RegisterCallback<NavigationSubmitEvent>(ev => EnableFriends());
         m_MenuSelector?.Q("b_Settings")?.RegisterCallback<NavigationSubmitEvent>(ev => EnableSettings());
         m_Nameplate.RegisterCallback<NavigationSubmitEvent>(ev => EnableProfile());
-        //m_Exit?.RegisterCallback<ClickEvent>(ev => sceneController.ExitGame());
+        m_Home.Q("Exit")?.RegisterCallback<NavigationSubmitEvent>(ev => sceneController.ExitGame());
         m_Multiplayer?.Q("Quickplay")?.RegisterCallback<NavigationSubmitEvent>(ev => multiplayerLauncher.FindMatchFromPlaylist(multiplayerLauncher.quickplay));
         m_MatchSearch?.Q("CancelSearch")?.RegisterCallback<NavigationSubmitEvent>(ev => multiplayerLauncher.LeaveRoom());
 
@@ -109,12 +113,13 @@ public class MenuManager : VisualElement
         
         
         //Transition End Events-------------------------------------------
-        m_Title?.RegisterCallback<TransitionEndEvent>(ev => EnableHome());
+        
 
         UnregisterCallback<GeometryChangedEvent>(OnGeometryChange);
     }
 
     private void TitleClicked(){
+
         soundManager.important.Play();
         m_Title.Q("Art").AddToClassList("opacityOut");
         m_Home.AddToClassList("offsetLeft");
@@ -123,6 +128,8 @@ public class MenuManager : VisualElement
         m_Nameplate.AddToClassList("offsetRight");
 
         //code to check profile
+        m_Title?.RegisterCallback<TransitionEndEvent>(ev => menuHelper.CheckProfile());
+
     }
     private void DisableAllScreens(){
         //Add or remove necessary animation classes
@@ -144,11 +151,15 @@ public class MenuManager : VisualElement
         m_Profile.style.display = DisplayStyle.None;
         m_PostGame.style.display = DisplayStyle.None;
         m_Settings.style.display = DisplayStyle.None;
+        m_ProfileCreate.style.display = DisplayStyle.None;
 
         l_MenuName.style.display = DisplayStyle.None;
         soundManager.submit.Play();
     }
-    private void EnableProfileCreate(){
+    public void EnableProfileCreate(){
+        DisableAllScreens();
+        m_ProfileCreate.style.display = DisplayStyle.Flex;
+
 
     }
 

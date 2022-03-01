@@ -19,6 +19,7 @@ public class ProfileIcon : VisualElement
     public ProfileIcon(){
         //create new image element
         PlayerProfileData data = SaveData.LoadProfile();
+        if(data == null)return;
         playerName = data.profileName;
         level = data.currentLevel;
 
