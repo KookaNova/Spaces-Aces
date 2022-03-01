@@ -12,7 +12,7 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
 {
     float thrustInput, yawInput, brakeInput;
     int targetMode = 0;
-    bool gunInput = false, missileInput = false;
+    bool gunInput = false;
     bool isMouse = false;
 
         

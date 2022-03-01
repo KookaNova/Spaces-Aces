@@ -49,11 +49,9 @@ namespace Cox.PlayerControls{
                 Debug.LogError("SpacecraftController: OnEnable(), critical playerObject not set in the inspector.");
                 return;
             }
-            isAwaitingRespawn = true;
             chosenCharacter = playerObject.chosenCharacter;
             chosenShip = playerObject.chosenShip;
 
-            
             //Find respawn points. Once teams are figured out, this needs to find specific team spawn points.
             teamName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
             if(teamName == "A"){
@@ -81,7 +79,6 @@ namespace Cox.PlayerControls{
                 HudController.owner = this;
                 cameraController = ship.GetComponentInChildren<CameraController>();
                 cameraController.weaponsController = weaponSystem;
-                
                 
                 //Activate systems after the passive modifiers are applied
                 PassiveAbility();
@@ -112,10 +109,9 @@ namespace Cox.PlayerControls{
                     CoolDownAbility(aceAbility.cooldownTime, aceAbility);
                 }
                 isAwaitingRespawn = false;
+                ApplyCustomData();
+                VoiceLine(0);
             }
-
-            ApplyCustomData();
-            VoiceLine(0);
         }
         public override void SetRumble(float chaotic, float smooth, float time)
         {

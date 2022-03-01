@@ -72,6 +72,7 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
     public override void OnEnable(){
         gameManager = FindObjectOfType<GameManager>();
         playerAudio = GetComponent<AudioSource>();
+        isAwaitingRespawn = true;
     }
     public virtual void Activate(){}
     /// <summary>

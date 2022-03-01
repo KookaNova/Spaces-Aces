@@ -34,8 +34,6 @@ public class SettingsManager : VisualElement
         environment,
         dialogue;
 
-    bool isAdjusting = false;
-
     public SettingsManager(){
         this.RegisterCallback<GeometryChangedEvent>(OnGeometryChange);
     }

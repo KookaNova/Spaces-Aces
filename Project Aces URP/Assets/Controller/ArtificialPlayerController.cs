@@ -28,7 +28,6 @@ namespace Cox.PlayerControls{
         private TargetableObject closestTarget;
 
         public override void Activate(){
-            isAwaitingRespawn = true;
             isMaster = PhotonNetwork.IsMasterClient;
             playerAudio.outputAudioMixerGroup = externalVoice;
             if(chosenCharacter == null){
@@ -101,6 +100,7 @@ namespace Cox.PlayerControls{
                     aceAbility.canUse = false;
                     aceAbility.isActive = false;
                     aceAbility.isUpdating = false;
+                    CoolDownAbility(aceAbility.cooldownTime, aceAbility);
                 }
                 isAwaitingRespawn = false;
                 ApplyCustomData();
@@ -139,7 +139,6 @@ namespace Cox.PlayerControls{
             }
             
         }
-        weaponSystem.currentTargetSelection = enemies;
 
         for(int i = 0; i < enemies.Count; i++){
             if(closestTarget == null){
@@ -188,14 +187,12 @@ namespace Cox.PlayerControls{
                 break;
             case AiStates.Follow:
                 if(closestTarget == null){
-                    Debug.LogWarning("AI Target null");
                     aiStates = AiStates.FreeFlight;
                 }
                 else{
                     if(isRotating){
                         toTarget = closestTarget.gameObject.transform.position - _rb.position;
                         rot = Vector3.Slerp(_rb.transform.forward, toTarget, rotationLimit/40 * Time.fixedDeltaTime);
-                        Debug.Log(this.name + rot);
                         if(Vector3.Distance(_rb.transform.position, closestTarget.transform.position) < 500){
                             thrust = 0;
                             if(rot.x < 3 && rot.y < 3 && rot.x > -3 && rot.y > -3){
@@ -224,13 +221,15 @@ namespace Cox.PlayerControls{
                 }
                 break;
         }
-        
         var speed = thrust * maxSpeed;
         currentSpeed = Mathf.Lerp(currentSpeed, speed, (acceleration * Time.fixedDeltaTime)/45);
         currentSpeed = Mathf.Clamp(currentSpeed, minSpeed, maxSpeed);
         _rb.AddRelativeForce(0,0,currentSpeed, ForceMode.Acceleration);
 
-        _rb.MoveRotation(Quaternion.LookRotation(rot, Vector3.zero));
+        if(rot != Vector3.zero){
+            _rb.MoveRotation(Quaternion.LookRotation(rot));
+        }
+        
     }
 
     private IEnumerator DecisionTime(){

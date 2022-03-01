@@ -46,12 +46,11 @@ public class CameraController : MonoBehaviour
 
     public void CameraLockTarget(){
         isCameraTargetLocked = !isCameraTargetLocked;
-        Debug.Log(weaponsController.currentTarget);
-        if(weaponsController.currentTarget == -1 || weaponsController.currentTargetSelection.Count <= 0){
+        if(weaponsController.currentTarget == -1 || weaponsController.gameManager.allTargets.Count <= 0){
             isCameraTargetLocked = false;
             return;
         }
-        else if(weaponsController.currentTargetSelection[weaponsController.currentTarget] == null){
+        else if(weaponsController.gameManager.allTargets[weaponsController.currentTarget] == null){
             isCameraTargetLocked = false;
             return;
         }
@@ -89,17 +88,16 @@ public class CameraController : MonoBehaviour
                 Mathf.Clamp(gameObject.transform.localRotation.w, -1, 1));
         } // else if Camera is Target Locked
         else{
-            Debug.Log(weaponsController.currentTarget);
-            if(weaponsController.currentTargetSelection.Count <= 0 || weaponsController.currentTarget == -1){
+            if(weaponsController.gameManager.allTargets.Count <= 0 || weaponsController.currentTarget == -1){
                 isCameraTargetLocked = false;
                 return;
             }
-            else if(!weaponsController.currentTargetSelection[weaponsController.currentTarget].gameObject.activeInHierarchy){
+            else if(!weaponsController.gameManager.allTargets[weaponsController.currentTarget].gameObject.activeInHierarchy){
                     isCameraTargetLocked = false;
                     return;
             }
-            else if(weaponsController.currentTargetSelection.Count > 0){
-                target = weaponsController.currentTargetSelection[weaponsController.currentTarget].transform.position;
+            else if(weaponsController.gameManager.allTargets.Count > 0){
+                target = weaponsController.gameManager.allTargets[weaponsController.currentTarget].transform.position;
             }
             var toTarget = target - gameObject.transform.position;
             var targetRotation = Quaternion.LookRotation(toTarget, weaponsController.gameObject.transform.up);

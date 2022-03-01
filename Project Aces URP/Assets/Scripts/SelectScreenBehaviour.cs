@@ -135,7 +135,7 @@ public class SelectScreenBehaviour : MonoBehaviour
     }
 
     public void UnloadSelectScreen(){
+        root.Focus();
         FindObjectOfType<GameManager>().CloseSelectMenu();
-        SceneManager.UnloadSceneAsync("Select Scene");
     }
 }

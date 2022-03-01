@@ -149,11 +149,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3665933811423234806}
+  - component: {fileID: -7459226797910846223}
   - component: {fileID: 382763042845672787}
   - component: {fileID: 2498142904080806297}
   - component: {fileID: -2492462950973599758}
   - component: {fileID: 1906055925000790026}
-  - component: {fileID: -7459226797910846223}
   - component: {fileID: -533556547705747495}
   - component: {fileID: 8163694652484382466}
   m_Layer: 14
@@ -179,6 +179,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-7459226797910846223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4155647956408176716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1dc08683f6eafd46a00d32f5f7789bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  destroyTime: 6
+  colliderDelay: 0.03
+  damageOutput: 200
+  impactObj: {fileID: 2304293104747472803, guid: b2f8998162847fb45942e4f23f067da5, type: 3}
 --- !u!33 &382763042845672787
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -258,23 +275,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!114 &-7459226797910846223
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4155647956408176716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1dc08683f6eafd46a00d32f5f7789bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  owner: {fileID: 0}
-  destroyTime: 6
-  colliderDelay: 0.03
-  damageOutput: 200
-  impactObj: {fileID: 2304293104747472803, guid: b2f8998162847fb45942e4f23f067da5, type: 3}
 --- !u!114 &-533556547705747495
 MonoBehaviour:
   m_ObjectHideFlags: 0

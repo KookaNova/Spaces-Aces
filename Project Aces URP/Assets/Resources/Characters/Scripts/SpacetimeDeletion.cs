@@ -30,7 +30,7 @@ public class SpacetimeDeletion : AbilityHandler
         missile.currentSpeed = owner.GetComponent<SpacecraftController>().currentSpeed + 400;
         missile.explosion = deletionOrb.gameObject;
         if(weapons.missileLocked){
-            missile.target = weapons.currentTargetSelection[weapons.currentTarget].gameObject;
+            missile.target = weapons.gameManager.allTargets[weapons.currentTarget].gameObject;
         }
         isActive = true;
         isUpdating = true;

@@ -19,7 +19,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         TeamB,
         Global
     }
-    GameManager gameManager;
+    public GameManager gameManager;
 
     [HideInInspector] public SpacecraftController owner = null;
     [HideInInspector] public TargetingMode targMode = TargetingMode.TeamA;
@@ -54,7 +54,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     #endregion
 
     #region Hidden Fields
-    public List<TargetableObject> currentTargetSelection;
+    //public List<TargetableObject> currentTargetSelection;
     [HideInInspector] public int currentGunIndex = 0, currentMis = 0, currentTarget = 0;
     [HideInInspector] public float gunModifier = 0, missileModifier = 0, gunCharge = 0f;
     [HideInInspector] public int missilesAvailable;
@@ -63,7 +63,6 @@ public class WeaponsController : MonoBehaviourPunCallbacks
 
     public bool missileLocked = false, gunOvercharged = false;
     [HideInInspector] public bool canFire = true, canLaunchMissile = true;
-    bool isTargetVisible = false;
 
     #endregion
 
@@ -95,10 +94,6 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         canLaunchMissile = true;
         missilesAvailable = missilePosition.Length;
     }
-    
-    #endregion
-
-    #region targeting
     private void LateUpdate(){
         if(photonView.IsMine){
             PositionIndicators();
@@ -108,31 +103,12 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     }
 
     private void FixedUpdate(){
-        if(gunCharge > 0){
-            gunCharge -= 0.0015f;
-            Debug.Log("gunCharge = " + gunCharge);
-        }
-        if(gunCharge <= 0){
-            gunOvercharged = false;
-        }
+        GunTemperature();
     }
-    
-    public void FindTargets(){
-        for (int i = 0; i < gameManager.allTargets.Count; i++){
-            if(gameManager.allTargets[i] == null){
-                gameManager.allTargets.RemoveAt(i);
-                
-                continue;
-            }
-            if(gameManager.allTargets[i] != this.GetComponentInParent<TargetableObject>()){
-                gameManager.allTargets.Add(gameManager.allTargets[i]);
-            }
-        }
-        gameManager.allTargets.TrimExcess();
+    #endregion
 
-        Debug.Log(gameManager.allTargets.Count);
-        GenerateIndicators();
-    }
+    #region targeting
+    
     public void ChangeTargetMode(int input){
         if(input == 0){
             targMode = TargetingMode.TeamA;
@@ -143,25 +119,24 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         if(input == 2){
             targMode = TargetingMode.Global;
         }
-        
-        CleanTargetSelection();
+
+        CycleMainTarget();
     
     }
-    private void CleanTargetSelection(){
+    /*private void CleanTargetSelection(){
         currentTargetSelection.Clear();
         for (int i = 0; i < gameManager.allTargets.Count; i++){
             if(gameManager.allTargets[i].targetTeam.ToString() == targMode.ToString()){
                 if(gameManager.allTargets[i] == owner.targetableObject){
                     continue;
                 }
-                currentTargetSelection.Add(gameManager.allTargets[i]);
+                currentTargetSelection.Add(gameManager.allTargets[i]); //add object to current selection if it's target mode matches
             }
         }
         GenerateIndicators();
-    }
+    }*/
 
     private void GenerateIndicators(){
-        Debug.Log("Generating Indicators");
         if(!photonView.IsMine)return;
         //destroy old indicators when mode is changed
         for(int i = 0; i < activeIndicators.Count; i++){
@@ -172,69 +147,68 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         activeIndicators.TrimExcess();
 
         //Create indicators and deactivate them, wait for object to be on camera to activate
-        for(int i = 0; i < currentTargetSelection.Count; i++){
+        for(int i = 0; i < gameManager.allTargets.Count; i++){
+            
             var a = Instantiate(objectIndicator, overlayHud.transform);
             activeIndicators.Add(a);
             a.name = "Target_Indicator." + i;
-            if(currentTargetSelection[i].targetTeam == owner.targetableObject.targetTeam) a.gameObject.GetComponent<Image>().color = Color.blue;
+            if(gameManager.allTargets[i].targetTeam == owner.targetableObject.targetTeam) a.gameObject.GetComponent<Image>().color = Color.blue;
             a.gameObject.SetActive(false);
             a.GetComponent<Animator>().StopPlayback();
         }
-        currentTargetSelection.TrimExcess(); 
     }
 
     private void PositionIndicators(){
-        if(currentTargetSelection.Count <= 0){
+        //return if there are no targets
+        if(gameManager.allTargets.Count <= 0 || activeIndicators.Count <= 0){
+            GenerateIndicators();
             return;
         }
 
         for (int i = 0; i < activeIndicators.Count; i++){
             //Is the object active and on camera? If not, skip drawing the indicators.
-            if(currentTargetSelection[i].gameObject == null){
-                FindTargets();
+            if(gameManager.allTargets[i].gameObject == null){
+                GenerateIndicators();
+                return;
             }
-            if(currentTargetSelection[i].gameObject.activeInHierarchy == false || !currentTargetSelection[i].GetComponentInChildren<MeshRenderer>().isVisible){
+            if(gameManager.allTargets[i].gameObject.activeInHierarchy == false || !gameManager.allTargets[i].GetComponentInChildren<MeshRenderer>().isVisible){
+                activeIndicators[i].gameObject.SetActive(false);
+                continue;
+            }
+            if(gameManager.allTargets[i] == owner.targetableObject){
                 activeIndicators[i].gameObject.SetActive(false);
                 continue;
             }
             
-            //raycast
+            //raycast to check visibility
             int layermask = 1 << 14;
             RaycastHit hit;
 
             Vector3 origin = gameObject.transform.position + (transform.forward * 15);
-            Vector3 dir = currentTargetSelection[i].gameObject.transform.position - origin;
+            Vector3 dir = gameManager.allTargets[i].gameObject.transform.position - origin;
             Debug.DrawRay(origin, dir, Color.green);
-            
-            
-            
-
-            
             //if cast hits nothing, or the hit doesn't have a rigidbody, remove indicators
             if(!Physics.SphereCast(origin, 10, dir, out hit, 15000, ~layermask)){
                 activeIndicators[i].gameObject.SetActive(false); 
-                //Debug.LogFormat("WeaponsSystem: PositionIndicators(), target {0} not visible. Indicator is inactive.", currentTargetSelection[i].nameOfTarget);
                 continue;
             }
             if(hit.rigidbody == null){
                 activeIndicators[i].gameObject.SetActive(false); 
-                //Debug.LogFormat("WeaponsSystem: PositionIndicators(), No rigidbody found on target {0}. Indicator is inactive.", currentTargetSelection[i].name);
                 continue;
             }
-            
             //if object is not obstructed, activate indicators
-            if(hit.rigidbody.gameObject == currentTargetSelection[i].gameObject){
+            if(hit.rigidbody.gameObject == gameManager.allTargets[i].gameObject){
                 activeIndicators[i].gameObject.SetActive(true);
-                if(currentTarget == -1){
+                if(currentTarget == -1 && gameManager.allTargets[i].targetTeam.ToString() == targMode.ToString()){
                     currentTarget = i;
-                    if((i+1) < currentTargetSelection.Count){
+                    /*if((i+1) < gameManager.allTargets.Count){
                         activeIndicators[currentTarget].next.gameObject.SetActive(false);
                         activeIndicators[i+1].next.gameObject.SetActive(true);
                     }
                     else{
                         activeIndicators[currentTarget].next.gameObject.SetActive(false);
                         activeIndicators[0].next.gameObject.SetActive(true);
-                    }
+                    }*/
                 }  
             }
             else{
@@ -244,11 +218,11 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             
             //Position indicator to the indicated objects screen position
 
-            var screen = Camera.main.WorldToScreenPoint(currentTargetSelection[i].transform.position);
+            var screen = Camera.main.WorldToScreenPoint(gameManager.allTargets[i].gameObject.transform.position);
             screen.z = (overlayHud.transform.position - Camera.main.transform.position).magnitude;
             var targetScreenPosition = Camera.main.ScreenToWorldPoint(screen);
             activeIndicators[i].transform.position = targetScreenPosition;
-
+            //Animation
             if(i == currentTarget){
                 activeIndicators[i].GetComponent<Animator>().StopPlayback();
             }
@@ -256,23 +230,23 @@ public class WeaponsController : MonoBehaviourPunCallbacks
                 activeIndicators[i].GetComponent<Animator>().StartPlayback();
             }
             //Displays name
-            activeIndicators[i].playerName.text = currentTargetSelection[i].GetComponent<TargetableObject>().nameOfTarget;
+            activeIndicators[i].playerName.text = gameManager.allTargets[i].GetComponent<TargetableObject>().nameOfTarget;
             //Displays distance
-            activeIndicators[i].distance.text = (Vector3.Distance(transform.position, currentTargetSelection[i].transform.position)).ToString();
+            activeIndicators[i].distance.text = (Vector3.Distance(transform.position, gameManager.allTargets[i].transform.position)).ToString();
             activeIndicators[i].next.gameObject.SetActive(false);
-            if((currentTarget + 1) < currentTargetSelection.Count){
+            /*if((currentTarget + 1) < gameManager.allTargets.Count){
                 activeIndicators[currentTarget+1].next.gameObject.SetActive(true);
             }
             else{
                 activeIndicators[0].next.gameObject.SetActive(true);
-            }
+            }*/
             
         }
         
     }
 
     private void LockPosition(){
-        if(currentTarget >= currentTargetSelection.Count){
+        if(currentTarget >= gameManager.allTargets.Count){
             currentTarget = 0;
             owner.shipBehaviour.lockOn.Stop();
             return;
@@ -281,17 +255,22 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             owner.shipBehaviour.lockOn.Stop();
             return;
         }
-        if(currentTargetSelection.Count <= 0){
+        if(gameManager.allTargets.Count <= 0){
+            CycleMainTarget();
+            return;
+        }
+        if(gameManager.allTargets[currentTarget] == owner.targetableObject){
+            CycleMainTarget();
+            return;
+        }
+        
+
+        if(!gameManager.allTargets[currentTarget].gameObject.activeInHierarchy){
             CycleMainTarget();
             return;
         }
 
-        if(!currentTargetSelection[currentTarget].gameObject.activeInHierarchy){
-            CycleMainTarget();
-            return;
-        }
-
-        Vector2 fovPosition = fovCam.WorldToViewportPoint(currentTargetSelection[currentTarget].transform.position);
+        Vector2 fovPosition = fovCam.WorldToViewportPoint(gameManager.allTargets[currentTarget].transform.position);
 
         if(fovPosition.x >= 1 || fovPosition.x <= 0 || fovPosition.y >= 1 || fovPosition.x <= 0){
 
@@ -308,7 +287,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         int layermask = 1 << 14;
 
         Vector3 origin = gameObject.transform.position + (transform.forward * 15);
-        Vector3 dir = currentTargetSelection[currentTarget].gameObject.transform.position - origin;
+        Vector3 dir = gameManager.allTargets[currentTarget].gameObject.transform.position - origin;
         Debug.DrawRay(origin, dir, Color.red);
         if(!Physics.SphereCast(origin, 10, dir, out hit, 3500, ~layermask)){
             lockIndicator.gameObject.SetActive(false);
@@ -318,7 +297,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         else if(hit.rigidbody == null){
             CycleMainTarget();
         }
-        else if(hit.rigidbody.gameObject == currentTargetSelection[currentTarget].gameObject){
+        else if(hit.rigidbody.gameObject == gameManager.allTargets[currentTarget].gameObject){
             
             lockIndicator.gameObject.SetActive(true);
             lockOnModifier += lockOnDefault * Time.fixedDeltaTime;
@@ -326,7 +305,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
 
             
 
-            var screen = Camera.main.WorldToScreenPoint(currentTargetSelection[currentTarget].transform.position);
+            var screen = Camera.main.WorldToScreenPoint(gameManager.allTargets[currentTarget].transform.position);
             screen.z = (overlayHud.transform.position - Camera.main.transform.position).magnitude;
             var targetScreenPosition = Camera.main.ScreenToWorldPoint(screen);
             if(!owner.shipBehaviour.lockOn.isPlaying){
@@ -357,6 +336,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     }
 
     public void CycleMainTarget(){
+        //reset indicator and sounds
         owner.shipBehaviour.lockOn.Stop();
         lockedText.text = "";
         lockOnModifier = lockOnDefault;
@@ -364,56 +344,76 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         lockIndicator.gameObject.SetActive(false);
         missileLocked = false;
 
-        for(int i = 0; i < currentTargetSelection.Count; i++){
+        for(int i = 0; i < gameManager.allTargets.Count; i++){
             currentTarget++;
-
-            if(currentTarget >= currentTargetSelection.Count){
+            //if current target is greater than or equal to all targets count
+            if(currentTarget >= gameManager.allTargets.Count){
                currentTarget = 0;
             }
            
-            if(!currentTargetSelection[currentTarget].gameObject.activeInHierarchy || !currentTargetSelection[i].GetComponentInChildren<MeshRenderer>().isVisible){
-                Debug.Log("target not visible, incrementing");
-                if(i == currentTargetSelection.Count - 1){
+            if(!gameManager.allTargets[currentTarget].gameObject.activeInHierarchy || !gameManager.allTargets[i].GetComponentInChildren<MeshRenderer>().isVisible 
+            || gameManager.allTargets[currentTarget].targetTeam.ToString() != targMode.ToString() || gameManager.allTargets[currentTarget] == owner.targetableObject){
+                if(i == gameManager.allTargets.Count - 1){
                     currentTarget = -1;
                 }
                 continue;
             }
 
+            //Raycast to check for obstructions
             RaycastHit hit;
             int layermask = 1 << 14;
             Vector3 origin = gameObject.transform.position + (transform.forward * 15);
-            Vector3 dir = currentTargetSelection[currentTarget].gameObject.transform.position - origin;
+            Vector3 dir = gameManager.allTargets[currentTarget].gameObject.transform.position - origin;
             //activeIndicators[currentTarget].next.gameObject.SetActive(false);
-            
             Debug.DrawRay(origin, dir, Color.white);
 
             if(!Physics.SphereCast(origin, 10, dir, out hit, 15000, ~layermask)){
-                if(i == currentTargetSelection.Count - 1){
+                if(i == gameManager.allTargets.Count - 1){
                     currentTarget = -1;
                 }
                 continue;
             }
             else if(hit.rigidbody == false){
-                if(i == currentTargetSelection.Count - 1){
+                if(i == gameManager.allTargets.Count - 1){
                     currentTarget = -1;
                 }
                 continue;
             }
-            else if(hit.rigidbody.gameObject == currentTargetSelection[currentTarget].gameObject){
+            else if(hit.rigidbody.gameObject == gameManager.allTargets[currentTarget].gameObject){
+                activeIndicators[currentTarget].next.gameObject.SetActive(false);
+                int n = currentTarget;
+                for(int j = 0; j < gameManager.allTargets.Count; j++){
+                    n++;
+                    if(n >= gameManager.allTargets.Count){
+                        n=0;
+                    }
+                    if(gameManager.allTargets[n].targetTeam.ToString() == targMode.ToString()){
+                        activeIndicators[n].next.gameObject.SetActive(true);
+                        break;
+                    }
+                }
                 return;
             }
             else{
-                if(i == currentTargetSelection.Count - 1){
+                /*if(i == gameManager.allTargets.Count - 1){
                     currentTarget = -1;
-                }
+                }*/
                 continue;
             }
-
         }
     }
     #endregion
 
     #region weapon controls
+
+    private void GunTemperature(){
+        if(gunCharge > 0){
+            gunCharge -= 0.0015f;
+        }
+        if(gunCharge <= 0){
+            gunOvercharged = false;
+        }
+    }
 
     private void AimGun(){
         //aim gun position towards reticle
@@ -487,7 +487,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             var behaviour = m.GetComponent<MissileBehaviour>();
             behaviour.currentSpeed = currentSpeed;
             behaviour.owner = owner;
-            behaviour.target = currentTargetSelection[currentTarget].gameObject;
+            behaviour.target = gameManager.allTargets[currentTarget].gameObject;
             behaviour.damageOutput += missileModifier;
             missilesAvailable--;
         }

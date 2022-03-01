@@ -1066,6 +1066,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f486ab1dfcc4a4541916dcd63287380f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 0}
   owner: {fileID: 0}
   targMode: 0
   worldHud: {fileID: 1227075132077321499}
@@ -1095,7 +1096,6 @@ MonoBehaviour:
   - {fileID: 581277868589566292}
   gunCannonAudio: {fileID: 6736134890320029046}
   missileCannonAudio: {fileID: 0}
-  currentTargetSelection: []
   currentGunIndex: 0
   currentMis: 0
   currentTarget: 0

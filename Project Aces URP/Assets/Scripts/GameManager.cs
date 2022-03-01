@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
-    public static GameManager Instance; //used to keep data persistant if necessary
+    public static GameManager Instance; //used to keep data persistant if necessary, may not become used
 
     [SerializeField] GameObject playerPrefab; //#CRITICAL: this is the player
     [SerializeField] GameObject aiPrefab; //required if bots are used in place of players
@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     int teamAScore, teamBScore;
     int playersA = 0, playersB = 0;
     int timeOut = 45, startCount = 3;
-    bool gameReady = false, gameStarted = false, gameOver = false;
+    bool gameStarted = false, gameOver = false;
     //UI
     VisualElement root, feed, subtitle, tabScreen;
     [SerializeField] UIDocument uIDocument;
@@ -52,9 +52,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         aiPlayerCount = currentGamemode.AIPlayers;
 
         Instance = this;
-        var possibleTargets = FindObjectsOfType<TargetableObject>();
-        for(int i = 0; i < possibleTargets.Length; i++){
-            allTargets.Add(possibleTargets[i]);
+        var targets = FindObjectsOfType<TargetableObject>();
+        for(int i = 0; i < targets.Length; i++){
+            allTargets.Add(targets[i]);
         }
         
         if(!PhotonNetwork.IsConnected){
@@ -70,7 +70,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         OpenSelectMenu();
         StartCoroutine(StartCheck());
-
     }
 
     public void OpenSelectMenu(){
@@ -79,16 +78,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         isSelectLoaded = true;
     }
 
-    
-    
     public void CloseSelectMenu(){
         isSelectLoaded = false;
         SceneManager.UnloadSceneAsync("Select Scene");
         uIDocument.sortingOrder = 1;
         root.Q<GameUIManager>().EnableMainScreen();
         SpawnPlayer();
-        
-        
     }
 
     public void SpawnPlayer(){
@@ -115,8 +110,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             p.GetComponentInChildren<SpacecraftController>().Activate();
             Debug.LogFormat("GameManager: SpawnPlayer(), Spawned player {0} at {1}.", p, spawnPoint);
         }
-        
-        
     }
 
     private IEnumerator StartCheck(){
@@ -132,7 +125,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
         else{
             StartCoroutine(StartCheck());
-            
         }
     }
 
@@ -146,19 +138,15 @@ public class GameManager : MonoBehaviourPunCallbacks
         else{
             StartCoroutine(StartCountDown());
         }
-       
-
     }
-
-    private void CancelGame(){
-        Debug.Log("CancelGame() Called! Not enough players!");
-    }
-
+    
     private void StartGame(){
+        Debug.Log(allTargets.Count);
         gameStarted = true;
         StartCoroutine(GameTimer());
         SpawnPlayer();
 
+        //Only spawn in AI if we're the master client. This prevents duplicates from other clients instantiating AI over the network.
         if(PhotonNetwork.IsMasterClient){
             if(aiPrefab != null){
                 for(int i = 0; i < aiPlayerCount; i++){
@@ -169,9 +157,8 @@ public class GameManager : MonoBehaviourPunCallbacks
                         var controller = p.GetComponentInChildren<SpacecraftController>();
                         controller.teamName = "A";
                         controller.name = "AI" + i.ToString();
-                        p.GetComponent<SpacecraftController>().Activate();
+                        p.GetComponentInChildren<SpacecraftController>().Activate();
                         UpdateScoreBoard(controller);
-                        
                     }
                     else{
                         playersB++;
@@ -180,17 +167,19 @@ public class GameManager : MonoBehaviourPunCallbacks
                         var controller = p.GetComponentInChildren<SpacecraftController>();
                         controller.teamName = "B";
                         controller.name = "AI" + i.ToString();
-                        p.GetComponent<SpacecraftController>().Activate();
+                        p.GetComponentInChildren<SpacecraftController>().Activate();
                         UpdateScoreBoard(controller);
-                        
                     }
                 }
             }
         }
-        
+        Debug.Log(allTargets.Count);
         Debug.Log("Current Players: " + PhotonNetwork.PlayerList.Length);
     }
-
+    private void CancelGame(){
+        Debug.Log("CancelGame() Called! Not enough players!");
+        StartCoroutine(GoToPostGame());
+    }
     private void GameOver(){
         gameOver = true;
         root.Q("GameOver").style.display = DisplayStyle.Flex;
@@ -218,7 +207,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             PhotonNetwork.SetPlayerCustomProperties(new Hashtable{{"isWin", false}});
             root.Q("Defeat").style.display = DisplayStyle.Flex;
         }
-
     }
 
     #endregion
@@ -257,7 +245,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         UpdateScoreBoard(targetPlayer);
     }
     #endregion
-
     #region UI
     #region Feed Events
     public void FeedEvent(SpacecraftController dealer, SpacecraftController receiver, string cause, bool isKill){
@@ -289,7 +276,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
     public void FeedEvent(SpacecraftController dealer, string receiver, string cause, bool isKill){
-        
         var item = new FeedItem();
         feed.Add(item);
         if(receiver == null){
@@ -299,7 +285,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             item.SetData(dealer.playerName, receiver, cause);
         }
         StartCoroutine(item.feedTimer());
-        
         //Does event get score?
         if(isKill){
             if(currentGamemode.EliminationPoints){
@@ -311,7 +296,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
     public void FeedEvent(SpacecraftController dealer, string cause, bool isKill){
-        
         var item = new FeedItem();
         feed.Add(item);
         item.SetData(dealer.playerName, null, cause);
@@ -333,7 +317,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         if(gameOver)return;
         if(!gameStarted)return;
         if(targetPlayer.CustomProperties["Kills"] == null)return;
-        //var list = PhotonNetwork.PlayerList;
 
         //Create Card if needed
         ScoreBoardCard card = null;
@@ -355,9 +338,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             card = tabScreen.Q<ScoreBoardCard>(targetPlayer.NickName);
             isFriendly = card.isFriendly;
         }
-
         //Find data
-        
         string _player = (string)targetPlayer.CustomProperties["Name"];
         string _char = (string)targetPlayer.CustomProperties["Character"];
         string _ship = (string)targetPlayer.CustomProperties["Ship"];
@@ -366,9 +347,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         int _deaths = (int)targetPlayer.CustomProperties["Deaths"];
 
         var handler = Resources.Load<CharacterHandler>("Characters/" + _char);
-
         card.SetData(isFriendly, _player, _char, _ship, _kills, _score, _deaths, handler);
-
     }
     //used for AI
     public void UpdateScoreBoard(SpacecraftController controller){
@@ -383,7 +362,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         int _score = (int)controller.customProperties["Score"];
         int _deaths = (int)controller.customProperties["Deaths"];
 
-        
         ScoreBoardCard card = null;
         bool isFriendly = false;
         if(tabScreen.Q<ScoreBoardCard>(controller.name) == null){
@@ -403,10 +381,8 @@ public class GameManager : MonoBehaviourPunCallbacks
             card = tabScreen.Q<ScoreBoardCard>(controller.name);
             isFriendly = card.isFriendly;
         }
-            
         var handler = Resources.Load<CharacterHandler>("Characters/" + _char);
         card.SetData(isFriendly, _player, _char, _ship, _kills, _score, _deaths, handler);
-
     }
 
     public void Subtitle(DialogueObject dialogueObject){
@@ -439,11 +415,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             GameOver();
         }
     }
-
     #endregion
-
-
-
     private IEnumerator GameTimer(){
         if(gameOver){
             root.Q<Label>("GameTimer").text = "Game Over.";
@@ -461,7 +433,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         if(gameTimer <= 0){
             GameOver();
         }
-
         StartCoroutine(GameTimer());
     }
 
@@ -469,13 +440,5 @@ public class GameManager : MonoBehaviourPunCallbacks
         yield return new WaitForSecondsRealtime(5);
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.LoadLevel("Home");
-        
-
     }
-
-    
-
-
-
-
 }
