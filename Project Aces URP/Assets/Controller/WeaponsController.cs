@@ -380,6 +380,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
                 continue;
             }
             else if(hit.rigidbody.gameObject == gameManager.allTargets[currentTarget].gameObject){
+                
                 activeIndicators[currentTarget].next.gameObject.SetActive(false);
                 int n = currentTarget;
                 for(int j = 0; j < gameManager.allTargets.Count; j++){
@@ -395,9 +396,9 @@ public class WeaponsController : MonoBehaviourPunCallbacks
                 return;
             }
             else{
-                /*if(i == gameManager.allTargets.Count - 1){
+                if(i == gameManager.allTargets.Count - 1){
                     currentTarget = -1;
-                }*/
+                }
                 continue;
             }
         }

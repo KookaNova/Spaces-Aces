@@ -17,8 +17,11 @@ public class ShipBehaviour : MonoBehaviour
         //On collision with hazards or other players, damage the player, based partially on speed.
         if(sc == null)return;
         float ran = Random.Range(.8f, 1.2f);
-        collisionSound.pitch = ran;
-        collisionSound.Play();
+        if(this.isActiveAndEnabled){
+            collisionSound.pitch = ran;
+            collisionSound.Play();
+        }
+        
         
         if(collision.gameObject.layer == LayerMask.NameToLayer("Crash Hazard") || collision.gameObject.layer == LayerMask.NameToLayer("Player")){
            sc.TakeDamage(sc.currentSpeed * 8, null, "accident");
@@ -37,6 +40,7 @@ public class ShipBehaviour : MonoBehaviour
     }
 
     public void ResolveGearsTurning(){
+        if(!this.isActiveAndEnabled)return;
         isTurning = false;
         float ran = Random.Range(.8f, 1.2f);
         gearsResolving.pitch = ran;

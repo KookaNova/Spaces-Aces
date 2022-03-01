@@ -139,7 +139,7 @@ public class PlayerHUDController : MonoBehaviour
             for(int i = 0; i < damageAlert.Count; i++){
                 damageAlert[i].SetActive(state);
             }
-            if(state){
+            if(state && this.isActiveAndEnabled){
                 StartCoroutine(DamageAlertTimer());
             }
         }
@@ -147,7 +147,7 @@ public class PlayerHUDController : MonoBehaviour
             for(int i = 0; i < hitAlert.Count; i++){
                 hitAlert[i].SetActive(state);
             }
-            if(state){
+            if(state && this.isActiveAndEnabled){
                 StartCoroutine(HitTimer());
             }
         }
@@ -156,7 +156,7 @@ public class PlayerHUDController : MonoBehaviour
             for(int i = 0; i < eliminatedAlert.Count; i++){
                 eliminatedAlert[i].SetActive(state);
             }
-            if(state){
+            if(state && this.isActiveAndEnabled){
                 StartCoroutine(EliminatedTimer());
             }
         }
