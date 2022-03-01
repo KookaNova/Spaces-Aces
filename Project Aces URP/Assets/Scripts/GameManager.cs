@@ -97,17 +97,18 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
         if((string)PhotonNetwork.LocalPlayer.CustomProperties["Team"] == "A"){
-            playersA++;
+            
             int spawnPoint = Random.Range(0, teamASpawnpoints.Length);
-            var p = PhotonNetwork.Instantiate(this.playerPrefab.name, teamASpawnpoints[spawnPoint].position, Quaternion.identity, 0);
+            var p = PhotonNetwork.Instantiate(this.playerPrefab.name, teamASpawnpoints[playersA].position, Quaternion.identity, 0);
             p.GetComponentInChildren<SpacecraftController>().Activate();
+            playersA++;
             Debug.LogFormat("GameManager: SpawnPlayer(), Spawned player {0} at {1}.", p, spawnPoint);
         }
         else{
-            playersB++;
             int spawnPoint = Random.Range(0, teamBSpawnpoints.Length);
-            var p = PhotonNetwork.Instantiate(this.playerPrefab.name, teamBSpawnpoints[spawnPoint].position, Quaternion.identity, 0);
+            var p = PhotonNetwork.Instantiate(this.playerPrefab.name, teamBSpawnpoints[playersB].position, Quaternion.identity, 0);
             p.GetComponentInChildren<SpacecraftController>().Activate();
+            playersB++;
             Debug.LogFormat("GameManager: SpawnPlayer(), Spawned player {0} at {1}.", p, spawnPoint);
         }
     }
@@ -151,24 +152,24 @@ public class GameManager : MonoBehaviourPunCallbacks
             if(aiPrefab != null){
                 for(int i = 0; i < aiPlayerCount; i++){
                     if(playersA < playersB){
-                        playersA++;
                         int spawnPoint = Random.Range(0, teamASpawnpoints.Length);
-                        var p = PhotonNetwork.Instantiate(this.aiPrefab.name, teamASpawnpoints[spawnPoint].position, Quaternion.identity, 0);
+                        var p = PhotonNetwork.Instantiate(this.aiPrefab.name, teamASpawnpoints[playersA].position, Quaternion.identity, 0);
                         var controller = p.GetComponentInChildren<SpacecraftController>();
                         controller.teamName = "A";
                         controller.name = "AI" + i.ToString();
                         p.GetComponentInChildren<SpacecraftController>().Activate();
                         UpdateScoreBoard(controller);
+                        playersA++;
                     }
                     else{
-                        playersB++;
                         int spawnPoint = Random.Range(0, teamBSpawnpoints.Length);
-                        var p = PhotonNetwork.Instantiate(this.aiPrefab.name, teamBSpawnpoints[spawnPoint].position, Quaternion.identity, 0);
+                        var p = PhotonNetwork.Instantiate(this.aiPrefab.name, teamBSpawnpoints[playersB].position, Quaternion.identity, 0);
                         var controller = p.GetComponentInChildren<SpacecraftController>();
                         controller.teamName = "B";
                         controller.name = "AI" + i.ToString();
                         p.GetComponentInChildren<SpacecraftController>().Activate();
                         UpdateScoreBoard(controller);
+                        playersB++;
                     }
                 }
             }
