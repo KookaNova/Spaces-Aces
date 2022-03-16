@@ -99,14 +99,14 @@ public class GameManager : MonoBehaviourPunCallbacks
         if((string)PhotonNetwork.LocalPlayer.CustomProperties["Team"] == "A"){
             
             int spawnPoint = Random.Range(0, teamASpawnpoints.Length);
-            var p = PhotonNetwork.Instantiate(this.playerPrefab.name, teamASpawnpoints[playersA].position, Quaternion.identity, 0);
+            var p = PhotonNetwork.Instantiate(this.playerPrefab.name, teamASpawnpoints[playersA].position, teamASpawnpoints[playersA].rotation, 0);
             p.GetComponentInChildren<SpacecraftController>().Activate();
             playersA++;
             Debug.LogFormat("GameManager: SpawnPlayer(), Spawned player {0} at {1}.", p, spawnPoint);
         }
         else{
             int spawnPoint = Random.Range(0, teamBSpawnpoints.Length);
-            var p = PhotonNetwork.Instantiate(this.playerPrefab.name, teamBSpawnpoints[playersB].position, Quaternion.identity, 0);
+            var p = PhotonNetwork.Instantiate(this.playerPrefab.name, teamBSpawnpoints[playersB].position, teamASpawnpoints[playersA].rotation, 0);
             p.GetComponentInChildren<SpacecraftController>().Activate();
             playersB++;
             Debug.LogFormat("GameManager: SpawnPlayer(), Spawned player {0} at {1}.", p, spawnPoint);
