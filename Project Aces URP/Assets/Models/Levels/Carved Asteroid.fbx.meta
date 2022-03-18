@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d2f888a1274d08d42afeaed4c0acef85
+guid: 5b6e99d5e4abc9e4b9d180ebd3a8ac98
 ModelImporter:
   serializedVersion: 21202
   internalIDToNameTable: []
@@ -7,23 +7,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Asteroid_Carved
-    second: {fileID: 2100000, guid: 3f982356993284d489c222a27e4a2613, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Asteroid_Surface
+      name: Asteroid Surface
     second: {fileID: 2100000, guid: 5c44e58b2ecc930468748c886d86027b, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Trim
-    second: {fileID: 2100000, guid: 8d838f1b9168c0c42aea14ec22bc35d6, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: White Panel
-    second: {fileID: 2100000, guid: 5eda1815e2f184d4eb9dcdf78f924d9a, type: 2}
+      name: Carved Rock
+    second: {fileID: 2100000, guid: 3f982356993284d489c222a27e4a2613, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -55,7 +45,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 100
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -108,7 +98,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 1
+    globalScale: 100
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
