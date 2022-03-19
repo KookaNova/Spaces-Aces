@@ -55,7 +55,7 @@
 }
 
 .container {
-    background-color: rgba(19, 31, 48, 0.85);
+    background-color: rgba(38, 81, 125, 0);
     border-left-color: rgb(37, 62, 95);
     border-right-color: rgb(37, 62, 95);
     border-top-color: rgb(37, 62, 95);
@@ -76,6 +76,8 @@
     padding-right: 5%;
     padding-top: 5%;
     padding-bottom: 5%;
+    background-image: url('project://database/Assets/Sprites/Gradient%20Square.png?fileID=2800000&guid=c5295c9f1cc247b4f94b22b3f3b36188&type=3#Gradient Square');
+    -unity-background-image-tint-color: rgba(54, 156, 255, 0.46);
 }
 
 .gradientClear {
