@@ -582,6 +582,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a6546ff0b32504e4e9ab6557ed3f4b77, type: 2}
   - {fileID: 11400000, guid: fe445cfcfbe08e5498fe5a282b12024f, type: 2}
   - {fileID: 11400000, guid: dd82fc2c3fe862a469cd1853736a2980, type: 2}
+  - {fileID: 11400000, guid: 8e60fae53991c5b49b116496dfd8a170, type: 2}
   shipLocation: {fileID: 1055103311}
   shipBG: {fileID: 1415117845}
 --- !u!114 &452166648

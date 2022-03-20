@@ -11,7 +11,7 @@ public class SelectScreenBehaviour : MonoBehaviour
     private CharacterHandler character;
     private ShipHandler ship;
     
-    VisualElement root;
+    VisualElement root, characters, ships;
     VisualElement nameArt, bodyArt;
     Label Bio;
 
@@ -28,6 +28,8 @@ public class SelectScreenBehaviour : MonoBehaviour
 
     private void Awake(){
         root = GetComponent<UIDocument>().rootVisualElement;
+        characters = root.Q("Characters");
+        ships = root.Q("Ships");
         nameArt = root.Q("Name");
         bodyArt = root.Q("BodyArt");
         Bio = root.Q<Label>("Bio");
@@ -36,8 +38,13 @@ public class SelectScreenBehaviour : MonoBehaviour
         EnableCharacterSelect();
 
         for(int i = 0; i < allCharacters.Count; i++){
-            var button = root?.Q(i.ToString());
+            var button = characters?.Q(i.ToString());
             button.style.backgroundImage = allCharacters[i].portrait;
+        }
+
+        for(int i = 0; i < allShips.Count; i++){
+            var button = ships?.Q(i.ToString());
+            button.style.backgroundImage = allShips[i].shipIcon;
         }
 
         root.RegisterCallback<GeometryChangedEvent>(OnGeometryChanged);
@@ -46,28 +53,30 @@ public class SelectScreenBehaviour : MonoBehaviour
     private void OnGeometryChanged(GeometryChangedEvent evt)
     {
         //Characters in order
-        root?.Q("0")?.RegisterCallback<FocusInEvent>(ev => DisplayCharacterData(allCharacters[0]));
-        root?.Q("1")?.RegisterCallback<FocusInEvent>(ev => DisplayCharacterData(allCharacters[1]));
-        root?.Q("2")?.RegisterCallback<FocusInEvent>(ev => DisplayCharacterData(allCharacters[2]));
-        root?.Q("3")?.RegisterCallback<FocusInEvent>(ev => DisplayCharacterData(allCharacters[3]));
-        root?.Q("4")?.RegisterCallback<FocusInEvent>(ev => DisplayCharacterData(allCharacters[4]));
+        characters?.Q("0")?.RegisterCallback<FocusInEvent>(ev => DisplayCharacterData(allCharacters[0]));
+        characters?.Q("1")?.RegisterCallback<FocusInEvent>(ev => DisplayCharacterData(allCharacters[1]));
+        characters?.Q("2")?.RegisterCallback<FocusInEvent>(ev => DisplayCharacterData(allCharacters[2]));
+        characters?.Q("3")?.RegisterCallback<FocusInEvent>(ev => DisplayCharacterData(allCharacters[3]));
+        characters?.Q("4")?.RegisterCallback<FocusInEvent>(ev => DisplayCharacterData(allCharacters[4]));
 
-        root?.Q("0")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("CharConfirm").Focus());
-        root?.Q("1")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("CharConfirm").Focus());
-        root?.Q("2")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("CharConfirm").Focus());
-        root?.Q("3")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("CharConfirm").Focus());
-        root?.Q("4")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("CharConfirm").Focus());
+        characters?.Q("0")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("CharConfirm").Focus());
+        characters?.Q("1")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("CharConfirm").Focus());
+        characters?.Q("2")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("CharConfirm").Focus());
+        characters?.Q("3")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("CharConfirm").Focus());
+        characters?.Q("4")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("CharConfirm").Focus());
 
         //Ships in order
-        root?.Q("Tri-Speeder")?.RegisterCallback<FocusInEvent>(ev => DisplayShipData(allShips[0]));
-        root?.Q("Angelfish")?.RegisterCallback<FocusInEvent>(ev => DisplayShipData(allShips[1]));
-        root?.Q("Furnace")?.RegisterCallback<FocusInEvent>(ev => DisplayShipData(allShips[2]));
-        root?.Q("Falcon")?.RegisterCallback<FocusInEvent>(ev => DisplayShipData(allShips[3]));
+        ships?.Q("0")?.RegisterCallback<FocusInEvent>(ev => DisplayShipData(allShips[0]));
+        ships?.Q("1")?.RegisterCallback<FocusInEvent>(ev => DisplayShipData(allShips[1]));
+        ships?.Q("2")?.RegisterCallback<FocusInEvent>(ev => DisplayShipData(allShips[2]));
+        ships?.Q("3")?.RegisterCallback<FocusInEvent>(ev => DisplayShipData(allShips[3]));
+        ships?.Q("4")?.RegisterCallback<FocusInEvent>(ev => DisplayShipData(allShips[4]));
 
-        root?.Q("Tri-Speeder")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("ShipConfirm").Focus());
-        root?.Q("Angelfish")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("ShipConfirm").Focus());
-        root?.Q("Furnace")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("ShipConfirm").Focus());
-        root?.Q("Falcon")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("ShipConfirm").Focus());
+        ships?.Q("0")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("ShipConfirm").Focus());
+        ships?.Q("1")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("ShipConfirm").Focus());
+        ships?.Q("2")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("ShipConfirm").Focus());
+        ships?.Q("3")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("ShipConfirm").Focus());
+        ships?.Q("4")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("ShipConfirm").Focus());
 
         root?.Q("CharConfirm")?.RegisterCallback<NavigationSubmitEvent>(ev => EnableShipSelect());
         root?.Q("CharConfirm")?.RegisterCallback<ClickEvent>(ev => EnableShipSelect());
@@ -99,7 +108,7 @@ public class SelectScreenBehaviour : MonoBehaviour
 
         root.Q("CharConfirm").style.display = DisplayStyle.None;
         root.Q("ShipConfirm").style.display = DisplayStyle.Flex;
-        root?.Q("Tri-Speeder")?.Focus();
+        root?.Q("0")?.Focus();
 
         DisplayShipData(allShips[0]);
     }
