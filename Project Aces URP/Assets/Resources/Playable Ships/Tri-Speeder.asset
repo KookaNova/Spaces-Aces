@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Tri-Speeder
   m_EditorClassIdentifier: 
   shipName: Ol' Tri-Speeder
-  bio: Tri-Speeder bio...
+  bio: This old reliable speeder may not be the strongest or the most maneuverable,
+    but it is fast and well rounded. It's shields charge slow due to older technology.
   shipIcon: {fileID: 2800000, guid: 79e7095d9b0433e41ba2e55621374705, type: 3}
   nameArt: {fileID: 2800000, guid: f1cf449cc45dedf4ea6d51135322568f, type: 3}
   shipPrefab: {fileID: 811196013837957695, guid: b6abd7506ce2af1478b51af83dad878d, type: 3}
@@ -21,9 +22,9 @@ MonoBehaviour:
   weaponsController: {fileID: 0}
   cameraController: {fileID: 0}
   explosion: {fileID: 9128587892432602950, guid: e59c9a8b5999cdb4ab01f2f08b1d25b3, type: 3}
-  maxHealth: 600
-  maxShield: 1000
-  shieldRechargeRate: 50
+  maxHealth: 580
+  maxShield: 800
+  shieldRechargeRate: 40
   acceleration: 30
   minSpeed: 100
   maxSpeed: 600

@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Megani Dragonfly
   m_EditorClassIdentifier: 
   shipName: Megani Dragonfly
-  bio: Dragonfly bio...
+  bio: The dragonfly was designed to zip short distances and stop for quick turning.
+    As a result, it performs excellently in close combat. It dominates as close range,
+    but can't keep up when speeds raise.
   shipIcon: {fileID: 2800000, guid: e2484531cda104b49b43692fc52d085c, type: 3}
   nameArt: {fileID: 2800000, guid: e77b3d7ff85a5364f9ed468a810e161b, type: 3}
   shipPrefab: {fileID: 811196013837957695, guid: 256cdfa68ca3c5f4cb535c7e566f1244, type: 3}
@@ -24,9 +26,9 @@ MonoBehaviour:
   maxHealth: 425
   maxShield: 500
   shieldRechargeRate: 85
-  acceleration: 100
+  acceleration: 150
   minSpeed: 0
-  maxSpeed: 460
-  roll: 175
-  pitch: 180
+  maxSpeed: 325
+  roll: 190
+  pitch: 200
   yaw: 80

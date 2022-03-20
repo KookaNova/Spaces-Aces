@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Angelfish
   m_EditorClassIdentifier: 
   shipName: Angelfish
-  bio: Angelfish bio...
+  bio: The Angelfish is a favorite of those seeking luxury. Its leather seats and
+    decent A/C controls maximize comfort. The ship is designed to primarily use yaw
+    pedals, that way hands can be left free for peak comfort.
   shipIcon: {fileID: 2800000, guid: 1edab68ca7436cb4abf7063a907d70c8, type: 3}
   nameArt: {fileID: 2800000, guid: 79e30794531c2c14488d27b60368617d, type: 3}
   shipPrefab: {fileID: 3471604245177547285, guid: 1c6dcf6c4ad1f044da4b6764631c8b14, type: 3}

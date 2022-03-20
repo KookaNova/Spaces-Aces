@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Warrior Vespid
   m_EditorClassIdentifier: 
   shipName: Warrior Vespid
-  bio: Vespid bio...
+  bio: A true fighter with excellent mid-range maneuverability. The Vespid is a well-rounded
+    vessel with its only notable flaw being limited shield charge.
   shipIcon: {fileID: 2800000, guid: 4ad6cd18309533d4b9c6eade36787815, type: 3}
   nameArt: {fileID: 2800000, guid: e77b3d7ff85a5364f9ed468a810e161b, type: 3}
   shipPrefab: {fileID: 811196013837957695, guid: ac338be0c9e00ee478cc2eb81d759d0e, type: 3}
@@ -22,11 +23,11 @@ MonoBehaviour:
   cameraController: {fileID: 0}
   explosion: {fileID: 9128587892432602950, guid: e59c9a8b5999cdb4ab01f2f08b1d25b3, type: 3}
   maxHealth: 650
-  maxShield: 650
+  maxShield: 500
   shieldRechargeRate: 65
-  acceleration: 45
+  acceleration: 35
   minSpeed: 75
-  maxSpeed: 550
+  maxSpeed: 500
   roll: 190
   pitch: 220
   yaw: 60
