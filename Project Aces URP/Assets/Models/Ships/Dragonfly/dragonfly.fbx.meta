@@ -3,7 +3,42 @@ guid: f474a81fece891044bb51bd11277bee2
 ModelImporter:
   serializedVersion: 21202
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ButtonLights
+    second: {fileID: 2100000, guid: aaab9baf716f66a4dab8aae6c049ef88, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cockpit
+    second: {fileID: 2100000, guid: 8858fb104caa25c44988423bad53d30c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: green_hull
+    second: {fileID: 2100000, guid: c7673d0cd085ac54abf82a05ad22933a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: grey_metal
+    second: {fileID: 2100000, guid: 61682a19a9215ab4984d8b8481ac5ce8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: hull
+    second: {fileID: 2100000, guid: 1b28d4bae5d8d734faf6b4151a8dc0be, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: navball
+    second: {fileID: 2100000, guid: b6f913931fa3b4b4caeefebfe216882a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: windshield
+    second: {fileID: 2100000, guid: 9697a346af27f5e49901f4f55270d320, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -35,7 +70,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 1.5
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -88,7 +123,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 1
+    globalScale: 0.015
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

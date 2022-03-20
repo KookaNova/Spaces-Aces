@@ -10,23 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef816f7ae2e87f14895104c882031053, type: 3}
-  m_Name: Warrior Vespid
+  m_Name: Megani Dragonfly
   m_EditorClassIdentifier: 
-  shipName: Warrior Vespid
-  bio: Vespid bio...
-  shipIcon: {fileID: 2800000, guid: 4ad6cd18309533d4b9c6eade36787815, type: 3}
+  shipName: Megani Dragonfly
+  bio: Dragonfly bio...
+  shipIcon: {fileID: 2800000, guid: e2484531cda104b49b43692fc52d085c, type: 3}
   nameArt: {fileID: 2800000, guid: e77b3d7ff85a5364f9ed468a810e161b, type: 3}
-  shipPrefab: {fileID: 811196013837957695, guid: ac338be0c9e00ee478cc2eb81d759d0e, type: 3}
-  displayShip: {fileID: 811196013837957695, guid: 820474b76aec38f4d84788a52ca213c7, type: 3}
+  shipPrefab: {fileID: 811196013837957695, guid: 256cdfa68ca3c5f4cb535c7e566f1244, type: 3}
+  displayShip: {fileID: 811196013837957695, guid: 0eb9ad5e1ab7fb447a148ee652c304b0, type: 3}
   weaponsController: {fileID: 0}
   cameraController: {fileID: 0}
   explosion: {fileID: 9128587892432602950, guid: e59c9a8b5999cdb4ab01f2f08b1d25b3, type: 3}
-  maxHealth: 650
-  maxShield: 650
-  shieldRechargeRate: 65
-  acceleration: 45
-  minSpeed: 75
-  maxSpeed: 550
-  roll: 190
-  pitch: 220
-  yaw: 60
+  maxHealth: 425
+  maxShield: 500
+  shieldRechargeRate: 85
+  acceleration: 100
+  minSpeed: 0
+  maxSpeed: 460
+  roll: 175
+  pitch: 180
+  yaw: 80

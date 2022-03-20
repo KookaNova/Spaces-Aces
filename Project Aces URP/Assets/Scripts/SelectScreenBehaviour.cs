@@ -71,12 +71,14 @@ public class SelectScreenBehaviour : MonoBehaviour
         ships?.Q("2")?.RegisterCallback<FocusInEvent>(ev => DisplayShipData(allShips[2]));
         ships?.Q("3")?.RegisterCallback<FocusInEvent>(ev => DisplayShipData(allShips[3]));
         ships?.Q("4")?.RegisterCallback<FocusInEvent>(ev => DisplayShipData(allShips[4]));
+        ships?.Q("5")?.RegisterCallback<FocusInEvent>(ev => DisplayShipData(allShips[5]));
 
         ships?.Q("0")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("ShipConfirm").Focus());
         ships?.Q("1")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("ShipConfirm").Focus());
         ships?.Q("2")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("ShipConfirm").Focus());
         ships?.Q("3")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("ShipConfirm").Focus());
         ships?.Q("4")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("ShipConfirm").Focus());
+        ships?.Q("5")?.RegisterCallback<NavigationSubmitEvent>(ev => root?.Q("ShipConfirm").Focus());
 
         root?.Q("CharConfirm")?.RegisterCallback<NavigationSubmitEvent>(ev => EnableShipSelect());
         root?.Q("CharConfirm")?.RegisterCallback<ClickEvent>(ev => EnableShipSelect());
