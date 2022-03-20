@@ -8,7 +8,7 @@
       "url": "https://packages.unity.com"
     },
     "com.ben.work": {
-      "version": "file:../../../prototypes/benprototype/Packages/benfinal",
+      "version": "file:../../../prototypes/aces_ben_work/Packages/benfinal",
       "depth": 0,
       "source": "local",
       "dependencies": {}

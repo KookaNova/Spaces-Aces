@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.ben.work": "file:../../../prototypes/benprototype/Packages/benfinal",
+    "com.ben.work": "file:../../../prototypes/aces_ben_work/Packages/benfinal",
     "com.sidefx.houdiniengine": "file:../../../packages/houdiniengineunitypackage/com.sidefx.HoudiniEngineUnity",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.cinemachine": "2.8.3",
