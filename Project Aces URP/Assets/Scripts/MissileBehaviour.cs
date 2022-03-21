@@ -126,7 +126,7 @@ public class MissileBehaviour : MonoBehaviourPun
 
 
     private IEnumerator WakeCollider(){
-        yield return new WaitForSeconds(.2f);
+        yield return new WaitForSeconds(.1f);
         _col.enabled = true;
         startCasting = true;
         

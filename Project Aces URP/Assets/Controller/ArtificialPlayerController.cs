@@ -208,7 +208,7 @@ namespace Cox.PlayerControls{
                         }
                         
                         if(Vector3.Distance(_rb.transform.position, closestTarget.transform.position) < 3500){
-                            if(rot.x < 25 && rot.y < 25 && rot.x > -25 && rot.y > -25){
+                            if(rot.x < 30 && rot.y < 30 && rot.x > -30 && rot.y > -30){
                                 weaponSystem.missileLocked = true;
                                 weaponSystem.MissileControl(currentSpeed);
                             }

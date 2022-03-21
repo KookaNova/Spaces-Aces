@@ -8,15 +8,18 @@ public class GunAmmoBehaviour : MonoBehaviourPun
     [HideInInspector] public SpacecraftController owner = null;
 
     [SerializeField] private float destroyTime = 6, colliderDelay = .1f;
-    public float damageOutput = 223;
+    
+    public float damageOutput = 223, speed = 1000;
     public GameObject impactObj;
 
     private Collider thisCollider;
 
     private void Awake() {
+        this.GetComponent<Rigidbody>().velocity = this.transform.forward * speed;
         thisCollider = GetComponent<Collider>();
         thisCollider.enabled = false;
         StartCoroutine(StartUp());
+        
     }
 
     public void OnCollisionEnter(Collision obj) {

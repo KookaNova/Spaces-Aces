@@ -36,7 +36,6 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     [Header("Gun Information")]
     [SerializeField] private GameObject ammoType;
     [SerializeField] private float fireRate = 0.1f,
-        gunSpeed = 1000,
         gunRange = 3000,
         chargeLossSpeed = .01f;
 
@@ -457,7 +456,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
                 gunOvercharged = true;
             }
             gunCannonAudio.Play();
-            g.GetComponent<Rigidbody>().velocity = gunPosition[currentGunIndex].transform.forward * gunSpeed;
+            
             var behaviour = g.GetComponent<GunAmmoBehaviour>();
             behaviour.damageOutput += gunModifier;
             behaviour.owner = owner;
