@@ -312,7 +312,7 @@ MonoBehaviour:
   colliderDelay: 0.03
   damageOutput: 500
   speed: 1000
-  impactObj: {fileID: 2304293104747472803, guid: 52be39b598e183d439252c688e6b15d3, type: 3}
+  impactObj: {fileID: 4059048112221023793, guid: 15512d766efbfe74ab9f2bbc7d1aabfc, type: 3}
 --- !u!33 &382763042845672787
 MeshFilter:
   m_ObjectHideFlags: 0

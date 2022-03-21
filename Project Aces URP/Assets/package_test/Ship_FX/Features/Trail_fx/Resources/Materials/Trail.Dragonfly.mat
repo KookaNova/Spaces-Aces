@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Trail.Teleport End
+  m_Name: Trail
   m_Shader: {fileID: -6465566751694194690, guid: 13991aea199403c3885284034dd81493, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -109,16 +109,16 @@ Material:
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
-    - _disolve_scale: 5.98
+    - _disolve_scale: 296.89
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Dissolve_speed: {r: 1.93, g: 0, b: 0, a: 0}
+    - _Dissolve_speed: {r: -1.6, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _color1: {r: 0.5803921, g: 1.4980392, b: 0.58658594, a: 0}
-    - _color2: {r: 0.047299344, g: 0.4301988, b: 0.13063627, a: 1}
-    - _speed: {r: 1.5, g: 0, b: 0, a: 0}
+    - _color1: {r: 0, g: 9.192601, b: 0.64299273, a: 0}
+    - _color2: {r: 0.37129983, g: 0, b: 0.64710855, a: 1}
+    - _speed: {r: 1.54, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &3995001271892300943
 MonoBehaviour:
