@@ -21,15 +21,16 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Additive Particle
-  m_Shader: {fileID: 211, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: _COLORADDSUBDIFF_ON
+  m_Shader: {fileID: 200, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: _SURFACE_TYPE_TRANSPARENT
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
+  m_DoubleSidedGI: 1
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses:
-  - ALWAYS
+  - DepthOnly
+  - SHADOWCASTER
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -38,7 +39,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 20381379d78ef0a45ac5926fa4255f5d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -62,7 +63,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
+        m_Texture: {fileID: 2800000, guid: 20381379d78ef0a45ac5926fa4255f5d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MaskTex:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -97,7 +102,7 @@ Material:
     m_Floats:
     - PixelSnap: 0
     - _AlphaClip: 0
-    - _Blend: 0
+    - _Blend: 2
     - _BlendOp: 0
     - _BumpScale: 1
     - _CameraFadingEnabled: 0
@@ -114,7 +119,7 @@ Material:
     - _DistortionEnabled: 0
     - _DistortionStrength: 2.95
     - _DistortionStrengthScaled: 0.29500002
-    - _DstBlend: 0
+    - _DstBlend: 1
     - _EmissionEnabled: 0
     - _EnableExternalAlpha: 0
     - _EnvironmentReflections: 1
@@ -122,31 +127,37 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _LightingEnabled: 0
+    - _InvFade: 2.18
+    - _LightingEnabled: 1
     - _Metallic: 0
-    - _Mode: 0
+    - _Mode: 4
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _SampleGI: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SoftParticlesEnabled: 0
     - _SoftParticlesFarFadeDistance: 1.66
     - _SoftParticlesNearFadeDistance: 1.24
     - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _Surface: 0
+    - _SrcBlend: 5
+    - _Surface: 1
+    - _TextureYScale: 1
     - _WorkflowMode: 1
-    - _ZWrite: 1
+    - _ZWrite: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color1: {r: 1, g: 0, b: 0, a: 1}
+    - _Color2: {r: 1, g: 1, b: 0, a: 1}
     - _ColorAddSubDiff: {r: 1, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 1, g: 0.88113207, b: 0.88113207, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

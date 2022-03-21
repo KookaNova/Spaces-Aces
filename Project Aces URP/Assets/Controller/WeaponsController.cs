@@ -89,6 +89,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
 
     public void Reset(){
         gunCharge = 0;
+        canFire = true;
         missileLocked = false;
         canLaunchMissile = true;
         missilesAvailable = missilePosition.Length;
