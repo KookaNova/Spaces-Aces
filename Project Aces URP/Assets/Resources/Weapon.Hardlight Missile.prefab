@@ -493,7 +493,7 @@ MonoBehaviour:
   missProbability: 3
   currentSpeed: 0
   damageOutput: 650
-  explosion: {fileID: 9128587892432602950, guid: e59c9a8b5999cdb4ab01f2f08b1d25b3, type: 3}
+  explosion: {fileID: 2304293104747472803, guid: 8838414e0044b444fb2e539d1dc98ba0, type: 3}
   owner: {fileID: 0}
   target: {fileID: 0}
   rb: {fileID: 0}
