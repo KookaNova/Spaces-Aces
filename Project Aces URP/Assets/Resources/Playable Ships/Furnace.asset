@@ -26,7 +26,7 @@ MonoBehaviour:
   maxHealth: 525
   maxShield: 1200
   shieldRechargeRate: 75
-  acceleration: 15
+  acceleration: 3
   minSpeed: 150
   maxSpeed: 845
   roll: 40

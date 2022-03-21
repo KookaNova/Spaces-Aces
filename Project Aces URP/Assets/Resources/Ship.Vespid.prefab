@@ -839,7 +839,6 @@ MonoBehaviour:
   fovCam: {fileID: 3453056685234144890}
   ammoType: {fileID: 4155647956408176716, guid: 5a3f45eeaedaf44489399eba23b11ac8, type: 3}
   fireRate: 0.075
-  gunSpeed: 1500
   gunRange: 1500
   chargeLossSpeed: 0.05
   gunPosition:

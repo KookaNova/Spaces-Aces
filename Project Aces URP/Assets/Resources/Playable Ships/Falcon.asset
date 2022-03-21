@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shipName: Falcon
   bio: A technological marvel stolen from far away. The ship is a glass cannon, with
-    low durability but fast shield recharge. Its durability flaws have us realizing
-    this may have been a prototype version of an even more marvelous ship.
+    low durability and unique gun. The gun fires in a quick sweeping motion, which
+    makes it excell in firing short burst in the enemy's direction. Its durability
+    flaws have us realizing this may have been a prototype version of an even more
+    marvelous ship.
   shipIcon: {fileID: 2800000, guid: f701e4bde853a3745ad663667d095ee4, type: 3}
   nameArt: {fileID: 2800000, guid: ae27d606c464ea24aa7fcbde2c1ceda0, type: 3}
   shipPrefab: {fileID: 811196013837957695, guid: a1df7d2fb9a635e4b9bab4689fde71c3, type: 3}
@@ -26,9 +28,9 @@ MonoBehaviour:
   maxHealth: 150
   maxShield: 750
   shieldRechargeRate: 400
-  acceleration: 75
-  minSpeed: 130
-  maxSpeed: 460
-  roll: 140
-  pitch: 200
+  acceleration: 20
+  minSpeed: 160
+  maxSpeed: 430
+  roll: 150
+  pitch: 180
   yaw: 50
