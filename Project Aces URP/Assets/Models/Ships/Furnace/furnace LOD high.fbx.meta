@@ -18,7 +18,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: windshield_mat
-    second: {fileID: 2100000, guid: 15d0bb8b1dda3df4d93fa707fa99b599, type: 2}
+    second: {fileID: 2100000, guid: 9697a346af27f5e49901f4f55270d320, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

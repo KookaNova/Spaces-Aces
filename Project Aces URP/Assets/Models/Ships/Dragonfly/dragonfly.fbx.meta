@@ -38,7 +38,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: windshield
-    second: {fileID: 2100000, guid: 9697a346af27f5e49901f4f55270d320, type: 2}
+    second: {fileID: 2100000, guid: 136d4bcb950206348a9e2dbfa92acb01, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -123,7 +123,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.015
+    globalScale: 1.5
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
