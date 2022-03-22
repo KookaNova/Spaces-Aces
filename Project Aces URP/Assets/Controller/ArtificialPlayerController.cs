@@ -251,7 +251,7 @@ namespace Cox.PlayerControls{
         float randTime = Random.Range(2,7);
         yield return new WaitForSeconds(randTime);
         isRotating = false;
-        float ra = Random.Range(2,9);
+        float ra = Random.Range(1,5);
         yield return new WaitForSeconds(ra);
         isRotating = true;
         
