@@ -3,44 +3,27 @@ using UnityEngine;
 using Photon.Pun;
 
 namespace Cox.PlayerControls{
-public abstract class GunAmmoBehaviour : MonoBehaviourPun
-{
-    [HideInInspector] public SpacecraftController owner = null;
+    public abstract class GunAmmoBehaviour : MonoBehaviourPun
+    {
+        [HideInInspector] public SpacecraftController owner = null;
 
-    [SerializeField] float destroyTime = 6, colliderDelay = .1f;
-    
-    public float damageOutput = 223, speed = 1000;
-    public GameObject impactObj;
-
-    private Collider thisCollider;
-
-    private void Awake() {
-        this.GetComponent<Rigidbody>().velocity = this.transform.forward * speed;
-        thisCollider = GetComponent<Collider>();
-        thisCollider.enabled = false;
-        StartCoroutine(StartUp());
+        [SerializeField] protected float destroyTime = 5;
+        [SerializeField] protected GameObject impactFX;
         
-    }
-
-    public void OnCollisionEnter(Collision obj) {
-        if(impactObj != null){
-            var impact = Instantiate(impactObj);
-            impact.transform.position = transform.position;
-        }
+        [SerializeField] protected float speed = 1000;
+        [SerializeField] protected float colliderDelay = 0.01f;
+        public float damageOutput = 223;
         
-        if(obj.gameObject.GetComponentInParent<SpacecraftController>()){
-            obj.gameObject.GetComponentInParent<SpacecraftController>().TakeDamage(damageOutput, owner, "gun");
-            owner.TargetHit();
+        public float speedModifier;
+        bool canDamageOwner = false;
+        protected Collider thisCollider;
+
+        private void OnDisable() {
+
+            canDamageOwner = false;
+
+            
         }
-        if(photonView.IsMine) PhotonNetwork.Destroy(this.gameObject);
-    }
 
-    private IEnumerator StartUp(){
-        yield return new WaitForSeconds(colliderDelay);
-        thisCollider.enabled = true;
-
-        yield return new WaitForSeconds(destroyTime);
-        PhotonNetwork.Destroy(this.gameObject);
     }
-}
 }
