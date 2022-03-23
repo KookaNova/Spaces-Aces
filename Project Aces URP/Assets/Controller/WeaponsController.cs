@@ -311,7 +311,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             if(!owner.shipBehaviour.lockOn.isPlaying){
                 owner.shipBehaviour.lockOn.Play();
             }
-            Vector3 slowMove = Vector3.MoveTowards(lockIndicator.transform.position, targetScreenPosition, (lockOnEfficiency * lockOnModifier) * .25f * Time.fixedDeltaTime);
+            Vector3 slowMove = Vector3.MoveTowards(lockIndicator.transform.position, targetScreenPosition, (lockOnEfficiency * lockOnModifier) * .25f * Time.deltaTime);
             lockIndicator.transform.position = slowMove;
 
             if(lockIndicator.transform.position == targetScreenPosition && !missileLocked){

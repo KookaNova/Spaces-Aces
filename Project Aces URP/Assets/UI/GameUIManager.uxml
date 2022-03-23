@@ -53,7 +53,7 @@
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="Middle" style="justify-content: flex-end; width: 33%; height: 100%;">
-                    <ui:VisualElement name="Subtitle" style="justify-content: flex-end; flex-direction: column; flex-grow: 1;" />
+                    <ui:VisualElement name="Subtitle" style="justify-content: flex-end; flex-direction: column; flex-grow: 1; display: none;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="Right" style="justify-content: flex-end; align-items: flex-end; flex-direction: row; height: 100%; width: 33%; flex-grow: 1;">
                     <ui:VisualElement style="flex-direction: row-reverse; border-left-width: 2px; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; border-left-color: rgba(255, 255, 255, 0.22); border-right-color: rgba(255, 255, 255, 0.22); border-top-color: rgba(255, 255, 255, 0.22); border-bottom-color: rgba(255, 255, 255, 0.22); width: 31%; height: 100%; border-bottom-right-radius: -60px; border-top-left-radius: 100px; padding-left: 78px; padding-top: 78px; padding-bottom: 0; border-top-right-radius: 5px; border-bottom-left-radius: 100px;">
