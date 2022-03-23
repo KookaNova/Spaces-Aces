@@ -272,7 +272,7 @@ GameObject:
   - component: {fileID: -533556547705747495}
   - component: {fileID: 8163694652484382466}
   m_Layer: 14
-  m_Name: Weapon.Fire Bolt Ammo
+  m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
