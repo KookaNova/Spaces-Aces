@@ -5,7 +5,7 @@ using Photon.Pun;
 namespace Cox.PlayerControls{
 
 [RequireComponent(typeof(Rigidbody), typeof(Collider))]
-public class MissileBehaviour : MonoBehaviourPun
+public abstract class MissileBehaviour : MonoBehaviourPun
 {
     public int destroyTime = 10;
     public float missileSpeed = 800, turningLimit = 20, missProbability = 2, currentSpeed, damageOutput = 1000;
