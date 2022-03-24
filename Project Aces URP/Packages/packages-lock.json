@@ -7,8 +7,8 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
-    "com.ben.work": {
-      "version": "file:../../../prototypes/aces_ben_work/Packages/benfinal",
+    "com.ben.package": {
+      "version": "file:../../../prototypes/aces_ben_package/unity_project_ben/Packages/ben_package",
       "depth": 0,
       "source": "local",
       "dependencies": {}
