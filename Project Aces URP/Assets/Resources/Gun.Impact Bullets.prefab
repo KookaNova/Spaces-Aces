@@ -193,10 +193,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
+  weaponName: Gun
   destroyTime: 6
   impactFX: {fileID: 2304293104747472803, guid: 52be39b598e183d439252c688e6b15d3, type: 3}
   speed: 1000
-  colliderDelay: 0.01
+  colliderDelay: 0.015
   damageOutput: 223
   speedModifier: 0
 --- !u!33 &382763042845672787

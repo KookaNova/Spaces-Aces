@@ -192,6 +192,10 @@ public class PlayerHUDController : MonoBehaviour
                         textTargetMode[i].text = ("Targeting " + weapons.targMode.ToString());
                         root.Q<Label>("TargetingMode").text = "Targeting:" + weapons.targMode.ToString();
                     break;
+                case WeaponsController.TargetingMode.Objective:
+                    textTargetMode[i].text = ("Targeting " + weapons.targMode.ToString());
+                    root.Q<Label>("TargetingMode").text = "Targeting:" + weapons.targMode.ToString();
+                    break;
 
             } 
         }

@@ -17,7 +17,8 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     public enum TargetingMode{
         TeamA,
         TeamB,
-        Global
+        Global,
+        Objective
     }
     public GameManager gameManager;
 
@@ -119,6 +120,9 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         if(input == 2){
             targMode = TargetingMode.Global;
         }
+        if(input == 3){
+            targMode = TargetingMode.Objective;
+        }
 
         CycleMainTarget();
     
@@ -152,7 +156,11 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             var a = Instantiate(objectIndicator, overlayHud.transform);
             activeIndicators.Add(a);
             a.name = "Target_Indicator." + i;
-            if(gameManager.allTargets[i].targetTeam == owner.targetableObject.targetTeam) a.gameObject.GetComponent<Image>().color = Color.blue;
+            if(gameManager.allTargets[i].targetTeam == owner.targetableObject.targetTeam) a.gameObject.GetComponent<Image>().color = ColorPaletteHelper.friendly;
+            if(gameManager.allTargets[i].targetTeam != owner.targetableObject.targetTeam) a.gameObject.GetComponent<Image>().color = ColorPaletteHelper.enemy;
+            if(gameManager.allTargets[i].targetTeam == TargetableObject.TargetType.Global) a.gameObject.GetComponent<Image>().color = ColorPaletteHelper.global;
+            if(gameManager.allTargets[i].targetTeam == TargetableObject.TargetType.Objective) a.gameObject.GetComponent<Image>().color = ColorPaletteHelper.objective;
+            
             a.gameObject.SetActive(false);
             a.GetComponent<Animator>().StopPlayback();
         }

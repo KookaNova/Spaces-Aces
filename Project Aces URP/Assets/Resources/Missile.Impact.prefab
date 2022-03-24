@@ -487,6 +487,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d251931ddd69184ea584c543e65cb1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponName: Missile
   destroyTime: 10
   missileSpeed: 800
   turningLimit: 20

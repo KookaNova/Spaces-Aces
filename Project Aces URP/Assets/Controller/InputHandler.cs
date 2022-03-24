@@ -118,7 +118,7 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
     {
         if(photonView.IsMine)
         if(pressed.ReadValueAsButton())targetMode += 1;
-        if(targetMode > 2)targetMode = 0;
+        if(targetMode > 3)targetMode = 0;
         player.ChangeTargetMode(targetMode);
     }
 
@@ -126,8 +126,8 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
     {
         if(photonView.IsMine)
         if(pressed.ReadValueAsButton())targetMode -= 1;
-        if(targetMode > 2)targetMode = 0;
-        if(targetMode < 0)targetMode = 2;
+        if(targetMode > 3)targetMode = 0;
+        if(targetMode < 0)targetMode = 3;
         player.ChangeTargetMode(targetMode);
     }
 

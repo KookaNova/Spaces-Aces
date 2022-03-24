@@ -308,6 +308,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
+  weaponName: Gun
   destroyTime: 5
   impactFX: {fileID: 2304293104747472803, guid: b2f8998162847fb45942e4f23f067da5, type: 3}
   speed: 1500

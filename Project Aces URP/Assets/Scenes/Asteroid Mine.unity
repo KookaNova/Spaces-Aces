@@ -10735,6 +10735,14 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 357671594404984180, guid: 68fe6926c0b53cc46a9948d8c2f6974a, type: 3}
+      propertyPath: m_RootOrder
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 357671594404984180, guid: 68fe6926c0b53cc46a9948d8c2f6974a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -11.14
+      objectReference: {fileID: 0}
     - target: {fileID: 451567478100770994, guid: 68fe6926c0b53cc46a9948d8c2f6974a, type: 3}
       propertyPath: m_Layer
       value: 11
@@ -16299,6 +16307,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7587280438204459996, guid: efc8f9fa4e9e33a48b118194129c4fc0, type: 3}
+      propertyPath: targetTeam
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1300716865227989750, guid: efc8f9fa4e9e33a48b118194129c4fc0, type: 3}
       propertyPath: m_RootOrder
       value: 29

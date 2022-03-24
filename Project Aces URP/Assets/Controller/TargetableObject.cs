@@ -7,8 +7,11 @@ public class TargetableObject : MonoBehaviour
     public enum TargetType{
         TeamA,
         TeamB,
-        Global
+        Global,
+        Objective
     }
     public TargetType targetTeam;
     public string nameOfTarget = "Targetable Object";
+
+
 }

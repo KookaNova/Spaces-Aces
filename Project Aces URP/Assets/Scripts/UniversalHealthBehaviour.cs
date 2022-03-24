@@ -12,13 +12,14 @@ public class UniversalHealthBehaviour : MonoBehaviour
     //public float shields = 0;
     public float health = 700;
     
-    [SerializeField] bool countsAsKill = false;
+    [SerializeField] bool countsAsKill = false, isObjective = false;
     [SerializeField] GameObject explosion;
     TargetableObject targetableObject;
 
     private void OnEnable() {
         gm = FindObjectOfType<GameManager>();
         targetableObject = this.GetComponent<TargetableObject>();
+
     }
 
     private void OnCollisionEnter(Collision hit) {

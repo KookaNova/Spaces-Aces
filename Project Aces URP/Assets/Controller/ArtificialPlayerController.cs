@@ -128,7 +128,7 @@ namespace Cox.PlayerControls{
         aiStates = AiStates.Follow;
         var enemies = new List<TargetableObject>();
         for(int i = 0; i < gameManager.allTargets.Count; i++){
-            if(gameManager.allTargets[i].targetTeam != targetableObject.targetTeam){
+            if(gameManager.allTargets[i].targetTeam != targetableObject.targetTeam && gameManager.allTargets[i].targetTeam != TargetableObject.TargetType.Global && gameManager.allTargets[i].targetTeam != TargetableObject.TargetType.Objective){
                 if(enemies.Count <= i){
                     enemies.Add(gameManager.allTargets[i]);
                 }
