@@ -7,6 +7,7 @@ namespace Cox.PlayerControls{
 [RequireComponent(typeof(Rigidbody), typeof(Collider))]
 public abstract class MissileBehaviour : MonoBehaviourPun
 {
+    public string weaponName = "Missile";
     public int destroyTime = 10;
     public float missileSpeed = 800, turningLimit = 20, missProbability = 2, currentSpeed, damageOutput = 1000;
 
@@ -38,7 +39,7 @@ public abstract class MissileBehaviour : MonoBehaviourPun
 
     protected virtual void OnCollisionEnter(Collision obj){
         if(obj.gameObject.GetComponentInParent<SpacecraftController>()){
-            obj.gameObject.GetComponentInParent<SpacecraftController>().TakeDamage(damageOutput, owner, "missile");
+            obj.gameObject.GetComponentInParent<SpacecraftController>().TakeDamage(damageOutput, owner, weaponName);
             if(owner.isActiveAndEnabled){
                  owner.TargetHit();
             }

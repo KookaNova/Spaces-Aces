@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 163888549057911193}
   - component: {fileID: 1981187966450876678}
   - component: {fileID: 5758444445639487168}
+  - component: {fileID: -7587280438204459996}
+  - component: {fileID: -2489647224096200018}
   m_Layer: 11
   m_Name: Radio Tower
   m_TagString: Untagged
@@ -113,3 +115,32 @@ CapsuleCollider:
   m_Height: 436
   m_Direction: 1
   m_Center: {x: 0, y: 700.4, z: -10}
+--- !u!114 &-7587280438204459996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1821358278990788684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c38070f2554414409ab1b8e54b4c564, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTeam: 2
+  nameOfTarget: Radio Tower
+--- !u!114 &-2489647224096200018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1821358278990788684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d750a777be03b54c8701b9b04a030e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 700
+  countsAsKill: 0
+  explosion: {fileID: 9128587892432602950, guid: e59c9a8b5999cdb4ab01f2f08b1d25b3, type: 3}

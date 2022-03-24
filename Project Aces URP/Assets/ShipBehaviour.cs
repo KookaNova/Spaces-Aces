@@ -25,6 +25,10 @@ public class ShipBehaviour : MonoBehaviour
         
         if(collision.gameObject.layer == LayerMask.NameToLayer("Crash Hazard") || collision.gameObject.layer == LayerMask.NameToLayer("Player")){
            sc.TakeDamage(sc.currentSpeed * 8, null, "accident");
+           if(collision.gameObject.GetComponent<UniversalHealthBehaviour>()){
+               var behaviour = collision.gameObject.GetComponent<UniversalHealthBehaviour>();
+               behaviour.TakeDamage(sc.currentSpeed, sc, "Collision");
+           }
         }
         
         
