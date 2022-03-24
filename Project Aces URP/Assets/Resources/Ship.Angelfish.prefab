@@ -1085,7 +1085,7 @@ MonoBehaviour:
   - {fileID: 599549067730999962}
   - {fileID: 7428402362750393309}
   missileType: {fileID: 6200246160423643314, guid: fbe558d5ded7c6444990f035946dd5e0, type: 3}
-  lockOnEfficiency: 2
+  lockOnEfficiency: 3
   lockOnRange: 3000
   missileReload: 20
   missilePosition:

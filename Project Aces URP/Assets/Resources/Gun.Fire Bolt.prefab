@@ -309,10 +309,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   destroyTime: 6
-  colliderDelay: 0.1
   impactFX: {fileID: 4059048112221023793, guid: 15512d766efbfe74ab9f2bbc7d1aabfc, type: 3}
-  damageOutput: 580
   speed: 1000
+  colliderDelay: 0.05
+  damageOutput: 580
+  speedModifier: 0
 --- !u!33 &382763042845672787
 MeshFilter:
   m_ObjectHideFlags: 0

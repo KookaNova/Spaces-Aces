@@ -3,7 +3,7 @@ using UnityEngine;
 using Photon.Pun;
 
 namespace Cox.PlayerControls{
-    public class ImpactStyleGun : GunAmmoBehaviour
+    public class GunImpactStyle : GunAmmoBehaviour
     {
         private void Awake() {
             this.GetComponent<Rigidbody>().velocity = this.transform.forward * speed;

@@ -400,7 +400,7 @@ GameObject:
   - component: {fileID: 6786794137692798478}
   - component: {fileID: 602033360260553131}
   m_Layer: 14
-  m_Name: Missile
+  m_Name: Missile.Hardlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -484,13 +484,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6200246160423643314}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ad8b4060b4821e47be12bd6667a2e70, type: 3}
+  m_Script: {fileID: 11500000, guid: 6d251931ddd69184ea584c543e65cb1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   destroyTime: 10
   missileSpeed: 1000
-  turningLimit: 25
-  missProbability: 3
+  turningLimit: 30
+  missProbability: 2.2
   currentSpeed: 0
   damageOutput: 650
   explosion: {fileID: 2304293104747472803, guid: 8838414e0044b444fb2e539d1dc98ba0, type: 3}
