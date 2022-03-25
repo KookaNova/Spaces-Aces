@@ -16,8 +16,8 @@ MonoBehaviour:
   gamemodeName: Elimination
   EliminationPoints: 1
   isTeams: 1
-  playerCount: 1
-  AIPlayers: 5
+  playerCount: 2
+  AIPlayers: 0
   scoreValue: 1
   maxScore: 15
   timeLimit: 600

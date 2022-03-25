@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Quickplay Games
   m_EditorClassIdentifier: 
   matchmakingType: Quickplay
-  expectedMaxPlayers: 1
+  expectedMaxPlayers: 2
   gamemodeSettings: {fileID: 11400000, guid: 179f959c91b24b143912aed3fcc1d2c0, type: 2}
   levelOptions:
   - {fileID: 11400000, guid: 179f959c91b24b143912aed3fcc1d2c0, type: 2}

@@ -20,4 +20,4 @@ MonoBehaviour:
   AIPlayers: 5
   scoreValue: 1
   maxScore: 5
-  timeLimit: 44
+  timeLimit: 255

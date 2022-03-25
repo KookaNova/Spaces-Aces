@@ -24,7 +24,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 200}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 1
-  controlID: 12717
+  controlID: 14209
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 100}
   m_MaxSize: {x: 32384, y: 8096}
   vertical: 0
-  controlID: 12718
+  controlID: 14210
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -211,7 +211,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Resources
+    - Assets/Games Data
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 0
@@ -251,9 +251,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_AssetTreeState:
-    scrollPos: {x: 0, y: 340}
-    m_SelectedIDs: 64890000
-    m_LastClickedID: 35172
+    scrollPos: {x: 0, y: 1133.4}
+    m_SelectedIDs: 
+    m_LastClickedID: 0
     m_ExpandedIDs: ffffffff00000000766c0000c6840000288700002a8700002c8700002e87000030870000328700003487000036870000388700003a8700003c8700003e87000040870000428700004487000046870000488700004a8700004c8700004e870000508700005487000056870000588700005a8700005c8700005e87000060870000628700006487000066870000688700006a8700006c8700006e87000070870000728700007487000076870000788700007a8700007c8700007e87000080870000828700008487000086870000888700008a8700008c8700008e87000090870000928700009487000096870000988700009a8700009c8700009e870000a0870000a2870000a6870000a8870000aa870000ac870000ae870000b0870000b2870000b8870000ba870000bc870000be870000c0870000c2870000c4870000c6870000c8870000ca870000cc870000ce870000d0870000d2870000d4870000d6870000d8870000da870000dc870000de870000e0870000e2870000e4870000e6870000e8870000ea870000ec870000ee870000f0870000f2870000f4870000f6870000f8870000fa870000fc870000fe8700000088000002880000168d00007c8d0000868d00008a8d0000e03e0100
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -279,8 +279,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 64890000
-    m_LastClickedInstanceID: 35172
+    m_SelectedInstanceIDs: 
+    m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c6230000224400005086000010500000a4630000
     m_RenameOverlay:
@@ -1814,8 +1814,8 @@ MonoBehaviour:
     y: 0
     width: 230.40002
     height: 373.6
-  m_MinSize: {x: 202, y: 221}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 10}
   m_Panes:
   - {fileID: 10}
@@ -1854,7 +1854,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 1279e1ff92e4e3ffce91f6ff16fef7ffde03f8ff9404f8ff6417f8ff2619f8ffd025f8ff4a28f8ff8230f8ff1227f9ff6c27faff2228faff283bfaffe63cfaff9249faff084cfaffd654faffd6a1faff8ca2faff92b5faff50b7fafffcc3faff72c6faff40cffaff7e1cfbff341dfbff3a30fbfff831fbffa43efbff1a41fbffe849fbff84b9fbff3cbafbff08d0fbffc6d1fbff78defbfff4e0fbffc2e9fbffdc26fcff9627fcff643dfcff223ffcffd44bfcff504efcff1e57fcff5873fdff1274fdfff889fdffba8bfdff7298fdfff69afdffc8a3fdff448cfeff16fbffff78d70000
+      m_ExpandedIDs: d4f0deff8cf1deff4806dfff0a08dfffbe14dfff4017dfff1220dfff06a3dfffbea3dfff6ab9dfff2cbbdfffe4c7dfff68cadfff9ad2dfff1279e1ff92e4e3ffce91f6ff16fef7ffde03f8ff9404f8ff6417f8ff2619f8ffd025f8ff4a28f8ff8230f8ff1227f9ff6c27faff2228faff283bfaffe63cfaff9249faff084cfaffd654faffd6a1faff8ca2faff92b5faff50b7fafffcc3faff72c6faff40cffaff7e1cfbff341dfbff3a30fbfff831fbffa43efbff1a41fbffe849fbff84b9fbff3cbafbff08d0fbffc6d1fbff78defbfff4e0fbffc2e9fbffdc26fcff9627fcff643dfcff223ffcffd44bfcff504efcff1e57fcff5873fdff1274fdfff889fdffba8bfdff7298fdfff69afdffc8a3fdff448cfeff16fbffff78d70000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1897,8 +1897,8 @@ MonoBehaviour:
     y: 0
     width: 317.59998
     height: 373.6
-  m_MinSize: {x: 276, y: 71}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 12}
   m_Panes:
   - {fileID: 12}
@@ -1939,7 +1939,7 @@ MonoBehaviour:
     m_CachedPref: -151
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
-  m_LastInspectedObjectInstanceID: 35172
+  m_LastInspectedObjectInstanceID: -1
   m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
   m_InspectorMode: 0

@@ -11,6 +11,6 @@ public class GamemodeData : ScriptableObject
     public byte AIPlayers;
     public byte scoreValue;
     public byte maxScore;
-    public byte timeLimit;
+    public int timeLimit;
     
 }
