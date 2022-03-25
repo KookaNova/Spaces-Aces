@@ -12,6 +12,11 @@ public class TargetableObject : MonoBehaviour
     }
     public TargetType targetTeam;
     public string nameOfTarget = "Targetable Object";
+    [HideInInspector] public MeshRenderer mesh;
+
+    private void Awake(){
+        mesh = GetComponentInChildren<MeshRenderer>();
+    }
 
 
 }

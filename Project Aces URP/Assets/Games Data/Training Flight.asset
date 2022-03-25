@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62ca6008eb1ad7a4d923bdb429e5f557, type: 3}
   m_Name: Training Flight
   m_EditorClassIdentifier: 
-  levelName: Training Flight
-  gamemodeName: Training
-  maxPlayers: 1
-  teamNames:
-  - Player
-  - Bot
+  levelName: Asteroid Mine
+  gamemodeName: Elimination
+  EliminationPoints: 1
+  isTeams: 1
+  playerCount: 1
+  AIPlayers: 5
+  scoreValue: 1
+  maxScore: 5
+  timeLimit: 44

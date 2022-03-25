@@ -179,7 +179,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
                 GenerateIndicators();
                 return;
             }
-            if(gameManager.allTargets[i].gameObject.activeInHierarchy == false || !gameManager.allTargets[i].GetComponentInChildren<MeshRenderer>().isVisible){
+            if(gameManager.allTargets[i].gameObject.activeInHierarchy == false || !gameManager.allTargets[i].mesh.isVisible){
                 activeIndicators[i].gameObject.SetActive(false);
                 continue;
             }
@@ -359,7 +359,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
                currentTarget = 0;
             }
            
-            if(!gameManager.allTargets[currentTarget].gameObject.activeInHierarchy || !gameManager.allTargets[i].GetComponentInChildren<MeshRenderer>().isVisible 
+            if(!gameManager.allTargets[currentTarget].gameObject.activeInHierarchy || !gameManager.allTargets[i].mesh.isVisible 
             || gameManager.allTargets[currentTarget].targetTeam.ToString() != targMode.ToString() || gameManager.allTargets[currentTarget] == owner.targetableObject){
                 if(i == gameManager.allTargets.Count - 1){
                     currentTarget = -1;

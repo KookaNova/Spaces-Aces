@@ -972,6 +972,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetTeam: 0
   nameOfTarget: Targetable Object
+  mesh: {fileID: 0}
 --- !u!1 &860755339811914408
 GameObject:
   m_ObjectHideFlags: 0

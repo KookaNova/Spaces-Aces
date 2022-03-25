@@ -91,6 +91,7 @@ public class MenuManager : VisualElement
 
         //Multiplayer Clicks
         m_Multiplayer?.Q("Quickplay")?.RegisterCallback<ClickEvent>(ev => multiplayerLauncher.FindMatchFromPlaylist(multiplayerLauncher.quickplay));
+        m_Home?.Q("Training")?.RegisterCallback<ClickEvent>(ev => multiplayerLauncher.StartOfflineGame(multiplayerLauncher.trainingMode));
         m_MatchSearch?.Q("CancelSearch")?.RegisterCallback<ClickEvent>(ev => multiplayerLauncher.LeaveRoom());
 
         //Submit Events
@@ -105,6 +106,7 @@ public class MenuManager : VisualElement
         m_Nameplate.RegisterCallback<NavigationSubmitEvent>(ev => EnableProfile());
         m_Home.Q("Exit")?.RegisterCallback<NavigationSubmitEvent>(ev => sceneController.ExitGame());
         m_Multiplayer?.Q("Quickplay")?.RegisterCallback<NavigationSubmitEvent>(ev => multiplayerLauncher.FindMatchFromPlaylist(multiplayerLauncher.quickplay));
+        m_Home?.Q("Training")?.RegisterCallback<NavigationSubmitEvent>(ev => multiplayerLauncher.StartOfflineGame(multiplayerLauncher.trainingMode));
         m_MatchSearch?.Q("CancelSearch")?.RegisterCallback<NavigationSubmitEvent>(ev => multiplayerLauncher.LeaveRoom());
 
         if(isSearching){

@@ -2182,6 +2182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetTeam: 0
   nameOfTarget: Targetable Object
+  mesh: {fileID: 0}
 --- !u!114 &8207525965431280603
 MonoBehaviour:
   m_ObjectHideFlags: 0

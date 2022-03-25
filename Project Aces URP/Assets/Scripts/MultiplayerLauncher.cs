@@ -32,6 +32,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
     #endregion
 
     public GamesHandler quickplay;
+    public GamemodeData trainingMode;
     private GamemodeData chosenMode;
     private GamesHandler gamesHandler;
     Hashtable customProperties;
@@ -132,7 +133,6 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         menuManager.EnableMatchSearch();
         menuManager.EnableHome();
         gameStatusLabel.text = "Searching for a match...";  
-        
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
