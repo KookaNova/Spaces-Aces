@@ -35,9 +35,13 @@ MonoBehaviour:
   StartInOfflineMode: 0
   RpcList:
   - Activate
+  - CancelGame
   - ClickRpc
   - DestroyRpc
+  - GameOver
+  - GameTimer
   - StartCountDown
+  - StartGame
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

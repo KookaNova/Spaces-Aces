@@ -69,11 +69,13 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
     #region Functionality
 
     #region setup    
+    
     public override void OnEnable(){
         gameManager = FindObjectOfType<GameManager>();
         playerAudio = GetComponent<AudioSource>();
         isAwaitingRespawn = true;
     }
+    [PunRPC]
     public virtual void Activate(){}
     /// <summary>
     ///0=Start Match | 1=Primary | 2=Secondary | 3=Ace | 4=EnemyBeingTargeted

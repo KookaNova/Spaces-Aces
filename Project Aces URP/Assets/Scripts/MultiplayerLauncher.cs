@@ -13,6 +13,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
     #region UI Fields
     VisualElement root;
     MenuManager menuManager;
+    SceneController sceneController;
     Label versionLabel, serverLabel, connectingLabel, connectMessageLabel, gameStatusLabel;
     //Private Games UI
     string hostText, levelText, gamemodeText, maxPlayerText, isPublicText, privateStatusText;
@@ -56,6 +57,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         connectMessageLabel = root.Q<Label>("ConnectMessage");
         gameStatusLabel = root.Q<Label>("GameStatus");
         versionLabel.text = gameVersion;
+        sceneController = FindObjectOfType<SceneController>();
 
         if(PhotonNetwork.IsConnected){
             serverLabel.text = PhotonNetwork.CloudRegion.ToString();
@@ -380,6 +382,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
     private IEnumerator StartingCountdownOffline(GamemodeData gamemodeData){
         Debug.Log("Starting Offline Countdown...");
         gameStatusLabel.text = "Offline Mode";
+        sceneController.chosenGamemode = gamemodeData;
         
 
         int timer = countDownTime;

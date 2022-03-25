@@ -627,7 +627,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SynchronizeVelocity: 1
   m_SynchronizeAngularVelocity: 1
-  m_TeleportEnabled: 1
+  m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
 --- !u!114 &738894169032128237
 MonoBehaviour:
@@ -644,7 +644,7 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 3
+  Synchronization: 1
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
@@ -666,6 +666,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetTeam: 0
   nameOfTarget: Targetable Object
+  mesh: {fileID: 0}
 --- !u!1 &991431466094901763
 GameObject:
   m_ObjectHideFlags: 0

@@ -26,7 +26,8 @@ namespace Cox.PlayerControls{
         float rotationLimit;
 
         private TargetableObject closestTarget;
-
+        
+        [PunRPC]
         public override void Activate(){
             isMaster = PhotonNetwork.IsMasterClient;
             playerAudio.outputAudioMixerGroup = externalVoice;

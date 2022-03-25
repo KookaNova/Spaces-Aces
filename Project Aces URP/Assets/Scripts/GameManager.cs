@@ -100,14 +100,14 @@ public class GameManager : MonoBehaviourPunCallbacks
             
             int spawnPoint = Random.Range(0, teamASpawnpoints.Length);
             var p = PhotonNetwork.Instantiate(this.playerPrefab.name, teamASpawnpoints[playersA].position, teamASpawnpoints[playersA].rotation, 0);
-            p.GetComponentInChildren<SpacecraftController>().Activate();
+            p.GetComponentInChildren<SpacecraftController>().photonView.RPC("Activate", RpcTarget.All);
             playersA++;
             Debug.LogFormat("GameManager: SpawnPlayer(), Spawned player {0} at {1}.", p, spawnPoint);
         }
         else{
             int spawnPoint = Random.Range(0, teamBSpawnpoints.Length);
             var p = PhotonNetwork.Instantiate(this.playerPrefab.name, teamBSpawnpoints[playersB].position, teamASpawnpoints[playersA].rotation, 0);
-            p.GetComponentInChildren<SpacecraftController>().Activate();
+            p.GetComponentInChildren<SpacecraftController>().photonView.RPC("Activate", RpcTarget.All);
             playersB++;
             Debug.LogFormat("GameManager: SpawnPlayer(), Spawned player {0} at {1}.", p, spawnPoint);
         }
@@ -121,30 +121,41 @@ public class GameManager : MonoBehaviourPunCallbacks
             CancelGame();
         }
         if(PhotonNetwork.PlayerList.Length >= currentGamemode.playerCount){
-            StartCoroutine(StartCountDown());
-            root.Q<Label>("GameTimer").text = startCount.ToString();
+            if(PhotonNetwork.IsMasterClient){
+                photonView.RPC("StartCountDown", RpcTarget.All, null);
+                //StartCoroutine(StartCountDown());
+                root.Q<Label>("GameTimer").text = startCount.ToString();
+            }
+            
         }
         else{
             StartCoroutine(StartCheck());
         }
     }
 
+    [PunRPC]
     private IEnumerator StartCountDown(){
         yield return new WaitForSecondsRealtime(1);
         startCount--;
         root.Q<Label>("GameTimer").text = "Game starts in " + startCount.ToString();
         if(startCount <= 0){
-            StartGame();
+            if(PhotonNetwork.IsMasterClient){
+                photonView.RPC("StartGame", RpcTarget.All);
+
+            }
+            //StartGame();
         }
         else{
             StartCoroutine(StartCountDown());
         }
     }
     
+    [PunRPC]
     private void StartGame(){
         Debug.Log(allTargets.Count);
         gameStarted = true;
-        StartCoroutine(GameTimer());
+        photonView.RPC("GameTimer", RpcTarget.AllBuffered);
+        //StartCoroutine(GameTimer());
         SpawnPlayer();
 
         //Only spawn in AI if we're the master client. This prevents duplicates from other clients instantiating AI over the network.
@@ -157,7 +168,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                         var controller = p.GetComponentInChildren<SpacecraftController>();
                         controller.teamName = "A";
                         controller.name = "AI" + i.ToString();
-                        p.GetComponentInChildren<SpacecraftController>().Activate();
+                        p.GetComponentInChildren<SpacecraftController>().photonView.RPC("Activate", RpcTarget.All);
                         UpdateScoreBoard(controller);
                         playersA++;
                     }
@@ -167,7 +178,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                         var controller = p.GetComponentInChildren<SpacecraftController>();
                         controller.teamName = "B";
                         controller.name = "AI" + i.ToString();
-                        p.GetComponentInChildren<SpacecraftController>().Activate();
+                        p.GetComponentInChildren<SpacecraftController>().photonView.RPC("Activate", RpcTarget.All);
                         UpdateScoreBoard(controller);
                         playersB++;
                     }
@@ -177,10 +188,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         Debug.Log(allTargets.Count);
         Debug.Log("Current Players: " + PhotonNetwork.PlayerList.Length);
     }
+    [PunRPC]
     private void CancelGame(){
         Debug.Log("CancelGame() Called! Not enough players!");
         StartCoroutine(GoToPostGame());
     }
+    [PunRPC]
     private void GameOver(){
         gameOver = true;
         root.Q("GameOver").style.display = DisplayStyle.Flex;
@@ -417,6 +430,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
     #endregion
+    [PunRPC]
     private IEnumerator GameTimer(){
         if(gameOver){
             root.Q<Label>("GameTimer").text = "Game Over.";
