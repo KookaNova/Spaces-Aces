@@ -37,12 +37,15 @@ namespace Cox.PlayerControls{
                             }
                             return;
                         }
-                        if(hit.distance < 600){
-                            sc.missileClose = true;
+                        if(sc != null){
+                            if(hit.distance < 600){
+                                sc.missileClose = true;
+                            }
+                            else{
+                                sc.missileClose = false;
+                            }
                         }
-                        else{
-                            sc.missileClose = false;
-                        }
+                        
                     }
                     else{
                         target = null;

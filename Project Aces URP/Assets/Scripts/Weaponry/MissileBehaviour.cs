@@ -40,17 +40,17 @@ public abstract class MissileBehaviour : MonoBehaviourPun
     protected virtual void OnCollisionEnter(Collision obj){
         if(obj.gameObject.GetComponentInParent<SpacecraftController>()){
             obj.gameObject.GetComponentInParent<SpacecraftController>().TakeDamage(damageOutput, owner, weaponName);
-            if(owner.isActiveAndEnabled){
-                 owner.TargetHit();
+            if(photonView.IsMine && owner.isActiveAndEnabled){
+                owner.TargetHit();
             }
             
             if(sc != null){
                 sc.missileChasing = false;
             }
         }
-        EndUse();
+        photonView.RPC("EndUse", RpcTarget.All);
     }
-
+    [PunRPC]
     public virtual void EndUse(){
         Instantiate(explosion, transform.position, Quaternion.identity);
         trail.transform.parent = null;
@@ -72,7 +72,8 @@ public abstract class MissileBehaviour : MonoBehaviourPun
             rb.transform.LookAt(target.transform);
         }
         yield return new WaitForSecondsRealtime(destroyTime); 
-        trail.transform.parent = null; PhotonNetwork.Destroy(gameObject);
+        trail.transform.parent = null; 
+        if(photonView.IsMine) PhotonNetwork.Destroy(gameObject);
 
     }
 }

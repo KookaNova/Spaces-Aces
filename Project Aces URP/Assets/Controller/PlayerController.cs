@@ -64,6 +64,7 @@ namespace Cox.PlayerControls{
             //Instantiates the chosen ship and parents it under the controller. Then gets important info from the ship.
             if(photonView.IsMine){
                 ship = PhotonNetwork.Instantiate(chosenShip.shipPrefab.name, transform.position, transform.rotation);
+                
                 ship.transform.SetParent(this.gameObject.transform);
                 shipBehaviour = ship.GetComponent<ShipBehaviour>();
                 shipBehaviour.SetController(this);
@@ -323,17 +324,23 @@ namespace Cox.PlayerControls{
         VoiceLine(10);
         //Do something related to low health
     }
-    protected override void Deactivate(){
+    [PunRPC]
+    protected override void Deactivate(int viewID){
         currentHealth = 0;
         currentShields = 0;
         currentSpeed = 0;
         isAwaitingRespawn = true;
-        primaryAbility.canUse = true;
-        secondaryAbility.canUse = true;
-        _rb.velocity = Vector3.zero;
-        _rb.angularVelocity = Vector3.zero;
-        ship.SetActive(false);
+        
 
+
+        PhotonView.Find(viewID).gameObject.SetActive(false);
+
+        if(photonView.IsMine){
+            primaryAbility.canUse = true;
+            secondaryAbility.canUse = true;
+            _rb.velocity = Vector3.zero;
+            _rb.angularVelocity = Vector3.zero;
+        }
         if(previousAttacker != null){
             cameraController.FollowTarget(true, previousAttacker.gameObject);
         }
@@ -342,7 +349,6 @@ namespace Cox.PlayerControls{
 
         //Set controls inactive to avoid errors when inputs are made.
         HudController.OverlaySetActive(false);
-
         cameraController.gameObject.SetActive(false);
         weaponSystem.gameObject.SetActive(false);
     }

@@ -42,6 +42,11 @@ MonoBehaviour:
   - GameTimer
   - StartCountDown
   - StartGame
+  - EndUse
+  - TakeDamage
+  - Eliminate
+  - Deactivate
+  - SpawnPlayer
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -69,7 +69,7 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
     #region Functionality
 
     #region setup    
-    
+
     public override void OnEnable(){
         gameManager = FindObjectOfType<GameManager>();
         playerAudio = GetComponent<AudioSource>();
@@ -88,7 +88,8 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
         playerAudio.Play();
         gameManager.Subtitle(chosenCharacter.voiceLines[index]);
     }
-    protected virtual void Deactivate(){
+    [PunRPC]
+    protected virtual void Deactivate(int viewID){
         //player controller overrides this
         isAwaitingRespawn = true;
         currentHealth = 0;
@@ -99,7 +100,8 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
         _rb.velocity = Vector3.zero;
         _rb.angularVelocity = Vector3.zero;
         weaponSystem.gameObject.SetActive(false);
-        ship.SetActive(false);
+        
+        PhotonView.Find(viewID).gameObject.SetActive(false);
 
         //turn off trailer renderer
     }
@@ -125,11 +127,7 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
         
     }
 
-    public void MenuButton(){
-    }
     #endregion
-    
-    
     protected virtual void FixedUpdate(){
         //#Critical: If player is not local, return.
         if(photonView == null)return;
@@ -170,6 +168,7 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
     }
 
     #region Damage
+    [PunRPC]
     public void TakeDamage(float damage, SpacecraftController attacker, string cause){
         PlayerDamage();
         isShieldRecharging = false;
@@ -189,7 +188,8 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
             currentHealth -= damage;
         }
         if(currentHealth < 0){
-            Eliminate(attacker, cause);
+            photonView.RPC("Eliminate", RpcTarget.All, attacker, cause);
+            //Eliminate(attacker, cause);
         }
         float difference = maxHealth - currentHealth;
         float healthPercentage = 1 - (difference/maxHealth);
@@ -226,8 +226,11 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
     /// <summary>
     /// When a player's health reaches zero or they exit the arena boundaries, this function is called. The variable "attacker" can be null.
     /// </summary>
+    [PunRPC]
     public void Eliminate(SpacecraftController attacker, string cause){
-        Instantiate(explosionObject, _rb.transform.position, _rb.transform.rotation);
+       if(photonView.IsMine){
+           PhotonNetwork.Instantiate(explosionObject.name, _rb.transform.position, _rb.transform.rotation);
+       } 
         deaths++;
         VoiceLine(11);
         SetRumble(1,1,.25f);
@@ -235,7 +238,9 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
 
         if(attacker != null){
             gameManager.FeedEvent(attacker, this, cause, true);
-            attacker.TargetDestroyed(true);
+
+            attacker.photonView.RPC("TargetDestroyed", RpcTarget.All, true);
+            //attacker.TargetDestroyed(true);
         }
         else{
             gameManager.FeedEvent(this, this, cause, true);
@@ -244,7 +249,9 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
         
         StartCoroutine(RespawnTimer());
         ApplyCustomData();
-        Deactivate();
+
+        photonView.RPC("Deactivate", RpcTarget.All, gameObject.transform.GetChild(0).gameObject.GetPhotonView().ViewID);
+        //Deactivate();
     }
 
     public virtual void TargetHit(){
@@ -264,11 +271,15 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
 
     }
 
-    public void SpawnPlayer(){
+    [PunRPC]
+    public void SpawnPlayer(int viewID){
         //Find a random spawn point to respawn at
-        int randInt = Random.Range(0, respawnPoints.Length - 1);
-        ship.transform.position = respawnPoints[randInt].position;
-        ship.transform.rotation = respawnPoints[randInt].rotation;
+        if(photonView.IsMine){
+            int randInt = Random.Range(0, respawnPoints.Length - 1);
+            ship.transform.position = respawnPoints[randInt].position;
+            ship.transform.rotation = respawnPoints[randInt].rotation;
+        }
+        
         //Set health back to max and no longer awaiting respawn
         currentHealth = maxHealth;
         currentShields = maxShield;
@@ -276,7 +287,7 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
         
 
         //Set Ship Active. Ship is now completely respawned.
-        ship.SetActive(true);
+        PhotonView.Find(viewID).gameObject.SetActive(true);
         weaponSystem.gameObject.SetActive(true);
         Reactivate();
         VoiceLine(12);
@@ -344,7 +355,7 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
     }
     private IEnumerator RespawnTimer(){
         yield return new WaitForSecondsRealtime(respawnTime);
-       SpawnPlayer();
+        photonView.RPC("SpawnPlayer", RpcTarget.All, gameObject.transform.GetChild(0).gameObject.GetPhotonView().ViewID);
     }
     #endregion
     #endregion

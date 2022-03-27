@@ -18,12 +18,12 @@ namespace Cox.PlayerControls{
         bool canDamageOwner = false;
         protected Collider thisCollider;
 
-        private void OnDisable() {
-
-            canDamageOwner = false;
-
-            
+        [PunRPC]
+        protected void EndUse(){
+            if(impactFX != null){
+                var impact = PhotonNetwork.Instantiate(impactFX.name, transform.position, transform.rotation);
+            }
+            if(photonView.IsMine) PhotonNetwork.Destroy(this.gameObject);
         }
-
     }
 }

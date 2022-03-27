@@ -19,15 +19,15 @@ namespace Cox.PlayerControls{
                     return;
                 }
                 else{
-                    controller.TakeDamage(damageOutput, owner, "gun");
-                    owner.TargetHit();
+                    if(photonView.IsMine){
+                        controller.photonView.RPC("TakeDamage", RpcTarget.All, damageOutput, owner, weaponName);
+                        //controller.TakeDamage(damageOutput, owner, "gun");
+                        owner.TargetHit();
+                    }
+                    
                 }
             }
-            if(impactFX != null){
-                var impact = Instantiate(impactFX);
-                impact.transform.position = transform.position;
-            }
-            if(photonView.IsMine) PhotonNetwork.Destroy(this.gameObject);
+            EndUse();
         }
 
         private IEnumerator StartUp(){
@@ -35,7 +35,8 @@ namespace Cox.PlayerControls{
             thisCollider.enabled = true;
 
             yield return new WaitForSeconds(destroyTime);
-            PhotonNetwork.Destroy(this.gameObject);
+
+            if(photonView.IsMine)PhotonNetwork.Destroy(this.gameObject);
         }
     }
 }
