@@ -168,33 +168,33 @@ public class PlayerHUDController : MonoBehaviour
 
         for(int i = 0; i < textTargetMode.Count; i++){
             switch(weapons.targMode){
-                case WeaponsController.TargetingMode.TeamA:
-                    if(owner.teamName == "A"){
-                        textTargetMode[i].text = ("Targeting Allies");
+                case 0:
+                    if(owner.teamInt == 0){
+                        textTargetMode[i].text = "Targeting Allies";
                         root.Q<Label>("TargetingMode").text = "Targeting Allies";
                     }
                     else{
-                        textTargetMode[i].text = ("Targeting Enemies");
+                        textTargetMode[i].text = "Targeting Enemies";
                         root.Q<Label>("TargetingMode").text = "Targeting Enemies";
                     }
                     break;
-                case WeaponsController.TargetingMode.TeamB:
-                    if(owner.teamName == "A"){
-                        textTargetMode[i].text = ("Targeting Enemies");
+                case 1:
+                    if(owner.teamInt == 0){
+                        textTargetMode[i].text = "Targeting Enemies";
                         root.Q<Label>("TargetingMode").text = "Targeting Enemies";
                     }
                     else{
-                        textTargetMode[i].text = ("Targeting Allies");
+                        textTargetMode[i].text = "Targeting Allies";
                         root.Q<Label>("TargetingMode").text = "Targeting Allies";
                     }
                     break;
-                case WeaponsController.TargetingMode.Global:
-                        textTargetMode[i].text = ("Targeting " + weapons.targMode.ToString());
-                        root.Q<Label>("TargetingMode").text = "Targeting:" + weapons.targMode.ToString();
+                case 2:
+                        textTargetMode[i].text = "Targeting Global";
+                        root.Q<Label>("TargetingMode").text = "Targeting Global";
                     break;
-                case WeaponsController.TargetingMode.Objective:
-                    textTargetMode[i].text = ("Targeting " + weapons.targMode.ToString());
-                    root.Q<Label>("TargetingMode").text = "Targeting:" + weapons.targMode.ToString();
+                case 3:
+                    textTargetMode[i].text = "Targeting Objective";
+                    root.Q<Label>("TargetingMode").text = "Targeting Objective";
                     break;
 
             } 

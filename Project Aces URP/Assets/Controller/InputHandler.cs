@@ -56,10 +56,12 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
 
     //Inputs
     public void OnMenuButton(InputAction.CallbackContext pressed){
+        if(photonView.IsMine)
         root.Q<GameUIManager>().ToggleMenu();
         UnityEngine.Cursor.lockState = CursorLockMode.Confined;
     }
     public void OnTabMenuButton(InputAction.CallbackContext pressed){
+        if(photonView.IsMine)
         root.Q<GameUIManager>().ToggleTab();
     }
     public void OnBrake(InputAction.CallbackContext value){
@@ -114,16 +116,14 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
         StartCoroutine(ResetMouseInput());
     }
 
-    public void OnTargetModeAdd(InputAction.CallbackContext pressed)
-    {
+    public void OnTargetModeAdd(InputAction.CallbackContext pressed){
         if(photonView.IsMine)
         if(pressed.ReadValueAsButton())targetMode += 1;
         if(targetMode > 3)targetMode = 0;
         player.ChangeTargetMode(targetMode);
     }
 
-    public void OnTargetModeSub(InputAction.CallbackContext pressed)
-    {
+    public void OnTargetModeSub(InputAction.CallbackContext pressed){
         if(photonView.IsMine)
         if(pressed.ReadValueAsButton())targetMode -= 1;
         if(targetMode > 3)targetMode = 0;
@@ -131,8 +131,7 @@ public class InputHandler : MonoBehaviourPunCallbacks, ControlInputActions.IFlig
         player.ChangeTargetMode(targetMode);
     }
 
-    public void OnCameraTargetLock(InputAction.CallbackContext context)
-    {
+    public void OnCameraTargetLock(InputAction.CallbackContext context){
         if(photonView.IsMine)
         player.CameraLockTarget();
     }

@@ -45,7 +45,7 @@ namespace Cox.PlayerControls{
             playerName = chosenCharacter.name + "(AI)";
 
             //Find respawn points. Once teams are figured out, this needs to find specific team spawn points.
-            if(teamName == "A"){
+            if(teamInt == 0){
                 respawnPoints = FindObjectOfType<GameManager>().teamASpawnpoints;
             }
             else{
@@ -67,13 +67,12 @@ namespace Cox.PlayerControls{
                 _rb = ship.GetComponent<Rigidbody>();
                 var targetable = ship.GetComponent<TargetableObject>();
                 targetable.nameOfTarget = playerName;
-                if(teamName == "A"){
-                    targetable.targetTeam = TargetableObject.TargetType.TeamA;
-                    weaponSystem.targMode = WeaponsController.TargetingMode.TeamB;
+                targetableObject.targetTeam = teamInt;
+                if(teamInt == 0){
+                    weaponSystem.targMode = 1; //Target team B
                 }
                 else{
-                    targetable.targetTeam = TargetableObject.TargetType.TeamB;
-                    weaponSystem.targMode = WeaponsController.TargetingMode.TeamA;
+                    weaponSystem.targMode = 0; //Target team A
                 }
 
                 //Activate systems after the passive modifiers are applied
@@ -111,7 +110,7 @@ namespace Cox.PlayerControls{
         }
         public override void ApplyCustomData(){
         customProperties = new Hashtable(){
-            {"Team", teamName},
+            {"Team", teamInt},
             {"Name", playerName},
             {"Character", chosenCharacter.name},
             {"Ship", chosenShip.name},
@@ -129,7 +128,7 @@ namespace Cox.PlayerControls{
         aiStates = AiStates.Follow;
         var enemies = new List<TargetableObject>();
         for(int i = 0; i < gameManager.allTargets.Count; i++){
-            if(gameManager.allTargets[i].targetTeam != targetableObject.targetTeam && gameManager.allTargets[i].targetTeam != TargetableObject.TargetType.Global && gameManager.allTargets[i].targetTeam != TargetableObject.TargetType.Objective){
+            if(gameManager.allTargets[i].targetTeam != targetableObject.targetTeam && gameManager.allTargets[i].targetTeam != 2 && gameManager.allTargets[i].targetTeam != 3){
                 if(enemies.Count <= i){
                     enemies.Add(gameManager.allTargets[i]);
                 }

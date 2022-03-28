@@ -37,16 +37,17 @@ MonoBehaviour:
   - Activate
   - CancelGame
   - ClickRpc
+  - Deactivate
   - DestroyRpc
+  - Eliminate
+  - EndUse
   - GameOver
   - GameTimer
+  - SpawnPlayer
   - StartCountDown
   - StartGame
-  - EndUse
   - TakeDamage
-  - Eliminate
-  - Deactivate
-  - SpawnPlayer
+  - AddTarget
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

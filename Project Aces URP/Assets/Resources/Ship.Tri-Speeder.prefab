@@ -560,6 +560,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c7f9b5f8c091b64da4f02045a2e160b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetableObject: {fileID: 0}
   collisionSound: {fileID: 9043316144391420433}
   gearsResolving: {fileID: 6700471017029595007}
   missileWarning: {fileID: 6469385825936793406}

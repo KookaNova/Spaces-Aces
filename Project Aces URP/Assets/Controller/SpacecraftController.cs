@@ -18,7 +18,8 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
     [HideInInspector] protected GameManager gameManager; //#CRITICAL: handles gamemodes, kill feed, score, and tracking all players in the scene.
     [HideInInspector] public CharacterHandler chosenCharacter = null; //#CRITICAL: fills ability data and adds values to ship data.
     [HideInInspector] public ShipHandler chosenShip = null; //#CRITICAL: fills ship data and is required for the the ship to spawn in.
-    [HideInInspector] public string playerName, teamName; //#CRITICAL: required for choosing spawn points and filling name data.
+    [HideInInspector] public string playerName; //#CRITICAL: required for filling name data.
+    [HideInInspector] public int teamInt; //#CRITICAL: required for choosing spawn points.
     protected Transform[] respawnPoints; //#CRITICAL: required for spawning the player into the game.
     #endregion
     

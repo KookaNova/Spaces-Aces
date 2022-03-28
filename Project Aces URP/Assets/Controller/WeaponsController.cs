@@ -10,20 +10,12 @@ namespace Cox.PlayerControls{
 /// and attack enemies with missiles and guns. </summary>
 public class WeaponsController : MonoBehaviourPunCallbacks
 {
-
     //code for finding the next target needs work. Consider adding a variable for it that's more consistent.
-
     #region Serialized Fields
-    public enum TargetingMode{
-        TeamA,
-        TeamB,
-        Global,
-        Objective
-    }
     public GameManager gameManager;
 
     [HideInInspector] public SpacecraftController owner = null;
-    [HideInInspector] public TargetingMode targMode = TargetingMode.TeamA;
+    [Range(0,3)] [HideInInspector] public int targMode = 0; //0 = A, 1 = B, 2 = Global, 3 = Objective
     [SerializeField] private Canvas worldHud, overlayHud;
     [SerializeField] private Image aimReticle, distanceReticle;
     [SerializeField] private GameObject lockIndicator;
@@ -80,11 +72,11 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         lockedText = lockIndicator.GetComponentInChildren<Text>();
 
         //Spawns the player targeting the enemy
-        if(owner.targetableObject.targetTeam == TargetableObject.TargetType.TeamA){
-            targMode = TargetingMode.TeamB;
+        if(owner.targetableObject.targetTeam == 0){
+            targMode = 1;
         }
         else{
-            targMode = TargetingMode.TeamA;
+            targMode = 0;
         }
     }
 
@@ -111,55 +103,28 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     #region targeting
     
     public void ChangeTargetMode(int input){
-        if(input == 0){
-            targMode = TargetingMode.TeamA;
-        }
-        if(input == 1){
-            targMode = TargetingMode.TeamB;
-        }
-        if(input == 2){
-            targMode = TargetingMode.Global;
-        }
-        if(input == 3){
-            targMode = TargetingMode.Objective;
-        }
-
+        targMode = input;
         CycleMainTarget();
     
     }
-    /*private void CleanTargetSelection(){
-        currentTargetSelection.Clear();
-        for (int i = 0; i < gameManager.allTargets.Count; i++){
-            if(gameManager.allTargets[i].targetTeam.ToString() == targMode.ToString()){
-                if(gameManager.allTargets[i] == owner.targetableObject){
-                    continue;
-                }
-                currentTargetSelection.Add(gameManager.allTargets[i]); //add object to current selection if it's target mode matches
-            }
-        }
-        GenerateIndicators();
-    }*/
 
     private void GenerateIndicators(){
         if(!photonView.IsMine)return;
-        //destroy old indicators when mode is changed
-        for(int i = 0; i < activeIndicators.Count; i++){
+        for(int i = 0; i < activeIndicators.Count; i++){ //destroy old indicators when mode is changed
             if(activeIndicators[i] == null)continue;
             Destroy(activeIndicators[i].gameObject);
         }
         activeIndicators.Clear();
         activeIndicators.TrimExcess();
 
-        //Create indicators and deactivate them, wait for object to be on camera to activate
-        for(int i = 0; i < gameManager.allTargets.Count; i++){
-            
-            var a = Instantiate(objectIndicator, overlayHud.transform);
+        for(int i = 0; i < gameManager.allTargets.Count; i++){ //Create indicators and deactivate them, wait for object to be on camera to activate
+            var a = Instantiate(objectIndicator, overlayHud.transform); 
             activeIndicators.Add(a);
             a.name = "Target_Indicator." + i;
             if(gameManager.allTargets[i].targetTeam == owner.targetableObject.targetTeam) a.gameObject.GetComponent<Image>().color = ColorPaletteHelper.friendly;
             if(gameManager.allTargets[i].targetTeam != owner.targetableObject.targetTeam) a.gameObject.GetComponent<Image>().color = ColorPaletteHelper.enemy;
-            if(gameManager.allTargets[i].targetTeam == TargetableObject.TargetType.Global) a.gameObject.GetComponent<Image>().color = ColorPaletteHelper.global;
-            if(gameManager.allTargets[i].targetTeam == TargetableObject.TargetType.Objective) a.gameObject.GetComponent<Image>().color = ColorPaletteHelper.objective;
+            if(gameManager.allTargets[i].targetTeam == 2) a.gameObject.GetComponent<Image>().color = ColorPaletteHelper.global;
+            if(gameManager.allTargets[i].targetTeam == 3) a.gameObject.GetComponent<Image>().color = ColorPaletteHelper.objective;
             
             a.gameObject.SetActive(false);
             a.GetComponent<Animator>().StopPlayback();
@@ -167,8 +132,10 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     }
 
     private void PositionIndicators(){
-        //return if there are no targets
-        if(gameManager.allTargets.Count <= 0 || activeIndicators.Count <= 0){
+        if(activeIndicators.Count != gameManager.allTargets.Count){
+            GenerateIndicators();
+        }
+        if(gameManager.allTargets.Count <= 0 || activeIndicators.Count <= 0){ //return and try again if there are no targets
             GenerateIndicators();
             return;
         }
@@ -209,14 +176,6 @@ public class WeaponsController : MonoBehaviourPunCallbacks
                 activeIndicators[i].gameObject.SetActive(true);
                 if(currentTarget == -1 && gameManager.allTargets[i].targetTeam.ToString() == targMode.ToString()){
                     currentTarget = i;
-                    /*if((i+1) < gameManager.allTargets.Count){
-                        activeIndicators[currentTarget].next.gameObject.SetActive(false);
-                        activeIndicators[i+1].next.gameObject.SetActive(true);
-                    }
-                    else{
-                        activeIndicators[currentTarget].next.gameObject.SetActive(false);
-                        activeIndicators[0].next.gameObject.SetActive(true);
-                    }*/
                 }  
             }
             else{
@@ -225,11 +184,10 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             }
             
             //Position indicator to the indicated objects screen position
-
             var screen = Camera.main.WorldToScreenPoint(gameManager.allTargets[i].gameObject.transform.position);
             screen.z = (overlayHud.transform.position - Camera.main.transform.position).magnitude;
             var targetScreenPosition = Camera.main.ScreenToWorldPoint(screen);
-            activeIndicators[i].transform.position = targetScreenPosition;
+            activeIndicators[i].transform.position = Vector3.Slerp(activeIndicators[i].transform.position, targetScreenPosition, 60 * Time.deltaTime);
             //Animation
             if(i == currentTarget){
                 activeIndicators[i].GetComponent<Animator>().StopPlayback();
@@ -237,18 +195,9 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             if(i != currentTarget){
                 activeIndicators[i].GetComponent<Animator>().StartPlayback();
             }
-            //Displays name
-            activeIndicators[i].playerName.text = gameManager.allTargets[i].GetComponent<TargetableObject>().nameOfTarget;
-            //Displays distance
-            activeIndicators[i].distance.text = (Vector3.Distance(transform.position, gameManager.allTargets[i].transform.position)).ToString();
-            activeIndicators[i].next.gameObject.SetActive(false);
-            /*if((currentTarget + 1) < gameManager.allTargets.Count){
-                activeIndicators[currentTarget+1].next.gameObject.SetActive(true);
-            }
-            else{
-                activeIndicators[0].next.gameObject.SetActive(true);
-            }*/
-            
+
+            activeIndicators[i].playerName.text = gameManager.allTargets[i].GetComponent<TargetableObject>().nameOfTarget; //Displays name
+            activeIndicators[i].distance.text = (Vector3.Distance(transform.position, gameManager.allTargets[i].transform.position)).ToString(); //Displays distance
         }
         
     }
@@ -339,7 +288,6 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         }
         else{
             CycleMainTarget();
-            
         }
     }
 

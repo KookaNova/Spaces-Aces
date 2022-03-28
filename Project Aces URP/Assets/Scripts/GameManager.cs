@@ -10,6 +10,7 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
+    #region Fields
     public static GameManager Instance; //used to keep data persistant if necessary, may not become used
 
     [SerializeField] GameObject playerPrefab; //#CRITICAL: this is the player
@@ -24,20 +25,21 @@ public class GameManager : MonoBehaviourPunCallbacks
     public List<TargetableObject> allTargets;
     
 
-    //gamemode related fields
+    #region Gamemode Fields
     int gameTimer = 600;
     int teamAScore, teamBScore;
     int playersA = 0, playersB = 0;
     int timeOut = 45, startCount = 3;
     bool gameStarted = false, gameOver = false;
+    #endregion
+
     //UI
     VisualElement root, feed, subtitle, tabScreen;
     [SerializeField] UIDocument uIDocument;
 
-    
+    #endregion
 
     #region GameStart
-
     private void Start() {
         sceneController = FindObjectOfType<SceneController>();
         if(sceneController != null){
@@ -63,8 +65,8 @@ public class GameManager : MonoBehaviourPunCallbacks
             PhotonNetwork.CreateRoom(null, null);
         }
 
-        if((string)PhotonNetwork.LocalPlayer.CustomProperties["Team"] == null){
-            PhotonNetwork.SetPlayerCustomProperties(new Hashtable(){{"Team", "A"}});
+        if(PhotonNetwork.LocalPlayer.CustomProperties["Team"] == null){
+            PhotonNetwork.SetPlayerCustomProperties(new Hashtable(){{"Team", 0}});
             playersA++;
         }
 
@@ -96,7 +98,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         if(isSelectLoaded)return;
 
         // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-        if((string)PhotonNetwork.LocalPlayer.CustomProperties["Team"] == "A"){
+        if(PhotonNetwork.LocalPlayer.CustomProperties["Team"] == null){
             
             int spawnPoint = Random.Range(0, teamASpawnpoints.Length);
             var p = PhotonNetwork.Instantiate(this.playerPrefab.name, teamASpawnpoints[playersA].position, teamASpawnpoints[playersA].rotation, 0);
@@ -112,6 +114,17 @@ public class GameManager : MonoBehaviourPunCallbacks
             Debug.LogFormat("GameManager: SpawnPlayer(), Spawned player {0} at {1}.", p, spawnPoint);
         }
     }
+
+    [PunRPC]
+    public void AddTarget(int targetID, int team){
+        var obj = PhotonView.Find(targetID).gameObject;
+        TargetableObject target = obj.GetComponentInChildren<TargetableObject>();
+        target.targetTeam = team;
+        allTargets.Add(target);
+        
+
+    }
+
 
     private IEnumerator StartCheck(){
         yield return new WaitForSeconds(1);
@@ -166,7 +179,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                         int spawnPoint = Random.Range(0, teamASpawnpoints.Length);
                         var p = PhotonNetwork.Instantiate(this.aiPrefab.name, teamASpawnpoints[playersA].position, Quaternion.identity, 0);
                         var controller = p.GetComponentInChildren<SpacecraftController>();
-                        controller.teamName = "A";
+                        controller.teamInt = 0;
                         controller.name = "AI" + i.ToString();
                         p.GetComponentInChildren<SpacecraftController>().photonView.RPC("Activate", RpcTarget.All);
                         UpdateScoreBoard(controller);
@@ -176,7 +189,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                         int spawnPoint = Random.Range(0, teamBSpawnpoints.Length);
                         var p = PhotonNetwork.Instantiate(this.aiPrefab.name, teamBSpawnpoints[playersB].position, Quaternion.identity, 0);
                         var controller = p.GetComponentInChildren<SpacecraftController>();
-                        controller.teamName = "B";
+                        controller.teamInt = 1;
                         controller.name = "AI" + i.ToString();
                         p.GetComponentInChildren<SpacecraftController>().photonView.RPC("Activate", RpcTarget.All);
                         UpdateScoreBoard(controller);
@@ -200,20 +213,20 @@ public class GameManager : MonoBehaviourPunCallbacks
         StartCoroutine(GoToPostGame());
         Debug.Log("GameOver() Called! Game has ended!");
 
-        string winningTeam = null;
+        int winningTeam = -1;
         
         if(teamAScore > teamBScore){
-            winningTeam = "A";
+            winningTeam = 0;
         }
         else if(teamAScore < teamBScore){
-            winningTeam = "B";
+            winningTeam = 1;
         }
         else{
-            winningTeam = "Draw";
+            winningTeam = -1;
             Debug.Log("Draw.");
             return;
         }
-        if((string)PhotonNetwork.LocalPlayer.CustomProperties["Team"] == winningTeam){
+        if((int)PhotonNetwork.LocalPlayer.CustomProperties["Team"] == winningTeam){
             PhotonNetwork.SetPlayerCustomProperties(new Hashtable{{"isWin", true}});
             root.Q("Victory").style.display = DisplayStyle.Flex;
         }
@@ -230,20 +243,24 @@ public class GameManager : MonoBehaviourPunCallbacks
         SceneManager.LoadScene("Main Menu", LoadSceneMode.Single);
     }
 
+    public override void OnPlayerLeftRoom(Player otherPlayer){
+        allTargets.TrimExcess();
+    }
+
     public void LeaveRoom(){
         //code to remove the player from targets, weapons controller might take care of this.
         PhotonNetwork.LeaveRoom();
     }    
 
     public override void OnPlayerEnteredRoom(Player newPlayer){
-        if((string)newPlayer.CustomProperties["Team"] == null){
+        if(PhotonNetwork.LocalPlayer.CustomProperties["Team"] == null){
             int teamA = 0;
             int teamB = 0;
             for(int i = 0; i < PhotonNetwork.PlayerList.Length; i++){
-                if((string)PhotonNetwork.PlayerList[i].CustomProperties["Team"] == "A"){
+                if((int)PhotonNetwork.PlayerList[i].CustomProperties["Team"] == 0){
                     teamA++;
                 }
-                else if((string)PhotonNetwork.PlayerList[i].CustomProperties["Team"] == "B"){
+                else if((int)PhotonNetwork.PlayerList[i].CustomProperties["Team"] == 1){
                     teamB++;
                 }
             }
@@ -339,7 +356,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             card = new ScoreBoardCard();
             card.name = targetPlayer.NickName;
         
-            if((string)targetPlayer.CustomProperties["Team"] == (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"]){
+            if((int)targetPlayer.CustomProperties["Team"] == (int)PhotonNetwork.LocalPlayer.CustomProperties["Team"]){
                 tabScreen.Q("Friendly").Add(card);
                 isFriendly = true;
             }
@@ -382,7 +399,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             card = new ScoreBoardCard();
             card.name = controller.name;
         
-            if((string)controller.teamName == (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"]){
+            if((int)controller.teamInt == (int)PhotonNetwork.LocalPlayer.CustomProperties["Team"]){
                 tabScreen.Q("Friendly").Add(card);
                 isFriendly = true;
             }
@@ -410,14 +427,14 @@ public class GameManager : MonoBehaviourPunCallbacks
     #region Scoring
     public void Score(SpacecraftController dealer){
         if(gameOver)return;
-        if((string)dealer.teamName == "A"){
+        if((int)dealer.teamInt == 0){
             teamAScore += currentGamemode.scoreValue;
         }
-        if((string)dealer.teamName == "B"){
+        if((int)dealer.teamInt == 1){
             teamBScore += currentGamemode.scoreValue;
         }
         dealer.AddScore(currentGamemode.scoreValue);
-        if((string)PhotonNetwork.LocalPlayer.CustomProperties["Team"] == "A"){
+        if((int)PhotonNetwork.LocalPlayer.CustomProperties["Team"] == 0){
             root.Q<Label>("FriendScore").text = teamAScore.ToString("0#");
             root.Q<Label>("EnemyScore").text = teamBScore.ToString("0#");
         }

@@ -8,7 +8,6 @@ using UnityEngine;
 public class UniversalHealthBehaviour : MonoBehaviour
 {
     GameManager gm;
-
     //public float shields = 0;
     public float health = 700;
     

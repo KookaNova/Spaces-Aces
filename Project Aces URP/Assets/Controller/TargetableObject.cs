@@ -4,13 +4,7 @@ using UnityEngine;
 
 public class TargetableObject : MonoBehaviour
 {
-    public enum TargetType{
-        TeamA,
-        TeamB,
-        Global,
-        Objective
-    }
-    public TargetType targetTeam;
+    public int targetTeam; // 0 = A, 1 = B, 2= global, 3 = objective
     public string nameOfTarget = "Targetable Object";
     [HideInInspector] public MeshRenderer mesh;
 

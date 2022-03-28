@@ -54,8 +54,8 @@ namespace Cox.PlayerControls{
             chosenShip = playerObject.chosenShip;
 
             //Find respawn points. Once teams are figured out, this needs to find specific team spawn points.
-            teamName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
-            if(teamName == "A"){
+            teamInt = (int)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
+            if(teamInt == 0){
                 respawnPoints = FindObjectOfType<GameManager>().teamASpawnpoints;
             }
             else{
@@ -64,7 +64,7 @@ namespace Cox.PlayerControls{
             //Instantiates the chosen ship and parents it under the controller. Then gets important info from the ship.
             if(photonView.IsMine){
                 ship = PhotonNetwork.Instantiate(chosenShip.shipPrefab.name, transform.position, transform.rotation);
-                
+                PhotonNetwork.SendAllOutgoingCommands();
                 ship.transform.SetParent(this.gameObject.transform);
                 shipBehaviour = ship.GetComponent<ShipBehaviour>();
                 shipBehaviour.SetController(this);
@@ -72,14 +72,14 @@ namespace Cox.PlayerControls{
                 _rb = ship.GetComponent<Rigidbody>();
                 targetableObject = ship.GetComponent<TargetableObject>();
                 targetableObject.nameOfTarget = playerName;
-                gameManager.allTargets.Add(targetableObject);
+                targetableObject.targetTeam = teamInt;
 
                 //instantiate the weapons, hud, and camera controllers.
                 weaponSystem = ship.GetComponentInChildren<WeaponsController>();
-                weaponSystem.owner = this;
                 HudController = ship.GetComponentInChildren<PlayerHUDController>();
-                HudController.owner = this;
                 cameraController = ship.GetComponentInChildren<CameraController>();
+                weaponSystem.owner = this;
+                HudController.owner = this;
                 cameraController.weaponsController = weaponSystem;
                 
                 //Activate systems after the passive modifiers are applied
