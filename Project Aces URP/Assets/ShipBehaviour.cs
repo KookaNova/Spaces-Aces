@@ -12,15 +12,18 @@ public class ShipBehaviour : MonoBehaviourPun
     public AudioSource collisionSound, gearsResolving, missileWarning, lockOn;
     public bool isTurning;
 
-    private void Awake() {
+    [PunRPC]
+    public void SetController(int scID){
+        sc = PhotonView.Find(scID).gameObject.GetComponent<SpacecraftController>();
+        transform.SetParent(sc.gameObject.transform);
+        sc = GetComponentInParent<SpacecraftController>();
         targetableObject = GetComponent<TargetableObject>();
+        targetableObject.targetTeam = sc.teamInt;
+        targetableObject.nameOfTarget = sc.playerName;
+        sc.shipBehaviour = this;
+        sc.targetableObject = this.targetableObject;
         gm = FindObjectOfType<GameManager>();
         gm.photonView.RPC("AddTarget", RpcTarget.AllBuffered ,targetableObject.gameObject.GetPhotonView().ViewID, targetableObject.targetTeam);
-        
-    }
-
-    public void SetController(SpacecraftController newController){
-        sc = newController;
     }
 
     private void OnCollisionEnter(Collision collision) {

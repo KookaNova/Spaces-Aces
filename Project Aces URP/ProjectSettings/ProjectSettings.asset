@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: SuperNova Arcade Test
+  companyName: SuperNova Arcade
   productName: Space's Aces
   defaultCursor: {fileID: 2800000, guid: f990c261abf94bc4898580e71fc3dad6, type: 3}
   cursorHotspot: {x: 0, y: 0}

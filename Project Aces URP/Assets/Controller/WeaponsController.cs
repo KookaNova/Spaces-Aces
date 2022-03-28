@@ -72,7 +72,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         lockedText = lockIndicator.GetComponentInChildren<Text>();
 
         //Spawns the player targeting the enemy
-        if(owner.targetableObject.targetTeam == 0){
+        if(owner.teamInt == 0){
             targMode = 1;
         }
         else{
@@ -121,8 +121,8 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             var a = Instantiate(objectIndicator, overlayHud.transform); 
             activeIndicators.Add(a);
             a.name = "Target_Indicator." + i;
-            if(gameManager.allTargets[i].targetTeam == owner.targetableObject.targetTeam) a.gameObject.GetComponent<Image>().color = ColorPaletteHelper.friendly;
-            if(gameManager.allTargets[i].targetTeam != owner.targetableObject.targetTeam) a.gameObject.GetComponent<Image>().color = ColorPaletteHelper.enemy;
+            if(gameManager.allTargets[i].targetTeam == owner.teamInt) a.gameObject.GetComponent<Image>().color = ColorPaletteHelper.friendly;
+            if(gameManager.allTargets[i].targetTeam != owner.teamInt) a.gameObject.GetComponent<Image>().color = ColorPaletteHelper.enemy;
             if(gameManager.allTargets[i].targetTeam == 2) a.gameObject.GetComponent<Image>().color = ColorPaletteHelper.global;
             if(gameManager.allTargets[i].targetTeam == 3) a.gameObject.GetComponent<Image>().color = ColorPaletteHelper.objective;
             

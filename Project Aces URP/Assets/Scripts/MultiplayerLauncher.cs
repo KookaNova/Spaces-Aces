@@ -168,6 +168,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
             StartCoroutine(StartingCountdown());
         }
         PhotonNetwork.SetPlayerCustomProperties(new Hashtable() {{"Team", 0}});
+        CountTeams();
         quickplay.SelectRandomLevel();
         chosenMode = quickplay.gamemodeSettings;
 
@@ -217,13 +218,15 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
         }
         Debug.LogFormat("Launcher: OnPlayerEnteredRoom(), Player {0} entered room.", newPlayer);
         //Assign Team
-        if(teamA >= teamB){
-            newPlayer.SetCustomProperties(new Hashtable() {{"Team",1}});
+        if(PhotonNetwork.IsMasterClient){
+            if(teamA >= teamB){
+                newPlayer.SetCustomProperties(new Hashtable() {{"Team",1}});
+            }
+            if(teamA < teamB){
+                newPlayer.SetCustomProperties(new Hashtable() {{"Team",0}});
+            }
         }
-        if(teamA < teamB){
-            newPlayer.SetCustomProperties(new Hashtable() {{"Team",0}});
-        }
-
+        
         Debug.Log("Players: " + PhotonNetwork.CurrentRoom.PlayerCount);
         UpdatePlayerList();
     }

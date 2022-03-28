@@ -56,18 +56,12 @@ namespace Cox.PlayerControls{
             if(isMaster){
                 ship = PhotonNetwork.Instantiate(chosenShip.shipPrefab.name, this.transform.position, this.transform.rotation);
                 ship.transform.SetParent(this.transform);
-                shipBehaviour = ship.GetComponent<ShipBehaviour>();
-                shipBehaviour.SetController(this);
                 explosionObject = chosenShip.explosion;
                 //instantiate the weapons, hud, and camera controllers.
-                targetableObject = ship.GetComponent<TargetableObject>();
                 gameManager.allTargets.Add(targetableObject);
                 weaponSystem = ship.GetComponentInChildren<WeaponsController>();
                 weaponSystem.owner = this;
                 _rb = ship.GetComponent<Rigidbody>();
-                var targetable = ship.GetComponent<TargetableObject>();
-                targetable.nameOfTarget = playerName;
-                targetableObject.targetTeam = teamInt;
                 if(teamInt == 0){
                     weaponSystem.targMode = 1; //Target team B
                 }

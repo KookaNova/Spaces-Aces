@@ -19,6 +19,15 @@ namespace Cox.PlayerControls{
         #region Setup
         [PunRPC]
         public override void Activate(){
+            //Find respawn points. Once teams are figured out, this needs to find specific team spawn points.
+            teamInt = (int)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
+            if(teamInt == 0){
+                respawnPoints = FindObjectOfType<GameManager>().teamASpawnpoints;
+            }
+            else{
+                respawnPoints = FindObjectOfType<GameManager>().teamBSpawnpoints;
+            }
+
             if(this.photonView.Owner != null){
                 if(photonView.IsMine){
                     //Check for gamepad
@@ -32,91 +41,65 @@ namespace Cox.PlayerControls{
                     this.photonView.Owner.NickName = playerName;
                     playerAudio.outputAudioMixerGroup = localVoice;
                     StartCoroutine(PlayTimer());
+                    if(playerObject == null){
+                        Debug.LogError("SpacecraftController: OnEnable(), critical playerObject not set in the inspector.");
+                        return;
+                    }
+                    chosenCharacter = playerObject.chosenCharacter;
+                    chosenShip = playerObject.chosenShip;
 
+                    //Instantiates the chosen ship and parents it under the controller. Then gets important info from the ship
+                    ship = PhotonNetwork.Instantiate(chosenShip.shipPrefab.name, transform.position, transform.rotation);
+                    PhotonNetwork.SendAllOutgoingCommands();
+                    ship.GetPhotonView().RPC("SetController", RpcTarget.AllBuffered, photonView.ViewID);
+                    explosionObject = chosenShip.explosion;
+                    _rb = ship.GetComponent<Rigidbody>();
+                    //instantiate the weapons, hud, and camera controllers.
+                    weaponSystem = ship.GetComponentInChildren<WeaponsController>();
+                    HudController = ship.GetComponentInChildren<PlayerHUDController>();
+                    cameraController = ship.GetComponentInChildren<CameraController>();
+                    weaponSystem.owner = this;
+                    HudController.owner = this;
+                    cameraController.weaponsController = weaponSystem;
+                    //Activate systems after the passive modifiers are applied
+                    PassiveAbility();
+                    weaponSystem.EnableWeapons();
+                    HudController.Activate();
+                    cameraController.Activate();
+                    currentHealth = maxHealth;
+                    currentShields = maxShield;
+                    //Find the character abilities and give them info about the local player. Them apply the abilities to the player.
+                    if(chosenCharacter.abilities[0] != null){
+                        primaryAbility = chosenCharacter.abilities[0];
+                        primaryAbility.canUse = true;
+                        primaryAbility.isActive = false;
+                        primaryAbility.isUpdating = false;
+                    }
+                    if(chosenCharacter.abilities[1] != null){
+                        secondaryAbility = chosenCharacter.abilities[1];
+                        secondaryAbility.canUse = true;
+                        secondaryAbility.isActive = false;
+                        secondaryAbility.isUpdating = false;
+                    }
+                    if(chosenCharacter.abilities[2] != null){
+                        aceAbility = chosenCharacter.abilities[2];
+                        aceAbility.canUse = false;
+                        aceAbility.isActive = false;
+                        aceAbility.isUpdating = false;
+                        CoolDownAbility(aceAbility.cooldownTime, aceAbility);
+                    }
+                    isAwaitingRespawn = false;
+                    ApplyCustomData();
+                    VoiceLine(0);
                 }
                 else{
                     //load profile data from other players into the scoreboard
                     playerName = this.photonView.Owner.NickName;
                     playerAudio.outputAudioMixerGroup = externalVoice;
                 }
-            
-            }
-            else{
-                //if there is no profile data, this player is Debug Man.
-                playerName = "DebugMan";
-            }
-
-            if(playerObject == null){
-                Debug.LogError("SpacecraftController: OnEnable(), critical playerObject not set in the inspector.");
-                return;
-            }
-            chosenCharacter = playerObject.chosenCharacter;
-            chosenShip = playerObject.chosenShip;
-
-            //Find respawn points. Once teams are figured out, this needs to find specific team spawn points.
-            teamInt = (int)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
-            if(teamInt == 0){
-                respawnPoints = FindObjectOfType<GameManager>().teamASpawnpoints;
-            }
-            else{
-                respawnPoints = FindObjectOfType<GameManager>().teamBSpawnpoints;
-            }
-            //Instantiates the chosen ship and parents it under the controller. Then gets important info from the ship.
-            if(photonView.IsMine){
-                ship = PhotonNetwork.Instantiate(chosenShip.shipPrefab.name, transform.position, transform.rotation);
-                PhotonNetwork.SendAllOutgoingCommands();
-                ship.transform.SetParent(this.gameObject.transform);
-                shipBehaviour = ship.GetComponent<ShipBehaviour>();
-                shipBehaviour.SetController(this);
-                explosionObject = chosenShip.explosion;
-                _rb = ship.GetComponent<Rigidbody>();
-                targetableObject = ship.GetComponent<TargetableObject>();
-                targetableObject.nameOfTarget = playerName;
-                targetableObject.targetTeam = teamInt;
-
-                //instantiate the weapons, hud, and camera controllers.
-                weaponSystem = ship.GetComponentInChildren<WeaponsController>();
-                HudController = ship.GetComponentInChildren<PlayerHUDController>();
-                cameraController = ship.GetComponentInChildren<CameraController>();
-                weaponSystem.owner = this;
-                HudController.owner = this;
-                cameraController.weaponsController = weaponSystem;
-                
-                //Activate systems after the passive modifiers are applied
-                PassiveAbility();
-                weaponSystem.EnableWeapons();
-                HudController.Activate();
-                cameraController.Activate();
-                currentHealth = maxHealth;
-                currentShields = maxShield;
-
-                //Find the character abilities and give them info about the local player. Them apply the abilities to the player.
-                if(chosenCharacter.abilities[0] != null){
-                    primaryAbility = chosenCharacter.abilities[0];
-                    primaryAbility.canUse = true;
-                    primaryAbility.isActive = false;
-                    primaryAbility.isUpdating = false;
-                }
-                if(chosenCharacter.abilities[1] != null){
-                    secondaryAbility = chosenCharacter.abilities[1];
-                    secondaryAbility.canUse = true;
-                    secondaryAbility.isActive = false;
-                    secondaryAbility.isUpdating = false;
-                }
-                if(chosenCharacter.abilities[2] != null){
-                    aceAbility = chosenCharacter.abilities[2];
-                    aceAbility.canUse = false;
-                    aceAbility.isActive = false;
-                    aceAbility.isUpdating = false;
-                    CoolDownAbility(aceAbility.cooldownTime, aceAbility);
-                }
-                isAwaitingRespawn = false;
-                ApplyCustomData();
-                VoiceLine(0);
             }
         }
-        public override void SetRumble(float chaotic, float smooth, float time)
-        {
+        protected override void SetRumble(float chaotic, float smooth, float time){
             if(gamepadFound){
                 _gp.SetMotorSpeeds(chaotic, smooth);
                 StartCoroutine(ResetMotorSpeeds(time));

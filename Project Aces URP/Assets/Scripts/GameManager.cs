@@ -96,9 +96,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         if(!gameStarted)return;
 
         if(isSelectLoaded)return;
+        if(PhotonNetwork.LocalPlayer.CustomProperties["Team"] == null){
+            PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable(){{"Team", 0}});
+        }
 
         // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-        if(PhotonNetwork.LocalPlayer.CustomProperties["Team"] == null){
+        if((int)PhotonNetwork.LocalPlayer.CustomProperties["Team"] == 0){
             
             int spawnPoint = Random.Range(0, teamASpawnpoints.Length);
             var p = PhotonNetwork.Instantiate(this.playerPrefab.name, teamASpawnpoints[playersA].position, teamASpawnpoints[playersA].rotation, 0);

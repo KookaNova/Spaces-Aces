@@ -106,7 +106,7 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
 
         //turn off trailer renderer
     }
-    public virtual void SetRumble(float chaotic, float smooth, float time){}
+    protected virtual void SetRumble(float chaotic, float smooth, float time){}
 
     public void AddScore(int addedScore){
         score += addedScore;
