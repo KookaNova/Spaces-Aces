@@ -18,7 +18,6 @@ namespace Cox.PlayerControls{
         bool canDamageOwner = false;
         protected Collider thisCollider;
 
-        [PunRPC]
         protected void EndUse(){
             if(impactFX != null){
                 var impact = PhotonNetwork.Instantiate(impactFX.name, transform.position, transform.rotation);

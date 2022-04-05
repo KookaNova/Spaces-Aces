@@ -35,20 +35,30 @@ MonoBehaviour:
   StartInOfflineMode: 0
   RpcList:
   - Activate
+  - AddTarget
   - CancelGame
   - ClickRpc
   - Deactivate
+  - Destroyed
   - DestroyRpc
   - Eliminate
   - EndUse
+  - FeedEvent
   - GameOver
   - GameTimer
+  - SetController
   - SpawnPlayer
   - StartCountDown
   - StartGame
   - TakeDamage
-  - AddTarget
-  - SetController
+  - TargetDestroyed
+  - TargetHit
+  - RemoveTarget
+  - PassiveAbility
+  - UpdateStats
+  - SetHealthRemote
+  - Score
+  - RemoteSetup
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

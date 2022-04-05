@@ -14,20 +14,20 @@ public class GameEventObject : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
     }
 
-    private void OnTriggerEnter(Collider player) {
+    /*private void OnTriggerEnter(Collider player) {
         if(player.gameObject.GetComponentInParent<SpacecraftController>()){
-            var dealer = player.gameObject.GetComponentInParent<SpacecraftController>();
+            var dealerID = player.gameObject.GetComponentInParent<SpacecraftController>();
             if(kill){
                 dealer.TargetDestroyed(true);
-                gameManager.FeedEvent(dealer, "ORB", true);
+                gameManager.FeedEvent(dealer, null, "ORB", true);
             }
             if(score){
-                gameManager.FeedEvent(dealer, "ORB", false);
+                gameManager.FeedEvent(dealer, null, "ORB", false);
             }
             if(death){
                 dealer.Eliminate(dealer, "Accident");
             }
         }
         
-    }
+    }*/
 }

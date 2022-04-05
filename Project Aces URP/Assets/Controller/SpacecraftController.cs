@@ -57,7 +57,7 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
     public Vector3 shipPosition, shipRotation;
     
     //For Multiplayer.
-    protected SpacecraftController previousAttacker;
+    protected int previousAttackerID;
     public Hashtable customProperties;
     protected int kills = 0;
     protected int deaths = 0;
@@ -75,6 +75,13 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
         gameManager = FindObjectOfType<GameManager>();
         playerAudio = GetComponent<AudioSource>();
         isAwaitingRespawn = true;
+        teamInt = (int)photonView.Owner.CustomProperties["Team"];
+        if(teamInt == 0){
+            respawnPoints = FindObjectOfType<GameManager>().teamASpawnpoints;
+        }
+        else{
+            respawnPoints = FindObjectOfType<GameManager>().teamBSpawnpoints;
+        }
     }
     [PunRPC]
     public virtual void Activate(){}
@@ -109,11 +116,13 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
     protected virtual void SetRumble(float chaotic, float smooth, float time){}
 
     public void AddScore(int addedScore){
+        if(photonView.IsMine)
         score += addedScore;
         ApplyCustomData();
     }
 
     public virtual void ApplyCustomData(){
+        if(photonView.IsMine)
         customProperties = new Hashtable(){
             {"Name", playerName},
             {"Character", chosenCharacter.name},
@@ -170,38 +179,45 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
 
     #region Damage
     [PunRPC]
-    public void TakeDamage(float damage, SpacecraftController attacker, string cause){
+    public void TakeDamage(float damage, int attackerID, string cause){
         PlayerDamage();
         isShieldRecharging = false;
-
         SetRumble(.75f, 1, .5f);
-
-        if(currentShields > 0){
-            if(damage >= currentShields){
-                float diff = damage - currentShields;
-                currentShields -= damage;
-                currentHealth -= diff/2;
-            }
-            currentShields -= damage;
-        }
-        else{
-            NoShield();
-            currentHealth -= damage;
-        }
-        if(currentHealth < 0){
-            photonView.RPC("Eliminate", RpcTarget.All, attacker, cause);
-            //Eliminate(attacker, cause);
-        }
-        float difference = maxHealth - currentHealth;
-        float healthPercentage = 1 - (difference/maxHealth);
-        if(healthPercentage <= .25f){
-            LowHealth();
-        }
-        //Stops the previous attempt to recharge shields and then retries;
-        StopCoroutine(ShieldRechargeTimer());
-        StartCoroutine(ShieldRechargeTimer());
         
+        if(photonView.IsMine){
+            SpacecraftController attacker = null;
+            if(attackerID != -1){
+                attacker = PhotonView.Find(attackerID).gameObject.GetComponent<SpacecraftController>();
+            }
+            
+            if(currentShields > 0){
+                if(damage >= currentShields){
+                    float diff = damage - currentShields;
+                    currentShields -= damage;
+                    currentHealth -= diff/2;
+                }
+                currentShields -= damage;
+                attacker.photonView.RPC("TargetHit", RpcTarget.Others);
+            }
+            else{
+                NoShield();
+                currentHealth -= damage;
+                attacker.photonView.RPC("TargetHit", RpcTarget.Others);
+            }
+            if(currentHealth < 0){
+                photonView.RPC("Eliminate", RpcTarget.All, attackerID, cause);
+            }
+            float difference = maxHealth - currentHealth;
+            float healthPercentage = 1 - (difference/maxHealth);
+            if(healthPercentage <= .25f){
+                LowHealth();
+            }
+            //Stops the previous attempt to recharge shields and then retries;
+            StopCoroutine(ShieldRechargeTimer());
+            StartCoroutine(ShieldRechargeTimer());
+        }
 
+        photonView.RPC("SetHealthRemote", RpcTarget.Others, photonView.ViewID, currentShields, currentHealth);
     }
 
     protected virtual void PlayerDamage(){}
@@ -228,39 +244,33 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
     /// When a player's health reaches zero or they exit the arena boundaries, this function is called. The variable "attacker" can be null.
     /// </summary>
     [PunRPC]
-    public void Eliminate(SpacecraftController attacker, string cause){
+    public void Eliminate(int attackerID, string cause){
        if(photonView.IsMine){
            PhotonNetwork.Instantiate(explosionObject.name, _rb.transform.position, _rb.transform.rotation);
-       } 
+           if(attackerID != -1){
+                gameManager.photonView.RPC("FeedEvent", RpcTarget.All,  attackerID, photonView.ViewID, cause, true, true);
+                PhotonView.Find(attackerID).gameObject.GetComponent<SpacecraftController>().photonView.RPC("TargetDestroyed", RpcTarget.All, true);
+            }
+            else{
+                gameManager.photonView.RPC("FeedEvent", RpcTarget.All,  photonView.ViewID, photonView.ViewID, cause, true, true);
+            }
+        
+            StartCoroutine(RespawnTimer());
+            ApplyCustomData();
+            photonView.RPC("SetHealthRemote", RpcTarget.Others, photonView.ViewID, currentShields, currentHealth);
+            photonView.RPC("Deactivate", RpcTarget.All, gameObject.transform.GetChild(0).gameObject.GetPhotonView().ViewID);
+        } 
         deaths++;
         VoiceLine(11);
         SetRumble(1,1,.25f);
-        previousAttacker = attacker;
-
-        if(attacker != null){
-            gameManager.FeedEvent(attacker, this, cause, true);
-
-            attacker.photonView.RPC("TargetDestroyed", RpcTarget.All, true);
-            //attacker.TargetDestroyed(true);
-        }
-        else{
-            gameManager.FeedEvent(this, this, cause, true);
-        }
-        
-        
-        StartCoroutine(RespawnTimer());
-        ApplyCustomData();
-
-        photonView.RPC("Deactivate", RpcTarget.All, gameObject.transform.GetChild(0).gameObject.GetPhotonView().ViewID);
-        //Deactivate();
+        previousAttackerID = attackerID;        
     }
 
+    [PunRPC]
     public virtual void TargetHit(){
         Debug.Log("Target Hit!");
-
-
     }
-
+    [PunRPC]
     public virtual void TargetDestroyed(bool isKill){
         Debug.Log("Target Destroyed!");
         if(isKill){
@@ -268,8 +278,6 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
             ApplyCustomData();
             VoiceLine(8);
         }
-        
-
     }
 
     [PunRPC]
@@ -279,6 +287,7 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
             int randInt = Random.Range(0, respawnPoints.Length - 1);
             ship.transform.position = respawnPoints[randInt].position;
             ship.transform.rotation = respawnPoints[randInt].rotation;
+            weaponSystem.gameObject.SetActive(true);
         }
         
         //Set health back to max and no longer awaiting respawn
@@ -289,7 +298,6 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
 
         //Set Ship Active. Ship is now completely respawned.
         PhotonView.Find(viewID).gameObject.SetActive(true);
-        weaponSystem.gameObject.SetActive(true);
         Reactivate();
         VoiceLine(12);
     }
@@ -297,6 +305,7 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
     #endregion
 
     #region Character Abilities
+    [PunRPC]
     public void PassiveAbility(){
         //Adds passive modifiers from the chosen character
         maxHealth = chosenShip.maxHealth + chosenCharacter.health;
@@ -313,6 +322,17 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
         weaponSystem.missileModifier += chosenCharacter.missileDamage;
         weaponSystem.lockOnEfficiency += chosenCharacter.lockOnEfficiency;
         weaponSystem.missileReload += chosenCharacter.missileReload;
+        
+        photonView.RPC("SetHealthRemote", RpcTarget.Others, photonView.ViewID, currentShields, currentHealth);
+        
+    }
+    [PunRPC]
+    public void SetHealthRemote(int viewID, float shields, float health){
+        if(!photonView.IsMine){
+            var sc = PhotonView.Find(viewID).gameObject.GetComponent<SpacecraftController>();
+            sc.currentShields = shields;
+            sc.currentHealth = health;
+        }
         
         
     }

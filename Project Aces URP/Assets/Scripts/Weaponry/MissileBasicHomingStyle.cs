@@ -29,7 +29,6 @@ namespace Cox.PlayerControls{
                             sc.missileChasing = false;
                             sc.missileClose = false;
 
-                        
                             Debug.Log("MissileBehaviour: Spherecast obstructed. Missile missed.");
                             if(hit.rigidbody == null){
                                 Debug.Log("Missile: Raycast did not hit a RigidBody");
@@ -45,24 +44,18 @@ namespace Cox.PlayerControls{
                                 sc.missileClose = false;
                             }
                         }
-                        
                     }
                     else{
                         target = null;
                         missileMissed = true;
                         sc.missileChasing = false;
                         sc.missileClose = false;
-
                         Debug.Log("MissileBehaviour: Spherecast missed the target. Missile missed. No hit.");
                         return;
                     }
                 }
-            
                 var toTarget = target.transform.position - rb.position;
                 var targetRotation = Vector3.RotateTowards(rb.transform.forward, toTarget, turningLimit * Time.fixedDeltaTime, 1080);
-                //var step = turningLimit * Time.fixedDeltaTime;
-
-                //_rb.rotation = targetRotation;
                 rb.transform.rotation = Quaternion.LookRotation(targetRotation);
             }
             else{

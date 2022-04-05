@@ -142,7 +142,9 @@ public class WeaponsController : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < activeIndicators.Count; i++){
             //Is the object active and on camera? If not, skip drawing the indicators.
-            if(gameManager.allTargets[i].gameObject == null){
+            if(gameManager.allTargets[i] == null){
+                gameManager.photonView.RPC("RemoveTarget", RpcTarget.All, i);
+                gameManager.RemoveTarget(i);
                 GenerateIndicators();
                 return;
             }

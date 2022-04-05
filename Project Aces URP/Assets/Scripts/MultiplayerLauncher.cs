@@ -158,7 +158,6 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
 
     public override void OnCreatedRoom(){
         //The local player is labeled the master of the room.
-        Player masterPlayer = PhotonNetwork.LocalPlayer;
         gameStatusLabel.text = "Waiting for players...";
         teamA = 0;
         teamB = 0;
@@ -168,7 +167,6 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
             StartCoroutine(StartingCountdown());
         }
         PhotonNetwork.SetPlayerCustomProperties(new Hashtable() {{"Team", 0}});
-        CountTeams();
         quickplay.SelectRandomLevel();
         chosenMode = quickplay.gamemodeSettings;
 
@@ -193,6 +191,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
             StopAllCoroutines();
             StartCoroutine(StartingCountdown());
         }
+
     }
 
     public void LeaveRoom(){
@@ -207,7 +206,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
     }
 
     public override void OnLeftRoom(){
-        PhotonNetwork.SetPlayerCustomProperties(new Hashtable(){{"Team", null}});
+        PhotonNetwork.LocalPlayer.CustomProperties.Clear();
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer){

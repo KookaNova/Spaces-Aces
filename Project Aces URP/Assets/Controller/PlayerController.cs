@@ -19,15 +19,6 @@ namespace Cox.PlayerControls{
         #region Setup
         [PunRPC]
         public override void Activate(){
-            //Find respawn points. Once teams are figured out, this needs to find specific team spawn points.
-            teamInt = (int)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
-            if(teamInt == 0){
-                respawnPoints = FindObjectOfType<GameManager>().teamASpawnpoints;
-            }
-            else{
-                respawnPoints = FindObjectOfType<GameManager>().teamBSpawnpoints;
-            }
-
             if(this.photonView.Owner != null){
                 if(photonView.IsMine){
                     //Check for gamepad
@@ -35,6 +26,10 @@ namespace Cox.PlayerControls{
                         _gp = Gamepad.current;
                         gamepadFound = true;
                     }
+
+                    //Find respawn points. Once teams are figured out, this needs to find specific team spawn points.
+                    
+
                     //Load profile data into the scoreboard
                     PlayerProfileData data = SaveData.LoadProfile();
                     playerName = data.profileName;
@@ -61,7 +56,7 @@ namespace Cox.PlayerControls{
                     weaponSystem.owner = this;
                     HudController.owner = this;
                     cameraController.weaponsController = weaponSystem;
-                    //Activate systems after the passive modifiers are applied
+                    //Activate systems after the passive modifiers are applied)
                     PassiveAbility();
                     weaponSystem.EnableWeapons();
                     HudController.Activate();
@@ -99,6 +94,7 @@ namespace Cox.PlayerControls{
                 }
             }
         }
+
         protected override void SetRumble(float chaotic, float smooth, float time){
             if(gamepadFound){
                 _gp.SetMotorSpeeds(chaotic, smooth);
@@ -278,19 +274,20 @@ namespace Cox.PlayerControls{
             StartCoroutine(ResetMotorSpeeds(0.01f));
     }
     #endregion
-
+    
     protected override void PlayerDamage(){
-        HudController.DamageAlertActive(true);
+        if(photonView.IsMine) HudController.DamageAlertActive(true);
     }
-
+    [PunRPC]
     public override void TargetHit(){
         Debug.Log("Target Hit!");
-        HudController.HitAlertActive(true);
+        if(photonView.IsMine) HudController.HitAlertActive(true);
 
     }
-
+    [PunRPC]
     public override void TargetDestroyed(bool isKill){
         Debug.Log("Target Destroyed!");
+        if(photonView.IsMine)
         HudController.EliminatedAlertActive(true);
         if(isKill){
             kills++;
@@ -313,8 +310,6 @@ namespace Cox.PlayerControls{
         currentShields = 0;
         currentSpeed = 0;
         isAwaitingRespawn = true;
-        
-
 
         PhotonView.Find(viewID).gameObject.SetActive(false);
 
@@ -323,25 +318,31 @@ namespace Cox.PlayerControls{
             secondaryAbility.canUse = true;
             _rb.velocity = Vector3.zero;
             _rb.angularVelocity = Vector3.zero;
+
+
+            /* var previousAttacker = PhotonView.Find(previousAttackerID).gameObject.GetComponent<SpacecraftController>();
+            if(previousAttacker != null){
+                //cameraController.FollowTarget(true, previousAttacker.gameObject);
+            }*/
+            HudController.OverlaySetActive(false);
+            cameraController.gameObject.SetActive(false);
+            weaponSystem.gameObject.SetActive(false);
         }
-        if(previousAttacker != null){
-            cameraController.FollowTarget(true, previousAttacker.gameObject);
-        }
+       
 
         //turn off trailer renderer
 
         //Set controls inactive to avoid errors when inputs are made.
-        HudController.OverlaySetActive(false);
-        cameraController.gameObject.SetActive(false);
-        weaponSystem.gameObject.SetActive(false);
+        
+        
     }
 
     public override void Reactivate(){
+        if(!photonView.IsMine)return;
         HudController.OverlaySetActive(true);
-        cameraController.FollowTarget(false, null);
+        //cameraController.FollowTarget(false, null);
         cameraController.gameObject.SetActive(true);
         weaponSystem.Reset();
-
         HudController.HealthAlertActive(false);
         HudController.CautionAlertActive(false);
         HudController.WarningAlertActive(false);

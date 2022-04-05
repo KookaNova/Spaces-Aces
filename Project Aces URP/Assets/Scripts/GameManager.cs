@@ -65,10 +65,11 @@ public class GameManager : MonoBehaviourPunCallbacks
             PhotonNetwork.CreateRoom(null, null);
         }
 
-        if(PhotonNetwork.LocalPlayer.CustomProperties["Team"] == null){
+        if((int)PhotonNetwork.LocalPlayer.CustomProperties["Team"] != 0 && (int)PhotonNetwork.LocalPlayer.CustomProperties["Team"] != 1){
             PhotonNetwork.SetPlayerCustomProperties(new Hashtable(){{"Team", 0}});
             playersA++;
         }
+        Debug.Log("Team is " + (int)PhotonNetwork.LocalPlayer.CustomProperties["Team"]);
 
         OpenSelectMenu();
         StartCoroutine(StartCheck());
@@ -105,14 +106,14 @@ public class GameManager : MonoBehaviourPunCallbacks
             
             int spawnPoint = Random.Range(0, teamASpawnpoints.Length);
             var p = PhotonNetwork.Instantiate(this.playerPrefab.name, teamASpawnpoints[playersA].position, teamASpawnpoints[playersA].rotation, 0);
-            p.GetComponentInChildren<SpacecraftController>().photonView.RPC("Activate", RpcTarget.All);
+            p.GetComponentInChildren<SpacecraftController>().Activate();
             playersA++;
             Debug.LogFormat("GameManager: SpawnPlayer(), Spawned player {0} at {1}.", p, spawnPoint);
         }
         else{
             int spawnPoint = Random.Range(0, teamBSpawnpoints.Length);
             var p = PhotonNetwork.Instantiate(this.playerPrefab.name, teamBSpawnpoints[playersB].position, teamASpawnpoints[playersA].rotation, 0);
-            p.GetComponentInChildren<SpacecraftController>().photonView.RPC("Activate", RpcTarget.All);
+            p.GetComponentInChildren<SpacecraftController>().Activate();
             playersB++;
             Debug.LogFormat("GameManager: SpawnPlayer(), Spawned player {0} at {1}.", p, spawnPoint);
         }
@@ -124,10 +125,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         TargetableObject target = obj.GetComponentInChildren<TargetableObject>();
         target.targetTeam = team;
         allTargets.Add(target);
-        
+    }
+    [PunRPC]
+    public void RemoveTarget(int index){
+        allTargets.RemoveAt(index);
+        allTargets.TrimExcess();
 
     }
-
 
     private IEnumerator StartCheck(){
         yield return new WaitForSeconds(1);
@@ -238,7 +242,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             root.Q("Defeat").style.display = DisplayStyle.Flex;
         }
     }
-
     #endregion
 
     #region Leaving & Joining
@@ -281,35 +284,49 @@ public class GameManager : MonoBehaviourPunCallbacks
     #endregion
     #region UI
     #region Feed Events
-    public void FeedEvent(SpacecraftController dealer, SpacecraftController receiver, string cause, bool isKill){
-        
-        var item = new FeedItem();
-        feed.Add(item);
-        if(receiver == null){
-            item.SetData(dealer.playerName, null, cause);
-        }
-        else if(dealer == receiver){
-            item.SetData(null, receiver.playerName, cause);
-        }
-        else{
-            item.SetData(dealer.playerName, receiver.playerName, cause);
-        }
-        StartCoroutine(item.feedTimer());
+    [PunRPC]
+    public void FeedEvent(int dealerID, int receiverID, string cause, bool isKill, bool receiverIsPlayer){
+        var dealer = PhotonView.Find(dealerID).gameObject.GetComponent<SpacecraftController>();
+        if(receiverIsPlayer){
+            var receiver = PhotonView.Find(receiverID).gameObject.GetComponent<SpacecraftController>();
+            var item = new FeedItem();
+            feed.Add(item);
 
-        //Does event get score?
-        if(dealer == receiver){
-            return;
-        }
-        if(isKill){
-            if(currentGamemode.EliminationPoints){
-                Score(dealer);
+            if(dealer == receiver){
+                item.SetData(null, receiver.playerName, cause);
+            }
+            else{
+                item.SetData(dealer.playerName, receiver.playerName, cause);
+            }
+            StartCoroutine(item.feedTimer());
+            //Does event get score?
+            if(dealer == receiver || dealerID == -1){
+                return;
             }
         }
         else{
-            Score(dealer);
+            var receiver = PhotonView.Find(receiverID).gameObject.GetComponent<TargetableObject>();
+            var item = new FeedItem();
+            feed.Add(item);
+
+            item.SetData(dealer.playerName, receiver.nameOfTarget, cause);
+            StartCoroutine(item.feedTimer());
         }
+        //determine score
+        if(PhotonNetwork.IsMasterClient){
+            if(isKill){
+                if(currentGamemode.EliminationPoints){
+                    photonView.RPC("Score", RpcTarget.AllBuffered, dealerID);
+                }
+            }
+            else{
+                photonView.RPC("Score", RpcTarget.AllBuffered, dealerID);
+            }
+        }
+        
+        
     }
-    public void FeedEvent(SpacecraftController dealer, string receiver, string cause, bool isKill){
+    /*public void FeedEvent(SpacecraftController dealer, string receiver, string cause, bool isKill){
         var item = new FeedItem();
         feed.Add(item);
         if(receiver == null){
@@ -344,10 +361,51 @@ public class GameManager : MonoBehaviourPunCallbacks
         else{
             Score(dealer);
         }
+    }*/
+    #endregion
+    public void Subtitle(DialogueObject dialogueObject){
+        var sub = new Subtitle();
+        subtitle.Add(sub);
+        sub.SetData(dialogueObject.subtitle);
+        StartCoroutine(sub.Timer());
     }
     #endregion
 
-    public void UpdateScoreBoard(Player targetPlayer){
+    #region Scoring
+    [PunRPC]
+    public void Score(int dealerID){
+        var dealer = PhotonView.Find(dealerID).gameObject.GetComponent<SpacecraftController>();
+        var team = dealer.teamInt;
+        if(gameOver)return;
+        if(team == 0){
+            teamAScore += currentGamemode.scoreValue;
+        }
+        else if(team == 1){
+            teamBScore += currentGamemode.scoreValue;
+        }
+        else{
+            Debug.Log("No team detected to give score to");
+        }
+        dealer.AddScore(currentGamemode.scoreValue);
+        if(photonView.IsMine){
+            Debug.Log("Player " + PhotonNetwork.LocalPlayer.NickName + " is on team " + PhotonNetwork.LocalPlayer.CustomProperties["Team"]);
+            if((int)PhotonNetwork.LocalPlayer.CustomProperties["Team"] == 0){
+                root.Q<Label>("FriendScore").text = teamAScore.ToString("0#");
+                root.Q<Label>("EnemyScore").text = teamBScore.ToString("0#");
+            }
+            else{
+                root.Q<Label>("FriendScore").text = teamBScore.ToString("0#");
+                root.Q<Label>("EnemyScore").text = teamAScore.ToString("0#");
+            }
+        }
+        if(PhotonNetwork.IsMasterClient){
+            if(teamAScore >= currentGamemode.maxScore || teamBScore >= currentGamemode.maxScore){
+                photonView.RPC("GameOver", RpcTarget.AllBuffered);
+                GameOver();
+            }
+        }
+    }
+     public void UpdateScoreBoard(Player targetPlayer){
         if(gameOver)return;
         if(!gameStarted)return;
         if(targetPlayer.CustomProperties["Kills"] == null)return;
@@ -418,38 +476,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         var handler = Resources.Load<CharacterHandler>("Characters/" + _char);
         card.SetData(isFriendly, _player, _char, _ship, _kills, _score, _deaths, handler);
     }
-
-    public void Subtitle(DialogueObject dialogueObject){
-        var sub = new Subtitle();
-        subtitle.Add(sub);
-        sub.SetData(dialogueObject.subtitle);
-        StartCoroutine(sub.Timer());
-    }
     #endregion
-
-    #region Scoring
-    public void Score(SpacecraftController dealer){
-        if(gameOver)return;
-        if((int)dealer.teamInt == 0){
-            teamAScore += currentGamemode.scoreValue;
-        }
-        if((int)dealer.teamInt == 1){
-            teamBScore += currentGamemode.scoreValue;
-        }
-        dealer.AddScore(currentGamemode.scoreValue);
-        if((int)PhotonNetwork.LocalPlayer.CustomProperties["Team"] == 0){
-            root.Q<Label>("FriendScore").text = teamAScore.ToString("0#");
-            root.Q<Label>("EnemyScore").text = teamBScore.ToString("0#");
-        }
-        else{
-            root.Q<Label>("FriendScore").text = teamBScore.ToString("0#");
-            root.Q<Label>("EnemyScore").text = teamAScore.ToString("0#");
-        }
-        if(teamAScore >= currentGamemode.maxScore || teamBScore >= currentGamemode.maxScore){
-            GameOver();
-        }
-    }
-    #endregion
+    
+    #region IEnumerators
     [PunRPC]
     private IEnumerator GameTimer(){
         if(gameOver){
@@ -476,4 +505,5 @@ public class GameManager : MonoBehaviourPunCallbacks
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.LoadLevel("Home");
     }
+    #endregion
 }

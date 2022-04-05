@@ -39,9 +39,9 @@ public class SpacetimeDeletionBehaviour : MonoBehaviourPun
         if(!isExpanding){
             if(player.gameObject.GetComponent<SpacecraftController>()){
                var thisPlayer = player.gameObject.GetComponent<SpacecraftController>();
-               if(thisPlayer != owner){
+               if(thisPlayer.photonView.ViewID != owner.photonView.ViewID){
                    Debug.Log("Delete this");
-                   thisPlayer.TakeDamage(99999999, owner, "Deleted");
+                   thisPlayer.TakeDamage(99999999, owner.photonView.ViewID, "Deleted");
                }
             }
         }

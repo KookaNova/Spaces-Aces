@@ -36,11 +36,11 @@ public class ShipBehaviour : MonoBehaviourPun
         }
         
         if(collision.gameObject.layer == LayerMask.NameToLayer("Crash Hazard") || collision.gameObject.layer == LayerMask.NameToLayer("Player")){
-           sc.TakeDamage(sc.currentSpeed * 8, null, "accident");
-           if(collision.gameObject.GetComponent<UniversalHealthBehaviour>()){
-               var behaviour = collision.gameObject.GetComponent<UniversalHealthBehaviour>();
-               behaviour.TakeDamage(sc.currentSpeed, sc, "Collision");
-           }
+            sc.photonView.RPC("TakeDamage", RpcTarget.All, sc.currentSpeed * 8, -1, "accident");
+            if(collision.gameObject.GetComponent<UniversalHealthBehaviour>()){
+                var behaviour = collision.gameObject.GetComponent<UniversalHealthBehaviour>();
+                behaviour.photonView.RPC("TakeDamage", RpcTarget.All, sc.currentSpeed, sc.photonView.ViewID, "Collision");
+            }
         }
     }
 

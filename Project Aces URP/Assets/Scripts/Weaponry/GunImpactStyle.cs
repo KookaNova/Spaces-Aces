@@ -13,29 +13,29 @@ namespace Cox.PlayerControls{
         }
 
         private void OnCollisionEnter(Collision obj) {
-           if(obj.gameObject.GetComponentInParent<SpacecraftController>()){
-                var controller = obj.gameObject.GetComponentInParent<SpacecraftController>();
-                if(controller == owner){
-                    return;
-                }
-                else{
-                    if(photonView.IsMine){
-                        controller.photonView.RPC("TakeDamage", RpcTarget.All, damageOutput, owner, weaponName);
-                        //controller.TakeDamage(damageOutput, owner, "gun");
-                        owner.TargetHit();
+            if(photonView.IsMine){
+                if(obj.gameObject.GetComponentInParent<SpacecraftController>()){
+                    var hitObj = obj.gameObject.GetComponentInParent<SpacecraftController>();
+                    if(hitObj == owner){
+                        return;
                     }
+                    else{
+                        if(photonView.IsMine){
+                            hitObj.photonView.RPC("TakeDamage", RpcTarget.All, damageOutput, owner.photonView.ViewID, weaponName);
+                            owner.photonView.RPC("TargetHit", RpcTarget.All);
+                        }
                     
+                    }
                 }
+                EndUse();
             }
-            EndUse();
+           
         }
 
         private IEnumerator StartUp(){
             yield return new WaitForSeconds(colliderDelay);
             thisCollider.enabled = true;
-
             yield return new WaitForSeconds(destroyTime);
-
             if(photonView.IsMine)PhotonNetwork.Destroy(this.gameObject);
         }
     }
