@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             PhotonNetwork.CreateRoom(null, null);
         }
 
-        if((int)PhotonNetwork.LocalPlayer.CustomProperties["Team"] != 0 && (int)PhotonNetwork.LocalPlayer.CustomProperties["Team"] != 1){
+        if(PhotonNetwork.LocalPlayer.CustomProperties["Team"] == null || (int)PhotonNetwork.LocalPlayer.CustomProperties["Team"] != 0 && (int)PhotonNetwork.LocalPlayer.CustomProperties["Team"] != 1){
             PhotonNetwork.SetPlayerCustomProperties(new Hashtable(){{"Team", 0}});
             playersA++;
         }
