@@ -1077,6 +1077,7 @@ MonoBehaviour:
   objectIndicator: {fileID: 3273402497480085747, guid: ddf0deb313decfa4789d5ce2e07ac2b2, type: 3}
   activeIndicators: []
   fovCam: {fileID: 5158397578500179045}
+  finalTarget: {fileID: 0}
   ammoType: {fileID: 4155647956408176716, guid: 5a3f45eeaedaf44489399eba23b11ac8, type: 3}
   fireRate: 0.05
   gunRange: 1000

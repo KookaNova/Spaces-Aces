@@ -57,7 +57,7 @@ namespace Cox.PlayerControls{
                 ship = PhotonNetwork.Instantiate(chosenShip.shipPrefab.name, this.transform.position, this.transform.rotation);
                 ship.transform.SetParent(this.transform);
                 shipBehaviour = ship.GetComponent<ShipBehaviour>();
-                shipBehaviour.SetController(this);
+                shipBehaviour.SetController(photonView.ViewID);
                 explosionObject = chosenShip.explosion;
                 //instantiate the weapons, hud, and camera controllers.
                 targetableObject = ship.GetComponent<TargetableObject>();
@@ -102,6 +102,7 @@ namespace Cox.PlayerControls{
                     aceAbility.isUpdating = false;
                     CoolDownAbility(aceAbility.cooldownTime, aceAbility);
                 }
+                weaponSystem.owner = this;
                 isAwaitingRespawn = false;
                 ApplyCustomData();
                 VoiceLine(0);
@@ -210,6 +211,7 @@ namespace Cox.PlayerControls{
                         if(Vector3.Distance(_rb.transform.position, closestTarget.transform.position) < 3500){
                             if(rot.x < 30 && rot.y < 30 && rot.x > -30 && rot.y > -30){
                                 weaponSystem.missileLocked = true;
+                                weaponSystem.finalTarget = closestTarget;
                                 weaponSystem.MissileControl(currentSpeed);
                             }
                             else{

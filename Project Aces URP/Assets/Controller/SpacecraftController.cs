@@ -22,6 +22,8 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
     [HideInInspector] public int teamInt; //#CRITICAL: required for choosing spawn points.
     protected Transform[] respawnPoints; //#CRITICAL: required for spawning the player into the game.
     #endregion
+
+    public bool isAI = false;
     
     #region Fields from character and ship choice
     [HideInInspector] public AbilityHandler primaryAbility, secondaryAbility, aceAbility; //Obtained from character selection
@@ -197,11 +199,13 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
                     currentHealth -= diff/2;
                 }
                 currentShields -= damage;
+                if(attacker != null)
                 attacker.photonView.RPC("TargetHit", RpcTarget.Others);
             }
             else{
                 NoShield();
                 currentHealth -= damage;
+                if(attacker != null)
                 attacker.photonView.RPC("TargetHit", RpcTarget.Others);
             }
             if(currentHealth < 0){

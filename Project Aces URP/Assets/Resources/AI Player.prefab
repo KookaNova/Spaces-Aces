@@ -49,7 +49,8 @@ MonoBehaviour:
   chosenCharacter: {fileID: 0}
   chosenShip: {fileID: 0}
   playerName: 
-  teamName: 
+  teamInt: 0
+  isAI: 0
   primaryAbility: {fileID: 0}
   secondaryAbility: {fileID: 0}
   aceAbility: {fileID: 0}

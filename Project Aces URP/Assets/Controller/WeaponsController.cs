@@ -24,6 +24,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     [SerializeField] private Camera fovCam;
     private Text lockedText;
     #endregion
+    public TargetableObject finalTarget;
 
     #region Public Weapon Fields
     [Header("Gun Information")]
@@ -110,6 +111,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
 
     private void GenerateIndicators(){
         if(!photonView.IsMine)return;
+        if(owner.isAI)return;
         for(int i = 0; i < activeIndicators.Count; i++){ //destroy old indicators when mode is changed
             if(activeIndicators[i] == null)continue;
             Destroy(activeIndicators[i].gameObject);
@@ -165,6 +167,8 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             Vector3 dir = gameManager.allTargets[i].gameObject.transform.position - origin;
             Debug.DrawRay(origin, dir, Color.green);
             //if cast hits nothing, or the hit doesn't have a rigidbody, remove indicators
+            
+
             if(!Physics.SphereCast(origin, 10, dir, out hit, 15000, ~layermask)){
                 activeIndicators[i].gameObject.SetActive(false); 
                 continue;
@@ -205,6 +209,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
     }
 
     private void LockPosition(){
+        if(owner.isAI)return;
         if(currentTarget >= gameManager.allTargets.Count){
             currentTarget = 0;
             owner.shipBehaviour.lockOn.Stop();
@@ -351,6 +356,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
                         break;
                     }
                 }
+                finalTarget = gameManager.allTargets[currentTarget];
                 return;
             }
             else{
@@ -360,6 +366,13 @@ public class WeaponsController : MonoBehaviourPunCallbacks
                 continue;
             }
         }
+        if(currentTarget > -1){
+            finalTarget = gameManager.allTargets[currentTarget];
+        }
+        else{
+            finalTarget = null;
+        }
+        
     }
     #endregion
 
@@ -446,7 +459,8 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             var behaviour = m.GetComponent<MissileBehaviour>();
             behaviour.currentSpeed = currentSpeed;
             behaviour.owner = owner;
-            behaviour.target = gameManager.allTargets[currentTarget].gameObject;
+            if(finalTarget != null)
+            behaviour.target = finalTarget.gameObject;
             behaviour.damageOutput += missileModifier;
             missilesAvailable--;
         }

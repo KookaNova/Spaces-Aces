@@ -890,6 +890,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c7f9b5f8c091b64da4f02045a2e160b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetableObject: {fileID: 0}
   collisionSound: {fileID: 335640573719785984}
   gearsResolving: {fileID: 7210852366940783755}
   missileWarning: {fileID: 2564501116412993470}
@@ -1168,6 +1169,7 @@ MonoBehaviour:
   objectIndicator: {fileID: 3273402497480085747, guid: ddf0deb313decfa4789d5ce2e07ac2b2, type: 3}
   activeIndicators: []
   fovCam: {fileID: 3453056685234144890}
+  finalTarget: {fileID: 0}
   ammoType: {fileID: 4155647956408176716, guid: 4645f280e36db3b459d1630324ce26ca, type: 3}
   fireRate: 0.5
   gunRange: 1500
