@@ -8,13 +8,13 @@
                 <ui:Label text="MenuName" display-tooltip-when-elided="true" name="MenuName" class="midLabel" style="justify-content: center; -unity-text-align: middle-left; display: none;" />
                 <ui:VisualElement name="MenuSelector" style="flex-direction: row; transition-duration: 0.5s; display: none;">
                     <ui:Button text="HOME" display-tooltip-when-elided="true" name="b_Home" enable-rich-text="false" class="panelButton topButtons" />
-                    <ui:Button text="HANGAR" display-tooltip-when-elided="true" name="b_Hangar" enable-rich-text="false" class="panelButton topButtons" />
-                    <ui:Button text="CHALLENGES" display-tooltip-when-elided="true" name="b_Challenges" enable-rich-text="false" class="panelButton topButtons" />
-                    <ui:Button text="FRIENDS" display-tooltip-when-elided="true" name="b_Friends" enable-rich-text="false" class="panelButton topButtons" />
+                    <ui:Button text="HANGAR" display-tooltip-when-elided="true" name="b_Hangar" enable-rich-text="false" class="panelButton topButtons" style="display: none;" />
+                    <ui:Button text="CHALLENGES" display-tooltip-when-elided="true" name="b_Challenges" enable-rich-text="false" class="panelButton topButtons" style="display: none;" />
+                    <ui:Button text="FRIENDS" display-tooltip-when-elided="true" name="b_Friends" enable-rich-text="false" class="panelButton topButtons" style="display: none;" />
                     <ui:Button text="SETTINGS" display-tooltip-when-elided="true" name="b_Settings" enable-rich-text="false" class="panelButton topButtons" />
                 </ui:VisualElement>
                 <ui:VisualElement style="flex-direction: row; justify-content: flex-end; align-items: stretch; flex-grow: 1;">
-                    <ProfileIcon name="Nameplate" focusable="true" tabindex="-1" class="profileIcon" style="display: none; flex-shrink: 1; flex-wrap: nowrap; justify-content: flex-start; flex-direction: column;" />
+                    <ProfileIcon name="Nameplate" focusable="true" tabindex="-1" class="profileIcon" style="display: none; flex-shrink: 1; flex-wrap: nowrap; justify-content: flex-start; flex-direction: column; visibility: hidden;" />
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="CenterScreen" class="screen">
@@ -36,18 +36,21 @@
                     <ui:ListView focusable="true" name="FriendsList" class="list" />
                     <ui:ListView focusable="true" name="RecentList" />
                 </ui:VisualElement>
-                <ui:VisualElement name="Credits" class="screen" style="flex-direction: row; justify-content: space-between; display: none;">
+                <ui:VisualElement name="Credits" class="screen" style="flex-direction: row; justify-content: space-between; display: none; padding-right: 15%; padding-left: 15%;">
                     <ui:VisualElement name="Con">
-                        <ui:Label text="Connor Cox" display-tooltip-when-elided="true" name="Label" class="midLabel" />
-                        <ui:Label text="Things" display-tooltip-when-elided="true" class="midLabel" />
+                        <ui:Label text="Connor Cox" display-tooltip-when-elided="true" name="Label" class="strongLabel" />
+                        <ui:Label text="Game Designer / C# Developer" display-tooltip-when-elided="true" class="midLabel" style="font-size: 30%; padding-bottom: 3%;" />
+                        <ui:Label text="Gameplay Scripting&#10;Character System&#10;Weapon System&#10;Concept Art&#10;Material Designer&#10;Environment Layout&#10;Largescale Models&#10;Audio and Music&#10;Lighting&#10;&#10;&#10;&#10;" display-tooltip-when-elided="true" class="midLabel" style="font-size: 30%; -unity-text-align: upper-center;" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="Ty" class="midLabel">
-                        <ui:Label text="Tyler Hales" display-tooltip-when-elided="true" name="Label" />
-                        <ui:Label text="Things" display-tooltip-when-elided="true" class="midLabel" />
+                    <ui:VisualElement name="Ty">
+                        <ui:Label text="Tyler Hales" display-tooltip-when-elided="true" name="Label" class="strongLabel" />
+                        <ui:Label text="Environment and Ship Modeler" display-tooltip-when-elided="true" class="midLabel" style="font-size: 30%; padding-bottom: 3%;" />
+                        <ui:Label text="Environment Buildings&#10;Slow Burner Model / Design&#10;Crystal Falcon Model / Design&#10;Dragonfly Model&#10;Vespid Model&#10;" display-tooltip-when-elided="true" class="midLabel" style="font-size: 30%; -unity-text-align: upper-center;" />
                     </ui:VisualElement>
                     <ui:VisualElement name="Ben">
-                        <ui:Label text="Ben Shurts" display-tooltip-when-elided="true" name="Label" class="midLabel" />
-                        <ui:Label text="Things" display-tooltip-when-elided="true" class="midLabel" />
+                        <ui:Label text="Ben Shurts" display-tooltip-when-elided="true" name="Label" class="strongLabel" />
+                        <ui:Label text="Houdini Expert / FX Artist" display-tooltip-when-elided="true" class="midLabel" style="font-size: 30%; padding-bottom: 3%;" />
+                        <ui:Label text="FX Artist&#10;Houdini Expert&#10;Engine Effects&#10;Trails&#10;Explosions&#10;Cinematic&#10;Storyboarding" display-tooltip-when-elided="true" class="midLabel" style="font-size: 30%; -unity-text-align: upper-center;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="MultiplayerScreen" class="screen" style="justify-content: center; flex-direction: row; display: none;">
@@ -141,10 +144,10 @@
             <ui:VisualElement name="Bottom" style="width: 100%; height: auto; flex-direction: row; justify-content: space-between; flex-shrink: 0; display: flex;">
                 <ui:VisualElement style="justify-content: flex-end; width: 33%;">
                     <ui:VisualElement name="HomeButtons" style="display: none; transition-duration: 0.5s; transition-timing-function: ease; justify-content: flex-end; align-items: stretch; overflow: visible;">
-                        <ui:Button text="MULTIPLAYER" display-tooltip-when-elided="true" enable-rich-text="true" name="Multiplayer" class="panelButton sideButtons" />
-                        <ui:Button text="TRAINING" display-tooltip-when-elided="true" name="Training" class="panelButton sideButtons" />
+                        <ui:Button text="MULTIPLAYER" display-tooltip-when-elided="true" enable-rich-text="true" name="Multiplayer" class="panelButton sideButtons" style="display: none;" />
+                        <ui:Button text="PLAY A MATCH" display-tooltip-when-elided="true" name="Training" class="panelButton sideButtons" />
                         <ui:Button text="CREDITS" display-tooltip-when-elided="true" name="Credits" class="panelButton sideButtons" />
-                        <ui:Button text="STORY" display-tooltip-when-elided="true" name="Story" class="panelButton sideButtons" />
+                        <ui:Button text="STORY" display-tooltip-when-elided="true" name="Story" class="panelButton sideButtons" style="display: none;" />
                         <ui:Button text="EXIT" display-tooltip-when-elided="true" name="Exit" class="panelButton sideButtons" />
                     </ui:VisualElement>
                     <ui:Button text="RETURN" display-tooltip-when-elided="true" name="Return" class="actionButton" style="display: none; margin-right: 63%;" />
