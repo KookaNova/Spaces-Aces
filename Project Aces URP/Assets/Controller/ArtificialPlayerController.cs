@@ -140,16 +140,29 @@ namespace Cox.PlayerControls{
             }
             
         }
+        float closestDistance = 1500;
+        if(closestTarget != null){
+            closestDistance = Vector3.Distance(ship.transform.position, closestTarget.transform.position);
+        }
 
         for(int i = 0; i < enemies.Count; i++){
+            if(enemies[i].gameObject.activeInHierarchy == false){
+                continue;
+            }
             if(closestTarget == null){
                 closestTarget = enemies[i];
                 weaponSystem.currentTarget = i;
+                closestDistance = Vector3.Distance(ship.transform.position, closestTarget.transform.position);
             }
-            if(closestTarget != null){
-                aiStates = AiStates.Follow;
-                weaponSystem.currentTarget = i;
+            var newDistance = Vector3.Distance(ship.transform.position, enemies[i].transform.position);
+            if(closestDistance < newDistance){
+                closestTarget = enemies[i];
+                closestDistance = newDistance;
             }
+
+
+            aiStates = AiStates.Follow;
+            weaponSystem.finalTarget = closestTarget;
             
         }
         
