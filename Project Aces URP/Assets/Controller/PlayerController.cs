@@ -255,7 +255,7 @@ namespace Cox.PlayerControls{
             shipBehaviour.isTurning = true;
         }
         var highspeedhandling = currentSpeed/maxSpeed + 1;
-        Vector3 torqueForce  = new Vector3((torqueInput.y * pitch) / highspeedhandling, yawInput * yaw, (torqueInput.x * roll) / highspeedhandling);
+        Vector3 torqueForce  = new Vector3((torqueInput.y * pitch * 1.5f) / highspeedhandling, yawInput * yaw * 1.5f, (torqueInput.x * roll * 1.5f) / highspeedhandling);
         _rb.AddRelativeTorque(torqueForce, ForceMode.Force);
     }
     #endregion

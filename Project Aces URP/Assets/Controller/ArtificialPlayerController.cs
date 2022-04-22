@@ -127,44 +127,8 @@ namespace Cox.PlayerControls{
         if(!isMaster)return;
 
         aiStates = AiStates.Follow;
-        var enemies = new List<TargetableObject>();
-        for(int i = 0; i < gameManager.allTargets.Count; i++){
-            if(gameManager.allTargets[i].targetTeam != targetableObject.targetTeam && gameManager.allTargets[i].targetTeam != 2 && gameManager.allTargets[i].targetTeam != 3){
-                if(enemies.Count <= i){
-                    enemies.Add(gameManager.allTargets[i]);
-                }
-                else{
-                    enemies[i] = gameManager.allTargets[i];
-                    
-                }
-            }
-            
-        }
-        float closestDistance = 1500;
-        if(closestTarget != null){
-            closestDistance = Vector3.Distance(ship.transform.position, closestTarget.transform.position);
-        }
-
-        for(int i = 0; i < enemies.Count; i++){
-            if(enemies[i].gameObject.activeInHierarchy == false){
-                continue;
-            }
-            if(closestTarget == null){
-                closestTarget = enemies[i];
-                weaponSystem.currentTarget = i;
-                closestDistance = Vector3.Distance(ship.transform.position, closestTarget.transform.position);
-            }
-            var newDistance = Vector3.Distance(ship.transform.position, enemies[i].transform.position);
-            if(closestDistance < newDistance){
-                closestTarget = enemies[i];
-                closestDistance = newDistance;
-            }
-
-
-            aiStates = AiStates.Follow;
-            weaponSystem.finalTarget = closestTarget;
-            
-        }
+        
+        
         
 
         //keep abilities updated and active if needed, even if the player is eliminated.
@@ -248,6 +212,7 @@ namespace Cox.PlayerControls{
     }
 
     private IEnumerator DecisionTime(){
+        FindTarget();
         float randTime = Random.Range(1f,5);
         yield return new WaitForSeconds(randTime);
         toTarget = new Vector3(Random.Range(-360f,360f), Random.Range(-360f,360f), Random.Range(-360f,360f));
@@ -266,6 +231,7 @@ namespace Cox.PlayerControls{
         float randTime = Random.Range(2,7);
         yield return new WaitForSeconds(randTime);
         isRotating = false;
+        FindTarget();
         float ra = Random.Range(1,5);
         yield return new WaitForSeconds(ra);
         isRotating = true;
@@ -275,6 +241,49 @@ namespace Cox.PlayerControls{
         }
         if(aiStates == AiStates.Follow){
             StartCoroutine(BreakTime());
+        }
+    }
+
+    private void FindTarget(){
+
+        var enemies = new List<TargetableObject>();
+        for(int i = 0; i < gameManager.allTargets.Count; i++){
+            if(gameManager.allTargets[i].targetTeam != targetableObject.targetTeam && gameManager.allTargets[i].targetTeam != 2 && gameManager.allTargets[i].targetTeam != 3){
+                if(enemies.Count <= i){
+                    enemies.Add(gameManager.allTargets[i]);
+                }
+                else{
+                    enemies[i] = gameManager.allTargets[i];
+                    
+                }
+            }
+            
+        }
+
+        float closestDistance = 1500;
+        if(closestTarget != null){
+            closestDistance = Vector3.Distance(ship.transform.position, closestTarget.transform.position);
+        }
+
+        for(int i = 0; i < enemies.Count; i++){
+            if(enemies[i].gameObject.activeInHierarchy == false){
+                continue;
+            }
+            if(closestTarget == null){
+                closestTarget = enemies[i];
+                weaponSystem.currentTarget = i;
+                closestDistance = Vector3.Distance(ship.transform.position, closestTarget.transform.position);
+            }
+            var newDistance = Vector3.Distance(ship.transform.position, enemies[i].transform.position);
+            if(closestDistance < newDistance){
+                closestTarget = enemies[i];
+                closestDistance = newDistance;
+            }
+
+
+            aiStates = AiStates.Follow;
+            weaponSystem.finalTarget = closestTarget;
+            
         }
     }
 }

@@ -212,6 +212,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
         if(owner.isAI)return;
         if(currentTarget >= gameManager.allTargets.Count){
             currentTarget = 0;
+            finalTarget = gameManager.allTargets[currentTarget];
             owner.shipBehaviour.lockOn.Stop();
             return;
         }
@@ -223,7 +224,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             CycleMainTarget();
             return;
         }
-        if(gameManager.allTargets[currentTarget] == owner.targetableObject){
+        if(finalTarget == owner.targetableObject){
             CycleMainTarget();
             return;
         }
