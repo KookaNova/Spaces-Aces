@@ -42,7 +42,7 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
     private PrivateGameSettings privateGameSettings = new PrivateGameSettings();
     #endregion
 
-    private void Awake() {
+    private void OnEnable() {
 
         gameVersion = Application.version;
         //This makes sure we can use PhotonNetwork.LoadLevel() on the master client and all clients in the same room sync their level automatically.

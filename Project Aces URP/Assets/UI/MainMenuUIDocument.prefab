@@ -92,13 +92,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   profileName: 
-  nameHue: 0
-  emblemPrimaryHue: 0
-  emblemBackHue: 0
-  nameArt: 0
-  frameArt: 0
-  emblemPrimary: 0
-  emblemBackground: 0
+  totalGames: 0
+  totalWins: 0
+  totalScore: 0
+  totalKills: 0
+  totalDeaths: 0
+  totalSeconds: 0
   currentXp: 0
   currentLevel: 0
   levelUpPoint: 15000
@@ -194,3 +193,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   profilePrefab: {fileID: 0}
   quickplay: {fileID: 11400000, guid: 22a588adfc7fd3749843287b1f50e517, type: 2}
+  trainingMode: {fileID: 0}
