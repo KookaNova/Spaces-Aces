@@ -249,9 +249,10 @@ public abstract class SpacecraftController : MonoBehaviourPunCallbacks
     /// </summary>
     [PunRPC]
     public void Eliminate(int attackerID, string cause){
-       if(photonView.IsMine){
-           PhotonNetwork.Instantiate(explosionObject.name, _rb.transform.position, _rb.transform.rotation);
-           if(attackerID != -1){
+        if(isAwaitingRespawn)return;
+        if(photonView.IsMine){
+            PhotonNetwork.Instantiate(explosionObject.name, _rb.transform.position, _rb.transform.rotation);
+            if(attackerID != -1){
                 gameManager.photonView.RPC("FeedEvent", RpcTarget.All,  attackerID, photonView.ViewID, cause, true, true);
                 PhotonView.Find(attackerID).gameObject.GetComponent<SpacecraftController>().photonView.RPC("TargetDestroyed", RpcTarget.All, true);
             }

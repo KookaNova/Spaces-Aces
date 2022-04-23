@@ -363,6 +363,7 @@ public class WeaponsController : MonoBehaviourPunCallbacks
             else{
                 if(i == gameManager.allTargets.Count - 1){
                     currentTarget = -1;
+                    finalTarget = null;
                 }
                 continue;
             }

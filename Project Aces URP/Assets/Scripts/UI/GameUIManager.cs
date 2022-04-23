@@ -20,6 +20,9 @@ public class GameUIManager : VisualElement
         tabMenu = this.Q("TabScreen");
         startMenu = this.Q("StartScreen");
 
+        startMenu.Q<Button>("Continue").RegisterCallback<NavigationSubmitEvent>(evt => ToggleMenu());
+        startMenu.Q<Button>("Leave").RegisterCallback<NavigationSubmitEvent>(evt => GameManager.FindObjectOfType<GameManager>().LeaveRoom());
+
         UnregisterCallback<GeometryChangedEvent>(OnGeometryChange);
     }
 

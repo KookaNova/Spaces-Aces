@@ -378,10 +378,13 @@ public class MultiplayerLauncher : MonoBehaviourPunCallbacks
 
 
     public void StartOfflineGame(GamemodeData gamemodeData){
+        StopAllCoroutines();
         StartCoroutine(StartingCountdownOffline(gamemodeData));
+
     }
 
     private IEnumerator StartingCountdownOffline(GamemodeData gamemodeData){
+        menuManager.EnableMatchSearch();
         Debug.Log("Starting Offline Countdown...");
         gameStatusLabel.text = "Offline Mode";
         sceneController.chosenGamemode = gamemodeData;

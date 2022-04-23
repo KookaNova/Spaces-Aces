@@ -36,7 +36,7 @@
                     <ui:ListView focusable="true" name="FriendsList" class="list" />
                     <ui:ListView focusable="true" name="RecentList" />
                 </ui:VisualElement>
-                <ui:VisualElement name="Credits" class="screen" style="flex-direction: row; justify-content: space-between; display: none; padding-right: 15%; padding-left: 15%;">
+                <ui:VisualElement name="Credits" class="screen" style="flex-direction: row; justify-content: space-between; display: none; padding-right: 15%; padding-left: 15%; background-color: rgba(31, 31, 48, 0.77); border-top-left-radius: 103px; border-bottom-left-radius: 103px; border-top-right-radius: 103px; border-bottom-right-radius: 103px; border-top-width: 43px;">
                     <ui:VisualElement name="Con">
                         <ui:Label text="Connor Cox" display-tooltip-when-elided="true" name="Label" class="strongLabel" />
                         <ui:Label text="Game Designer / C# Developer" display-tooltip-when-elided="true" class="midLabel" style="font-size: 30%; padding-bottom: 3%;" />

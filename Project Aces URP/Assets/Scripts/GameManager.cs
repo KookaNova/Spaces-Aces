@@ -246,7 +246,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     #region Leaving & Joining
     public override void OnLeftRoom(){
-        SceneManager.LoadScene("Main Menu", LoadSceneMode.Single);
+        SceneManager.LoadScene("Home", LoadSceneMode.Single);
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer){
